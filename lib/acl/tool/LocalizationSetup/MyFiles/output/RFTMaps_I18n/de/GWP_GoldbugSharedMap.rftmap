@@ -1,0 +1,1536 @@
+<?xml version="1.0" encoding="UTF-8"?><ObjectMap L=".ObjectMap">
+<Attribute L=".Attribute">
+<Name>.NextId</Name>
+<Value>1788</Value>
+</Attribute>
+<Attribute L=".Attribute">
+<Name>.LastSharedId</Name>
+<Value>-1</Value>
+</Attribute>
+<Attribute L=".Attribute">
+<Name>.TopObjs</Name>
+<Value L=".TopLevelIds">
+<Id>Sa.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Id>
+<Id>SN.ysRbvc7Rss6:1TqNPN:Me4cZ73:8WW</Id>
+<Id>1.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Id>
+<Id>0.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Id>
+<Id>Nv.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Id>SQ.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Id>
+</Value>
+</Attribute>
+<Attribute L=".Attribute">
+<Name>.MtoSet</Name>
+<Value L=".ObjectMapSet">
+<MTO L=".MTO">
+<Id>0.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Id>
+<Name>AXGatewayPro</Name>
+<SimpleName>AX GatewayPro</SimpleName>
+<Parent/>
+<TO>TopLevelSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>SWT_Window0</Class>
+<Role>Window</Role>
+<Proxy>.Win.TopLevelWindowProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.processName</Key>
+<Val L=".processName">
+<ProcessName>AuditExchange.exe</ProcessName>
+</Val>
+<Wt>100</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>1.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Id>
+<Name>SecurityAlert</Name>
+<SimpleName>Security Alert</SimpleName>
+<Parent/>
+<TO>TopLevelSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>#32770</Class>
+<Role>Window</Role>
+<Proxy>.Win.TopLevelWindowProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val L=".caption">
+<Caption>Sicherheitshinweis</Caption>
+</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>#owner</Key>
+<Val>0.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Val>
+<Wt>0</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.processName</Key>
+<Val L=".processName">
+<ProcessName>AuditExchange.exe</ProcessName>
+</Val>
+<Wt>100</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Sicherheitshinweis</Val>
+<Wt>75</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>2.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Id>
+<Name>_Yes</Name>
+<SimpleName>&amp;Yes</SimpleName>
+<Parent>1.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>Button</Class>
+<Role>Window</Role>
+<Proxy>.Win.GenericProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val L=".caption">
+<Caption>&amp;Ja</Caption>
+</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>&amp;Ja</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>3.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Id>
+<Name>Yes</Name>
+<SimpleName>Yes</SimpleName>
+<Parent>2.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Pushbutton</Class>
+<Role>Button</Role>
+<Proxy>.Win.ButtonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val L=".caption">
+<Caption>Ja</Caption>
+</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Ja</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Nv.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>AXGatewayPro</Name>
+<SimpleName>AX GatewayPro</SimpleName>
+<Parent/>
+<TO>ShellTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Shell</Class>
+<Role>Frame</Role>
+<Proxy>.java.swt.ShellProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.captionText</Key>
+<Val L=".caption">
+<Caption>AX GatewayPro</Caption>
+</Val>
+<Wt>75</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Nw.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>Composite</Name>
+<SimpleName>Composite</SimpleName>
+<Parent>Nv.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Composite</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Nx.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>Composite</Name>
+<SimpleName>Composite</SimpleName>
+<Parent>Nw.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Composite</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Ny.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>Composite</Name>
+<SimpleName>Composite</SimpleName>
+<Parent>Nx.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Composite</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>1</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>eclipseId</Key>
+<Val>com.acl.ax.repo.server.views.LoginView</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>1</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Nz.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>Composite</Name>
+<SimpleName>Composite</SimpleName>
+<Parent>Ny.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Composite</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>O0.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>Browser</Name>
+<SimpleName>Browser</SimpleName>
+<Parent>Nz.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.browser.Browser</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>O1.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>OleFrame</Name>
+<SimpleName>OleFrame</SimpleName>
+<Parent>O0.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.ole.win32.OleFrame</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>O2.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>WebSite</Name>
+<SimpleName>WebSite</SimpleName>
+<Parent>O1.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.browser.WebSite</Class>
+<Role>Browser</Role>
+<Proxy>.java.swt.EmbeddedShellProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>O3.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>EmbeddedBrowser</Name>
+<SimpleName>EmbeddedBrowser</SimpleName>
+<Parent>O2.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>EmbeddedBrowserTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.EmbeddedBrowser</Class>
+<Role>Html</Role>
+<Proxy>.html.EmbeddedBrowserProxy</Proxy>
+</MTO>
+<MTO L=".MTO">
+<Id>O4.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>ACLAuditExchangeLogin</Name>
+<SimpleName>ACL Audit Exchange Login</SimpleName>
+<Parent>O3.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>DocumentTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.HtmlDocument</Class>
+<Role>Document</Role>
+<Proxy>.html.HtmlDocumentProxy</Proxy>
+</MTO>
+<MTO L=".MTO">
+<Id>O5.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>container</Name>
+<SimpleName>container</SimpleName>
+<Parent>O4.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.DIV</Class>
+<Role>Html</Role>
+<Proxy>.html.HtmlGuiProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>container</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>O6.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>mainContent</Name>
+<SimpleName>mainContent</SimpleName>
+<Parent>O5.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.DIV</Class>
+<Role>Html</Role>
+<Proxy>.html.HtmlGuiProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>mainContent</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>O7.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>HtmlTable_0</Name>
+<SimpleName>HtmlTable_0</SimpleName>
+<Parent>O6.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>StatelessGuiSubitemTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.TABLE</Class>
+<Role>Table</Role>
+<Proxy>.html.TableProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.caption</Key>
+<Val/>
+<Wt>100</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>O8.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>fm1</Name>
+<SimpleName>fm1</SimpleName>
+<Parent>O7.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.FORM</Class>
+<Role>Form</Role>
+<Proxy>.html.FormProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>fm1</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>O9.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>nullnull</Name>
+<SimpleName>nullnull</SimpleName>
+<Parent>O8.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.LABEL</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>2</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OA.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>Loginsubmit</Name>
+<SimpleName>Loginsubmit</SimpleName>
+<Parent>O9.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.submit</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.type</Key>
+<Val>submit</Val>
+<Wt>95</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.value</Key>
+<Val>Login</Val>
+<Wt>100</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>submit</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OB.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>nullnull</Name>
+<SimpleName>nullnull</SimpleName>
+<Parent>O8.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.LABEL</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>1</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OC.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>password</Name>
+<SimpleName>password</SimpleName>
+<Parent>OB.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>TextGuiTestObject</TO>
+<Dom>Html</Dom>
+<Class L=".RegExp">
+<Pattern>Html\.INPUT\..{4,8}</Pattern>
+<CaseSensitive>true</CaseSensitive>
+<Original>Html.INPUT.text</Original>
+</Class>
+<Role>Text</Role>
+<Proxy>.html.EditboxProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>password</Val>
+<Wt>100</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OD.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>nullnull</Name>
+<SimpleName>nullnull</SimpleName>
+<Parent>O8.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.LABEL</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OE.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>username</Name>
+<SimpleName>username</SimpleName>
+<Parent>OD.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>TextGuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.text</Class>
+<Role>Text</Role>
+<Proxy>.html.EditboxProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>username</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.type</Key>
+<Val>text</Val>
+<Wt>95</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>username</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OL.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>AXLogo</Name>
+<SimpleName>AX Logo</SimpleName>
+<Parent>O7.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>StatelessGuiSubitemTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.IMG</Class>
+<Role>Image</Role>
+<Proxy>.html.ImageProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.alt</Key>
+<Val>AX Logo</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.src</Key>
+<Val>https://qawin2k8.aclqa.local:8443/cas/images/acl/ACL_AuditExchange_NO_tagline.png</Val>
+<Wt>60</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OM.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>Composite</Name>
+<SimpleName>Composite</SimpleName>
+<Parent>Nx.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Composite</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>2</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>eclipseId</Key>
+<Val>com.acl.ax.repo.server.views.LoginView</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>2</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>ON.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>Composite</Name>
+<SimpleName>Composite</SimpleName>
+<Parent>OM.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Composite</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OO.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>Composite</Name>
+<SimpleName>Composite</SimpleName>
+<Parent>ON.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Composite</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OP.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Id>
+<Name>RestartLogin</Name>
+<SimpleName>Restart Login</SimpleName>
+<Parent>OO.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Button</Class>
+<Role>Button</Role>
+<Proxy>.java.swt.ButtonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>text</Key>
+<Val>Anmeldung wiederholen</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OQ.ysRbvc7Rss6:1nr7lP:MdJE4fi:8WW</Id>
+<Name>SWT_Window0</Name>
+<SimpleName>SWT_Window0</SimpleName>
+<Parent>0.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>SWT_Window0</Class>
+<Role>Window</Role>
+<Proxy>.Win.GenericProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>4</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OR.ysRbvc7Rss6:1nr7lP:MdJE4fi:8WW</Id>
+<Name>SWT_Window0</Name>
+<SimpleName>SWT_Window0</SimpleName>
+<Parent>OQ.ysRbvc7Rss6:1nr7lP:MdJE4fi:8WW</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>SWT_Window0</Class>
+<Role>Window</Role>
+<Proxy>.Win.GenericProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>OS.ysRbvc7Rss6:1nr7lP:MdJE4fi:8WW</Id>
+<Name>SWT_Window0</Name>
+<SimpleName>SWT_Window0</SimpleName>
+<Parent>OR.ysRbvc7Rss6:1nr7lP:MdJE4fi:8WW</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>SWT_Window0</Class>
+<Role>Window</Role>
+<Proxy>.Win.GenericProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>3</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Rg.ysRbvc7Rss6:1nr7lP:MdJE4fi:8WW</Id>
+<Name>Pagetablist</Name>
+<SimpleName>Pagetablist</SimpleName>
+<Parent>OS.ysRbvc7Rss6:1nr7lP:MdJE4fi:8WW</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Pagetablist</Class>
+<Role>PageTabList</Role>
+<Proxy>.Win.GenericProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SH.ysRbvc7Rss6:1wmC46:MdK4Q6u:8WW</Id>
+<Name>status</Name>
+<SimpleName>status</SimpleName>
+<Parent>O8.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.DIV</Class>
+<Role>Html</Role>
+<Proxy>.html.HtmlGuiProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>status</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SI.ysRbvc7Rss6:29okmJ:MdfsHUu:8WW</Id>
+<Name>password</Name>
+<SimpleName>password</SimpleName>
+<Parent>OB.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>TextGuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.password</Class>
+<Role>Text</Role>
+<Proxy>.html.EditboxProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>password</Val>
+<Wt>90</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SN.ysRbvc7Rss6:1TqNPN:Me4cZ73:8WW</Id>
+<Name>_32768</Name>
+<SimpleName>#32768</SimpleName>
+<Parent/>
+<TO>TopLevelSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>#32768</Class>
+<Role>Window</Role>
+<Proxy>.Win.TopLevelWindowProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.processName</Key>
+<Val L=".processName">
+<ProcessName>AuditExchange.exe</ProcessName>
+</Val>
+<Wt>100</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SO.ysRbvc7Rss6:1TqNPN:Me4cZ73:8WW</Id>
+<Name>Context</Name>
+<SimpleName>Context</SimpleName>
+<Parent>SN.ysRbvc7Rss6:1TqNPN:Me4cZ73:8WW</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Menupopup</Class>
+<Role>PopupMenu</Role>
+<Proxy>.Win.MenupopupProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val L=".caption">
+<Caption>Context</Caption>
+</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Context</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SQ.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Id>
+<Name>_32768</Name>
+<SimpleName>#32768</SimpleName>
+<Parent/>
+<TO>TopLevelSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>#32768</Class>
+<Role>Window</Role>
+<Proxy>.Win.TopLevelWindowProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>#owner</Key>
+<Val>0.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Val>
+<Wt>0</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.processName</Key>
+<Val L=".processName">
+<ProcessName>AuditExchange.exe</ProcessName>
+</Val>
+<Wt>100</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SR.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Id>
+<Name>File</Name>
+<SimpleName>File</SimpleName>
+<Parent>SQ.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Menupopup</Class>
+<Role>PopupMenu</Role>
+<Proxy>.Win.MenupopupProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Datei</Val>
+<Wt>75</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SS.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Id>
+<Name>Import</Name>
+<SimpleName>Import</SimpleName>
+<Parent>SR.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Menuitem</Class>
+<Role>MenuItem</Role>
+<Proxy>.Win.MenuitemProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Importieren...</Val>
+<Wt>75</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>ST.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Id>
+<Name>Rename</Name>
+<SimpleName>Rename	</SimpleName>
+<Parent>SR.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Menuitem</Class>
+<Role>MenuItem</Role>
+<Proxy>.Win.MenuitemProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Umbenennen	</Val>
+<Wt>75</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SU.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Id>
+<Name>Export</Name>
+<SimpleName>Export</SimpleName>
+<Parent>SR.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Menuitem</Class>
+<Role>MenuItem</Role>
+<Proxy>.Win.MenuitemProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Exportieren...</Val>
+<Wt>75</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SV.ysRbvc7Rss6:Xmwxe:MeuoanD:8WV</Id>
+<Name>Loginsubmit</Name>
+<SimpleName>Loginsubmit</SimpleName>
+<Parent>O8.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.submit</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>submit</Val>
+<Wt>90</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SW.ysRbvc7Rss6:Xmwxe:MeuoanD:8WV</Id>
+<Name>password</Name>
+<SimpleName>password</SimpleName>
+<Parent>O8.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>TextGuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.text</Class>
+<Role>Text</Role>
+<Proxy>.html.EditboxProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>password</Val>
+<Wt>90</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>SZ.ysRbvc7Rss6:Xmwxe:MeuoanD:8WV</Id>
+<Name>username</Name>
+<SimpleName>username</SimpleName>
+<Parent>O8.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>TextGuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.text</Class>
+<Role>Text</Role>
+<Proxy>.html.EditboxProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>username</Val>
+<Wt>90</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sa.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Id>
+<Name>UpdateUserPermissions</Name>
+<SimpleName>Update User Permissions</SimpleName>
+<Parent/>
+<TO>ShellTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Shell</Class>
+<Role>Frame</Role>
+<Proxy>.java.swt.ShellProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.captionText</Key>
+<Val L=".caption">
+<Caption>Benutzerberechtigungen aktualisieren</Caption>
+</Val>
+<Wt>0</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>#owner</Key>
+<Val>Nv.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Val>
+<Wt>0</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sb.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Id>
+<Name>Composite</Name>
+<SimpleName>Composite</SimpleName>
+<Parent>Sa.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Parent>
+<TO>ScrollTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Composite</Class>
+<Role>Panel</Role>
+<Proxy>.java.swt.CompositeProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>1</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>1</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sc.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Id>
+<Name>OK</Name>
+<SimpleName>OK</SimpleName>
+<Parent>Sb.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Button</Class>
+<Role>Button</Role>
+<Proxy>.java.swt.ButtonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>text</Key>
+<Val>OK</Val>
+<Wt>75</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sd.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Id>
+<Name>CouldNotUpdatePermissionsForTheSelectedItemTheItemMay</Name>
+<SimpleName>Could not update permissions for the selected item.
+The item may</SimpleName>
+<Parent>Sa.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Label</Class>
+<Role>Label</Role>
+<Proxy>.java.swt.LabelProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>1</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>1</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Se.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Id>
+<Name>Label</Name>
+<SimpleName>Label</SimpleName>
+<Parent>Sa.7ZEaENyH1FD:1DAhQQ:MfIFzCL:8WW</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Label</Class>
+<Role>Label</Role>
+<Proxy>.java.swt.LabelProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.mappableClassIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>10</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sf.ysRbvc7Rss6:1ULLts:MgK2INw:8WU</Id>
+<Name>SWT_Window0</Name>
+<SimpleName>SWT_Window0</SimpleName>
+<Parent>OR.ysRbvc7Rss6:1nr7lP:MdJE4fi:8WW</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>SWT_Window0</Class>
+<Role>Window</Role>
+<Proxy>.Win.GenericProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sg.ysRbvc7Rss6:1ULLts:MgK2INw:8WU</Id>
+<Name>SWT_Window0</Name>
+<SimpleName>SWT_Window0</SimpleName>
+<Parent>Sf.ysRbvc7Rss6:1ULLts:MgK2INw:8WU</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>SWT_Window0</Class>
+<Role>Window</Role>
+<Proxy>.Win.GenericProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sh.ysRbvc7Rss6:1ULLts:MgK2INw:8WU</Id>
+<Name>SysTreeView32</Name>
+<SimpleName>SysTreeView32</SimpleName>
+<Parent>Sg.ysRbvc7Rss6:1ULLts:MgK2INw:8WU</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>SysTreeView32</Class>
+<Role>Tree</Role>
+<Proxy>.Win.TreeViewProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val T="null"/>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Si.ysRbvc7Rss6:1gbt1o:MhSs35M:8WW</Id>
+<Name>Application</Name>
+<SimpleName>Application</SimpleName>
+<Parent>0.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WV</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Menubar</Class>
+<Role>MenuBar</Role>
+<Proxy>.Win.MenubarProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val L=".caption">
+<Caption>Application</Caption>
+</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Application</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>1</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sj.ysRbvc7Rss6:KUD5e:MhwSXRH:8WV</Id>
+<Name>New</Name>
+<SimpleName>New</SimpleName>
+<Parent>SQ.ysRbvc7Rss6:1LpEiP:Me4mPTr:8WV</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Menupopup</Class>
+<Role>PopupMenu</Role>
+<Proxy>.Win.MenupopupProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val L=".caption">
+<Caption>Neu</Caption>
+</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Neu</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sk.ysRbvc7Rss6:KUD5e:MhwSXRH:8WV</Id>
+<Name>Engagement</Name>
+<SimpleName>Engagement</SimpleName>
+<Parent>Sj.ysRbvc7Rss6:KUD5e:MhwSXRH:8WV</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Win</Dom>
+<Class>.Menuitem</Class>
+<Role>MenuItem</Role>
+<Proxy>.Win.MenuitemProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val L=".caption">
+<Caption>Engagement</Caption>
+</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.name</Key>
+<Val>Engagement</Val>
+<Wt>75</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sl.ysRbvc7Rss6:1HGyAy:MjM3EeR:8WS</Id>
+<Name>Menu</Name>
+<SimpleName>Menu</SimpleName>
+<Parent>Nv.ysRbvc7Rss6:SsGNU:Mcq1QGA:8WT</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.Menu</Class>
+<Role>MenuBar</Role>
+<Proxy>.java.swt.MenuProxy</Proxy>
+</MTO>
+<MTO L=".MTO">
+<Id>Sm.ysRbvc7Rss6:1HGyAy:MjM3EeR:8WS</Id>
+<Name>File</Name>
+<SimpleName>File</SimpleName>
+<Parent>Sl.ysRbvc7Rss6:1HGyAy:MjM3EeR:8WS</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.MenuItem</Class>
+<Role>MenuItem</Role>
+<Proxy>.java.swt.MenuItemProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>text</Key>
+<Val>Datei</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val I="0"/>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sn.ysRbvc7Rss6:1HGyAy:MjM3EeR:8WS</Id>
+<Name>New</Name>
+<SimpleName>New</SimpleName>
+<Parent>Sm.ysRbvc7Rss6:1HGyAy:MjM3EeR:8WS</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.MenuItem</Class>
+<Role>MenuItem</Role>
+<Proxy>.java.swt.MenuItemProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>text</Key>
+<Val>Neu</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val I="0"/>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>So.ysRbvc7Rss6:1HGyAy:MjM3EeR:8WS</Id>
+<Name>Engagement</Name>
+<SimpleName>Engagement</SimpleName>
+<Parent>Sn.ysRbvc7Rss6:1HGyAy:MjM3EeR:8WS</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Java</Dom>
+<Class>org.eclipse.swt.widgets.MenuItem</Class>
+<Role>MenuItem</Role>
+<Proxy>.java.swt.MenuItemProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>text</Key>
+<Val>Engagement</Val>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val I="0"/>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>Sp.ysRbvc7Rss6:1HGyAy:MjM3EeR:8WS</Id>
+<Name>ContextMenu</Name>
+<SimpleName>ContextMenu</SimpleName>
+<Parent>Sl.ysRbvc7Rss6:1HGyAy:MjM3EeR:8WS</Parent>
+<TO>GuiSubitemTestObject</TO>
+<Dom>Java</Dom>
+<Class>Java.PopupMenu</Class>
+<Role>PopupMenu</Role>
+<Proxy>.java.PopupMenuProxy</Proxy>
+</MTO>
+</Value>
+</Attribute>
+<Attribute L=".Attribute">
+<Name>.PropSet</Name>
+<Value L=".MapPropertySet">
+<MapProperty L=".MapProperty">
+<Name>rt.html_table_mapping_policy</Name>
+<Value>Original</Value>
+</MapProperty>
+</Value>
+</Attribute>
+</ObjectMap>

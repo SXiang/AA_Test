@@ -1,0 +1,2 @@
+ XCOPY \\winrunner\winrunner\SharedFiles\ACL_missing_Files  "D:\ACL\TFSView\RFT_Automation\Monaco\Desktop\Dev".\BUILD_147.\Unicode.\ /Y /E /R /I
+ XCOPY \\biollante02\DailyBuild\Monaco\Dev.\BUILD_147.\Unicode "D:\ACL\TFSView\RFT_Automation\Monaco\Desktop\Dev".\BUILD_147.\Unicode\ /Y /E /R /I

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><ObjectMap L=".ObjectMap">
+<Attribute L=".Attribute">
+<Name>.NextId</Name>
+<Value>11</Value>
+</Attribute>
+<Attribute L=".Attribute">
+<Name>.LastSharedId</Name>
+<Value>-1</Value>
+</Attribute>
+<Attribute L=".Attribute">
+<Name>.TopObjs</Name>
+<Value L=".TopLevelIds">
+<Id>0.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+</Value>
+</Attribute>
+<Attribute L=".Attribute">
+<Name>.MtoSet</Name>
+<Value L=".ObjectMapSet">
+<MTO L=".MTO">
+<Id>0.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>htmlBrowser</Name>
+<SimpleName>htmlBrowser</SimpleName>
+<Parent/>
+<TO>BrowserTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.HtmlBrowser</Class>
+<Role>Browser</Role>
+<Proxy>.html.HtmlBrowserProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.browserName</Key>
+<Val>MS Internet Explorer</Val>
+<Wt>1</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>1.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>AXExceptionMyExceptions</Name>
+<SimpleName>AX Exception - My Exceptions</SimpleName>
+<Parent>0.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Parent>
+<TO>DocumentTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.HtmlDocument</Class>
+<Role>Document</Role>
+<Proxy>.html.HtmlDocumentProxy</Proxy>
+</MTO>
+<MTO L=".MTO">
+<Id>2.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>header</Name>
+<SimpleName>header</SimpleName>
+<Parent>1.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.DIV</Class>
+<Role>Html</Role>
+<Proxy>.html.HtmlGuiProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>header</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>3.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>HtmlTable_0</Name>
+<SimpleName>HtmlTable_0</SimpleName>
+<Parent>2.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Parent>
+<TO>StatelessGuiSubitemTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.TABLE</Class>
+<Role>Table</Role>
+<Proxy>.html.TableProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.caption</Key>
+<Val/>
+<Wt>100</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>4.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>HtmlTable_0</Name>
+<SimpleName>HtmlTable_0</SimpleName>
+<Parent>3.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Parent>
+<TO>StatelessGuiSubitemTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.TABLE</Class>
+<Role>Table</Role>
+<Proxy>.html.TableProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val/>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.title</Key>
+<Val/>
+<Wt>50</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.caption</Key>
+<Val/>
+<Wt>100</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.classIndex</Key>
+<Val L=".Index">
+<Index>0</Index>
+</Val>
+<Wt>50</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>6.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>Helpbutton</Name>
+<SimpleName>Helpbutton</SimpleName>
+<Parent>4.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.button</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>Help</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.type</Key>
+<Val>button</Val>
+<Wt>95</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>7.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>ExceptionDetailsbutton</Name>
+<SimpleName>Exception Detailsbutton</SimpleName>
+<Parent>4.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.button</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>ExceptionDetails</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.type</Key>
+<Val>button</Val>
+<Wt>95</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>8.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>MyExceptionsbutton</Name>
+<SimpleName>My Exceptionsbutton</SimpleName>
+<Parent>4.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.button</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>MyExceptions</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.type</Key>
+<Val>button</Val>
+<Wt>95</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>9.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>Overviewbutton</Name>
+<SimpleName>Overviewbutton</SimpleName>
+<Parent>4.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.INPUT.button</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.id</Key>
+<Val>Overview</Val>
+<Wt>90</Wt>
+</Prop>
+<Prop L=".MtoProp">
+<Key>.type</Key>
+<Val>button</Val>
+<Wt>95</Wt>
+</Prop>
+</MTO>
+<MTO L=".MTO">
+<Id>A.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Id>
+<Name>Logoutbutton</Name>
+<SimpleName>Logoutbutton</SimpleName>
+<Parent>4.ysRbvc7Rss6:lzy5J:MbWmhvp:8WW</Parent>
+<TO>GuiTestObject</TO>
+<Dom>Html</Dom>
+<Class>Html.TextNode</Class>
+<Role>Button</Role>
+<Proxy>.html.PushbuttonProxy</Proxy>
+<Prop L=".MtoProp">
+<Key>.text</Key>
+<Val>  Log Out  </Val>
+<Wt>90</Wt>
+</Prop>
+</MTO>
+</Value>
+</Attribute>
+<Attribute L=".Attribute">
+<Name>.PropSet</Name>
+<Value L=".MapPropertySet">
+<MapProperty L=".MapProperty">
+<Name>rt.html_table_mapping_policy</Name>
+<Value>Original</Value>
+</MapProperty>
+</Value>
+</Attribute>
+</ObjectMap>

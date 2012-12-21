@@ -1,0 +1,422 @@
+package lib.acl.resource.LocalizationSetup.MyFiles;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
+/**
+ * Description   : GenPropsFile
+ * 					Converted from Merge_TransFiles.pl; And add the functionalities to 
+ * 					include shortcuts in the properties files.
+ * @since  2009/10/26
+ * @author Henry_Wu
+ * Modified by Henry Wu to add combinedPropsFile functions
+ */
+public class Steven_GenPropsFile
+{
+	private static int logLvl = 1;	// 1: info; 2: debug
+	
+	public static void main(String args[])
+	{
+		String[] supportLangArr = {"en", "bg", "de", "es", "fr", "pt"};
+		
+		String workingDir = "lib\\acl\\resource\\LocalizationSetup\\MyFiles\\";//"C:/temp/RFT_Localization/";
+		String masterFile = workingDir + "input\\messages\\MASTER.PROPERTIES";
+		String messagesDir = workingDir + "input\\messages\\";
+		String targetDir = workingDir + "output\\properties\\";
+		
+		String outFileNamePrefix = "AXEM_Automation_Master_";
+		String combinedPropsFilePrefix = "AXEM_Automation_";
+		String workingPropertiesDir ="resources\\";
+		
+
+
+		logDebug("Generate Properties files based on:" 
+				+ "\n\t masterFile: " + masterFile 
+				+ "\n\t messagesDir: " + messagesDir
+				+ "\n\t targetDir: " + targetDir);
+
+		// main functions start here
+		Map<String,String> localeHm = new HashMap<String, String>();
+		Map<String,String> masterHm = new TreeMap<String, String>();
+
+		FileReader freader;
+		LineNumberReader lnreader;
+		FileWriter txt, txtCombined;
+		PrintWriter out, outCombined;
+		String outFileName;
+		String outCombinedPropsFileName;
+
+		String line = "";
+		String key = "";
+		String value = "";
+
+		String paddingStr = " ==== ";
+		String[] tmpArr;
+		try {
+
+			////////////////////
+			// Build master map
+			freader = new FileReader(new File(masterFile));
+			lnreader = new LineNumberReader(freader);
+			while ((line = lnreader.readLine()) != null){
+				//skip comments/empty line
+				if(line.startsWith("#") || "".equalsIgnoreCase(line.trim()) || line == null || line.indexOf("=") == -1) {
+					continue;
+				}
+
+				tmpArr = line.split("=");
+				key = tmpArr[0];
+				value = (tmpArr.length > 1)? tmpArr[1] : "NULL"; // keep default value
+
+				logDebug(key + "=" + value);
+				masterHm.put(key, value);
+			}
+			
+			freader.close();
+			lnreader.close();
+
+			String curLang;
+			String curPropFile;
+			String curPropFileFullPath;
+			String workingFileName;
+			String[] subdir = new File(messagesDir).list();
+
+			//////////////////////////////
+			// loop through all languages
+			for (int i=0; i<supportLangArr.length; i++) {
+				curLang = supportLangArr[i];
+				
+				// 1. build locale hashmap
+				logInfo("\n=================================================================");
+				logInfo("\tSearch through properties file for language " + curLang + " ... ");
+				logInfo("=================================================================");
+
+				////////////////////
+				// 1.1 build combined properties file of all messages file provided by developer
+				outCombinedPropsFileName = targetDir + combinedPropsFilePrefix + curLang;
+				workingFileName = workingPropertiesDir + combinedPropsFilePrefix + curLang + ".properties";
+				logInfo("\n" + paddingStr + "Generating combined properties file: " + outCombinedPropsFileName + paddingStr);
+				txtCombined = new FileWriter(new File(outCombinedPropsFileName));
+				outCombined = new PrintWriter(txtCombined);
+
+				// all as same under but just under different directory
+				
+                String[] curPropFileArray;
+                String gwCurPropFilePrefix ="ApplicationMessages,ErrorMessageConstants";
+                String curPropFilePrefix ="messages";
+                String projPrefix = "";
+                
+			for (int j=0;j<subdir.length;j++) {
+					//logInfo("Current dir ... '"+curpropDir+"'");
+					String curpropDir = subdir[j];
+					if(curpropDir.matches(".*gateway.*")){
+						projPrefix = "GW_";
+						curPropFileArray=gwCurPropFilePrefix.split(",");
+					}else if(curpropDir.matches(".*em-admin.*")){
+						projPrefix = "EMADMIN_";
+						curPropFileArray=curPropFilePrefix.split(",");
+					}else if(curpropDir.matches(".*em-mgmt.*")){
+						projPrefix = "EM_";
+						curPropFileArray=curPropFilePrefix.split(",");
+					}else{
+						curPropFileArray=curPropFilePrefix.split(",");
+					}
+				for(int x=0;x<curPropFileArray.length;x++){
+					
+					curPropFile = curLang.equals("en")? curPropFileArray[x]+".properties" : 
+						(curPropFileArray[x]+"_" + (curLang.equals("pt")? "pt_BR":curLang) + ".properties");
+					
+					curPropFileFullPath = messagesDir + curpropDir + "\\" + curPropFile;
+					//logInfo(paddingStr + "Searching Property file: " + curPropFileFullPath + paddingStr);
+										
+                    logInfo("## Num "+j+" - START of " + curPropFileFullPath.substring(curPropFileFullPath.indexOf("messages"))+ " ##\n");
+                 try{   
+					freader = new FileReader(new File(curPropFileFullPath));
+					lnreader = new LineNumberReader(freader);
+					
+					outCombined.print("##########################################################################\n");
+					outCombined.print("## START of " + curPropFileFullPath.substring(curPropFileFullPath.indexOf("messages"))+ " ##\n");
+                    while ((line = lnreader.readLine()) != null){
+						//log(debugLog, "Line:  " + lnreader.getLineNumber() + ": " + line);
+						if("".equalsIgnoreCase(line.trim()) || line.startsWith("#") || line.indexOf("=") == -1) {
+							//continue;
+						}else{
+
+							key = projPrefix+line.split("=")[0];
+							value = line.split("=")[1];
+							value = value.replaceAll("&", "");
+
+							logDebug("localeHm:[" + key + "=" + value + "]");
+							localeHm.put(key, value);
+
+							// also write to combined properties file
+							outCombined.print(key + "=" + value + "\n");
+						}
+					}
+                    logInfo(paddingStr + "Searching Property file: " + curPropFileFullPath + " "+
+                    		lnreader.getLineNumber()+" lines "+paddingStr);
+					freader.close();
+					lnreader.close();
+					//logInfo(paddingStr + "Searching Property file: " + curPropFileFullPath + paddingStr);
+                 }catch(Exception e){
+                	 try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+                	 logInfo(e.toString());
+                 }
+				}
+			}
+
+				// some properties missed, especially for english
+//				addMissedProperties(outCombined, curLang);
+
+				// 2. Write generated properties file based on MASTER.PROPERTIES
+				outFileName = targetDir + outFileNamePrefix + curLang + ".properties";
+				logInfo("\n" + paddingStr + "Generating properties file: " + outFileName + paddingStr);
+				txt = new FileWriter(new File(outFileName));
+				out = new PrintWriter(txt);
+
+				// 2.1 Write properties required by master property file 
+				for (Entry<String, String> entry : masterHm.entrySet()) {
+					key = entry.getKey();
+					value = localeHm.get(key);
+
+					if (value != null && ! "".equalsIgnoreCase(value)) {
+						value = value.replaceAll("&", "");
+					} else {
+						// use masterHm default value
+						value = entry.getValue();
+//						logWarning("No property found for [" + key 
+//								+ "] ==> [" + value + "] (set to default by masterFile)");
+					}
+
+					logDebug("write2File:[" + key + "=" + value + "]");
+					out.print(key + "=" + value + "\n");
+				}
+
+				// 2.2 append more key/value for keyboard shortcuts
+//				appendShortcuts(out, curLang);
+
+//				appendShortcuts(outCombined, curLang);
+				
+				out.close();
+				
+				txtCombined.close();
+				outCombined.close();
+				String files[] = {workingFileName,outCombinedPropsFileName};
+//				lib.acl.util.FileUtil.combinefiles(files,outCombinedPropsFileName+".properties");
+			}
+
+			logInfo("\nWell done!");
+
+		} catch (IOException e) {
+			logError("\n!!!!!! Too bad, something wrong while generating property file! !!!!!!\n");
+			e.printStackTrace();			
+		}
+
+	}
+
+
+	
+	
+	/// *****************other files *******************
+	private static void addMissedProperties(PrintWriter outCombined, String curLang) {
+		logWarning("Hard code missing properties, need ask developer to add it or ignore if not used by localization");
+		logWarning("Check '## START of MISSING Part ##' for list ...");
+		
+		outCombined.print("###########################\n");
+		outCombined.print("## START of MISSING Part ##\n");
+
+		if ("en".equalsIgnoreCase(curLang)) {
+			outCombined.print("item=Item\n");
+			outCombined.print("item_bigContainer=Engagement\n");
+			outCombined.print("item_littleContainer=Activity\n");
+			outCombined.print("titleSearchResourceDialog=Find\n");
+			outCombined.print("value=Value\n");
+		}
+		
+		outCombined.print("repositoryMenu=Repository\n");
+		outCombined.print("operation_Cancel=Cancel\n");
+		outCombined.print("Context=Context\n");
+		outCombined.print("Lookin=Look in:\n");
+		outCombined.print("labelFileName=File Name\n");
+		outCombined.print("OK=OK\n");
+		outCombined.print("YesToAll=Yes To All\n");
+		outCombined.print("UnlockAll=Unlock All\n");
+		outCombined.print("Folder=Folder:\n");
+		outCombined.print("RemoveUser=Remove User \n");
+		outCombined.print("Application=Application\n");
+		outCombined.print("Admin=Admin \n");
+		outCombined.print("Next=Next >\n");
+		outCombined.print("titleDeleteUsersAndGroupsDialog=Manager Users\n");
+		outCombined.print("RunCtrlR=Run	Ctrl+R\n");
+		outCombined.print("Choosetable=Choose table: \n");
+		outCombined.print("More=More\n");
+		outCombined.print("analyticsHostName=Server\n");
+	}
+
+	private static final HashMap<String,String> enShortcuts = new HashMap<String,String>()
+	{
+		private static final long serialVersionUID = 1L;
+		{
+			put("scCopy","%ec"); 				//Edit - Copy
+			put("scCut","%et"); 				//Edit - Cut
+			put("scPaste","%ep"); 				//Edit - Paste
+			put("scNewEng","%f%w%e");			//File - New - Engagement
+			put("scNewAct","%f%w%a");			//File - New - Activity
+			put("scNewResult","%f%w%r"); 		//File - New - Result
+			put("scRename","%fm");				//File - Rename
+			put("scDiscon", "%f%s");			//Repository - Disconnect
+			put("scDel", "%f%d{ENTER}");		//File - Delete
+			put("scImport", "%fi");				//File - Import		
+			put("scExport", "%fe");				//File - Export
+			put("scAnaRun", "%nr");				//Anakytics - Run
+			put("scAnaSch", "%ns");				//Anakytics - Schedule
+		}
+	};
+
+	private static final HashMap<String,String> frShortcuts = new HashMap<String,String>()
+	{
+		private static final long serialVersionUID = 1L;
+		{
+			put("scCopy","%cc"); 		
+			put("scCut","%ec");		
+			put("scPaste","%eo");
+			put("scNewEng","%f%n%e");	
+			put("scNewAct","%f%n%a");	
+			put("scNewResult","%f%n%r");
+			put("scRename","%fm");		
+			put("scDiscon", "%f%d");	
+			put("scDel", "%f%s");	
+			put("scImport", "%fi");		
+			put("scExport", "%fe");
+			put("scAnaRun", "%nr");				
+			put("scAnaSch", "%ns");				
+		}
+	};
+
+	private static final HashMap<String,String> esShortcuts = new HashMap<String,String>()
+	{
+		private static final long serialVersionUID = 1L;
+		{
+			put("scCopy","%ec"); 		
+			put("scCut","%et");		
+			put("scPaste","%ep");
+			put("scNewEng","%a%n%m");	
+			put("scNewAct","%a%n%a");	
+			put("scNewResult","%a%n%r");
+			put("scRename","%amm{ENTER}");		
+			put("scDiscon", "%a%d");	
+			put("scDel", "%a%m{ENTER}");	
+			put("scImport", "%ai");		
+			put("scExport", "%ae");
+			put("scAnaRun", "%nr");				//
+			put("scAnaSch", "%ns");				
+		}
+	};
+
+	private static final HashMap<String,String> deShortcuts = new HashMap<String,String>()
+	{
+		private static final long serialVersionUID = 1L;
+		{
+			put("scCopy","%bk"); 		
+			put("scCut","%b{ENTER}");	//Edit - Cut (walk around for bug)
+			//put("scCut","%ba"); //Edit - Cut (should be this one)
+			//for cut should use the et to ba conversion below, but current theres's a bug
+			//in the app that the mnemonic is wrong, so select the first item from edit menu instead
+			//myStringToConvert = myStringToConvert.replace("scCut","%ba");
+			put("scPaste","%be");
+			put("scNewEng","%d%n%e");	
+			put("scNewAct","%d%n%a");	
+			put("scNewResult","%d%n%e");
+			put("scRename","%du");		
+			put("scDiscon", "%d%v");	
+			put("scDel", "%d%l");	
+			put("scImport", "%di");		
+			put("scExport", "%de");
+			put("scAnaRun", "%nr");				//
+			put("scAnaSch", "%ns");			
+		}
+	};
+
+	private static final HashMap<String,String> ptShortcuts = new HashMap<String,String>()
+	{
+		private static final long serialVersionUID = 1L;
+		{
+			put("scCopy","%ec"); 		
+			put("scCut","%et");		
+			put("scPaste","%ec");
+			put("scNewEng","%a{DOWN}va");	
+			put("scNewAct","%a{DOWN}va");	
+			put("scNewResult","%a{DOWN}vr");
+			put("scRename","%a{DOWN}m");		
+			put("scDiscon", "%a%d");	
+			put("scDel", "%a{DOWN}e");	
+			put("scImport", "%a{DOWN}i");		
+			put("scExport", "%a{DOWN}e");
+			put("scAnaRun", "%nr");				//
+			put("scAnaSch", "%ns");				
+		}
+	};
+
+	// no mapping for bg till now
+	//private static final HashMap<String,String> bgShortcuts = enShortcuts;
+
+	private static void appendShortcuts(PrintWriter out, String langStr) {
+		out.print("############################\n");
+		out.print("## START of SHORTCUT Part ##\n");
+		
+		HashMap<String,String> shortcutsMap=null;
+
+		if ("en".equalsIgnoreCase(langStr)) {
+			shortcutsMap = enShortcuts;
+		} else if ("fr".equalsIgnoreCase(langStr)) {
+			shortcutsMap = frShortcuts;
+		} else if ("es".equalsIgnoreCase(langStr)) {
+			shortcutsMap = esShortcuts;
+		} else if ("de".equalsIgnoreCase(langStr)) {
+			shortcutsMap = deShortcuts;
+		} else if ("pt".equalsIgnoreCase(langStr)) {
+			//for pt_BR
+			shortcutsMap = ptShortcuts;
+		} else if ("bg".equalsIgnoreCase(langStr)) {
+			//shortcutsMap = bgShortcuts;
+			logWarning("No keyboard shortcuts mapping for bg till now!");
+			return;
+		}
+
+		// write to target property file
+		for (Entry<String, String> entry : shortcutsMap.entrySet()) {
+			out.print(entry.getKey() + "=" + entry.getValue() + "\n");
+		}
+	}
+
+	private static void logError(String message) {
+		System.out.println("\t!!!! " + message + "!!!!");
+	}
+
+	private static void logWarning(String message) {
+		System.out.println("\t\t#### " + message + "####");
+	}
+
+	private static void logInfo(String message) {
+		if (logLvl >= 1) {
+			System.out.println(message);
+		}
+	}
+
+	private static void logDebug(String message) {
+		if (logLvl >= 2) {
+			System.out.println(message);
+		}
+	}
+}
