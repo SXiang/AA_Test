@@ -16,22 +16,21 @@ visuals/
 *.zip
 *.dmp
 # Floder and Files
-null/*
-/ACL_Desktop/DATA/*
-TempData/*
-keywordTable/*
-/.*Cache/*
-/output/*
-/bin/*
-/doc/*/*
-/doc/*
-/lib/acl/resource/*
-/lib/commons*/*
-/lib/jawin*/*
-/lib/*.*/*
-/templates/*
+null/
+DATA/
+TempData/
+keywordTable/
+/.*Cache/
+/output/
+/bin/
+/doc/
+/lib/acl/resource/
+/lib/commons*/
+/lib/jawin*/
+/lib/*.*/
+/templates/
 /Zipped_ACLQA_Automation_logs/
-*/WikiPages/*
+*/WikiPages/
 # Files
 *.keep[1-9]?
 *.testsuite
