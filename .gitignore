@@ -17,12 +17,13 @@ visuals/
 *.dmp
 # Floder and Files
 null/
-DATA/
+/ACL_Desktop/DATA/
 TempData/
 keywordTable/
 /.*Cache/
 /output/
 /bin/
+/doc/*/
 /doc/
 /lib/acl/resource/
 /lib/commons*/
