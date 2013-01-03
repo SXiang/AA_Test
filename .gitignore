@@ -17,12 +17,22 @@ visuals/
 *.dmp
 # Floder and Files
 null/
+<<<<<<< HEAD
 DATA/
 TempData/
 keywordTable/
 /.*Cache/
 /output/
 /bin/
+=======
+/ACL_Desktop/DATA/
+TempData/
+keywordTable/
+/.*Cache/
+/output/
+/bin/
+/doc/*/
+>>>>>>> refs/heads/progressBar
 /doc/
 /lib/acl/resource/
 /lib/commons*/
