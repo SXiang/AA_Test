@@ -3256,6 +3256,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
            "|.*Do you want to proceed.*"+
            "|.*is from a previous version.*"+
            "|.*Options file missing.*"+
+           "|.*Are you sure you want to.*"+
            "|Edit";
 	    
 		if(!expInfo.equals("")){

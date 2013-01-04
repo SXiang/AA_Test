@@ -11,6 +11,7 @@ import java.util.Calendar;
 import ACL_Desktop.conf.beans.ProjectConf;
 
 //import com.ibm.security.util.calendar.BaseCalendar.Date;
+import com.rational.test.ft.object.interfaces.FrameSubitemTestObject;
 import com.rational.test.ft.object.interfaces.GuiSubitemTestObject;
 import com.rational.test.ft.object.interfaces.GuiTestObject;
 import com.rational.test.ft.object.interfaces.IWindow;
@@ -1052,19 +1053,20 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
      // **** Handle task progress bar (possible multi threading...)
      
      public boolean handleProgressBar(String command ){
-    	 return handleProgressBar(null,command,"Finish",false);
+    	 return handleProgressBar(null,command,dpEndWith,false);
      }
      public boolean handleProgressBar(TestObject progressInfo,String command, boolean isMultiTask){
-    	 return handleProgressBar(progressInfo,command,"Finish",isMultiTask);
+    	 return handleProgressBar(progressInfo,command,dpEndWith,isMultiTask);
      }
      public boolean handleProgressBar(TestObject progressInfo,String command,String action, boolean isMultiTask){
-    	 
+    	// This multitask won't be implemented in Monaco now, so test popup window and progression only  
     	              if(!isMultiTask)
     	            	  return true;
     	              
     	TestObject progressBar = null;                  	              
  		String winTitle = "Status of Task"+
-                              "|.*Progress\\.\\.\\.";
+                              "|.*Progress\\.\\.\\."+
+                              "|Import Status";
         String winClass = "#32770";
         
         if(progressInfo==null
@@ -1116,6 +1118,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
       
 		if(isMultiTask){
 			//Do other job while 'in progress...'
+			
 			checkProgressInfo(progressBar=progressInfo.getParent(),false);
 			doSomething(command);
 			checkProgressInfo(progressBar=progressInfo.getParent());
@@ -1126,7 +1129,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			int maxProcessTime=60,atime=0;
 			while((progressBar=progressInfo.getParent())!=null
 					&&progressBar.exists()
-					&&isBoundsVisiable(progressBar)
+					//&&isBoundsVisiable(progressBar)
 					&&atime++<maxProcessTime){
 			  logTAFInfo("Status of task: In progress..., wait for 10 seconds");
 			  checkProgressInfo(progressBar=progressInfo.getParent());
@@ -1140,8 +1143,14 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
     	 //TBD
     	 String script = "LOCALCompare";
     	 String tb = "InventoryW";
+    	 boolean devCompleted = false;
+    	 
+    	 if(!devCompleted){
+    		 sleep(15);
+    		 return;
+    	 }
     	 logTAFInfo("Act while import is in progress: ");
-
+    	 
     	 try{    
     		 aRou.activateACL();
     		 aRou.exeACLCommand("DO "+script);
@@ -1164,6 +1173,21 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
     	 if(pb==null||!pb.exists())
     		 return;
     	 
+    	 if(!compare){    		 
+    		 try{
+    			 FrameSubitemTestObject pbf = (FrameSubitemTestObject) pb;
+    		    pbf.minimize();
+    		    logTAFStep("Minimize the progress popup window");
+    		    sleep(2);
+    		    pbf.restore();
+    		    logTAFStep("Restore the progress popup window");
+//    		    sleep(2);
+//    		    pbf.maximize();
+//    		    logTAFStep("Maximize the progress popup window");
+    		 }catch(Exception e){
+    			 logTAFError("Failed to minimize/maximize/restore the progress popup window "+e.toString());
+    		 }
+    	 }
     	 
     	 TestObject[] progressInfo = pb.find(atChild(".class","Static"));
     	 
@@ -1229,16 +1253,25 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
      public boolean cancelRunningTask(TestObject pb, String action){
     	 //TBD 
     	 GuiTestObject cancelButton = findPushbutton(pb,"Cancel");
-    	 if(cancelButton!=null&&cancelButton.exists()&&isBoundsVisiable(cancelButton)){
-    		 click(cancelButton,"Cancel");	
+    	 if(cancelButton!=null&&cancelButton.exists()//&&isBoundsVisiable(cancelButton)
+    			 ){
+    		 click(cancelButton,"Cancel");
+    		 sleep(1);
+    		 if(cancelButton.exists()){
+    			 click(cancelButton); 
+    			 sleep(1);
+    		 }
     		 if(!action.equalsIgnoreCase("Cancel")){
     			 logTAFWarning("Task canceled !!!");
+    		 }else{
+    			 logTAFStep("Cancel Import...");
     		 }
     		 dismissPopup();
     		 return false;
     		 
     	 }else {
-    		 if(pb.exists()&&isBoundsVisiable(pb)){
+    		 if(pb.exists()//&&isBoundsVisiable(pb)
+    				 ){
     		   logTAFError("Cancel button not found!");
     		 }
     	 }

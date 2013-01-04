@@ -365,7 +365,7 @@ public class ddwmenu extends ddwmenuHelper
 	    	click(sf_save(),"Save");
 	    	sleep(1);
 	    	saveDataFileMsg("Yes",false);
-	    	if(!handleProgressBar(progressInfo(),"DDW",dpTestProgressBar.equalsIgnoreCase("Yes")?true:false)){
+	    	if(!handleProgressBar(progressInfoImport(),"DDW",dpTestProgressBar.equalsIgnoreCase("Yes")?true:false)){
 	    		cancelDDW();
 	    	}
 
@@ -758,6 +758,6 @@ public class ddwmenu extends ddwmenuHelper
 			return dismissed;
 		}	
 		public TestObject getProgressInfo(){
-			return progressInfo();
+			return progressInfoImport();
 		}
 	}
