@@ -60,7 +60,7 @@ SET USER_NAME=QAMail
 SET PASSWORD=Password00
 IF NOT '%1'=='' SET _Version=%1
 ::IF NOT '%2'=='' SET VerPrefix=%2
-IF /I '%tFolder%'=='Dev' SET VerPrefix=%VerPrefix%1
+IF /I '%tFolder%'=='Dev' SET VerPrefix=%VerPrefix%2
 if NOT '%5'=='' SET PASSWORD=%5
 if NOT '%4'=='' SET USER_NAME=%4
 if NOT '%3'=='' SET DOMAIN_NAME=%3

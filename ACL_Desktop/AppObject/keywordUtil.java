@@ -363,55 +363,56 @@ public class keywordUtil extends keywordUtilHelper
 //**** For oldbats temp only (Update from tests's folder dynamically)---- Steven *****
     			String oldbats = "OLDBATSClient";
     			String i18nbats = "OldBats_i18n";
-				String updateFolder = "\\\\192.168.10.129\\aclqa\\Working\\ACL Projects Test Cases\\Desktop\\ACL Projects"+
-                "\\Scripts To test 9.3 features\\Oldbats_New_Modified_6_11_2012\\";
+//				String updateFolder = "\\\\192.168.10.129\\aclqa\\Working\\ACL Projects Test Cases\\Desktop\\ACL Projects"+
+//                "\\Scripts To test 9.3 features\\Oldbats_New_Modified_6_11_2012\\";
+				String updateFolder = "\\\\Biollante02\\Batches\\";
+				String pdfFiles = "pdfFiles";
+				if(new File(updateFolder).exists()){
+					if(projName.equalsIgnoreCase(oldbats)){
+						String oriProject = "OldBats_U";                    
+						//Orig To Source/Dest
+						String toDir = dest;
+						if(!ProjectConf.unicodeTest){ // update NonUnicode project
+							oriProject = "OldBats_NU";
+							logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
+							FileUtil.copyDir(updateFolder+oriProject, toDir);
+							FileUtil.copyFile(updateFolder+oriProject+"\\"+oriProject+".acl", toDir+projName+".ACL");
+							FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);    				
+						}else{                       // update Unicode project
+							//    					logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
+							//    					FileUtil.copyDir(updateFolder+oriProject, toDir);
+							//    					FileUtil.copyFile(updateFolder+oriProject+"\\"+oriProject+".acl", toDir+projName+".ACL");
+							//    					FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);    					
+						}
 
-                String pdfFiles = "pdfFiles";      
-    			if(projName.equalsIgnoreCase(oldbats)){
-                    String oriProject = "OldBats_U";
-                    
-    				//Orig To Source/Dest
-    				String toDir = source;//dest;
-//    				if(!ProjectConf.unicodeTest){ // update NonUnicode project
-//    					oriProject = "OldBats_NU";
-//    					logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
-//    					FileUtil.copyDir(updateFolder+oriProject, toDir);
-//    					FileUtil.copyFile(updateFolder+oriProject+"\\"+oriProject+".acl", toDir+projName+".ACL");
-//    					FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);    				
-//    				}else{                       // update Unicode project
-//    					logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
-//    					FileUtil.copyDir(updateFolder+oriProject, toDir);
-//    					FileUtil.copyFile(updateFolder+oriProject+"\\"+oriProject+".acl", toDir+projName+".ACL");
-//    					FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);    					
-//    				}
-    				
-    				//Source To Dest
-    				if(!toDir.equals(dest)){
-    				   logTAFInfo("Warning: Updating "+projName+" from backup: '"+source+"'");
-    				   FileUtil.copyDir(source, dest);
-    				   FileUtil.updateDir(source+"..\\"+pdfFiles, dest+"..\\"+pdfFiles);
-    				}
-    				FileUtil.makeWriteable(dest);
+						//Source To Dest
+						if(!toDir.equals(dest)){
+							logTAFInfo("Warning: Updating "+projName+" from backup: '"+source+"'");
+							FileUtil.copyDir(source, dest);
+							FileUtil.updateDir(source+"..\\"+pdfFiles, dest+"..\\"+pdfFiles);
+						}
+						FileUtil.makeWriteable(dest);
 
-    			}else if(projName.equalsIgnoreCase(i18nbats)){
-    				String oriProject = "OldBats_i18n";
-    				    				
-    				//Orig To Source/Dest
-    				String toDir = source;//dest;
-//    				logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
-//    				FileUtil.updateDir(updateFolder+oriProject, toDir);
-//    				FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);
-    				
-    				//Source To Dest
-    				if(!toDir.equals(dest)){
-    				  logTAFInfo("Warning: Updating "+projName+" from backup: '"+source+"'");
-    				  FileUtil.copyFile(source+"..\\"+projName+"_PROFFMTUPDATE.acl", source+projName+".ACL");
-    				  
-    				  FileUtil.copyDir(source, dest);
-    				  FileUtil.updateDir(source+"..\\"+pdfFiles, dest+"..\\"+pdfFiles);
-    				}
-    				FileUtil.makeWriteable(dest);
-    			}
+					}else if(projName.equalsIgnoreCase(i18nbats)){
+						//String oriProject = "OldBats_i18n";
+						String oriProject = "OldBats_U";    				
+						//Orig To Source/Dest
+						String toDir = dest;
+						logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
+						FileUtil.updateDir(updateFolder+oriProject, toDir);
+						FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);
+
+						//Source To Dest
+						if(!toDir.equals(dest)){
+							logTAFInfo("Warning: Updating "+projName+" from backup: '"+source+"'");
+							FileUtil.copyFile(source+"..\\"+projName+"_PROFFMTUPDATE.acl", source+projName+".ACL");
+
+							FileUtil.copyDir(source, dest);
+							FileUtil.updateDir(source+"..\\"+pdfFiles, dest+"..\\"+pdfFiles);
+						}
+						FileUtil.makeWriteable(dest);
+					}
+				}
 // ******************************************** Finish temp update ***********************
     			
     			
