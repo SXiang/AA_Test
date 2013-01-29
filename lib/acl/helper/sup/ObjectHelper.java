@@ -3202,7 +3202,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
         // *************************************************************
 		
 		// ******** Default Pop up captions *******
-		String winTitleDefault = "ACL|"+LoggerHelper.autTitle+".?|Security.?"+
+		String winTitleDefault = "ACL|Aclwin|"+LoggerHelper.autTitle+".?|Security.?"+
 		                 "|Project.?|Save Project As.?|Save New Project As.?"+
 				         "|Confirm Save As.?|Network Error.?|Warning.?|Security Warning.?"+
 				         "|ACL Error.?|Error.?"+
@@ -3218,8 +3218,8 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 		//***********************************************
         
 		// *********** actions *********************************************************
-		String[] actions = {".*[Oo][kK].*","Yes","Restart Later","Close","Cancel","No","X"};
-		String[] actions2 = {"Restart Later","Cancel","Close","X","No",".*[Oo][kK].*","Yes"};
+		String[] actions = {".*[Oo][kK].*","Yes","Restart Later","Close","Cancel","Don't Send","No","X"};
+		String[] actions2 = {"Restart Later","Cancel","Don't Send","Close","X","No",".*[Oo][kK].*","Yes"};
 		// *****************************************************************************
 		
 		// ********  Report *************************
