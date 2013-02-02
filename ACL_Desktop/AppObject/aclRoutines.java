@@ -121,21 +121,21 @@ public class aclRoutines extends aclRoutinesHelper
          else if(comm.toUpperCase().matches("SET\\sOVERFLOW\\sON"))
              dLog.overflow = true;
         
-        comm = comm.toUpperCase();
-		if(comm.matches("OPEN .*")){
+        //comm = comm.toUpperCase();
+		if(comm.matches("(?i)OPEN .*")){
 			sleep(2);	
 			dismissPopup("Any",true);
             kUtil.closeServerActivity(false);
             kUtil.isActivated(true);  
             
-            if(!comm.matches(".* SECONDARY")){
-              aTabs.add(comm.replaceAll("(?i)OPEN (.*)", "$1"));
-              aTabs.actOnTab(actionOnTab);
+            if(!comm.matches("(?i).* SECONDARY")){
+              aTabs.add(comm.replaceAll("(?i)OPEN (.*)", "$1"),actionOnTab);
+              //aTabs.actOnTab(actionOnTab);
             }
             //kUtil.checkACLCrash();
 		}else {
            dismissPopup("Any",true);
-           if(comm.equals("CLOSE")){ // No effect on scripts, as design?
+           if(comm.matches("(?i)CLOSE")){ // No effect on scripts, as design?
              aTabs.remove();
            }
 		}
@@ -180,8 +180,12 @@ public class aclRoutines extends aclRoutinesHelper
 	}
 	
 	public TestObject getFilterBox(){
-		TestObject to;
-		return to = findTestObject(acl_docManager(),false,".class","Edit",".text","Filter:");	
+		TestObject to = acl_docManager();
+		
+		if(DesktopSuperHelper.activeTab>1){
+			to = findTestObject(to,true,".class","ATL:.*",".classIndex",(DesktopSuperHelper.activeTab-1)+"");	
+		}
+		return to = findTestObject(to,false,".class","Edit",".text","Filter:");	
 	}
 	
 	public TestObject getFilterList(){
@@ -267,7 +271,9 @@ public class aclRoutines extends aclRoutinesHelper
 	public int[] searchSubitems(boolean checkStatus,String pathToItem){	
 		return searchSubitems(checkStatus,pathToItem,"Navigator",false);
 	}
-	
+	public int[] searchSubitems(boolean checkStatus,String pathToItem,String[] mFile, String[] aFile){
+		return searchSubitems(checkStatus,pathToItem,"Navigator",false,mFile,aFile);
+	}	
 	public int[] searchSubitems(String pathToItem,boolean isInfo){	
 		return searchSubitems(false,pathToItem,"Navigator",isInfo);
 	}
@@ -278,10 +284,14 @@ public class aclRoutines extends aclRoutinesHelper
 		return searchSubitems(false,pathToItems,way,isInfo);
 	}
 	public int[] searchSubitems(boolean checkStatus,String pathToItems,String way,boolean isInfo){
+		return searchSubitems(checkStatus,pathToItems,way,isInfo,null,null);
+	}
+	public int[] searchSubitems(boolean checkStatus,String pathToItems,String way,boolean isInfo,String[] mFile, String[] aFile){
 		int itemIndex[]=null;
-		String[] statusArray = {"Closed","Primary","Secondary","Opened"};
 		
-		String path[],targetItem;
+//		String path[];
+		String items[];
+		String targetItem;
 		String sep = "->";
         //String treeRoot = keywordUtil.workingProject+".ACL";
         String treeRoot = projName+".ACL";
@@ -291,9 +301,9 @@ public class aclRoutines extends aclRoutinesHelper
 			textPoint = new Point(5,10);
             iconPoint = new Point (-15,10);
             
-            path = pathToItems.split("\\|");
+            items = pathToItems.split("\\|");
             
-            itemIndex = new int[path.length];
+            itemIndex = new int[items.length];
 			showNavigator("");
 			
 			// Check if project exists - index 0
@@ -310,22 +320,38 @@ public class aclRoutines extends aclRoutinesHelper
 			}
 			// TBD ....................
 			showNavigator("");
-			for(int i=0; i<path.length; i++){
+			for(int i=0; i<items.length; i++){
+				String[] item = items[i].split(":");
+				String path = item[0];
+				int status = 0; //(:0) [CLOSED],(:3)[OPENED],(:1) [PRIMARY],(:2) [SECONDARY]
+				if(item.length>1){
+					try{
+						status = Integer.parseInt(item[1]);
+					}catch(Exception e){
+						status = 0;
+					}
+				}
+				
 				if(i>0){
 					collapsible = false;
 				}
-			    itemIndex[i] = searchSubitem(acl_Tree(),treeRoot+sep+path[i]);			
+				
+			        itemIndex[i] = searchSubitem(acl_Tree(),treeRoot+sep+path);			
+			
 				if(itemIndex[i]==-1){
 					if(isInfo){
-						logTAFWarning("Item '"+path[i]+"' not found");
+						logTAFWarning("Item '"+path+"' not found");
 					}else{
-					  logTAFError("Item '"+path[i]+"' not found");
+					  logTAFError("Item '"+path+"' not found");
 					}
 				}else{
-					logTAFInfo("Item '"+path[i]+"' found");
+					logTAFInfo("Item '"+path+"' found");
+					if(checkStatus){
+						verifyItemIcon(acl_Tree(),atIndex(itemIndex[i]),path,status,mFile,aFile);
+					}
 				}  
 				
-				if(i>0&&i==path.length-1)
+				if(i>0&&i==items.length-1)
 					collapsible = true;
 			}
 		}else{
@@ -334,6 +360,7 @@ public class aclRoutines extends aclRoutinesHelper
 //		exeACLCommand("CLOSE");
 //		showNavigator("Overview");
 	}
+		
 	return itemIndex;
 }
 

@@ -27,6 +27,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import lib.acl.tool._printObjects;
 import lib.acl.tool.htmlRFTHandler;
 import lib.acl.util.FileUtil;
+import lib.acl.util.ImageCompare;
 import lib.acl.util.NLSUtil;
 import lib.acl.util.UnicodeUtil;
 
@@ -1729,6 +1730,9 @@ public class ObjectHelper extends RFTGuiFinderHelper{
     		   return true;
     	   return false;
        }
+       
+
+       
        public String[] removeEmptyLines(String[] text){
     	   String result="",del="autoDelimiter";
     	   for(int i=0;i<text.length;i++){

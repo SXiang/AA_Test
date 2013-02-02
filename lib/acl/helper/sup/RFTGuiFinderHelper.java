@@ -285,10 +285,13 @@ public abstract class RFTGuiFinderHelper extends WinTreeHelper
     }
     
     public static boolean isPattern(String str){
-    	if(str.matches(".*[\\[\\]\\|\\*].*"))
+    	if(str.matches(".*[\\[\\]\\|\\*].*|.*\\(\\?i\\).*")){
+    		//LoggerHelper.logTAFWarning(str+ " is a reg pattern");
     		return true;
-    	else
+    	}else{
+    		//LoggerHelper.logTAFWarning(str+ "is not a reg pattern");
     		return false;
+    	}
     }
     
     public static List formRFTList(Subitem... subs){

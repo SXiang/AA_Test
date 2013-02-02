@@ -17,15 +17,61 @@ import com.rational.test.ft.vp.IFtVerificationPoint;
 
 /**
  * Script Name   : <b>aclTableTabs</b><br>
- * Generated     : <b>2013/01/23 4:22:15 PM</b><br>
+ * Generated     : <b>2013/01/30 4:26:47 PM</b><br>
  * Description   : Helper class for script<br>
  * Original Host : Windows XP x86 5.1 build 2600 Service Pack 3 <br>
  * 
- * @since  January 23, 2013
+ * @since  January 30, 2013
  * @author STEVEN_XIANG
  */
 public abstract class aclTableTabsHelper extends RationalTestScript
 {
+	/**
+	 * Workbook_DDWACLACL9: with default state.
+	 *		.class : ACLMainFrame
+	 * 		.processName : ACLWin.exe
+	 */
+	protected TopLevelSubitemTestObject ACL10() 
+	{
+		return new TopLevelSubitemTestObject(
+                        getMappedTestObject("ACL10"));
+	}
+	/**
+	 * Workbook_DDWACLACL9: with specific test context and state.
+	 *		.class : ACLMainFrame
+	 * 		.processName : ACLWin.exe
+	 */
+	protected TopLevelSubitemTestObject ACL10(TestObject anchor, long flags) 
+	{
+		return new TopLevelSubitemTestObject(
+                        getMappedTestObject("ACL10"), anchor, flags);
+	}
+	
+	/**
+	 * ACL_StatusBar: with default state.
+	 *		.text : null
+	 * 		.class : ACL_StatusBar
+	 * 		.name : null
+	 * 		.classIndex : 0
+	 */
+	protected GuiSubitemTestObject acl_StatusBar() 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("acl_StatusBar"));
+	}
+	/**
+	 * ACL_StatusBar: with specific test context and state.
+	 *		.text : null
+	 * 		.class : ACL_StatusBar
+	 * 		.name : null
+	 * 		.classIndex : 0
+	 */
+	protected GuiSubitemTestObject acl_StatusBar(TestObject anchor, long flags) 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("acl_StatusBar"), anchor, flags);
+	}
+	
 	/**
 	 * WTL_DotNetTabCtrl: with default state.
 	 *		.text : null

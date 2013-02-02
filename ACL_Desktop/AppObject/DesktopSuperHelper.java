@@ -493,6 +493,58 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		}
 		return fileCreated;
 	}
+	
+	public static String getTableStatus(TestObject anchor,TestObject status,String item){
+
+		String classTag = ".class";
+		String classValue = ".Statictext";
+		String nameTag = ".name";
+		String textTag = ".text";
+		TestObject itemObj,recordObj;
+		String record = "[0-9]* Records";
+		
+		try{
+			if((status==null||!status.exists())){			
+				if(anchor!=null&&anchor.exists()){
+					status = findTestObject(anchor,true,classTag,"ACL_StatusBar");
+				}
+			}
+			if(status==null||!status.exists()){
+				if(anchor!=null&&anchor.exists()){
+					logTAFWarning(autoIssue+"Automation failed to check the ACL status");
+				}
+				return "";
+			}
+//			itemObj = findTestObject(status, classTag,classValue,nameTag,"(?i)"+item );
+			itemObj = findTestObject(status, classTag,classValue,nameTag,item );
+			if(itemObj==null){
+				logTAFError(autoIssue+" Table "+item+" not showing on status bar correctly?");
+				return "";
+			}
+			try{
+			    item = itemObj.getProperty(nameTag).toString();
+			}catch(Exception e){
+				logTAFWarning("Failed to get table name from the status bar");
+			}
+			//logTAFInfo("Table status - name:"+item);
+			recordObj = findTestObject(status, classTag,classValue,nameTag,record );
+			if(recordObj==null){
+				logTAFDebug("Num records of "+item+" is not showing on status bar correctly?");
+				return item;
+			}
+			try{
+			     record = recordObj.getProperty(nameTag).toString();
+			}catch(Exception e){
+				logTAFWarning("Failed to get num records from the status bar");
+			}
+		}catch(Exception e){
+			if(anchor!=null&&anchor.exists()){
+				logTAFError(autoIssue+"Automation failed to get table status '"+e.toString()+"'");
+			}
+			return "";
+		}
+		return item + "   "+record ;
+	}	
 	public boolean isRunningScript(TestObject status){
 		return isRunningScript(null,status,false);
 	}
@@ -606,6 +658,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 					}
 				}
 			}
+		}else if(command.startsWith("_")){
+			tempMasterFile = FileUtil.getAbsDir(filename,
+					ProjectConf.expectedDataDir+defaultMenu+"/"+command+"/"+localName+"/");		
 		}else{
 			tempMasterFile = FileUtil.getAbsDir(filename,ProjectConf.expectedDataDir);
 		}

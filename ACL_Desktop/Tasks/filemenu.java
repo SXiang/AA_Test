@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import lib.acl.util.FileUtil;
 import resources.ACL_Desktop.Tasks.filemenuHelper;
+import ACL_Desktop.AppObject.DesktopSuperHelper;
 import ACL_Desktop.conf.beans.ProjectConf;
 
 import com.rational.test.ft.*;
@@ -59,6 +60,7 @@ public class filemenu extends filemenuHelper
 		boolean done= true;
 
 		defaultMenu = "File";
+		command = "_TableIcon";
 		dpOpenProject = getDpString("OpenProject");
 		dpEndWith = getDpString("EndWith");	 
 		dpNewProjectName = getDpString("NewProjectName");	
@@ -90,8 +92,10 @@ public class filemenu extends filemenuHelper
 			exeActOnItem();
 		}		
 		exeEndWith(dpEndWith);
-		if(!dpItemStatus.equals(""))
+		if(!dpItemStatus.equals("")){
             verifyItemStatus(dpItemStatus);
+			aTabs.switchTableTabs();
+		}
 
 	}
 
@@ -142,6 +146,8 @@ public class filemenu extends filemenuHelper
 				sleep(1);
 			if(dismissPopup("Cancel",true)){
 		      logTAFWarning("Save as has been canceled due to errors detected");		    	   
+			}else{
+				aTabs.add(dpNewItemName,dpActionOnTab);
 			}
 		}else if(dpActionOnItem.equalsIgnoreCase("Rename")){    		
 			if(!aRou.exeSelectSubitems(itemIndex,dpItemName))
@@ -154,6 +160,7 @@ public class filemenu extends filemenuHelper
 				sleep(1);
 			//dLog.confirmWarning("OK",false); 
 			dismissPopup("Yes|OK",false); 
+
 		}else if(dpActionOnItem.equalsIgnoreCase("Delete")){
 			if(!aRou.exeSelectSubitems(itemIndex,dpItemName))
 				return;
@@ -211,13 +218,14 @@ public class filemenu extends filemenuHelper
 				}
 			}
 			dismissPopup("Yes|OK",false); 
+			aTabs.remove(dpItemName);
 		}else if(dpActionOnItem.equalsIgnoreCase("Save")){
 			if(!aRou.exeSelectSubitems(itemIndex,dpItemName))
 				return;
 			aRou.exeACLCommand("OPEN "+itemName);
 			kUtil.invokeMenuCommand(defaultMenu+"->"+dpActionOnItem);
 			dismissPopup("OK|Yes",false);  
-			aTabs.remove(dpItemName);
+			
 		}else{
 			logTAFDebug("No valid action performed on any project items");
 		}
@@ -289,6 +297,7 @@ public class filemenu extends filemenuHelper
 		}catch(Exception e){
 			sleep(0);
 		}
+
 		if(filter==null)
 			filter = "";
         return filter;
@@ -331,11 +340,12 @@ public class filemenu extends filemenuHelper
 	public void exeEndWith(String endWith){
 		dismissPopup("Cancel",false); 
 		
-		aTabs.actOnTab(dpActionOnTab);
+//		aTabs.actOnTab(dpActionOnTab);
 		aRou.exeACLCommands(dpPostCmd);
 		if(endWith.equalsIgnoreCase("Kill")){
 			killProcess();
 			onRecovery = false;
+			tabList.clear(); // No welcome page anymore !
 		}else if(endWith.equalsIgnoreCase("SaveProject")){
 			kUtil.invokeMenuCommand("File->SaveProject");
 		}else if(endWith.equalsIgnoreCase("SaveProjectAs")){
@@ -344,7 +354,7 @@ public class filemenu extends filemenuHelper
 			kUtil.saveProjectAs(dpNewProjectName,false,delFile);    		
 		}else if(endWith.equalsIgnoreCase("CloseProject")){
 			//kUtil.saveProjectAs(dpNewProjectName,false);  
-			kUtil.closeProject(dpProjectName);
+			kUtil.closeProject(dpProjectName);			
 		}
 
 		dismissPopup("OK|Yes",false);    	
@@ -352,10 +362,16 @@ public class filemenu extends filemenuHelper
 	}
 
 	public void verifyItemStatus(String itemStatus){
-		// In progress... Steven.		
-			int[] itemIndex = null;
-			boolean checkstatus = true;
-//		    itemIndex = aRou.searchSubitems(true,itemStatus);
+		  String namePre = "tableIcon_";
+		  String[] name = {namePre+"0",namePre+"1",namePre+"2",namePre+"3"};
+    	  String location = "Local";
+    	  String defaultFileExt = ".jpg";
+    	
+    	  for(int i=0;i<name.length;i++)
+    	       setupTestFiles(name[i],location,"No",defaultFileExt,"",i);
+		       aRou.searchSubitems(true,itemStatus,dpMasterFiles, dpActualFiles);
+
+
 	}
 
 }

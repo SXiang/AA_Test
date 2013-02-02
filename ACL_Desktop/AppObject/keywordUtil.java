@@ -257,7 +257,7 @@ public class keywordUtil extends keywordUtilHelper
 		}else{
 			logTAFInfo("There is no project opened currently");
 		}
-				
+		aTabs.clear();		
 		return pname;
     }
     
@@ -461,13 +461,13 @@ public class keywordUtil extends keywordUtilHelper
         	invokeMenuCommand("File->New->NewProject");
       	    dLog.fileChooser(projPath,"Save",true);
 
-      	   if(option.matches("OpenLastSaved")){
-      		   warningOp = "Last-saved";
-      	    }else if(option.matches("OpenCancel")){
-      		   warningOp = "Cancel";
-      	    }else if(option.matches("OpenWorking")){
-      		   warningOp = "Working";
-      	    }
+//      	   if(option.matches("OpenLastSaved")){
+//      		   warningOp = "Last-saved";
+//      	    }else if(option.matches("OpenCancel")){
+//      		   warningOp = "Cancel";
+//      	    }else if(option.matches("OpenWorking")){
+//      		   warningOp = "Working";
+//      	    }
     	}else if(!option.equalsIgnoreCase("OpenRecent")){ // File->OpenProject
     		//option = "Open"; // 
     		invokeMenuCommand(dpMenuItem);

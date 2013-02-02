@@ -40,7 +40,7 @@ public class aclTableTabs extends aclTableTabsHelper
 	 * @author STEVEN_XIANG
 	 */
 	private ArrayList<String> tabList;
-	
+	private String wPage = "Welcome";
 	public aclTableTabs(){
 		tabList = DesktopSuperHelper.tabList;
 	}
@@ -48,8 +48,8 @@ public class aclTableTabs extends aclTableTabsHelper
 		boolean ws = true;
 		tabList.clear();
 		if(ws){
-		  tabList.add("_Welcome");
-		  DesktopSuperHelper.activeTab = 0;
+		  tabList.add(wPage);
+		  verifyActiveTable( 0);
 		}
 	}
 	public void remove(){
@@ -60,22 +60,36 @@ public class aclTableTabs extends aclTableTabsHelper
 	}
 	public void remove(String item){
 	 	   if(tabList.contains(item)){
+	 		   LoggerHelper.logInfo("Table tab "+item+" removed from desktop manager");
 	 		   moveActiveTab(item);
 	 	      tabList.remove(item);  
 	 	   }
 		}	
 	public void add(String item){
+		add(item,"");
+	}
+	public void add(String item,String actOnTab){
+		if(!isTraceable(item))
+			return;
 		if(!tabList.contains(item)){
+			LoggerHelper.logInfo("Table tab "+item+" added to document manager");
 			String temp = tabList.get(DesktopSuperHelper.activeTab);
-			if(!isPined(temp)){
+			if(!temp.equalsIgnoreCase(wPage)&&isUnpined(temp)){
 				remove(temp	);
 				tabList.add(DesktopSuperHelper.activeTab,item);
 			}else{
     		  tabList.add(item);
-		      DesktopSuperHelper.activeTab = tabList.size()-1;
+		      verifyActiveTable(tabList.size()-1);
+			}
+			
+			if(!actOnTab.equalsIgnoreCase("Close")){
+				actOnTab(actOnTab,item);
 			}
 		}else{
-			DesktopSuperHelper.activeTab = tabList.indexOf(item);
+			verifyActiveTable( tabList.indexOf(item));
+			if(actOnTab.equalsIgnoreCase("Close")){
+				actOnTab(actOnTab,item);
+			}
 		}
 	}
 	public boolean isLast(int index){
@@ -91,19 +105,43 @@ public class aclTableTabs extends aclTableTabsHelper
 		   int index = tabList.indexOf(tab); 		   
  		   if(isActive(index)){
  			   if(isLast(index)){
- 				  DesktopSuperHelper.activeTab = index-1;
+ 				  verifyActiveTable( index-1);
  			   }
  		   }
+ 		 //  verifyTabStatus(tab);
+	}
+	
+	public void verifyTabStatus(String item){		
+	   if(item.equalsIgnoreCase(wPage)){
+		   //LoggerHelper.logTAFWarning("There is no status for the "+wPage);
+		   return;
+	   }
+	   // TBD: Need to debug the find method -- Steven
+	   LoggerHelper.logInfo("Status bar - "+DesktopSuperHelper.getTableStatus(ACL10(),acl_StatusBar(),item));
+	  // ObjectHelper.printObjectTree(acl_StatusBar());
+	}
+	public void verifyActiveTable(int activeIndex){
+		verifyTabStatus(tabList.get(activeIndex));
+		DesktopSuperHelper.activeTab = activeIndex;
+	}
+	public void switchTableTabs(){
+	
+	   for(String tab:tabList){
+	       switchToTab(tab);
+	   }
 	}
  	 //************  Pin Tab ***********
 	
 	public boolean actOnTab(String act){
+		return actOnTab(act,getLast());
+	}
+    public boolean actOnTab(String act,String item){
 		if(act.equals(""))
 			return true;
 		if(act.equalsIgnoreCase("Pin"))
-			return pinTab();
+			return pinTab(item);
 		else if(act.equalsIgnoreCase("Close"))
-		    return closeTab();
+		    return closeTab(item);
 		else{
 			LoggerHelper.logTAFWarning("Action on tab - '"+act+"' is not supported currently!");
 		}
@@ -114,18 +152,27 @@ public class aclTableTabs extends aclTableTabsHelper
 	 	 }	
  	 public boolean pinTab(String tab){
         boolean done = false;
+        if(!isTraceable(tab))
+        	return false;
         if(!isPined(tab)){
-           ObjectHelper.click(tabCtrlwindow(),getTabPoint(tab,-8),"Pin "+tab);
+           ObjectHelper.click(tabCtrlwindow(),getTabPoint(tab,-8),"Pin[/Unpin] "+tab);
         }
+        
  	   return done;
  	 }
  	 public boolean unpinTab(String tab){
          boolean done = false;
+         if(!isTraceable(tab))
+         	return false;
          if(isPined(tab)){
-            ObjectHelper.click(tabCtrlwindow(),getTabPoint(tab,-8),"Unpin "+tab);
+            ObjectHelper.click(tabCtrlwindow(),getTabPoint(tab,-8),"Unpin[/Pin] "+tab);
          }
   	   return done;
   	 } 	 
+ 	 public boolean isUnpined(String tab){
+ 		return false;
+        //return !isPined(tab);
+ 	 }
  	 public boolean isPined(String tab){
  		 boolean pined = false;
  		 //TBD ..... Steven - need to capture the icon 
@@ -149,7 +196,7 @@ public class aclTableTabs extends aclTableTabsHelper
        
        ObjectHelper.click(tabCtrlwindow(),getCloseTabPoint(),"Close Tab "+tab);
 	   if(done){
-		   moveActiveTab(tab);
+		   remove(tab);
 	   }
 	   
 	   return done;
@@ -157,8 +204,10 @@ public class aclTableTabs extends aclTableTabsHelper
   	 
 	 public boolean switchToTab(String tab){
 	   boolean done = false;
-	   ObjectHelper.click(tabCtrlwindow(),getTabPoint(tab,-50),tab);	   
-	   DesktopSuperHelper.activeTab = tabList.indexOf(tab);
+	   ObjectHelper.click(tabCtrlwindow(),getTabPoint(tab,-50),tab);
+	   
+	   verifyActiveTable( tabList.indexOf(tab));	   
+	   //verifyTabStatus(tab);
 	   return done;
 	 }
 	 
@@ -172,19 +221,66 @@ public class aclTableTabs extends aclTableTabsHelper
 	 }
 	 public Point getTabPoint(String tab,int x){
 		 int dev = x;
-		 int y=8,pointsPerByte = 5, icon = 22, pin = 20 + 1; //Actual Icon(15,12),Actual Pin(14,14)
+		 int y=8,lspace = 6;
 		 int index = tabList.indexOf(tab);
 
 		 for(int i=0;i<=index;i++){
-			 String temp = tabList.get(i);
-			 int bytes = temp.getBytes().length;
-			 if(isActive(i)){
-				 pointsPerByte += 1; 
+			 String temp = tabList.get(i);			 
+			 x += lengthOf(temp,isActive(i));
+			 if(i==0){
+				 x += lspace;
 			 }
-			 x += icon + bytes*pointsPerByte + pin;
+			 LoggerHelper.logTAFDebug("\t\tLOOP:"+temp+" - x = "+(x-dev) );
 		 }
-		 System.out.println(tab+" - x = "+(x-dev) );
+		 LoggerHelper.logTAFDebug(tab+" - x = "+(x-dev) );
 		 return new Point(x,y);
+	 }
+
+	 //*******  defined for table tab tracing *************
+     public String[][] tableTab ={{wPage,"87","93"},
+				{"Inventory","86","98"},
+				{"Trans","69","73"},
+				{"Ap_Trans","88","95"},
+				{"Payroll","74","80"},
+				{"Inventory2","92","105"},
+				{"Vendor","77","81"},
+				{"Sales_Reps","99","106"},
+				{"Dept","65","68"},
+				{"Customer","86","96"},
+				{"Empmast","85","94"},
+				{"Work_Depts","102","111"},
+				{"Inventory_saveas","126","145"},
+				{"Inventory_renamed","133","156"},
+				{"TBD","0","0"},
+		};
+     //*****************************************************
+     
+     public boolean isTraceable(String tab){
+    	 boolean traceable = false;
+ 		for(int i=0;i<tableTab.length;i++){
+			if(tab.equalsIgnoreCase(tableTab[i][0])){
+				return true;
+			}
+		}
+ 		return traceable;
+     }
+	 public int lengthOf(String tab,boolean active){
+		 int index = 1;
+		 int bytes = tab.getBytes().length;
+		 int pointsPerByte = 5, icon = 22, pin = 20 + 1; //Actual Icon(15,12),Actual Pin(14,14)
+		 if(active){
+			 index =2;
+			 pointsPerByte = 6;
+		 }
+
+		
+		for(int i=0;i<tableTab.length;i++){
+			if(tab.equalsIgnoreCase(tableTab[i][0])){
+				return Integer.parseInt(tableTab[i][index]);
+			}
+		}
+		LoggerHelper.logTAFDebug("Pin point tab "+tab+" may fail due to wrong point clicked");
+		return icon + bytes*pointsPerByte + pin;
 	 }
 	public void testMain(Object[] args) 
 	{
