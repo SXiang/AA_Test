@@ -3234,6 +3234,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
  // Step: 1 Preparing... 
 	 // *********** Controls **************
 		int numCheck = 0;
+		int QACheckTime = 30;
 		boolean dismissed = false;
 		boolean tryAgain = true;
 		boolean notFound = true;
@@ -3264,7 +3265,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 		}
 	 // *** Max number of loops, negative number means infinite	
 		if(maxCheck<=0){
-			maxCheck = Integer.MAX_VALUE;
+			maxCheck = QACheckTime;//Integer.MAX_VALUE;
 		}
     
     //  *** Title,Class and actions *************************
@@ -3324,7 +3325,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 					}	
 				}
 				
-				if(actualTitle.equals(LoggerHelper.autTitle)&&numCheck>3&&maxCheck==Integer.MAX_VALUE){  
+				if(actualTitle.equals(LoggerHelper.autTitle)&&numCheck>3&&maxCheck==QACheckTime){  
 					try{
 						while(iw!=null&&actualTitle.equals(LoggerHelper.autTitle)&&iw.isShowing()){
 							numCheck++;
@@ -3333,7 +3334,12 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 							sleep(1);
 							iw = ObjectHelper.getDialog(LoggerHelper.autTitle,winClass,true);
 							actualTitle = iw.getText();
+							if(numCheck>=maxCheck){
+								logTAFWarning("It seems something wrong, pleas check the log for details");
+								stopApp();
+							}
 						}
+
 					}catch(Exception e){
 						return true;
 					}

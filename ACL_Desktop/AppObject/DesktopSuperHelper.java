@@ -1352,8 +1352,10 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 				   }
 			   }
 			   projectArchived = true;
-			   message =(message.equals("")? "" : message+"\n***\t"+"<a style=\"background-color:#886A08\" href=\"file:///"
-                   + aclFolder +"\">"+"[Project Archive]</a>");
+//			   message =(message.equals("")? "" : message+"\n***\t"+"<a style=\"background-color:#886A08\" href=\"file:///"
+//                   + aclFolder +"\">"+"[Project Archive]</a>");
+			   message =(message.equals("")? "" : message+""+"<a style=\"background-color:#886A08\" href=\"file:///"
+	                   + aclFolder +"\">"+"[ACL Project Archive]</a>");
 			}catch(Exception e){
 				logTAFWarning("Problem to access '"+aclFolder+"'");
 			}

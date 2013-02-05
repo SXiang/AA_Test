@@ -269,6 +269,7 @@ public class runScript extends runScriptHelper
     		    }
 		
 			}
+
 			isScriptRunning = true;
 			if(!kUtil.isActivated()){
 				logTAFWarning("AUT is not activated at the end of this test, please check if there were anything wrong!");
