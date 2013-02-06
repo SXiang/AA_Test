@@ -147,7 +147,9 @@ public class filemenu extends filemenuHelper
 			if(dismissPopup("Cancel",true)){
 		      logTAFWarning("Save as has been canceled due to errors detected");		    	   
 			}else{
+				aTabs.remove(itemName);
 				aTabs.add(dpNewItemName,dpActionOnTab);
+				
 			}
 		}else if(dpActionOnItem.equalsIgnoreCase("Rename")){    		
 			if(!aRou.exeSelectSubitems(itemIndex,dpItemName))
@@ -171,7 +173,7 @@ public class filemenu extends filemenuHelper
 			kUtil.invokeMenuCommand(defaultMenu+"->"+dpActionOnItem);
 			click(okDelete(),"OK");    	
 			dismissPopup("Yes|OK",false); 
-			aTabs.remove(dpItemName);
+			aTabs.remove(itemName);
 			
 		}else if(dpActionOnItem.equalsIgnoreCase("DeleteWithFile")){
 			Object[] options = {null,null,State.selected(),

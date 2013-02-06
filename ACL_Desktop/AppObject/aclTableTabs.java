@@ -53,8 +53,8 @@ public class aclTableTabs extends aclTableTabsHelper
 		}
 	}
 	public void remove(){
- 	   if(tabList.size()>1) // Suppose ws = true;
- 	      tabList.remove(tabList.size()-1);  
+ 	   if(tabList.size()>1&&isTableItem(DesktopSuperHelper.activeTab)) // Suppose ws = true;
+ 	       remove(tabList.get(DesktopSuperHelper.activeTab));  
  	   else
  		   LoggerHelper.logTAFWarning("Have you opened any table yet?");
 	}
@@ -74,7 +74,7 @@ public class aclTableTabs extends aclTableTabsHelper
 		if(!tabList.contains(item)){
 			LoggerHelper.logInfo("Table tab "+item+" added to document manager");
 			String temp = tabList.get(DesktopSuperHelper.activeTab);
-			if(!temp.equalsIgnoreCase(wPage)&&isUnpined(temp)){
+			if(isTableItem(temp)&&isUnpined(temp)){
 				remove(temp	);
 				tabList.add(DesktopSuperHelper.activeTab,item);
 			}else{
@@ -112,7 +112,7 @@ public class aclTableTabs extends aclTableTabsHelper
 	}
 	
 	public void verifyTabStatus(String item){		
-	   if(item.equalsIgnoreCase(wPage)){
+	   if(!isTableItem(item)){
 		   //LoggerHelper.logTAFWarning("There is no status for the "+wPage);
 		   return;
 	   }
@@ -263,6 +263,12 @@ public class aclTableTabs extends aclTableTabsHelper
 			}
 		}
  		return traceable;
+     }
+     public boolean isTableItem(int index){
+    	 return isTableItem(tabList.get(index));
+     }
+     public boolean isTableItem(String tab){
+    	 return !tab.equalsIgnoreCase(wPage);
      }
 	 public int lengthOf(String tab,boolean active){
 		 int index = 1;
