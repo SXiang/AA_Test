@@ -3238,7 +3238,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
  // Step: 1 Preparing... 
 	 // *********** Controls **************
 		int numCheck = 0;
-		int QACheckTime = 30;
+		int QACheckTime = 5;
 		boolean dismissed = false;
 		boolean tryAgain = true;
 		boolean notFound = true;
