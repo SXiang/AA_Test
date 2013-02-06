@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.rational.test.ft.visualscript:RFTScript xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.ibm.rational.test.ft.visualscript="http:///com/ibm/rational/test/ft/visualscript.ecore" name="aclTableTabs" package="ACL_Desktop.AppObject" userName="STEVEN_XIANG" date="2013-01-23" time="4:20:51 PM" sinceDate="2013/01/23" hostName="WinNT Version 5.1  Build 2600 (S)" keywordSteps="">
+  <testElements xsi:type="com.ibm.rational.test.ft.visualscript:Comment" value="// TODO Insert code here&#xD;&#xA;" elementType="Comment">
+    <clearscript/>
+  </testElements>
+</com.ibm.rational.test.ft.visualscript:RFTScript>

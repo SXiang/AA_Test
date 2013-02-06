@@ -46,9 +46,11 @@ public class filemenu extends filemenuHelper
 	//@value = 'Save|SaveAs|Rename|Delete|DeleteWithFile|Verify'
 	private String dpNewItemName; //@arg New name for Rename
 	private String dpFilterHistory=""; //@arg check filters for table
-    //@value = 'filter1|filter2...', filters to be verified at begining
+    //@value = 'filter1|filter2...', filters to be verified at beginning
     //@value   'New', No filter for the table 
     //@value   'ClearHistory', remove filter history
+	private String dpItemStatus=""; //@arg list of tables with status, (:0) [CLOSED],(:3)[OPENED],(:1) [PRIMARY],(:2) [SECONDARY]
+	//@value = 'table1:0|table2|table3:2|table4:3...'
 	// END of datapool variables declaration
 
 
@@ -64,6 +66,7 @@ public class filemenu extends filemenuHelper
 		dpFilterHistory = getDpString("FilterHistory");
 		dpActionOnItem = getDpString("ActionOnItem");	 
 		dpNewItemName = getDpString("NewItemName");	
+		dpItemStatus = getDpString("ItemStatus");
 		return done;
 	}
 
@@ -84,10 +87,11 @@ public class filemenu extends filemenuHelper
 		//@Step Execute the command specified in 'EndWith' such as 'Kill'
 		if(!dpItemName.equals("")){
 			itemName = getNameFromPath(dpItemName);
-
 			exeActOnItem();
 		}		
 		exeEndWith(dpEndWith);
+		if(!dpItemStatus.equals(""))
+            verifyItemStatus(dpItemStatus);
 
 	}
 
@@ -99,7 +103,7 @@ public class filemenu extends filemenuHelper
 //		aRou.exeACLCommands(dpPreCmd);
 //		aRou.setACLFilters(dpPreFilter);
 		if(!dpFilterHistory.equals("")){ // Fill in the list - TBD
-			aRou.exeACLCommand("OPEN "+itemName);
+			aRou.exeACLCommand("OPEN "+itemName,dpActionOnTab);
 			filterList.clear();
 
 			if(dpFilterHistory.matches("ClearHistory")){
@@ -117,7 +121,7 @@ public class filemenu extends filemenuHelper
 				}
 
 
-				aRou.exeACLCommands(dpPreCmd);
+				aRou.exeACLCommands(dpPreCmd,dpActionOnTab);
 				aRou.setACLFilters(dpPreFilter);
 			}
 			verifyFilterList(filterList);
@@ -126,7 +130,7 @@ public class filemenu extends filemenuHelper
 		if(dpActionOnItem.equalsIgnoreCase("SaveAs")){
 			if(!aRou.exeSelectSubitems(itemIndex,dpItemName))
 					return;
-			aRou.exeACLCommand("OPEN "+itemName);
+			aRou.exeACLCommand("OPEN "+itemName, dpActionOnTab);
 			kUtil.invokeMenuCommand(defaultMenu+"->"+dpActionOnItem);
 			inputUnicodeChars(textSaveAs(),dpNewItemName); 
 			click(okRename(),"OK");	
@@ -160,6 +164,8 @@ public class filemenu extends filemenuHelper
 			kUtil.invokeMenuCommand(defaultMenu+"->"+dpActionOnItem);
 			click(okDelete(),"OK");    	
 			dismissPopup("Yes|OK",false); 
+			aTabs.remove(dpItemName);
+			
 		}else if(dpActionOnItem.equalsIgnoreCase("DeleteWithFile")){
 			Object[] options = {null,null,State.selected(),
 					null,null,null,null,null,null,null};
@@ -211,6 +217,7 @@ public class filemenu extends filemenuHelper
 			aRou.exeACLCommand("OPEN "+itemName);
 			kUtil.invokeMenuCommand(defaultMenu+"->"+dpActionOnItem);
 			dismissPopup("OK|Yes",false);  
+			aTabs.remove(dpItemName);
 		}else{
 			logTAFDebug("No valid action performed on any project items");
 		}
@@ -323,6 +330,8 @@ public class filemenu extends filemenuHelper
 	// **********
 	public void exeEndWith(String endWith){
 		dismissPopup("Cancel",false); 
+		
+		aTabs.actOnTab(dpActionOnTab);
 		aRou.exeACLCommands(dpPostCmd);
 		if(endWith.equalsIgnoreCase("Kill")){
 			killProcess();
@@ -340,6 +349,13 @@ public class filemenu extends filemenuHelper
 
 		dismissPopup("OK|Yes",false);    	
 
+	}
+
+	public void verifyItemStatus(String itemStatus){
+		// In progress... Steven.		
+			int[] itemIndex = null;
+			boolean checkstatus = true;
+//		    itemIndex = aRou.searchSubitems(true,itemStatus);
 	}
 
 }

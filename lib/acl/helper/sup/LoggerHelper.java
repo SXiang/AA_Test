@@ -51,7 +51,7 @@ public class LoggerHelper extends RationalTestScript {
 	//***** Moved from batchrunsuperhelper *******
 	public static String bugremaining="";
 	public static String bugfixed="",bugnew="",bugauto="";
-	public static int bugNumF=0, bugNumN=0,bugNumA=0,bugNumR=0;
+	public static int bugNumF=0, bugNumN=0,bugNumA=0,bugNumR=0,numTested;
 	//********************************************
 	
 	public static int numKWs = 0,numTestedKeywordInCase=0,
@@ -140,6 +140,7 @@ public class LoggerHelper extends RationalTestScript {
                       numRBugs = 0,
                       numNBugs = 0,
                       numABugs = 0;
+    
 	//Test Reports
 	//public static boolean saveProject = false;
 	public static String testResultTXT_Server="";

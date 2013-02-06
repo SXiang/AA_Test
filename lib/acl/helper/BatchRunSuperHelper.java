@@ -161,6 +161,7 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 					bugNumR += numRBugs;
 					bugNumA += numABugs;
 					bugNumN += numNBugs;
+					numTested += numKWs;
 					cleanBugHistory();
 //					fixedBugs = "";
 //					remainingBugs = "";

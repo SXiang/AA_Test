@@ -53,6 +53,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	protected getObjects gObj;
 	protected keywordUtil kUtil;
 	protected aclDataDialogs dataDlog;
+	protected aclTableTabs aTabs;
 	protected dialogUtil dLog;
 	protected aclRoutines aRou;
 	protected String defaultMenu="";
@@ -78,6 +79,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	protected TopLevelSubitemTestObject mainDialog;
 	protected GuiSubitemTestObject tabMain,tabMore,tabOutput;
 	protected ArrayList<String> filterList = new ArrayList<String>();
+	public static ArrayList<String> tabList = new ArrayList<String>();
+	public static int activeTab = -1;
 	
 	protected int[] itemIndex;
 	protected boolean itemCreated = false,
@@ -108,6 +111,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
                                 //@value   'SaveProject|SaveProjectAs|SaveProjectOverwirte|CloseProject'
 	protected String dpActOnItem="";//@arg Name of the item to be tested.
                                //@value = '[path->to->the->item]'
+	protected String dpActionOnTab;//@arg action for multiple table testing
+	//@value = 'Pin|Close'
 	
          /* Shared varialbel in main - more - output */
 	protected String dpFields="";  //@arg filed name to be extracted, default to 'Record'
@@ -139,6 +144,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		dLog = new dialogUtil();
 		aRou = new aclRoutines();
 		dataDlog = new aclDataDialogs();
+		aTabs = new aclTableTabs();
         
 		readSharedTestData();		
         kUtil.activateAUT(false);		
@@ -221,7 +227,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		//}
          dpPostCmd = getDpString("PostCmd");	
         // dpFilterHistory = getDpString("FilterHistory");
-
+         dpActionOnTab = getDpString("ActionOnTab");
          sharedDataDone= true;
 	}
 	
@@ -271,7 +277,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	}
 	
 	public void openTest(){
-		aRou.exeACLCommands(dpPreCmd);
+		aRou.exeACLCommands(dpPreCmd,dpActionOnTab);
 		aRou.setACLFilters(dpPreFilter);
 		if(!defaultMenu.equals("")&&!command.equals(""))
 		         kUtil.invokeMenuCommand(defaultMenu+"->"+command);

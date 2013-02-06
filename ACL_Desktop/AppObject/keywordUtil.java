@@ -51,6 +51,7 @@ public class keywordUtil extends keywordUtilHelper
 	public static getObjects gObj = new getObjects();
 	public static dialogUtil dLog = new dialogUtil();
 	public static aclRoutines aRou = new aclRoutines();
+	public static aclTableTabs aTabs = new aclTableTabs();
 	public String[] propArray,valueArray,methodArray;
 	public static String appClass = "ACLMainFrame";
 	public static String appTitle = LoggerHelper.autTitle;
@@ -501,6 +502,9 @@ public class keywordUtil extends keywordUtilHelper
     	} 
     	
          if(openedNew){
+        	 // Clean tabs in container
+        	 aTabs.clear();
+        	 
         	 sleep(2);
         	 if(!LoggerHelper.onRecovery){
         	    dismissPopup("OK|"+warningOp,LoggerHelper.onRecovery);

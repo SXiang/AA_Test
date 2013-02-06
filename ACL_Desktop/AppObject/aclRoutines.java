@@ -29,8 +29,12 @@ public class aclRoutines extends aclRoutinesHelper
 	public static getObjects gObj = new getObjects();
 	public static dialogUtil dLog = new dialogUtil();
 	public static keywordUtil kUtil = new keywordUtil();
+	public static aclTableTabs aTabs = new aclTableTabs();
 
 	public boolean exeACLCommands(String comms){
+		return exeACLCommands(comms,"");
+	}
+	public boolean exeACLCommands(String comms,String actionOnTab){
 		boolean done = true;
 		
 //MutilLine commands
@@ -39,7 +43,7 @@ public class aclRoutines extends aclRoutinesHelper
 		//click(acl_contentPane(),atPoint(100,30));
 		String[] commArr = comms.split("[\\|;]");		
 		for(int i=0;i<commArr.length&&!commArr[i].equals("");i++){
-			if(!exeACLCommand(commArr[i],i==0?true:false)){
+			if(!exeACLCommand(commArr[i],i==0?true:false,actionOnTab)){
 				done = false;
 			}
 		}
@@ -56,10 +60,16 @@ public class aclRoutines extends aclRoutinesHelper
 		return done;
 	}
 	public boolean exeACLCommand(String comm){
+		return exeACLCommand(comm,"");
+	}
+	public boolean exeACLCommand(String comm,String actionOnTab){
 		boolean clear = true;
-		return exeACLCommand(comm,clear);
+		return exeACLCommand(comm,clear,actionOnTab);
 	}
 	public boolean exeACLCommand(String comm, boolean clear){
+		return exeACLCommand(comm,clear,"");
+	}
+	public boolean exeACLCommand(String comm, boolean clear,String actionOnTab){
 		if(comm==null||comm.equals(""))
 			return true;
 		GuiSubitemTestObject cmdLine;// = findTestObject(, String... pairs ) {
@@ -111,15 +121,23 @@ public class aclRoutines extends aclRoutinesHelper
          else if(comm.toUpperCase().matches("SET\\sOVERFLOW\\sON"))
              dLog.overflow = true;
         
-        
-		if(comm.toUpperCase().contains("OPEN")){
+        comm = comm.toUpperCase();
+		if(comm.matches("OPEN .*")){
 			sleep(2);	
 			dismissPopup("Any",true);
             kUtil.closeServerActivity(false);
-            kUtil.isActivated(true);            
+            kUtil.isActivated(true);  
+            
+            if(!comm.matches(".* SECONDARY")){
+              aTabs.add(comm.replaceAll("(?i)OPEN (.*)", "$1"));
+              aTabs.actOnTab(actionOnTab);
+            }
             //kUtil.checkACLCrash();
-		}else{
+		}else {
            dismissPopup("Any",true);
+           if(comm.equals("CLOSE")){ // No effect on scripts, as design?
+             aTabs.remove();
+           }
 		}
 
 		return done;
@@ -244,16 +262,25 @@ public class aclRoutines extends aclRoutinesHelper
 //		sleep(0);
 //	}
 	public int[] searchSubitems(String pathToItem){	
-		return searchSubitems(pathToItem,"Navigator");
+		return searchSubitems(false,pathToItem);
 	}
+	public int[] searchSubitems(boolean checkStatus,String pathToItem){	
+		return searchSubitems(checkStatus,pathToItem,"Navigator",false);
+	}
+	
 	public int[] searchSubitems(String pathToItem,boolean isInfo){	
-		return searchSubitems(pathToItem,"Navigator",isInfo);
+		return searchSubitems(false,pathToItem,"Navigator",isInfo);
 	}
 	public int[] searchSubitems(String pathToItems,String way){
-	    return searchSubitems(pathToItems,way,false);
+	    return searchSubitems(false,pathToItems,way,false);
 	}
 	public int[] searchSubitems(String pathToItems,String way,boolean isInfo){
+		return searchSubitems(false,pathToItems,way,isInfo);
+	}
+	public int[] searchSubitems(boolean checkStatus,String pathToItems,String way,boolean isInfo){
 		int itemIndex[]=null;
+		String[] statusArray = {"Closed","Primary","Secondary","Opened"};
+		
 		String path[],targetItem;
 		String sep = "->";
         //String treeRoot = keywordUtil.workingProject+".ACL";
@@ -263,7 +290,9 @@ public class aclRoutines extends aclRoutinesHelper
 			actionPoint = new Point(-30,10);
 			textPoint = new Point(5,10);
             iconPoint = new Point (-15,10);
+            
             path = pathToItems.split("\\|");
+            
             itemIndex = new int[path.length];
 			showNavigator("");
 			

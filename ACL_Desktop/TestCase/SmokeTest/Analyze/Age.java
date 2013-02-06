@@ -27,8 +27,8 @@ public class Age extends AgeHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Analyze/Age.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 16; // 4-9
-		endAtLine = 16;     //
+		startFromLine = 10; // 4-9
+		endAtLine = 10;     //
 	    exeTestCase(args);
 	}
 			

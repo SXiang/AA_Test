@@ -519,14 +519,17 @@ public class InitializeTerminateHelper extends LoggerHelper {
 //		                           (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)+" ("+(bugNumN*100/numTCs)+"%)"):"") +
 //		                      (target.equalsIgnoreCase(testSuite)?
 //		                           (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"");
-	       summary = summary+"\n***\t\t Total tested "+target+"(s): "+
-           (target.equalsIgnoreCase(testSuite)?numTCs:numKWs)+
-           "\n***\t\t Passed "+target+"(s): "+
+         //String targetT = target;
+         String targetT = "Keyword";
+		 summary = summary+"\n***\t\t Total tested "+target+"(s): "+
+           (target.equalsIgnoreCase(testSuite)?(numTCs+"["+numTested+" keywords]"):numKWs)+
+        	
+           "\n***\t\t Passed "+targetT+"(s): "+
            (target.equalsIgnoreCase(testSuite)?
-        		   (numTCs-(bugNumN+bugNumA)):(numKWs-numKWsFail+numRBugs))+ 
+        		   (numTested-(bugNumN+bugNumA)):(numKWs-numKWsFail+numRBugs))+ 
                (target.equalsIgnoreCase(testSuite)?
             		   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
-           "\n***\t\t Failed "+target+"(s): "+
+           "\n***\t\t Failed "+targetT+"(s): "+
            (target.equalsIgnoreCase(testSuite)?
         		   (bugNumN+bugNumA):(numKWsFail-numRBugs))+
            //ADDing some info here .... Steven

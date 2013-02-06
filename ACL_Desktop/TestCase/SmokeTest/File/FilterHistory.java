@@ -28,8 +28,8 @@ public class FilterHistory extends FilterHistoryHelper
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 10; // 4-9
-		//endAtLine =13;     //
+		startFromLine = 2; // 4-9
+		endAtLine =2;     //
 	    exeTestCase(args);
 	}
 			

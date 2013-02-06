@@ -28,8 +28,8 @@ public class FileDDW extends FileDDWHelper
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 21; // 4-9
-		endAtLine = 21;     //
+		startFromLine = 5; // 4-9
+		endAtLine = 5;     //
 	    exeTestCase(args);
 	}
 			
