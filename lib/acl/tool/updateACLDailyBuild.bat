@@ -397,9 +397,17 @@ IF EXIST %DESROOT%\%Version%\%ACLUni%\%Executable% (
    SET UNI_PATH=%DESROOT%\%Version%\%ACLUni%\%Executable%
    %Reg% %DESROOT%\%Version%\%ACLUni%\ACLServer.dll
 )
+IF EXIST "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe" (
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe %UNI_PATH%\..\ACLImex.dll /unregister > NUL
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe  %UNI_PATH%\..\ACLImex.dll /register > NUL
+)
 IF EXIST %DESROOT%\%Version%\%ACLNonUni%\%Executable% (
    SET NONUNI_PATH=%DESROOT%\%Version%\%ACLNonUni%\%Executable%
    %Reg% %DESROOT%\%Version%\%ACLNonUni%\ACLServer.dll
+)
+IF EXIST "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe" (
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe %NONUNI_PATH%\..\ACLImex.dll /unregister > NUL
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe  %NONUNI_PATH%\..\ACLImex.dll /register > NUL
 )
 ECHO.%Version%> %DESROOT%\..\Latest_Installed_Build.TXT
 :GETBUILDDONE

@@ -497,80 +497,84 @@ public class InitializeTerminateHelper extends LoggerHelper {
 					 "\n**\t- Operating System (Server): " +FrameworkConf.serverOS+ ", "+
 						FrameworkConf.serverType;
 		  	   }
-			   summary = summary +"\n\n*\t <b>RESULTS:</b>";
-	            if(ProjectConf.appLocale.matches("(?i)Ko|Pl")){
-	            	summary += "\t!!! No Korean|Polish aclse available, some tests skipped and tests may fail due to the failure of server connection!!!";
-	            }      
-			   summary = summary +"\n**\t Test Script start time: "+scriptStartTime;
-		 }
-		      
-//		       summary = summary+"\n***\t\t Total tested "+target+"(s): "+
-//		                   (target.equalsIgnoreCase(testSuite)?numTCs:numKWs)+
-//		                   "\n***\t\t Passed "+target+"(s): "+
-//		                   (target.equalsIgnoreCase(testSuite)?
-//		                		   ((numTCs-(bugNumN+bugNumA))+" ("+((numTCs-(bugNumN+bugNumA))*100/numTCs)+"%)"):(numKWs-numKWsFail+numRBugs))+ 
-//		                       (target.equalsIgnoreCase(testSuite)?
-//		                    		   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
-//		                   "\n***\t\t Failed "+target+"(s): "+
-//		                   (target.equalsIgnoreCase(testSuite)?
-//		                		   ((bugNumN+bugNumA)+" ("+(100-((numTCs-(bugNumN+bugNumA))*100/numTCs))+"%)"):(numKWsFail-numRBugs))+
-//		                   //ADDing some info here .... Steven
-//		                      (target.equalsIgnoreCase(testSuite)?
-//		                           (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)+" ("+(bugNumN*100/numTCs)+"%)"):"") +
-//		                      (target.equalsIgnoreCase(testSuite)?
-//		                           (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"");
-         //String targetT = target;
-         String targetT = "Keyword";
-		 summary = summary+"\n***\t\t Total tested "+target+"(s): "+
-           (target.equalsIgnoreCase(testSuite)?(numTCs+"["+numTested+" keywords]"):numKWs)+
-        	
-           "\n***\t\t Passed "+targetT+"(s): "+
-           (target.equalsIgnoreCase(testSuite)?
-        		   (numTested-(bugNumN+bugNumA)):(numKWs-numKWsFail+numRBugs))+ 
-               (target.equalsIgnoreCase(testSuite)?
-            		   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
-           "\n***\t\t Failed "+targetT+"(s): "+
-           (target.equalsIgnoreCase(testSuite)?
-        		   (bugNumN+bugNumA):(numKWsFail-numRBugs))+
-           //ADDing some info here .... Steven
-              (target.equalsIgnoreCase(testSuite)?
-                   (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)):"") +
-              (target.equalsIgnoreCase(testSuite)?
-                   (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"");
-		      if(isMainScript()){
+			   
+			   
+			   testResultTXT_Server = processLink(TAFLogger.testResultTXT);
+			   testResultXLS_Server = processLink(TAFLogger.testResultXLS);
+			   testResultHTML_Server = processLink(TAFLogger.testResultHTML);
+			   memusageCSV_Server = processLink(TAFLogger.memusageCSV);
+			   screenShots_Server = processLink(TAFLogger.screenShots);
 
-		    	  summary = summary + "\n**\t Test Script end time: "+ scriptEndTime   ;
-		    	  summary = summary + "\n";
-		    	  
-		    	  //*********** Links *********************
-			    	//Start of Logs for Public Access
-		    	  
-		    	  testResultTXT_Server = processLink(TAFLogger.testResultTXT);
-		    	  testResultXLS_Server = processLink(TAFLogger.testResultXLS);
-		    	  testResultHTML_Server = processLink(TAFLogger.testResultHTML);
-		    	  memusageCSV_Server = processLink(TAFLogger.memusageCSV);
-		    	  screenShots_Server = processLink(TAFLogger.screenShots);
-		    	  
-		    	  summary = summary +
-		    	  "\n*\t <b>LINKS:</b>"+
-		    	      
-		    	      "\n**\tTest Log: "+ getFileLink(testResultTXT_Server)+
-		    	      "\n**\tTest Matrix: "+ getFileLink(testResultXLS_Server)+
-		    	      "";
-		    	  if(FrameworkConf.traceMemusage){
-		    		  summary = summary + "\n**\tMemory Trace: "+ getFileLink(memusageCSV_Server);
-		    	  }
-		    	  if(RFT_emailReport){
-		    		  summary = summary + "\n**\tHtml Report: "+ getFileLink(testResultHTML_Server);
-		    	  }
-		    	  if(projectArchived){
-		    		  summary = summary + "\n**\tProject Archived In: "+getFileLink(workingDir_Server);
-		    	  }
-		    	  summary = summary +"\n**\tAbout: [[Desktop_Continues_Testing]], [[Desktop_Automation_Guide]]";
-		    	  summary = summary + "\n"+_closeTag;
-		    	  //***************************************
-		        
-		    	  // Start of Analysis
+			   if(numTCs > 2){ // Lucy does not want to see this part in the report, so exclude it -- Steven
+				   summary = summary +"\n\n*\t <b>RESULTS:</b>";
+				   if(ProjectConf.appLocale.matches("(?i)Ko|Pl")){
+					   summary += "\t!!! No Korean|Polish aclse available, some tests skipped and tests may fail due to the failure of server connection!!!";
+				   }      
+				   summary = summary +"\n**\t Test Script start time: "+scriptStartTime;
+
+
+				   //		       summary = summary+"\n***\t\t Total tested "+target+"(s): "+
+				   //		                   (target.equalsIgnoreCase(testSuite)?numTCs:numKWs)+
+				   //		                   "\n***\t\t Passed "+target+"(s): "+
+				   //		                   (target.equalsIgnoreCase(testSuite)?
+				   //		                		   ((numTCs-(bugNumN+bugNumA))+" ("+((numTCs-(bugNumN+bugNumA))*100/numTCs)+"%)"):(numKWs-numKWsFail+numRBugs))+ 
+				   //		                       (target.equalsIgnoreCase(testSuite)?
+				   //		                    		   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
+				   //		                   "\n***\t\t Failed "+target+"(s): "+
+				   //		                   (target.equalsIgnoreCase(testSuite)?
+				   //		                		   ((bugNumN+bugNumA)+" ("+(100-((numTCs-(bugNumN+bugNumA))*100/numTCs))+"%)"):(numKWsFail-numRBugs))+
+				   //		                   //ADDing some info here .... Steven
+				   //		                      (target.equalsIgnoreCase(testSuite)?
+				   //		                           (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)+" ("+(bugNumN*100/numTCs)+"%)"):"") +
+				   //		                      (target.equalsIgnoreCase(testSuite)?
+				   //		                           (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"");
+				   //String targetT = target;
+				   String targetT = "Keyword";
+				   summary = summary+"\n***\t\t Total tested "+target+"(s): "+
+				   (target.equalsIgnoreCase(testSuite)?(numTCs+"["+numTested+" keywords]"):numKWs)+
+
+				   "\n***\t\t Passed "+targetT+"(s): "+
+				   (target.equalsIgnoreCase(testSuite)?
+						   (numTested-(bugNumN+bugNumA)):(numKWs-numKWsFail+numRBugs))+ 
+						   (target.equalsIgnoreCase(testSuite)?
+								   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
+								   "\n***\t\t Failed "+targetT+"(s): "+
+								   (target.equalsIgnoreCase(testSuite)?
+										   (bugNumN+bugNumA):(numKWsFail-numRBugs))+
+										   //ADDing some info here .... Steven
+										   (target.equalsIgnoreCase(testSuite)?
+												   (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)):"") +
+												   (target.equalsIgnoreCase(testSuite)?
+														   (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"");
+				   if(isMainScript()){
+
+					   summary = summary + "\n**\t Test Script end time: "+ scriptEndTime   ;
+					   summary = summary + "\n";
+
+					   //*********** Links *********************
+					   //^^^^^^^^^^^^ Start of Logs for Public Access ^^^^^^^^^^^^
+
+					   summary = summary +
+					   "\n*\t <b>LINKS:</b>"+
+
+					   "\n**\tTest Log: "+ getFileLink(testResultTXT_Server)+
+					   "\n**\tTest Matrix: "+ getFileLink(testResultXLS_Server)+
+					   "";
+					   if(FrameworkConf.traceMemusage){
+						   summary = summary + "\n**\tMemory Trace: "+ getFileLink(memusageCSV_Server);
+					   }
+					   if(RFT_emailReport){
+						   summary = summary + "\n**\tHtml Report: "+ getFileLink(testResultHTML_Server);
+					   }
+					   if(projectArchived){
+						   summary = summary + "\n**\tProject Archived In: "+getFileLink(workingDir_Server);
+					   }
+					   summary = summary +"\n**\tAbout: [[Desktop_Continues_Testing]], [[Desktop_Automation_Guide]]";
+					   summary = summary + "\n"+_closeTag;
+					   //***************************************
+				   }
+			   }
+		    	  //^^^^^^^^^^^^ Start of Analysis ^^^^^^^^^^^^
 		    	  summary = summary+wikiTitleSubPre+colorDiv+"Test Result Analysis"+_closeTag+wikiTitleSubSuf;
 		    	  //resultAnalysis = "*\t\tAnalysis goes here...\n**\t\t\t...\n***\t\t\t...";
 		    	  resultAnalysis = bugmessage+
@@ -581,14 +585,19 @@ public class InitializeTerminateHelper extends LoggerHelper {
 //		    	  		           "\n**\t\t\t...\n***\t\t\t...";
 		    	  
 		    	  summary = summary +"\n"+resultAnalysis+"\n";
-		    	  //Start of Error Details
-		    	  summary = summary+wikiTitleSubPre+colorDiv+"Test Details"+_closeTag+wikiTitleSubSuf;
-		    	  //summary = summary +"<pre>\n";
+		    	  //^^^^^^^^^^^^ Start of Error Details ^^^^^^^^^^^^
+		    	  if(numTCs > 2){
+		    		  summary = summary+wikiTitleSubPre+colorDiv+"Test Details"+_closeTag+wikiTitleSubSuf;
+		    		  //summary = summary +"<pre>\n";
+
+		    		  //summary = summary + (target.equalsIgnoreCase(testSuite)?errorDetails:getErrorDetails(keywordErrors));
+		    		  summary = summary + addColorLabel((target.equalsIgnoreCase(testSuite)?
+		    				  testDetails.replaceAll(" SmokeTest\\.| RegressionTest\\.", " .")
+		    				  :getErrorDetails(keywordErrors)));
+		    	  }
+		    	  //^^^^^^^^^^^^ Finished Error Details ^^^^^^^^^^^^
 		    	  
-		    	  //summary = summary + (target.equalsIgnoreCase(testSuite)?errorDetails:getErrorDetails(keywordErrors));
-			      summary = summary + addColorLabel((target.equalsIgnoreCase(testSuite)?
-			    		  testDetails.replaceAll(" SmokeTest\\.| RegressionTest\\.", " .")
-			    		  :getErrorDetails(keywordErrors)));
+		    	  
 		    	  summary = summary + "\n----\n";
 		    	  
 		    	 return processFileLink(summary+linkToWikiAuto+line2);

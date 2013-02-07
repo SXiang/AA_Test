@@ -33,7 +33,7 @@ SET BUIDE=%UNI_PATH%
 SET ENCODE=Unicode
 SET Subject=%_Subject% - %ENCODE%
 IF EXIST "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe" (
- CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe –u %BUIDE%\..\ACLImex.dll > NUL
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe %BUIDE%\..\ACLImex.dll /unregister > NUL
  CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe  %BUIDE%\..\ACLImex.dll /register > NUL
 )
 IF /I '%TEST_UNICODE%'=='Yes' (
@@ -47,6 +47,10 @@ REM *** Non Unicode Test ****
 SET ENCODE=NonUnicode
 SET Subject=%_Subject% - %ENCODE%
 SET BUIDE=%NONUNI_PATH%
+IF EXIST "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe" (
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe %BUIDE%\..\ACLImex.dll /unregister > NUL
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe  %BUIDE%\..\ACLImex.dll /register > NUL
+)
 IF /I '%TEST_NONUNICODE%'=='Yes' (
     SET isUnicode=false
 	%Reg% %BUILD%\..\ACLServer.dll
