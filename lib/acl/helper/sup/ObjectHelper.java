@@ -31,6 +31,7 @@ import lib.acl.util.ImageCompare;
 import lib.acl.util.NLSUtil;
 import lib.acl.util.UnicodeUtil;
 
+import ACL_Desktop.AppObject.keywordUtil;
 import ACL_Desktop.conf.beans.ProjectConf;
 import conf.beans.TimerConf;
 
@@ -1090,6 +1091,13 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 				  return true;
 			  }
 			  logTAFError ("UnhandledException occur: "+err);
+			  
+			  try{ // Not sure if this works properly or not)
+	                saveProjectToServer(); 
+				}catch(Exception ee){
+				    
+				}
+					
 			  if(e instanceof com.rational.test.ft.sys.ApplicationNotRespondingException){
 				  sysExceptionCaught = true;
 				  stopApp();
@@ -1120,6 +1128,8 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 //				  }
 			  return true;
 		  }
+		  
+		  
 //*********************** End of Override RFT Methods ***********
 		  
 		public boolean dismissAppDialog(String title){
@@ -2480,7 +2490,50 @@ public class ObjectHelper extends RFTGuiFinderHelper{
     		return modified;
     	}    
  
+     	public void saveProjectToServer(){
 
+     		if(!testResult.equalsIgnoreCase("Fail")||thisArchiveProject.equals("")){ 
+     			//Log file could be very big (unicode 255M bytes), to save disk space on server,
+                //we avoid unnecessary achieve 
+     			return;
+     		}
+     		String aclFolder;
+     		String[] files = {".ACL",".LOG",".AC",".LIX"};
+     		
+     		boolean filesonly = true;
+     		if(thisArchiveProject.equalsIgnoreCase("1")){
+     			filesonly = false;
+     		}
+     		
+    		if(!thisArchiveProject.equalsIgnoreCase("")){
+    						
+    			aclFolder = workingDir_Server+"\\[Datapool]"+currentCSVName+
+    			   "\\Line_"+currentTestLine+"\\"+keywordUtil.workingProject+"\\";
+    		    
+    			try{
+    			   FileUtil.mkDirs(aclFolder+files[0]);
+    			   if(!filesonly){
+    			       FileUtil.copyFiles(workingDir+"*", aclFolder); //No subfolder
+    			       //FileUtil.copyDir(workingDir, aclFolder); //With subfolder
+    			   }else{				   
+    				   for(String file:files){
+    					   FileUtil.copyFile(workingDir+keywordUtil.workingProject+file,aclFolder);
+    				   }
+    				   if(new File(thisActualFile).exists()){
+    				       FileUtil.copyFiles(thisActualFile,aclFolder+"\\verification.log");
+    				   }
+    			   }
+    			   projectArchived = true;
+//    			   message =(message.equals("")? "" : message+"\n***\t"+"<a style=\"background-color:#886A08\" href=\"file:///"
+//                       + aclFolder +"\">"+"[Project Archive]</a>");
+    			   message =(message.equals("")? "" : message+""+"<a style=\"background-color:#886A08\" href=\"file:///"
+    	                   + aclFolder +"\">"+"[ACL Project Archive]</a>");
+    			}catch(Exception e){
+    				logTAFWarning("Problem to access '"+aclFolder+"'");
+    			}
+    		}
+     	}
+     	
        	public boolean actionOnCheckbox(ToggleGUITestObject to, String label,boolean input, String action){
     		boolean modified = false;
 

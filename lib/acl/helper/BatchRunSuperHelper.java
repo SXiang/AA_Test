@@ -59,9 +59,10 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 			    runTest = getDpString("Run_Test");
 			    
 				if((runTest.matches("T|t")||runTest.equals(""))&&
-					(buildName.equalsIgnoreCase("All")||
-					 buildName.equalsIgnoreCase("")||
-					 buildName.contains(FrameworkConf.buildName.trim()))&&
+//					(buildName.equalsIgnoreCase("All")||
+//					 buildName.equalsIgnoreCase("")||
+//					 buildName.contains(FrameworkConf.buildName.trim()))&&
+					(isValidBuild(buildName))&&
 						!testCase.startsWith("#") && 
 						!"".equalsIgnoreCase(testCase)&&
 					 lineInRange(currentLine)
@@ -118,9 +119,13 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 					
 					if(testCaseResult=="Pass"||keywordErrors.trim().equals("")){
 						tPrefix = "===>";
-						if(numTestedKeywordInCase!=0)
+						if(numTestedKeywordInCase!=0){
 						testDetails = testDetails+
 						"\n\n*\t[["+currentCSVName+"|"+testSuite+" "+numTCs+". "+ caseName+"]] PASSED";
+						}else{
+							testDetails = testDetails+
+							"\n\n*\t[["+currentCSVName+"|"+testSuite+" "+numTCs+". "+ caseName+"]] DISABLED";	
+						}
 					}else{
 						tPrefix = "==!>";
 						errorDetails = errorDetails+
@@ -143,6 +148,10 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 							   "\t*** Temp Summary From line "+startFromLine+" To line "+currentLine+" ***"+
 							   testSummary(testSuite));
 					}
+					
+//					if(numTestedKeywordInCase==0){
+//						numTCs--;
+//					}
 				}
 				
 				String[] cases = testCase.split("\\.");
@@ -161,7 +170,7 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 					bugNumR += numRBugs;
 					bugNumA += numABugs;
 					bugNumN += numNBugs;
-					numTested += numTestedKeywordInCase;
+					
 					cleanBugHistory();
 //					fixedBugs = "";
 //					remainingBugs = "";
@@ -169,6 +178,7 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 //					automationBugs = "";
 					
 				}
+			numTested += numTestedKeywordInCase;
 			dpNext();
 			
 		} // end of all "+testSuite+"s

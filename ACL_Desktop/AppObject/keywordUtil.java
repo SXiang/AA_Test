@@ -400,13 +400,14 @@ public class keywordUtil extends keywordUtilHelper
 						//Orig To Source/Dest
 						String toDir = dest;
 						logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
-						FileUtil.updateDir(updateFolder+oriProject, toDir);
+						FileUtil.copyDir(updateFolder+oriProject, toDir);
+						//FileUtil.updateDir(updateFolder+oriProject, toDir);
 						FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);
 
 						//Source To Dest
 						if(!toDir.equals(dest)){
 							logTAFInfo("Warning: Updating "+projName+" from backup: '"+source+"'");
-							FileUtil.copyFile(source+"..\\"+projName+"_PROFFMTUPDATE.acl", source+projName+".ACL");
+							//FileUtil.copyFile(source+"..\\"+projName+"_PROFFMTUPDATE.acl", source+projName+".ACL");
 
 							FileUtil.copyDir(source, dest);
 							FileUtil.updateDir(source+"..\\"+pdfFiles, dest+"..\\"+pdfFiles);

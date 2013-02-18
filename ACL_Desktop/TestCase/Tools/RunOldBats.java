@@ -36,8 +36,8 @@ public class RunOldBats extends RunOldBatsHelper
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 2; // 4-9
-		endAtLine =4;     //
+//		startFromLine = 2; // 4-9
+//		endAtLine =4;     //
 	    exeTestCase(args);
 	}
 			

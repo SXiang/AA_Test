@@ -54,7 +54,9 @@ public class LoggerHelper extends RationalTestScript {
 	public static int bugNumF=0, bugNumN=0,bugNumA=0,bugNumR=0,numTested =0;
 	//********************************************
 	
-	public static int numKWs = 0,numTestedKeywordInCase=0,
+	public static int 
+	                  numKWs = 0,
+	                  numTestedKeywordInCase=0,
 	                  numKWsFail = 0,
 	                  numTCs = 0,
 	                  numTCsFail = 0,
@@ -155,6 +157,10 @@ public class LoggerHelper extends RationalTestScript {
     public static String logItem="";
 	public static boolean RFT_jenkinsReport=false;
 	public static String RFT_jenkinsReportDir="";
+	
+	public String thisMasterFile,thisMasterFiles[] = new String[50],
+	              thisActualFile,thisActualFiles[] = new String[50],
+	              thisArchiveProject="";
 	// Override RFT logging methods here, so it will also log to our file and console
 	public static void logError(String note)
 	//   Logs an error.
@@ -767,6 +773,22 @@ public class LoggerHelper extends RationalTestScript {
 		return hints;
 	}
 	
+	public boolean isValidBuild(String buildInfo){
+		boolean isValid = false;
+		String builds[]=buildInfo.split(",");
+		if(buildInfo.equals(""))
+			return true;
+		for(int i=0;i<builds.length;i++){
+			if(
+			   builds[i].equalsIgnoreCase("All")||
+			   builds[i].equalsIgnoreCase(FrameworkConf.buildName.trim())||
+			   (builds[i]+"_RC").equalsIgnoreCase(FrameworkConf.buildName.trim())
+			   )
+				return true;
+				
+		}
+		return isValid;
+	}
 	public static String getString(int num){
 		String str = "";
 		String space = " ";

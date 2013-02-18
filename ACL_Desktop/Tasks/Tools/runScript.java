@@ -116,6 +116,8 @@ public class runScript extends runScriptHelper
 		//printObjectTree(calendar());
 		super.testMain(args);
 		setupTestFiles();
+	      //setupTestFiles(aFileName,prefix,"No",fileExt,mFile[i]);
+
 		if(!dpScriptName.equals("")){
 		    openTest();		
 		    aclMainDialog();        
@@ -169,7 +171,7 @@ public class runScript extends runScriptHelper
 			   if(textResult==null||textResult.contains("!\n")){
 				   //return;
 			   }else{
-			      //setupTestFiles(aFileName,prefix,"No",fileExt,mFile[i]);
+//			      //setupTestFiles(aFileName,prefix,"No",fileExt,mFile[i]);
 				  setupTestFiles(
 						  keywordUtil.workingProject+"\\"+
 						  keywordUtil.replaceSpecialChars(dpScriptName),

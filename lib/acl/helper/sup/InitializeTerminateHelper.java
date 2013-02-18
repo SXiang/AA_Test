@@ -233,9 +233,12 @@ public class InitializeTerminateHelper extends LoggerHelper {
 //				DatapoolUtil.defaultLogProcess(this);
 			mt.stopTracing();
 
-		}else{	
+		}else{
+            
+			
+			
             if(!testCategory.matches("Daily")&&numTestedKeywordInCase!=0&&!ProjectConf.singleInstance){
-		       stopApp(); //stop is not good for daily testing .. we need to implement other strategy for this purpose
+		       stopApp(); 
 			   logInfo("\n\tAutomation: " + (TimerConf.waitTimeBetweenTestCases/1000) + " seconds break please ...\n");
 				try {
 					Thread.sleep(TimerConf.waitTimeBetweenTestCases);
@@ -467,16 +470,18 @@ public class InitializeTerminateHelper extends LoggerHelper {
 		 summary = "\n\n"+spacer+"**************   "+colorDiv+caption+_closeTag+"    **************\n";
 		 
 		 if(isMainScript()){
-			 reportSubject = "AUT: "
+			 if(numTCs > 2){
+			   reportSubject = "AUT: "
 				 +(projectName.equalsIgnoreCase("ACL_Desktop")?"ACL Analytics":projectName)
 			     +"["+TAFLogger.locale+"]"+" - "+FrameworkConf.buildName+
 	            "["+FrameworkConf.buildInfo+"]-"+		            
 	            (ProjectConf.isUnicodeTest()?"Unicode":"NonUnicode")+
 	            "(ACL "+ProjectConf.testType+" Project)";
+			 }
 			 summary = "\n"+line0+linkToWikiAuto+colorDiv+line1;
 			 summary = summary + 
 			   "\n*\t <b>TEST ENVIRONMENT:</b>"+
-			   "\n**\t "+reportSubject+
+//			   "\n**\t "+reportSubject+
 //		       "\n**\t- AUT: "+projName+" - "+FrameworkConf.buildName+
 //		            "["+FrameworkConf.buildInfo+"]-"+		            
 //		            (ProjectConf.isUnicodeTest()?"Unicode":"NonUnicode")+
@@ -505,36 +510,23 @@ public class InitializeTerminateHelper extends LoggerHelper {
 			   memusageCSV_Server = processLink(TAFLogger.memusageCSV);
 			   screenShots_Server = processLink(TAFLogger.screenShots);
 
-			   if(numTCs > 2){ // Lucy does not want to see this part in the report, so exclude it -- Steven
+			   if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){ // someone does not want to see this part in the report, so exclude it -- Steven
 				   summary = summary +"\n\n*\t <b>RESULTS:</b>";
 				   if(ProjectConf.appLocale.matches("(?i)Ko|Pl")){
 					   summary += "\t!!! No Korean|Polish aclse available, some tests skipped and tests may fail due to the failure of server connection!!!";
 				   }      
 				   summary = summary +"\n**\t Test Script start time: "+scriptStartTime;
 
-
-				   //		       summary = summary+"\n***\t\t Total tested "+target+"(s): "+
-				   //		                   (target.equalsIgnoreCase(testSuite)?numTCs:numKWs)+
-				   //		                   "\n***\t\t Passed "+target+"(s): "+
-				   //		                   (target.equalsIgnoreCase(testSuite)?
-				   //		                		   ((numTCs-(bugNumN+bugNumA))+" ("+((numTCs-(bugNumN+bugNumA))*100/numTCs)+"%)"):(numKWs-numKWsFail+numRBugs))+ 
-				   //		                       (target.equalsIgnoreCase(testSuite)?
-				   //		                    		   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
-				   //		                   "\n***\t\t Failed "+target+"(s): "+
-				   //		                   (target.equalsIgnoreCase(testSuite)?
-				   //		                		   ((bugNumN+bugNumA)+" ("+(100-((numTCs-(bugNumN+bugNumA))*100/numTCs))+"%)"):(numKWsFail-numRBugs))+
-				   //		                   //ADDing some info here .... Steven
-				   //		                      (target.equalsIgnoreCase(testSuite)?
-				   //		                           (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)+" ("+(bugNumN*100/numTCs)+"%)"):"") +
-				   //		                      (target.equalsIgnoreCase(testSuite)?
-				   //		                           (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"");
-				   //String targetT = target;
 				   String targetT = "Keyword";
-				   summary = summary+"\n***\t\t Total tested "+target+"(s): "+
-				   (target.equalsIgnoreCase(testSuite)?(numTCs+"["+numTested+" keywords]"):numKWs)+
+				   summary = summary+"\n***\t\t Total tested "+target+"(s): ";
+				   if(numTested==0&&target.equalsIgnoreCase(testSuite)){
+					   summary = summary+(target.equalsIgnoreCase(testSuite)?numTCs:numKWs);
+					   logTAFDebug("Automaiton issue: number of tested "+targetT+"s = "+numTested+" is not correctly counted?");
+				   }else{
+					   summary = summary+(target.equalsIgnoreCase(testSuite)?(numTCs+"["+numTested+" keywords]"):numKWs)+
 
-				   "\n***\t\t Passed "+targetT+"(s): "+
-				   (target.equalsIgnoreCase(testSuite)?
+				      "\n***\t\t Passed "+targetT+"(s): "+
+				      (target.equalsIgnoreCase(testSuite)?
 						   (numTested-(bugNumN+bugNumA)):(numKWs-numKWsFail+numRBugs))+ 
 						   (target.equalsIgnoreCase(testSuite)?
 								   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
@@ -545,7 +537,10 @@ public class InitializeTerminateHelper extends LoggerHelper {
 										   (target.equalsIgnoreCase(testSuite)?
 												   (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)):"") +
 												   (target.equalsIgnoreCase(testSuite)?
-														   (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"");
+														   (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"")+
+					  "";
+				   }
+				   
 				   if(isMainScript()){
 
 					   summary = summary + "\n**\t Test Script end time: "+ scriptEndTime   ;
@@ -575,18 +570,20 @@ public class InitializeTerminateHelper extends LoggerHelper {
 				   }
 			   }
 		    	  //^^^^^^^^^^^^ Start of Analysis ^^^^^^^^^^^^
-		    	  summary = summary+wikiTitleSubPre+colorDiv+"Test Result Analysis"+_closeTag+wikiTitleSubSuf;
-		    	  //resultAnalysis = "*\t\tAnalysis goes here...\n**\t\t\t...\n***\t\t\t...";
-		    	  resultAnalysis = bugmessage+
-		    	  		           "";
-//		    	  		           "\n*\t\tRemaining Known Bugs: "+remainingBugs+"" +
-//		    	  		           "\n**\t\t\t...\n***\t\t\t..."+
-//		    	  		           "\n*\t\tFixed Known Bugs: "+fixedBugs+"" +
-//		    	  		           "\n**\t\t\t...\n***\t\t\t...";
-		    	  
-		    	  summary = summary +"\n"+resultAnalysis+"\n";
+			   if(numTCs > -1||!target.equalsIgnoreCase(testSuite)){ // Failed tests only, categorised list
+				   summary = summary+wikiTitleSubPre+colorDiv+"Test Result Analysis"+_closeTag+wikiTitleSubSuf;
+				   //resultAnalysis = "*\t\tAnalysis goes here...\n**\t\t\t...\n***\t\t\t...";
+				   resultAnalysis = bugmessage+
+				   "";
+				   //		    	  		           "\n*\t\tRemaining Known Bugs: "+remainingBugs+"" +
+				   //		    	  		           "\n**\t\t\t...\n***\t\t\t..."+
+				   //		    	  		           "\n*\t\tFixed Known Bugs: "+fixedBugs+"" +
+				   //		    	  		           "\n**\t\t\t...\n***\t\t\t...";
+
+				   summary = summary +"\n"+resultAnalysis+"\n";
+			   }
 		    	  //^^^^^^^^^^^^ Start of Error Details ^^^^^^^^^^^^
-		    	  if(numTCs > 2){
+		    	  if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){ // Contains passed tests 
 		    		  summary = summary+wikiTitleSubPre+colorDiv+"Test Details"+_closeTag+wikiTitleSubSuf;
 		    		  //summary = summary +"<pre>\n";
 

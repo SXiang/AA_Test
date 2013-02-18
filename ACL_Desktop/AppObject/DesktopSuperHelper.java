@@ -212,6 +212,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		   }
         dpOpenProject = getDpString("OpenProject");
         dpArchiveProject = getDpString("ArchiveProject");
+            thisArchiveProject = dpArchiveProject;
         dpEndWith = getDpString("EndWith");	 
         dpPreCmd = getDpString("PreCmd");	
 		dpActOnItem = getDpString("ActOnItem");	 
@@ -564,10 +565,11 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		if(dismissPopup){
 			dismissPopup(-1,".*Test Passed.*|.*Are you sure.*|.*Save in.*"+
 //					"|.*The failures include: vSeq2, vSeq3, vSeq4, vSeq5, vSeq6."+   // For Chinese batch
-					"|.*The failures include:.*LOCFun.*"+                                    // For other localized languages
+//					"|.*The failures include:.*LOCFun.*"+                                    // For other localized languages
 //					"|.*is undefined.*"+
 					"|.*Namespace Tree Control.*"+                //Temp workaround for problem on  win7 
-			"|Test Failed! %CleanFail%.");
+//			"|Test Failed! %CleanFail%."
+					"");
 		}
 
 		sleep(2);
@@ -581,8 +583,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			}
 			if(status==null||!status.exists()){
 				if(anchor!=null&&anchor.exists()){
-					logTAFWarning(autoIssue+"Automation failed to check the ACL status, wait for 10 minutes to check the result istead");
-					sleep(10*60);
+					logTAFWarning(autoIssue+"Automation failed to check the ACL status, wait for 30 minutes to check the result istead");
+					sleep(30*60);
 				}
 				return false;
 			}
@@ -597,8 +599,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			}
 		}catch(Exception e){
 			if(anchor!=null&&anchor.exists()){
-				logTAFError(autoIssue+"Automation failed to check the ACL status '"+e.toString()+"', wait for 10 minutes to check the result istead");
-				sleep(10*60);
+				logTAFError(autoIssue+"Automation failed to check the ACL status '"+e.toString()+"', wait for 30 minutes to check the result istead");
+				sleep(30*60);
 			}
 			return false;
 		}
@@ -713,7 +715,11 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		     dpActualFile  = tempActualFile;
 		}
 		
-
+        thisMasterFiles = dpMasterFiles;
+        thisActualFiles = dpActualFiles;
+        thisMasterFile = dpMasterFile;
+        thisActualFile = dpActualFile;
+        
     	return filename;
 	}
 	//TODO Insert shared functionality here
@@ -1383,9 +1389,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 						ProjectConf.updateMasterFile,verifyType);
  	}
  	public void saveProjectToServer(){
-
- 		if(!testResult.equals("Fail")){ 
- 			//Log file could be very big, to save disk space on server,
+       // saveProjectToServer(dpArchiveProject,dpActualfile);
+ 		if(!testResult.equalsIgnoreCase("Fail")||dpArchiveProject.equals("")){ 
+ 			//Log file could be very big (unicode 255M bytes), to save disk space on server,
             //we avoid unnecessary achieve 
  			return;
  		}
@@ -1410,6 +1416,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			   }else{				   
 				   for(String file:files){
 					   FileUtil.copyFile(workingDir+keywordUtil.workingProject+file,aclFolder);
+				   }
+				   if(new File(dpActualFile).exists()){
+				       FileUtil.copyFiles(dpActualFile,aclFolder+"\\verification.log");
 				   }
 			   }
 			   projectArchived = true;
