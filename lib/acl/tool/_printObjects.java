@@ -64,7 +64,7 @@ public class _printObjects extends _printObjectsHelper
 //		logTAFDebug(
 //			    ExcelUtil.getCellValue(new ACL_Soundwave.AppObject.TAFGetExcelObjects().getExcelWindow(),
 //			    "E3"));
-		tob = documentManagerwindow();
+		tob = wtL_DotNetTabCtrlwindow();
 		//tob = findTestObject(tob,false,".class",".List",".text","Filter:");	
 		//tob = tabletable();
 		//tob = grid();

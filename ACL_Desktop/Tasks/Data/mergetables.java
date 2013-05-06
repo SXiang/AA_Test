@@ -72,6 +72,8 @@ public class mergetables extends mergetablesHelper
                                   	 //@value = 'key1|key2..." or 'Add All'
   
 	private String dpPresort;		 //@arg 'Yes|No' default to 'Yes'   
+	private String dpPresortPrimary;//@arg 'Yes|No' default to 'Yes'
+	private String dpPresortSecondary;//@arg 'Yes|No' default to 'Yes'
 	
 	// END of datapool variables declaration
 
@@ -91,6 +93,8 @@ public class mergetables extends mergetablesHelper
         // Section 2: for this keyword
         dpPrimaryKeys = getDpString("PrimaryKeys");        
     	dpPresort = getDpString("Presort");
+    	dpPresortSecondary = getDpString("PresortSecondary");
+    	dpPresortPrimary = getDpString("PresortPrimary");
     	
     	dpSecondaryTable = getDpString("SecondaryTable");
     	    secondaryTable = getNameFromPath(dpSecondaryTable);
@@ -144,11 +148,25 @@ public class mergetables extends mergetablesHelper
 		}
 		//TBD: Add Secondary Keys - dpSecondaryKeys
 
-		if(!dpPresort.equals("")){
-			actionOnCheckbox(findCheckbutton(tabDialog,"Presort"),
-					"Presort",
-					dpPresort.equalsIgnoreCase("Yes")?true:false,"New");
+	// bug fix for merger:
+		
+		if(!dpPresortPrimary.equals("")){
+			actionOnCheckbox(findCheckbutton(tabDialog,"Presort Primary Table"),
+					"Presort Primary Table",
+					dpPresortPrimary.equalsIgnoreCase("Yes")?true:false,"New");
 		}
+//		//TBD: Add Presort Primary Table - dpPresortPrimary
+//		if(!dpPresortSecondary.equals("")){
+//			actionOnCheckbox(findCheckbutton(tabDialog,"Presort Secondary Table"),
+//					"Presort Secondary Table",
+//					dpPresortSecondary.equalsIgnoreCase("Yes")?true:false,"New");
+//		}
+		
+//		if(!dpPresort.equals("")){
+//			actionOnCheckbox(findCheckbutton(tabDialog,"Presort"),
+//					"Presort",
+//					dpPresort.equalsIgnoreCase("Yes")?true:false,"New");
+//		}
 		//TBD: Add Presort 
 		
 		//Set Local

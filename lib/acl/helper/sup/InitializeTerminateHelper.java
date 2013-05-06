@@ -233,9 +233,12 @@ public class InitializeTerminateHelper extends LoggerHelper {
 //				DatapoolUtil.defaultLogProcess(this);
 			mt.stopTracing();
 
-		}else{	
+		}else{
+            
+			
+			
             if(!testCategory.matches("Daily")&&numTestedKeywordInCase!=0&&!ProjectConf.singleInstance){
-		       stopApp(); //stop is not good for daily testing .. we need to implement other strategy for this purpose
+		       stopApp(); 
 			   logInfo("\n\tAutomation: " + (TimerConf.waitTimeBetweenTestCases/1000) + " seconds break please ...\n");
 				try {
 					Thread.sleep(TimerConf.waitTimeBetweenTestCases);
@@ -467,16 +470,18 @@ public class InitializeTerminateHelper extends LoggerHelper {
 		 summary = "\n\n"+spacer+"**************   "+colorDiv+caption+_closeTag+"    **************\n";
 		 
 		 if(isMainScript()){
-			 reportSubject = "AUT: "
+			 if(numTCs > 2){
+			   reportSubject = "AUT: "
 				 +(projectName.equalsIgnoreCase("ACL_Desktop")?"ACL Analytics":projectName)
 			     +"["+TAFLogger.locale+"]"+" - "+FrameworkConf.buildName+
 	            "["+FrameworkConf.buildInfo+"]-"+		            
 	            (ProjectConf.isUnicodeTest()?"Unicode":"NonUnicode")+
 	            "(ACL "+ProjectConf.testType+" Project)";
+			 }
 			 summary = "\n"+line0+linkToWikiAuto+colorDiv+line1;
 			 summary = summary + 
 			   "\n*\t <b>TEST ENVIRONMENT:</b>"+
-			   "\n**\t "+reportSubject+
+//			   "\n**\t "+reportSubject+
 //		       "\n**\t- AUT: "+projName+" - "+FrameworkConf.buildName+
 //		            "["+FrameworkConf.buildInfo+"]-"+		            
 //		            (ProjectConf.isUnicodeTest()?"Unicode":"NonUnicode")+
@@ -497,95 +502,114 @@ public class InitializeTerminateHelper extends LoggerHelper {
 					 "\n**\t- Operating System (Server): " +FrameworkConf.serverOS+ ", "+
 						FrameworkConf.serverType;
 		  	   }
-			   summary = summary +"\n\n*\t <b>RESULTS:</b>";
-	            if(ProjectConf.appLocale.matches("(?i)Ko|Pl")){
-	            	summary += "\t!!! No Korean|Polish aclse available, some tests skipped and tests may fail due to the failure of server connection!!!";
-	            }      
-			   summary = summary +"\n**\t Test Script start time: "+scriptStartTime;
-		 }
-		      
-//		       summary = summary+"\n***\t\t Total tested "+target+"(s): "+
-//		                   (target.equalsIgnoreCase(testSuite)?numTCs:numKWs)+
-//		                   "\n***\t\t Passed "+target+"(s): "+
-//		                   (target.equalsIgnoreCase(testSuite)?
-//		                		   ((numTCs-(bugNumN+bugNumA))+" ("+((numTCs-(bugNumN+bugNumA))*100/numTCs)+"%)"):(numKWs-numKWsFail+numRBugs))+ 
-//		                       (target.equalsIgnoreCase(testSuite)?
-//		                    		   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
-//		                   "\n***\t\t Failed "+target+"(s): "+
-//		                   (target.equalsIgnoreCase(testSuite)?
-//		                		   ((bugNumN+bugNumA)+" ("+(100-((numTCs-(bugNumN+bugNumA))*100/numTCs))+"%)"):(numKWsFail-numRBugs))+
-//		                   //ADDing some info here .... Steven
-//		                      (target.equalsIgnoreCase(testSuite)?
-//		                           (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)+" ("+(bugNumN*100/numTCs)+"%)"):"") +
-//		                      (target.equalsIgnoreCase(testSuite)?
-//		                           (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"");
-	       summary = summary+"\n***\t\t Total tested "+target+"(s): "+
-           (target.equalsIgnoreCase(testSuite)?numTCs:numKWs)+
-           "\n***\t\t Passed "+target+"(s): "+
-           (target.equalsIgnoreCase(testSuite)?
-        		   (numTCs-(bugNumN+bugNumA)):(numKWs-numKWsFail+numRBugs))+ 
-               (target.equalsIgnoreCase(testSuite)?
-            		   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
-           "\n***\t\t Failed "+target+"(s): "+
-           (target.equalsIgnoreCase(testSuite)?
-        		   (bugNumN+bugNumA):(numKWsFail-numRBugs))+
-           //ADDing some info here .... Steven
-              (target.equalsIgnoreCase(testSuite)?
-                   (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)):"") +
-              (target.equalsIgnoreCase(testSuite)?
-                   (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"");
-		      if(isMainScript()){
+			   
+			   
+			   testResultTXT_Server = processLink(TAFLogger.testResultTXT);
+			   testResultXLS_Server = processLink(TAFLogger.testResultXLS);
+			   testResultHTML_Server = processLink(TAFLogger.testResultHTML);
+			   memusageCSV_Server = processLink(TAFLogger.memusageCSV);
+			   screenShots_Server = processLink(TAFLogger.screenShots);
 
-		    	  summary = summary + "\n**\t Test Script end time: "+ scriptEndTime   ;
-		    	  summary = summary + "\n";
-		    	  
-		    	  //*********** Links *********************
-			    	//Start of Logs for Public Access
-		    	  
-		    	  testResultTXT_Server = processLink(TAFLogger.testResultTXT);
-		    	  testResultXLS_Server = processLink(TAFLogger.testResultXLS);
-		    	  testResultHTML_Server = processLink(TAFLogger.testResultHTML);
-		    	  memusageCSV_Server = processLink(TAFLogger.memusageCSV);
-		    	  screenShots_Server = processLink(TAFLogger.screenShots);
-		    	  
-		    	  summary = summary +
-		    	  "\n*\t <b>LINKS:</b>"+
-		    	      
-		    	      "\n**\tTest Log: "+ getFileLink(testResultTXT_Server)+
-		    	      "\n**\tTest Matrix: "+ getFileLink(testResultXLS_Server)+
-		    	      "";
-		    	  if(FrameworkConf.traceMemusage){
-		    		  summary = summary + "\n**\tMemory Trace: "+ getFileLink(memusageCSV_Server);
+			   if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){ // someone does not want to see this part in the report, so exclude it -- Steven
+				   summary = summary +"\n\n*\t <b>RESULTS:</b>";
+				   if(ProjectConf.appLocale.matches("(?i)Ko|Pl")){
+					   summary += "\t!!! No Korean|Polish aclse available, some tests skipped and tests may fail due to the failure of server connection!!!";
+				   }      
+				   summary = summary +"\n**\t Test Script start time: "+scriptStartTime;
+
+				   String targetT = "Keyword";
+				   summary = summary+"\n***\t\t Total tested "+target+"(s): ";
+				   if(numTested==0&&target.equalsIgnoreCase(testSuite)){
+					   summary = summary+(target.equalsIgnoreCase(testSuite)?numTCs:numKWs);
+					   logTAFDebug("Automaiton issue: number of tested "+targetT+"s = "+numTested+" is not correctly counted?");
+				   }else{
+					   summary = summary+(target.equalsIgnoreCase(testSuite)?(numTCs+"["+numTested+" keywords]"):numKWs)+
+
+				      "\n***\t\t Passed "+targetT+"(s): "+
+				      (target.equalsIgnoreCase(testSuite)?
+						   (numTested-(bugNumN+bugNumA)):(numKWs-numKWsFail+numRBugs))+ 
+						   (target.equalsIgnoreCase(testSuite)?
+								   (bugNumR==0?"":("\n****\t\t Passed with known issue(s) - "+bugNumR)):"")+
+								   "\n***\t\t Failed "+targetT+"(s): "+
+								   (target.equalsIgnoreCase(testSuite)?
+										   (bugNumN+bugNumA):(numKWsFail-numRBugs))+
+										   //ADDing some info here .... Steven
+										   (target.equalsIgnoreCase(testSuite)?
+												   (bugNumN==0?"":("\n****\t\t Possible new issue(s) - "+bugNumN)):"") +
+												   (target.equalsIgnoreCase(testSuite)?
+														   (bugNumA==0?"":("\n****\t\t Possible automation issue(s) - "+bugNumA)):"")+
+					  "";
+				   }
+				   
+				   if(isMainScript()){
+
+					   summary = summary + "\n**\t Test Script end time: "+ scriptEndTime   ;
+					   summary = summary + "\n";
+
+					   //*********** Links *********************
+					   //^^^^^^^^^^^^ Start of Logs for Public Access ^^^^^^^^^^^^
+
+					   summary = summary +
+					   "\n*\t <b>LINKS:</b>"+
+
+					   "\n**\tTest Log: "+ getFileLink(testResultTXT_Server)+
+					   "\n**\tTest Matrix: "+ getFileLink(testResultXLS_Server)+
+					   "";
+					   if(FrameworkConf.traceMemusage){
+						   summary = summary + "\n**\tMemory Trace: "+ getFileLink(memusageCSV_Server);
+					   }
+					   if(RFT_emailReport){
+						   summary = summary + "\n**\tHtml Report: "+ getFileLink(testResultHTML_Server);
+					   }
+					   if(projectArchived){
+						   summary = summary + "\n**\tProject Archived In: "+getFileLink(workingDir_Server);
+					   }
+					   
+					   summary = summary +"\n**\tAbout: [[Desktop_Continues_Testing]], [[Desktop_Automation_Guide]]";
+					   summary = summary + "\n"+_closeTag;
+					   //***************************************
+				   }
+			   }
+		    	  //^^^^^^^^^^^^ Start of Analysis ^^^^^^^^^^^^
+			   if(numTCs > -1||!target.equalsIgnoreCase(testSuite)){ // Failed tests only, categorised list
+				   summary = summary+wikiTitleSubPre+colorDiv+"Test Result Analysis"+_closeTag+wikiTitleSubSuf;
+				   //resultAnalysis = "*\t\tAnalysis goes here...\n**\t\t\t...\n***\t\t\t...";
+				   resultAnalysis = bugmessage+
+				   "";
+				   //		    	  		           "\n*\t\tRemaining Known Bugs: "+remainingBugs+"" +
+				   //		    	  		           "\n**\t\t\t...\n***\t\t\t..."+
+				   //		    	  		           "\n*\t\tFixed Known Bugs: "+fixedBugs+"" +
+				   //		    	  		           "\n**\t\t\t...\n***\t\t\t...";
+				  
+				   summary = summary +"\n"+resultAnalysis+"\n";
+				   
+				   String guiTestCoveredBugs = FileUtil.getFileContents("\\\\192.168.10.129\\Automation\\Monaco\\userContent\\buglist\\guiTestCoveredBugs.html");
+				   String batchTestCoveredBugs = FileUtil.getFileContents("\\\\192.168.10.129\\Automation\\Monaco\\userContent\\buglist\\batchTestCoveredBugs.html");
+				   if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){						   
+				         if(bugNumN+bugNumA>0&&guiTestCoveredBugs!=null&&guiTestCoveredBugs.length()>100){
+				        	 summary = summary+wikiTitleSubPre+colorDiv+"Possible Bugs"+_closeTag+wikiTitleSubSuf;
+				        	 summary = summary + "\n"+guiTestCoveredBugs.replaceAll("\r\n","")+"\n";
+				         }
+				   }else{
+				         if(bugNumN+bugNumA>0&&batchTestCoveredBugs!=null&&batchTestCoveredBugs.length()>100){
+				        	 summary = summary+wikiTitleSubPre+colorDiv+"Possible Bugs"+_closeTag+wikiTitleSubSuf;
+				        	 summary = summary + "\n"+batchTestCoveredBugs.replaceAll("\r\n","")+"\n";
+				         }				         
+				   }
+			   }
+		    	  //^^^^^^^^^^^^ Start of Error Details ^^^^^^^^^^^^
+		    	  if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){ // Contains passed tests 
+		    		  summary = summary+wikiTitleSubPre+colorDiv+"Test Details"+_closeTag+wikiTitleSubSuf;
+		    		  //summary = summary +"<pre>\n";
+
+		    		  //summary = summary + (target.equalsIgnoreCase(testSuite)?errorDetails:getErrorDetails(keywordErrors));
+		    		  summary = summary + addColorLabel((target.equalsIgnoreCase(testSuite)?
+		    				  testDetails.replaceAll(" SmokeTest\\.| RegressionTest\\.", " .")
+		    				  :getErrorDetails(keywordErrors)));
 		    	  }
-		    	  if(RFT_emailReport){
-		    		  summary = summary + "\n**\tHtml Report: "+ getFileLink(testResultHTML_Server);
-		    	  }
-		    	  if(projectArchived){
-		    		  summary = summary + "\n**\tProject Archived In: "+getFileLink(workingDir_Server);
-		    	  }
-		    	  summary = summary +"\n**\tAbout: [[Desktop_Continues_Testing]], [[Desktop_Automation_Guide]]";
-		    	  summary = summary + "\n"+_closeTag;
-		    	  //***************************************
-		        
-		    	  // Start of Analysis
-		    	  summary = summary+wikiTitleSubPre+colorDiv+"Test Result Analysis"+_closeTag+wikiTitleSubSuf;
-		    	  //resultAnalysis = "*\t\tAnalysis goes here...\n**\t\t\t...\n***\t\t\t...";
-		    	  resultAnalysis = bugmessage+
-		    	  		           "";
-//		    	  		           "\n*\t\tRemaining Known Bugs: "+remainingBugs+"" +
-//		    	  		           "\n**\t\t\t...\n***\t\t\t..."+
-//		    	  		           "\n*\t\tFixed Known Bugs: "+fixedBugs+"" +
-//		    	  		           "\n**\t\t\t...\n***\t\t\t...";
+		    	  //^^^^^^^^^^^^ Finished Error Details ^^^^^^^^^^^^
 		    	  
-		    	  summary = summary +"\n"+resultAnalysis+"\n";
-		    	  //Start of Error Details
-		    	  summary = summary+wikiTitleSubPre+colorDiv+"Test Details"+_closeTag+wikiTitleSubSuf;
-		    	  //summary = summary +"<pre>\n";
 		    	  
-		    	  //summary = summary + (target.equalsIgnoreCase(testSuite)?errorDetails:getErrorDetails(keywordErrors));
-			      summary = summary + addColorLabel((target.equalsIgnoreCase(testSuite)?
-			    		  testDetails.replaceAll(" SmokeTest\\.| RegressionTest\\.", " .")
-			    		  :getErrorDetails(keywordErrors)));
 		    	  summary = summary + "\n----\n";
 		    	  
 		    	 return processFileLink(summary+linkToWikiAuto+line2);

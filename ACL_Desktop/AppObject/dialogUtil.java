@@ -76,7 +76,7 @@ public class dialogUtil extends dialogUtilHelper
 		kUtil.invokeMenuCommand("Tools->Options");
 		waitForExistence(op_Factory());
 		if(!op_Factory().exists()){
-			logTAFError("Options dialog does not appear");
+			logTAFWarning("Options dialog does not appear");
 			return done;
 		}
 		//op_window().click(atList(atText(tab)));
