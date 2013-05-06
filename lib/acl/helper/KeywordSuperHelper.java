@@ -53,6 +53,11 @@ public abstract class KeywordSuperHelper extends lib.acl.helper.sup.ObjectHelper
 		 else{
 			 individualTest = false;
 		 }
+		applyWR = false;
+		if(dpKnownBugs.equals("")){
+			//if(dpKnownBugs.equals("")&&dpExpectedErr.equals("")){
+			applyWR = true;
+		}
 //		dpCommand = getDpString("Command");
 //		dpEndWith = getDpString("EndWith");
 		

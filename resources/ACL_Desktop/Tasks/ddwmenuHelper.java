@@ -17,12 +17,12 @@ import com.rational.test.ft.vp.IFtVerificationPoint;
 
 /**
  * Script Name   : <b>ddwmenu</b><br>
- * Generated     : <b>2012/11/15 3:23:36 PM</b><br>
+ * Generated     : <b>2013/01/03 4:06:50 PM</b><br>
  * Description   : Helper class for script<br>
  * Original Host : Windows XP x86 5.1 build 2600 Service Pack 3 <br>
  * 
- * @since  November 15, 2012
- * @author Steven_Xiang
+ * @since  January 03, 2013
+ * @author STEVEN_XIANG
  */
 public abstract class ddwmenuHelper extends ACL_Desktop.AppObject.DesktopSuperHelper
 {
@@ -2045,7 +2045,7 @@ public abstract class ddwmenuHelper extends ACL_Desktop.AppObject.DesktopSuperHe
 	 * 		.name : ACL is defining a file. Please wait...
 	 * 		.classIndex : 0
 	 */
-	public GuiSubitemTestObject progressInfo() 
+	protected GuiSubitemTestObject progressInfo() 
 	{
 		return new GuiSubitemTestObject(
                         getMappedTestObject("progressInfo"));
@@ -2061,6 +2061,31 @@ public abstract class ddwmenuHelper extends ACL_Desktop.AppObject.DesktopSuperHe
 	{
 		return new GuiSubitemTestObject(
                         getMappedTestObject("progressInfo"), anchor, flags);
+	}
+	
+	/**
+	 * ACLIsImportingFileDACLTFSViewSharedAutomationTestDataACLProjectDataSourceDDWLargeFileLargeEmployeesC: with default state.
+	 *		.text : RegularExpression(ACL is importing file.*)
+	 * 		.class : Static
+	 * 		.name : RegularExpression(ACL is importing file.*)
+	 * 		.classIndex : 0
+	 */
+	protected GuiSubitemTestObject progressInfoImport() 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("progressInfoImport"));
+	}
+	/**
+	 * ACLIsImportingFileDACLTFSViewSharedAutomationTestDataACLProjectDataSourceDDWLargeFileLargeEmployeesC: with specific test context and state.
+	 *		.text : RegularExpression(ACL is importing file.*)
+	 * 		.class : Static
+	 * 		.name : RegularExpression(ACL is importing file.*)
+	 * 		.classIndex : 0
+	 */
+	protected GuiSubitemTestObject progressInfoImport(TestObject anchor, long flags) 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("progressInfoImport"), anchor, flags);
 	}
 	
 	/**

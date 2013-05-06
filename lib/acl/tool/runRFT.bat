@@ -83,7 +83,7 @@ REM 	)
 IF EXIST %TEST_FLAG% DEL "%TEST_FLAG%" /S /Q
 
 Rem TASKKILL /F /T /IM java.exe
-TASKKILL /F /T /IM javaw.exe
+Rem TASKKILL /F /T /IM javaw.exe
 TASKKILL /F /T /IM eclipse.exe
 TASKKILL /F /T /IM %Executable%
 REM (WIN32.EXE) eclipsec.exe -noSplash -data "D:\Source\MyProject\workspace" -application org.eclipse.jdt.apt.core.aptBuild

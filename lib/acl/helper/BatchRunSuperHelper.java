@@ -49,7 +49,7 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 		LoggerConf.filterLevel = LoggerConf.batchRunfilterLevel; 	
 		
 		dpReset();
-		while (!dpDone())
+		while (!dpDone()&&!stopTest)
 		{
 			    currentLine++;
 			    numTestedKeywordInCase =0;
@@ -59,9 +59,10 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 			    runTest = getDpString("Run_Test");
 			    
 				if((runTest.matches("T|t")||runTest.equals(""))&&
-					(buildName.equalsIgnoreCase("All")||
-					 buildName.equalsIgnoreCase("")||
-					 buildName.contains(FrameworkConf.buildName.trim()))&&
+//					(buildName.equalsIgnoreCase("All")||
+//					 buildName.equalsIgnoreCase("")||
+//					 buildName.contains(FrameworkConf.buildName.trim()))&&
+					(isValidBuild(buildName))&&
 						!testCase.startsWith("#") && 
 						!"".equalsIgnoreCase(testCase)&&
 					 lineInRange(currentLine)
@@ -118,9 +119,13 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 					
 					if(testCaseResult=="Pass"||keywordErrors.trim().equals("")){
 						tPrefix = "===>";
-						if(numTestedKeywordInCase!=0)
+						if(numTestedKeywordInCase!=0){
 						testDetails = testDetails+
 						"\n\n*\t[["+currentCSVName+"|"+testSuite+" "+numTCs+". "+ caseName+"]] PASSED";
+						}else{
+							testDetails = testDetails+
+							"\n\n*\t[["+currentCSVName+"|"+testSuite+" "+numTCs+". "+ caseName+"]] DISABLED";	
+						}
 					}else{
 						tPrefix = "==!>";
 						errorDetails = errorDetails+
@@ -143,6 +148,10 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 							   "\t*** Temp Summary From line "+startFromLine+" To line "+currentLine+" ***"+
 							   testSummary(testSuite));
 					}
+					
+//					if(numTestedKeywordInCase==0){
+//						numTCs--;
+//					}
 				}
 				
 				String[] cases = testCase.split("\\.");
@@ -161,6 +170,7 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 					bugNumR += numRBugs;
 					bugNumA += numABugs;
 					bugNumN += numNBugs;
+					
 					cleanBugHistory();
 //					fixedBugs = "";
 //					remainingBugs = "";
@@ -168,6 +178,7 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 //					automationBugs = "";
 					
 				}
+			numTested += numTestedKeywordInCase;
 			dpNext();
 			
 		} // end of all "+testSuite+"s
@@ -194,8 +205,8 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 		String newIssueHints = getNewIssueHints(bugnew);
 		bugmessage  = newIssueHints+
 		//"\n*"+colorNewIssue+"   New Issues?:  "+bugnew.replaceAll("\\n.*Snapshot:.*","")+closeTag+
-			          "\n*"+colorRemainBug+"   Remaining Issues:  "+getString(bugNumR)+bugremaining+closeTag+
-		              "\n*"+colorFixedBug+"   Fixed Bugs:  "+getString(bugNumF)+bugfixed+closeTag+
+			          "\n*"+colorRemainBug+"   Known Issues:  "+getString(bugNumR)+bugremaining+closeTag+
+//		              "\n*"+colorFixedBug+"   Fixed Known Issues:  "+getString(bugNumF)+bugfixed+closeTag+
 		              "\n*"+colorAutomationIssue+"   Automation Issues?:  "+getString(bugNumA)+bugauto.replaceAll("\\n.*Snapshot:.*","")+closeTag;
 		
 		String Output_Report = testSummary(testSuite);
@@ -315,6 +326,9 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 		FileUtil.removeDir(reportDir+"\\FinishedTest\\");
 		if(isfinal){
 			FileUtil.mkDirs(reportDir+"\\FinishedTest\\file");
+			if(testInterrupted){
+				FileUtil.mkDirs(reportDir+"\\Interrupted\\file");
+			}
 		}else{
 			//FileUtil.removeDir(reportDir+"\\FinishedTest\\");
 		}

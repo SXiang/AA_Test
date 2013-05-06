@@ -29,6 +29,7 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
 	private String testResultLine;
 	public  String expectedErrMessage ="";
 	public String testScenario="";
+	public String buildName = "";
 	private boolean prtFailScenarioTitle = false;
 	public String linkToKeywordDescription = "";
 	public String runTest ="";
@@ -38,6 +39,7 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
 	               skipTest=false; 
 	public String subpathToKeyword="",
 	              temp[];
+	private Object ksh;
 //	public String isUnicode = "";	//##D## new variable for unicode/non-unicode test, default as unicode
 	
 	public TestCaseSuperHelper(){
@@ -124,10 +126,13 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
 				}
 				keywordName = temp[temp.length-1];
 
-	        	
+			buildName = getDpString("Build_Name");	
             knownBugs = getDpString("KnownBugs");
             expectedErr = getDpString("ExpectedErr");
               String ut = getDpString("UnicodeTest");
+            if(!isValidBuild(buildName)){
+            	skipTest = true;
+            }
             if(ut.equalsIgnoreCase("True")){
             	unicodeOnly = true;
             	if(unicodeOnly&&!isUnicode){
@@ -144,9 +149,17 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
             	//sleep(1);
             	//logTAFWarning("\t!!! No korean aclse available, some tests may fail due to the failure of server connection!!!");
             }   
-            
+
+            String temp = getDpString("ProjectName");
+
+            if(ProjectConf.testType.matches("(?i)SERVER")){   
+
+            	if(temp.matches("(?i).+LOCAL(\\.ACL)?")){
+            		skipTest = true;
+            	}
+            }            
             if(localOnlyTest){            	
-            	if(getDpString("ProjectName").matches("(?i).+SERVER(\\.ACL)?")){
+            	if(getDpString("ProjectName").matches("(?i)(.+SERVER(\\.ACL)?)")){
             		skipTest = true;
             	}
             	if(keywordName.matches("(?i)servermenu"))
@@ -208,12 +221,12 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
 					// support call keywords other than in current project also
 					if (keywordName.contains(".Tasks.")) { 
 						logTAFDebug("Call: "+ keywordName);
-						callScript(pathToKeywordScripts + keywordName, poolArgs);
+						ksh = callScript(pathToKeywordScripts + keywordName, poolArgs);
 					} else {
 						//logTAFWarning("We don't currently support call keywords other than in current project - ");
 						logTAFDebug("Call: "+ keywordName);
 						//stopScript = true;
-						callScript(pathToKeywordScripts + keywordName, poolArgs);
+						ksh = callScript(pathToKeywordScripts + keywordName, poolArgs);
 						unregisterAllInAUT();
 					}
 					
@@ -357,6 +370,11 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
 				prtFailScenarioTitle = ! "".equals(curTestScenario)? true : false;
 			}
 			
+			try {
+				((ACL_Desktop.AppObject.DesktopSuperHelper)ksh).saveProjectToServer();
+			}catch(Exception e){
+				//
+			}
             if(individualTest&&!ProjectConf.singleInstance){
             	//stopApp();
             }
@@ -366,7 +384,7 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
 		} // End of while (all keywords)
 		
 		if(stopScript){
-			logTAFInfo(stopMessage+" - stop remaining executions for this test case");
+			logTAFInfo(stopMessage+" - stop remaining execution from this test suite");
 		}
 
 		if(testCaseResult == "Fail"){
@@ -392,6 +410,8 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
 		}else{
 			
 		}
+		
+		
 		numTestedKeywordInCase = numKWs;
     	logTAFTestResult(testSummary(testKeyword),true);
 		numKWs=0;

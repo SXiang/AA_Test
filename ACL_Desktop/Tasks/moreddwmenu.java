@@ -243,15 +243,16 @@ public class moreddwmenu extends moreddwmenuHelper
         String name = f.getName();
         
     	if(dpDataSource.equalsIgnoreCase("Disk")){
-    		if(sf_localfilename().exists())
-    		    sf_localfilename().doubleClick();
-    		else if(sf_localfilename1().exists())
-    			sf_localfilename1().doubleClick();
+    		if(sf_localfilename_old().exists())
+    			click(sf_localfilename_old(),true);
+    		else if(sf_localfilename().exists())
+    			click(sf_localfilename(),true);
+
 	    	inputUnicodeChars(dpSelectFile);
       	}else{
-      		sf_lookin().doubleClick();
+      		click(sf_lookin(),true);
 	    	inputUnicodeChars(path);
-      		sf_serverfilename().click();
+      		click(sf_serverfilename());
       		inputUnicodeChars(name);
     	}
     	
@@ -275,12 +276,12 @@ public class moreddwmenu extends moreddwmenuHelper
     public void saveDataFileAs(String title){
    	    if(dismissPopup("OK|Yes",false)){
  		   sleep(2);
- 		   if(!sf_save().exists()){
+ 		   if(!sf_save().exists()&&!sf_save_old().exists()){
  			   cancelDDW();
  		   }
    	    }
      	  
-    	if(!sf_save().exists()){
+    	if(!sf_save().exists()&&!sf_save_old().exists()){
     		//
     		return;
     	}
@@ -289,20 +290,24 @@ public class moreddwmenu extends moreddwmenuHelper
         String name = f.getName();
         
     	if(dpSaveLocalOrServer.equalsIgnoreCase("Local")){
-    		if(sf_localfilename().exists())
-    		    sf_localfilename().doubleClick();
-    		else if(sf_localfilename1().exists())
-    			sf_localfilename1().doubleClick();
+    		if(sf_localfilename_old().exists())
+    		    click(sf_localfilename_old(),true);
+    		else if(sf_localfilename().exists())
+    			click(sf_localfilename(),true);
     		//sf_localfilename().doubleClick();
 	    	inputUnicodeChars(dpSaveFileAs);
 
       	}else{
-      		sf_lookin().doubleClick();
+      		click(sf_lookin(),true);
 	    	inputUnicodeChars(path);
-      		sf_serverfilename().click();
+      		click(sf_serverfilename());
       		inputUnicodeChars(name);
     	}
-    	click(sf_save(),"Save");
+    	if(sf_save_old().exists()){
+    		click(sf_save_old(),"Save");
+    	}else{
+    	  click(sf_save(),"Save");
+    	}
     	sleep(1);
     	saveDataFileMsg(title,"Yes",false);
     	
@@ -391,6 +396,10 @@ public class moreddwmenu extends moreddwmenuHelper
 		  actionOnSelect(fd_type(),"Type",fieldType,"New");
 		  //CLick "OK" to confirm field definition
 		  click(fd_ok(),"OK");
+		  if(fd_ok().exists()){
+			  logTAFError("Failed to Define field '"+fieldName+"'?");
+			  click(fd_ok(),"OK");
+		  }
 	  }else logTAFError("Define field");
   }
   

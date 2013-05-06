@@ -51,19 +51,24 @@ public class LoggerHelper extends RationalTestScript {
 	//***** Moved from batchrunsuperhelper *******
 	public static String bugremaining="";
 	public static String bugfixed="",bugnew="",bugauto="";
-	public static int bugNumF=0, bugNumN=0,bugNumA=0,bugNumR=0;
+	public static int bugNumF=0, bugNumN=0,bugNumA=0,bugNumR=0,numTested =0;
 	//********************************************
 	
-	public static int numKWs = 0,numTestedKeywordInCase=0,
+	public static int 
+	                  numKWs = 0,
+	                  numTestedKeywordInCase=0,
 	                  numKWsFail = 0,
 	                  numTCs = 0,
 	                  numTCsFail = 0,
 	                  numSnapshots = 0;
-	public static boolean stopScript = false,
+	public static boolean 
+	              stopScript = false,
+	              stopTest = false,
 	              batchRun = false,
 	              isWeb = false,
 	              RFT_emailReport = false,
-	              localOnlyTest = false;
+	              localOnlyTest = false
+	              ;
 	          
 	public static String stopMessage ="",
 	                     expectedErr = "",
@@ -125,6 +130,8 @@ public class LoggerHelper extends RationalTestScript {
     
     public static boolean errorHandledInLine=false;
     public static boolean onRecovery=true;
+    public static boolean applyWR=false;
+    public static boolean testInterrupted = false;
 	// Dynamic data
 	public static String pathToTestCaseScripts = "";
 	public static String originalPathToTestCaseScripts = "";
@@ -140,6 +147,7 @@ public class LoggerHelper extends RationalTestScript {
                       numRBugs = 0,
                       numNBugs = 0,
                       numABugs = 0;
+    
 	//Test Reports
 	//public static boolean saveProject = false;
 	public static String testResultTXT_Server="";
@@ -154,6 +162,10 @@ public class LoggerHelper extends RationalTestScript {
     public static String logItem="";
 	public static boolean RFT_jenkinsReport=false;
 	public static String RFT_jenkinsReportDir="";
+	
+	public String thisMasterFile,thisMasterFiles[] = new String[50],
+	              thisActualFile,thisActualFiles[] = new String[50],
+	              thisArchiveProject="";
 	// Override RFT logging methods here, so it will also log to our file and console
 	public static void logError(String note)
 	//   Logs an error.
@@ -603,6 +615,7 @@ public class LoggerHelper extends RationalTestScript {
      	   killProcess();
      	   
 	    	}
+		unregisterAll();
 		app = null;
 	}
 	public static void killProcess(){
@@ -654,13 +667,19 @@ public class LoggerHelper extends RationalTestScript {
 		                     "Correct the problem and try again",
 		                     "Window is disabled",
 		                     "Failed to connect to server",
+		                     "server connection",
 		                     "Project name",  // In case of invalid name used somehow 
+		                     "Invalid field data",
+		                     "null window",
 		                     autoIssue
 		                     };
 		boolean isauto = false;
 		for(String key:autoPattern){
 			if(msg.toUpperCase().contains(key.toUpperCase())){
 				isauto = true;
+				if(key.equalsIgnoreCase("null window")){
+					testInterrupted = true;
+				}
 				break;
 			}
 		}
@@ -766,6 +785,22 @@ public class LoggerHelper extends RationalTestScript {
 		return hints;
 	}
 	
+	public boolean isValidBuild(String buildInfo){
+		boolean isValid = false;
+		String builds[]=buildInfo.split(",");
+		if(buildInfo.equals(""))
+			return true;
+		for(int i=0;i<builds.length;i++){
+			if(
+			   builds[i].equalsIgnoreCase("All")||
+			   builds[i].equalsIgnoreCase(FrameworkConf.buildName.trim())||
+			   (builds[i]+"_RC").equalsIgnoreCase(FrameworkConf.buildName.trim())
+			   )
+				return true;
+				
+		}
+		return isValid;
+	}
 	public static String getString(int num){
 		String str = "";
 		String space = " ";
@@ -793,7 +828,12 @@ public class LoggerHelper extends RationalTestScript {
 			  sysExceptionCaught = true;
 			  stopApp();
 			  return true;
-		  }		        
+		  }else if(e instanceof com.rational.test.ft.RationalTestError ||
+				  e instanceof java.lang.NoClassDefFoundError){
+			  sysExceptionCaught = true;
+			  stopApp();
+			  return false;
+		  }
 		  return true;
 	  }
 	public LoggerHelper(){

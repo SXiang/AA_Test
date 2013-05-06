@@ -19,6 +19,7 @@ import ACL_Desktop.conf.beans.ProjectConf;
 import ACL_Desktop.conf.beans.TimerConf;
 
 import com.rational.test.ft.*;
+import com.rational.test.ft.exceptions.UnhandledExceptionHandler;
 import com.rational.test.ft.object.interfaces.*;
 import com.rational.test.ft.object.interfaces.SAP.*;
 import com.rational.test.ft.object.interfaces.WPF.*;
@@ -51,6 +52,7 @@ public class keywordUtil extends keywordUtilHelper
 	public static getObjects gObj = new getObjects();
 	public static dialogUtil dLog = new dialogUtil();
 	public static aclRoutines aRou = new aclRoutines();
+	public static aclTableTabs aTabs = new aclTableTabs();
 	public String[] propArray,valueArray,methodArray;
 	public static String appClass = "ACLMainFrame";
 	public static String appTitle = LoggerHelper.autTitle;
@@ -166,26 +168,21 @@ public class keywordUtil extends keywordUtilHelper
     public void startApp(){
     	String source = ProjectConf.workbookBackupDir,
     	       dest = ProjectConf.AUT;
-    	int numStart = 0,maxStartTime = TimerConf.launchWaitTime;
+    	int numStart = 0,maxStartTime = 2*TimerConf.launchWaitTime;
     	boolean started = false;
-		dLog.currentSetting = "Unknown";
-		dLog.safety = true; // In order to make sure to set safety off if needed
-		dLog.overflow = true;
+//		dLog.currentSetting = "Unknown";
+//		dLog.safety = true; // In order to make sure to set safety off if needed
+//		dLog.overflow = true;
 
 		try{
-			// Copy prf file - moved to ProjectConf - Steven
-//			FileUtil.copyDir(source+"acl9.prf", dest);
-//			FileUtil.copyDir(source+"acl9.prf", ProjectConf.workbookDir);
-//			FileUtil.regsvr32("ACLServer.dll",dest);
-			
-			//app = startApp(ProjectConf.appName);
+
 			logTAFStep("Starting ACL ...'"+ProjectConf.appName+"'");
 			//logTAFInfo(""+ProjectConf.startComm+"");
 			while(!started&&numStart++<2){
 				app = startApp(ProjectConf.appName,ProjectConf.startComm);	
 				while(!started&&maxStartTime>0){
-				    sleep(3);
-				    maxStartTime -= 3;
+				    sleep(5);
+				    maxStartTime -= 5;
 				    started = ACL9window().exists();
 				}
 			}
@@ -205,6 +202,14 @@ public class keywordUtil extends keywordUtilHelper
 				
 				locateTreeRoot(acl_sysTree());
 				acl_sysTree().click(atIndex(0),iconPoint);
+			}else{
+				sleep(10);
+				if(!ACL9window().exists()){
+				   logTAFError("Failed to start AUT '"+ProjectConf.appName+"?");
+				   //stop();
+				   stopScript = true;
+				   stopTest = true;
+				}
 			}
 			}catch(Exception e){
 				logTAFException(e);
@@ -256,7 +261,7 @@ public class keywordUtil extends keywordUtilHelper
 		}else{
 			logTAFInfo("There is no project opened currently");
 		}
-				
+		aTabs.clear();		
 		return pname;
     }
     
@@ -357,61 +362,68 @@ public class keywordUtil extends keywordUtilHelper
     		
     		if(option.equalsIgnoreCase("OpenNew")){  
                 String locFile = fullName;
+                boolean updated = false;
+                boolean updateFromGit = false;
     			if(new File(source+projName+".AC").exists())
     			       FileUtil.delFile(source+projName+".AC");
-    			
-//**** For oldbats temp only (Update from tests's folder dynamically)---- Steven *****
+   			
+//**** For oldbats temp only (Update from DEV GIT folder dynamically)---- Steven *****
+
     			String oldbats = "OLDBATSClient";
     			String i18nbats = "OldBats_i18n";
-				String updateFolder = "\\\\192.168.10.129\\aclqa\\Working\\ACL Projects Test Cases\\Desktop\\ACL Projects"+
-                "\\Scripts To test 9.3 features\\Oldbats_New_Modified_6_11_2012\\";
+//				String updateFolder = "\\\\192.168.10.129\\aclqa\\Working\\ACL Projects Test Cases\\Desktop\\ACL Projects"+
+//                "\\Scripts To test 9.3 features\\Oldbats_New_Modified_6_11_2012\\";
+				String updateFolder = "\\\\Biollante02\\Batches\\";
+				String pdfFiles = "pdfFiles";
+				if(updateFromGit&&new File(updateFolder).exists()){
+					if(projName.equalsIgnoreCase(oldbats)){
+						String oriProject = "OldBats_U";                    
+						//Orig To Source/Dest
+						String toDir = dest;
+						if(!ProjectConf.unicodeTest){ // update NonUnicode project
+							oriProject = "OldBats_NU";
+							logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
+							FileUtil.copyDir(updateFolder+oriProject, toDir);
+							FileUtil.copyFile(updateFolder+oriProject+"\\"+oriProject+".acl", toDir+projName+".ACL");
+							FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);    				
+						}else{                       // update Unicode project
+							//    					logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
+							//    					FileUtil.copyDir(updateFolder+oriProject, toDir);
+							//    					FileUtil.copyFile(updateFolder+oriProject+"\\"+oriProject+".acl", toDir+projName+".ACL");
+							//    					FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);    					
+						}
 
-                String pdfFiles = "pdfFiles";      
-    			if(projName.equalsIgnoreCase(oldbats)){
-                    String oriProject = "OldBats_U";
-                    
-    				//Orig To Source/Dest
-    				String toDir = source;//dest;
-//    				if(!ProjectConf.unicodeTest){ // update NonUnicode project
-//    					oriProject = "OldBats_NU";
-//    					logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
-//    					FileUtil.copyDir(updateFolder+oriProject, toDir);
-//    					FileUtil.copyFile(updateFolder+oriProject+"\\"+oriProject+".acl", toDir+projName+".ACL");
-//    					FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);    				
-//    				}else{                       // update Unicode project
-//    					logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
-//    					FileUtil.copyDir(updateFolder+oriProject, toDir);
-//    					FileUtil.copyFile(updateFolder+oriProject+"\\"+oriProject+".acl", toDir+projName+".ACL");
-//    					FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);    					
-//    				}
-    				
-    				//Source To Dest
-    				if(!toDir.equals(dest)){
-    				   logTAFInfo("Warning: Updating "+projName+" from backup: '"+source+"'");
-    				   FileUtil.copyDir(source, dest);
-    				   FileUtil.updateDir(source+"..\\"+pdfFiles, dest+"..\\"+pdfFiles);
-    				}
-    				FileUtil.makeWriteable(dest);
+						//Source To Dest
+						if(!toDir.equals(dest)){
+							logTAFInfo("Warning: Updating "+projName+" from backup: '"+source+"'");
+							FileUtil.copyDir(source, dest);
+							FileUtil.updateDir(source+"..\\"+pdfFiles, dest+"..\\"+pdfFiles);
+						}
+						FileUtil.makeWriteable(dest);
 
-    			}else if(projName.equalsIgnoreCase(i18nbats)){
-    				String oriProject = "OldBats_i18n";
-    				    				
-    				//Orig To Source/Dest
-    				String toDir = source;//dest;
-//    				logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
-//    				FileUtil.updateDir(updateFolder+oriProject, toDir);
-//    				FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);
-    				
-    				//Source To Dest
-    				if(!toDir.equals(dest)){
-    				  logTAFInfo("Warning: Updating "+projName+" from backup: '"+source+"'");
-    				  FileUtil.copyFile(source+"..\\"+projName+"_PROFFMTUPDATE.acl", source+projName+".ACL");
-    				  
-    				  FileUtil.copyDir(source, dest);
-    				  FileUtil.updateDir(source+"..\\"+pdfFiles, dest+"..\\"+pdfFiles);
-    				}
-    				FileUtil.makeWriteable(dest);
-    			}
+					}else if(projName.equalsIgnoreCase(i18nbats)){
+						//String oriProject = "OldBats_i18n";
+						String oriProject = "OldBats_U";    				
+						//Orig To Source/Dest
+						String toDir = dest;
+						logTAFInfo("Warning: Updating "+projName+" from: '"+updateFolder+oriProject+"'");
+						FileUtil.copyDir(updateFolder+oriProject, toDir);
+						//FileUtil.updateDir(updateFolder+oriProject, toDir);
+						FileUtil.updateDir(updateFolder+pdfFiles, toDir+"..\\"+pdfFiles);
+
+						//Source To Dest
+						if(!toDir.equals(dest)){
+							logTAFInfo("Warning: Updating "+projName+" from backup: '"+source+"'");
+							//FileUtil.copyFile(source+"..\\"+projName+"_PROFFMTUPDATE.acl", source+projName+".ACL");
+
+							FileUtil.copyDir(source, dest);
+							FileUtil.updateDir(source+"..\\"+pdfFiles, dest+"..\\"+pdfFiles);
+						}
+						FileUtil.makeWriteable(dest);
+					}
+					updated = true;
+				}
+
 // ******************************************** Finish temp update ***********************
     			
     			
@@ -435,37 +447,49 @@ public class keywordUtil extends keywordUtilHelper
 //       	    	     FileUtil.makeWriteable(dest);
         	    }else{
         	    	//Copy project only
-        	    	logTAFStep("Copy '"+fullName+" 'to working dir: "+dest);       	    
+        	    	//logTAFStep("Copy '"+fullName+" 'to working dir: "+dest);       	    
         	    	//FileUtil.copyDir(fullName, dest);    
         	    	//FileUtil.copyFile(locFile, dest+projName+".ACL");  
         	    }
-        	    FileUtil.copyFile(locFile, dest+projName+".ACL");  
+        	    if(!updated||
+        	    		!new File(dest+projName+".ACL").exists()){
+        	    	logTAFStep("Copy '"+locFile+" 'to: "+dest+projName+".ACL");
+        	        FileUtil.copyFile(locFile, dest+projName+".ACL");  
+        	    }
     		}
     	}
     	
-    	//workingProject = projName;
-    	
+    	//workingProject = projName;    	
     	projPath = FileUtil.getAbsDir(projFullName,dest);
     	
 //    	String chmod = "ATTRIB -r -s -a -h "+dest+".\\*.* /D /S";
 //        FileUtil.exeComm(chmod);
-    	
-    	
+        String currentDir = new File(projPath).getParent()+"\\";
+        
+        // Make sure it shares the same prf file which is in workbookDir
 
+      if(!currentDir.equalsIgnoreCase(LoggerHelper.workingDir)){
+    	    // options from options dialog should be saved
+  		    dLog.currentSetting = "Unknown";
+  		    //****************************
+      }
+
+	    //**********************************************
     	if(option.equals("")&&!projName.equals("")){
         	// Do nothing, opened already
     	}else if(option.equalsIgnoreCase("CreateNew")){
         	FileUtil.mkDirs(projPath);
         	invokeMenuCommand("File->New->NewProject");
       	    dLog.fileChooser(projPath,"Save",true);
+      	    aTabs.clear();
 
-      	   if(option.matches("OpenLastSaved")){
-      		   warningOp = "Last-saved";
-      	    }else if(option.matches("OpenCancel")){
-      		   warningOp = "Cancel";
-      	    }else if(option.matches("OpenWorking")){
-      		   warningOp = "Working";
-      	    }
+//      	   if(option.matches("OpenLastSaved")){
+//      		   warningOp = "Last-saved";
+//      	    }else if(option.matches("OpenCancel")){
+//      		   warningOp = "Cancel";
+//      	    }else if(option.matches("OpenWorking")){
+//      		   warningOp = "Working";
+//      	    }
     	}else if(!option.equalsIgnoreCase("OpenRecent")){ // File->OpenProject
     		//option = "Open"; // 
     		invokeMenuCommand(dpMenuItem);
@@ -500,6 +524,12 @@ public class keywordUtil extends keywordUtilHelper
     	} 
     	
          if(openedNew){
+        	 // Clean tabs in container
+        	 aTabs.clear();
+//             // options set from command line are only for current project
+//     	    dLog.safety = true; // In order to make sure to set safety off if needed
+//     	    dLog.overflow = true;
+     	    
         	 sleep(2);
         	 if(!LoggerHelper.onRecovery){
         	    dismissPopup("OK|"+warningOp,LoggerHelper.onRecovery);
@@ -519,6 +549,8 @@ public class keywordUtil extends keywordUtilHelper
             closeServerActivity(false);
             isActivated(true);            
             //checkACLCrash();
+            dLog.safety = true;
+            dLog.overflow = true;
 
         }
          if(projName.equalsIgnoreCase("")){
@@ -528,8 +560,14 @@ public class keywordUtil extends keywordUtilHelper
          LoggerHelper.projName = workingProject;
          //logTAFWarning("##### Current Project: '"+workingProject+"'");
          workingDir = new File(projPath).getParent()+"\\";
-         LoggerHelper.workingDir = workingDir;
          
+//         if(!workingDir.equalsIgnoreCase(LoggerHelper.workingDir)){
+//        	 dLog.aclDefaultSetting();
+//         }
+         LoggerHelper.workingDir = workingDir;
+         if(!option.equalsIgnoreCase("CreateNew")){
+ 	      dLog.aclDefaultSetting();
+         }
          onRecovery = true;
     	return projName;
     }

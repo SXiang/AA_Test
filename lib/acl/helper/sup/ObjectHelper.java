@@ -27,9 +27,11 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import lib.acl.tool._printObjects;
 import lib.acl.tool.htmlRFTHandler;
 import lib.acl.util.FileUtil;
+import lib.acl.util.ImageCompare;
 import lib.acl.util.NLSUtil;
 import lib.acl.util.UnicodeUtil;
 
+import ACL_Desktop.AppObject.keywordUtil;
 import ACL_Desktop.conf.beans.ProjectConf;
 import conf.beans.TimerConf;
 
@@ -1082,17 +1084,36 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 			  
 			  String err = e.toString();
 			  String warnings = ".*InvalidWindowHandleException.*"+
+                    		    "|.*NullPointerException.*"+			                    
 			                    "|OtherException...";
 			  
+			  
+			  try{ // Not sure if this works properly or not)
+	                saveProjectToServer(); 
+				}catch(Exception ee){
+				    
+				}
+				
 			  if(err.matches(warnings)){
-				  logTAFWarning(err);
-				  return true;
+				     logTAFWarning(err);	
+				     return true;
+			  }else{			  
+			     logTAFError ("UnhandledException occur: "+err);
 			  }
-			  logTAFError ("UnhandledException occur: "+err);
+			  
+
+					
 			  if(e instanceof com.rational.test.ft.sys.ApplicationNotRespondingException){
 				  sysExceptionCaught = true;
 				  stopApp();
 				  return true;
+			  }else if(e instanceof com.rational.test.ft.RationalTestError ||
+					  e instanceof java.lang.NoClassDefFoundError){
+				  sysExceptionCaught = true;
+				  stopApp();
+				  stopScript = true;
+				  stopTest = true;
+				  return false;
 			  }		        
 			  boolean dismissedAWindow = false,dismissedABrowser=false;
 				if(!isWeb){
@@ -1119,6 +1140,8 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 //				  }
 			  return true;
 		  }
+		  
+		  
 //*********************** End of Override RFT Methods ***********
 		  
 		public boolean dismissAppDialog(String title){
@@ -1729,6 +1752,9 @@ public class ObjectHelper extends RFTGuiFinderHelper{
     		   return true;
     	   return false;
        }
+       
+
+       
        public String[] removeEmptyLines(String[] text){
     	   String result="",del="autoDelimiter";
     	   for(int i=0;i<text.length;i++){
@@ -2226,6 +2252,10 @@ public class ObjectHelper extends RFTGuiFinderHelper{
             	return;
             }
         	gto.waitForExistence();
+        	if(!gto.exists()){
+        		logTAFInfo(gto.toString() +" not exists for clicking?");
+        		return;
+        	}
         	Object oj = gto.getProperty(".name");
         	if(label!=null&&label!="")
         		logTAFInfo("Click on '"+label+"' on object - "+(oj==null?"label":oj));
@@ -2476,7 +2506,50 @@ public class ObjectHelper extends RFTGuiFinderHelper{
     		return modified;
     	}    
  
+     	public void saveProjectToServer(){
 
+     		if(!testResult.equalsIgnoreCase("Fail")||thisArchiveProject.equals("")){ 
+     			//Log file could be very big (unicode 255M bytes), to save disk space on server,
+                //we avoid unnecessary achieve 
+     			return;
+     		}
+     		String aclFolder;
+     		String[] files = {".ACL",".LOG",".AC",".LIX"};
+     		
+     		boolean filesonly = true;
+     		if(thisArchiveProject.equalsIgnoreCase("1")){
+     			filesonly = false;
+     		}
+     		
+    		if(!thisArchiveProject.equalsIgnoreCase("")){
+    						
+    			aclFolder = workingDir_Server+"\\[Datapool]"+currentCSVName+
+    			   "\\Line_"+currentTestLine+"\\"+keywordUtil.workingProject+"\\";
+    		    
+    			try{
+    			   FileUtil.mkDirs(aclFolder+files[0]);
+    			   if(!filesonly){
+    			       FileUtil.copyFiles(workingDir+"*", aclFolder); //No subfolder
+    			       //FileUtil.copyDir(workingDir, aclFolder); //With subfolder
+    			   }else{				   
+    				   for(String file:files){
+    					   FileUtil.copyFile(workingDir+keywordUtil.workingProject+file,aclFolder);
+    				   }
+    				   if(new File(thisActualFile).exists()){
+    				       FileUtil.copyFiles(thisActualFile,aclFolder+"\\verification.log");
+    				   }
+    			   }
+    			   projectArchived = true;
+//    			   message =(message.equals("")? "" : message+"\n***\t"+"<a style=\"background-color:#886A08\" href=\"file:///"
+//                       + aclFolder +"\">"+"[Project Archive]</a>");
+    			   message =(message.equals("")? "" : message+""+"<a style=\"background-color:#886A08\" href=\"file:///"
+    	                   + aclFolder +"\">"+"[ACL Project Archive]</a>");
+    			}catch(Exception e){
+    				logTAFWarning("Problem to access '"+aclFolder+"'");
+    			}
+    		}
+     	}
+     	
        	public boolean actionOnCheckbox(ToggleGUITestObject to, String label,boolean input, String action){
     		boolean modified = false;
 
@@ -3090,9 +3163,10 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 		cancelButton = findPushbutton(to,"Cancel");
 		
 		if(action.matches("OK|Finish")){
-			click(okButton,"OK");		
+			click(okButton,"OK");
+			
 			if(!dismissPopup(isInfo)){
-				   filecreated = true;
+				   filecreated = true;				   
 			}
 		}else if(action.equals("Cancel")){
 			click(cancelButton,"Cancel");
@@ -3197,12 +3271,19 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 		String vsError = "Visual Studio .* Debugger.?"+
 		                  ""; 
 		String progressBar = "Status of Task"+
-                             "|.*Progress\\.\\.\\.";
+                             "|.*Progress\\.\\.\\."+
+                             "|Import - .*"+
+                             "";
 		String incompletedMsg = ".*Valid choices are";
+		String progressMsg = ".*may take some time.*";
+		String aclseError = "Time display formats must.*";
+		String connectionError = "The connection to the server has been lost.*";
         // *************************************************************
-		
+		String workingTitle ="(?i).*.ACL - "+LoggerHelper.autTitle;
+		String minimizeTitle="(?i)Jenkins.*"+
+		                    "|(?i)Playback.*";
 		// ******** Default Pop up captions *******
-		String winTitleDefault = "ACL|"+LoggerHelper.autTitle+".?|Security.?"+
+		String winTitleDefault = "ACL|Aclwin|"+LoggerHelper.autTitle+".?|Security.?"+
 		                 "|Project.?|Save Project As.?|Save New Project As.?"+
 				         "|Confirm Save As.?|Network Error.?|Warning.?|Security Warning.?"+
 				         "|ACL Error.?|Error.?"+
@@ -3212,14 +3293,15 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 				         "|Option files is missing.?"+
 				         "|Status of Task.?"+
 				         "|.*Progress\\.\\.\\."+
+				         "|Import - .*"+
 				         "|.*Error.*"+
 				         "";					
 		String winClassDefault = "#32770";
 		//***********************************************
         
 		// *********** actions *********************************************************
-		String[] actions = {".*[Oo][kK].*","Yes","Restart Later","Close","Cancel","No","X"};
-		String[] actions2 = {"Restart Later","Cancel","Close","X","No",".*[Oo][kK].*","Yes"};
+		String[] actions = {".*[Oo][kK].*","Yes","Restart Later","Close","Cancel","Don't Send","No","X"};
+		String[] actions2 = {"Restart Later","Cancel","Don't Send","Close","X","No",".*[Oo][kK].*","Yes"};
 		// *****************************************************************************
 		
 		// ********  Report *************************
@@ -3234,10 +3316,12 @@ public class ObjectHelper extends RFTGuiFinderHelper{
  // Step: 1 Preparing... 
 	 // *********** Controls **************
 		int numCheck = 0;
+		int QACheckTime = 5;
 		boolean dismissed = false;
 		boolean tryAgain = true;
 		boolean notFound = true;
         boolean isInfo = isInfoUser;
+        boolean isProgressMsg = false;
         
 		TopLevelTestObject popup = null;
 		TestObject msgBox;
@@ -3256,14 +3340,17 @@ public class ObjectHelper extends RFTGuiFinderHelper{
            "|.*Do you want to proceed.*"+
            "|.*is from a previous version.*"+
            "|.*Options file missing.*"+
-           "|Edit";
-	    
+           "|.*Are you sure you want to.*"+
+//           "|.*This may take some time.*"+
+           "|Edit"+
+           "";
+	    String passInfo = ".*Test Passed.*";
 		if(!expInfo.equals("")){
 			nonError += "|"+expInfo;
 		}
 	 // *** Max number of loops, negative number means infinite	
 		if(maxCheck<=0){
-			maxCheck = Integer.MAX_VALUE;
+			maxCheck = QACheckTime;//Integer.MAX_VALUE;
 		}
     
     //  *** Title,Class and actions *************************
@@ -3323,7 +3410,14 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 					}	
 				}
 				
-				if(actualTitle.equals(LoggerHelper.autTitle)&&numCheck>3&&maxCheck==Integer.MAX_VALUE){  
+				if(actualTitle.matches(minimizeTitle)){
+					iw.minimize();
+					return false;
+				}else if(actualTitle.matches(workingTitle)){
+					return false;
+				}else if(isProgressMsg){
+					return false;
+				}else if(actualTitle.equals(LoggerHelper.autTitle)&&numCheck>3&&maxCheck==QACheckTime){  
 					try{
 						while(iw!=null&&actualTitle.equals(LoggerHelper.autTitle)&&iw.isShowing()){
 							numCheck++;
@@ -3332,7 +3426,12 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 							sleep(1);
 							iw = ObjectHelper.getDialog(LoggerHelper.autTitle,winClass,true);
 							actualTitle = iw.getText();
+							if(numCheck>=maxCheck){
+								logTAFWarning("It seems something wrong, pleas check the log for details");
+								stopApp();
+							}
 						}
+
 					}catch(Exception e){
 						return true;
 					}
@@ -3361,17 +3460,21 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 					logTAFWarning(actualTitle);
 					isInfo = false;
 					userAction = "No";
+				}else if(actualTitle.matches("Error")){  
+					//logTAFWarning("Error ?");
+					//userAction = "OK";
+					isInfo = false;
 				}
 				
 				
 				if(actualTitle.matches(getLocValues(progressBar))){
-					int maxProcessTime=60,atime=0;
+					int maxProcessTime=3,atime=0;
 					while(getActiveWinTitle().equals(locTitle)&&atime++<maxProcessTime){
-					  logTAFInfo("Status of task: In progress..., wait for 10 seconds");
+					  logTAFInfo(actualTitle+" [In progress..., wait for 10 seconds]");
 					  sleep(10);
 					}
 					if(getActiveWinTitle().equals(locTitle)){
-						continue;
+						        continue;
 					}else{
 					   return false;
 					}
@@ -3404,11 +3507,28 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 				}else if(msg.matches(getLocValues(incompletedMsg)+".{5,}")){ // message completed
 					msg = "Incompleted message ?"+msg;
 					isInfo = true;
+				}else if(msg.matches(getLocValues(progressMsg))){ 		
+					    isProgressMsg = true;
+						int maxProcessTime=2,atime=0;
+						while(getActiveWinTitle().equals(locTitle)&&atime++<maxProcessTime){
+							logTAFInfo(actualTitle+" - "+msg+", wait for 5 seconds");
+						  sleep(5);
+						}
+						if(getActiveWinTitle().equals(locTitle)){
+							        continue;
+						}else{
+						   return false;
+						}			
 				}else if(msg.matches(getLocValues(incompletedMsg))){       // message incompleted.
 					msg = "Incompleted message ?"+msg;
 					isInfo = false;
 				}else if(msg.matches(getLocValues(".*is from a previous version.*"))){					
 					aclVersionUpdate = true;
+				}else if(msg.matches(getLocValues(aclseError))){
+					isInfo = false;
+				}else if(msg.matches(getLocValues(connectionError))){
+					msg = autoIssue+msg;
+					isInfo = false;
 				}
 				//****b. filtering message and compare with non error pattern
 				nonError = removeLineFeed(getLocValues(nonError));
@@ -3427,6 +3547,10 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 				}else if(numCheck>1){ // All following popups are treated as infomation, 
 					                  //we only report possible error from the first
 					isInfo = true;
+				}
+				
+                if(msg.matches(passInfo)){
+					sleep(10); // special for executing command
 				}
 //		logTAFInfo(nonError+" = '"+msg+"' "+(msg.matches(nonError)||numCheck>1));
 				
@@ -3528,11 +3652,19 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 		   return "Localized:"+locWinTitleDefault;
 	   }
 	   private void reportDismissedWin(String winTitle,String msg,boolean isInfo){
-		    String fatalError=".*cannot [\\s]*access.*"+
-		                      ".*You cannot use the Command Line when a script is running.*"+
+		    String fatalError="(?i).*cannot [\\s]*access.*"+
+		                      "|(?i).*You cannot use the Command Line when a script is running.*"+
 		                      "";
-		    String progressBar = "Status of Task"+
-                                 "|.*Progress\\.\\.\\.";
+		    String indexError="|Cannot overwrite open Index.*"+
+		                      "|'EMPNOINX' is in use and cannot be modified.*"+
+		                      "|Disk file.*EMPNOINX\\.INX already exists, overwrite\\?.*"+
+		                      "";
+			String progressBar = "Status of Task"+
+            "|.*Progress\\.\\.\\."+
+            "|Import - .*"+
+            "";
+
+            String progressMsg = ".*may take some time.*";
 		    
 		    String msg_en = getEngValue(msg+".*");
 		    if(!msg_en.equals(msg+".*")){
@@ -3540,9 +3672,12 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 		    }else{
 		    	//logTAFInfo("English: "+msg_en);
 		    }
-			if(isInfo&&(!msg.matches(fatalError)||msg_en.matches(fatalError))){				
+			if(isInfo
+					 &&(!msg.matches(fatalError)||!msg_en.matches(fatalError))
+					 &&!msg.matches(indexError)
+			    ){				
 				logTAFInfo("Popup Message - '"+winTitle+"': "+msg);
-			}else if(winTitle.matches(progressBar)){
+			}else if(winTitle.matches(progressBar)||msg.matches(progressMsg)){
 				logTAFInfo("Still In progress...?, wait for one more minute");
 				sleep(60);
 			}else{
