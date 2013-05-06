@@ -294,14 +294,14 @@ public class ddwmenu extends ddwmenuHelper
 	        
 	    	if(dpDataSource.equalsIgnoreCase("Disk")){
 	    		if(sf_localfilename().exists())
-	    		    sf_localfilename().doubleClick();
+	    		    click(sf_localfilename(),true);
 	    		else if(sf_localfilename1().exists())
-	    			sf_localfilename1().doubleClick();
+	    			click(sf_localfilename1(),true);
 		    	inputUnicodeChars(dpSelectFile);
 	      	}else{
-	      		sf_lookin().doubleClick();
+	      		click(sf_lookin(),true);
 		    	inputUnicodeChars(path);
-	      		sf_serverfilename().click();
+	      		click(sf_serverfilename());
 	      		inputUnicodeChars(name);
 	    	}
 	    	
@@ -350,14 +350,14 @@ public class ddwmenu extends ddwmenuHelper
 	        
 	    	if(dpSaveLocalOrServer.equalsIgnoreCase("Local")){
 	    		if(sf_localfilename().exists())
-	    		    sf_localfilename().doubleClick();
+	    		    click(sf_localfilename(),true);
 	    		else if(sf_localfilename1().exists())
-	    			sf_localfilename1().doubleClick();
+	    			click(sf_localfilename1(),true);
 	    		//sf_localfilename().doubleClick();
 		    	inputUnicodeChars(dpSaveFileAs);
 
 	      	}else{
-	      		sf_lookin().doubleClick();
+	      		click(sf_lookin(),true);
 		    	inputUnicodeChars(path);
 	      		sf_serverfilename().click();
 	      		inputUnicodeChars(name);
@@ -365,7 +365,7 @@ public class ddwmenu extends ddwmenuHelper
 	    	click(sf_save(),"Save");
 	    	sleep(1);
 	    	saveDataFileMsg("Yes",false);
-	    	if(!handleProgressBar(progressInfo(),"DDW",dpTestProgressBar.equalsIgnoreCase("Yes")?true:false)){
+	    	if(!handleProgressBar(progressInfoImport(),"DDW",dpTestProgressBar.equalsIgnoreCase("Yes")?true:false)){
 	    		cancelDDW();
 	    	}
 
@@ -758,6 +758,6 @@ public class ddwmenu extends ddwmenuHelper
 			return dismissed;
 		}	
 		public TestObject getProgressInfo(){
-			return progressInfo();
+			return progressInfoImport();
 		}
 	}

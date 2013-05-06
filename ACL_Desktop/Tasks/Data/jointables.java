@@ -179,7 +179,7 @@ public class jointables extends jointablesHelper
 		//TBD: Add Presort Primary Table - dpPresortPrimary
 		if(!dpPresortSecondary.equals("")){
 			actionOnCheckbox(findCheckbutton(tabDialog,"Presort Secondary Table"),
-					"Presort Primary Table",
+					"Presort Secondary Table",
 					dpPresortSecondary.equalsIgnoreCase("Yes")?true:false,"New");
 		}
 		//TBD: Add Presort Secondary Table - dpPresortSecondary

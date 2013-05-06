@@ -17,12 +17,12 @@ import com.rational.test.ft.vp.IFtVerificationPoint;
 
 /**
  * Script Name   : <b>runScript</b><br>
- * Generated     : <b>2012/05/24 11:11:19 PM</b><br>
+ * Generated     : <b>2013/03/01 12:13:17 AM</b><br>
  * Description   : Helper class for script<br>
  * Original Host : Windows XP x86 5.1 build 2600 Service Pack 3 <br>
  * 
- * @since  May 24, 2012
- * @author Steven_Xiang
+ * @since  March 01, 2013
+ * @author steven_xiang
  */
 public abstract class runScriptHelper extends ACL_Desktop.AppObject.DesktopSuperHelper
 {

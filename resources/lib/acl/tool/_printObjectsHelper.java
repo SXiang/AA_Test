@@ -17,15 +17,40 @@ import com.rational.test.ft.vp.IFtVerificationPoint;
 
 /**
  * Script Name   : <b>_printObjects</b><br>
- * Generated     : <b>2012/10/22 2:27:23 PM</b><br>
+ * Generated     : <b>2013/01/23 2:24:37 PM</b><br>
  * Description   : Helper class for script<br>
  * Original Host : Windows XP x86 5.1 build 2600 Service Pack 3 <br>
  * 
- * @since  October 22, 2012
- * @author Steven_Xiang
+ * @since  January 23, 2013
+ * @author STEVEN_XIANG
  */
 public abstract class _printObjectsHelper extends ACL_Desktop.AppObject.DesktopSuperHelper
 {
+	/**
+	 * ATL00B28A20: with default state.
+	 *		.text : null
+	 * 		.class : ATL:00B28A20
+	 * 		.name : null
+	 * 		.classIndex : 0
+	 */
+	protected GuiSubitemTestObject Tabwindow() 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("Tabwindow"));
+	}
+	/**
+	 * ATL00B28A20: with specific test context and state.
+	 *		.text : null
+	 * 		.class : ATL:00B28A20
+	 * 		.name : null
+	 * 		.classIndex : 0
+	 */
+	protected GuiSubitemTestObject Tabwindow(TestObject anchor, long flags) 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("Tabwindow"), anchor, flags);
+	}
+	
 	/**
 	 * CheckGUIStates1XlsCompatibilityMode: with default state.
 	 *		.class : RegularExpression(EXCEL.*)
@@ -198,8 +223,8 @@ public abstract class _printObjectsHelper extends ACL_Desktop.AppObject.DesktopS
 	/**
 	 * LogIn: with default state.
 	 *		Name : EWPCasLogin
-	 * 		Text : Log In
 	 * 		TabIndex : 0
+	 * 		Text : Log In
 	 * 		.class : ACL.LightClient.ElectronicWorkPaper.EWPUtilities.UI.EWPCasLogin
 	 * 		.processName : EXCEL.EXE
 	 * 		.classIndex : 0
@@ -212,8 +237,8 @@ public abstract class _printObjectsHelper extends ACL_Desktop.AppObject.DesktopS
 	/**
 	 * LogIn: with specific test context and state.
 	 *		Name : EWPCasLogin
-	 * 		Text : Log In
 	 * 		TabIndex : 0
+	 * 		Text : Log In
 	 * 		.class : ACL.LightClient.ElectronicWorkPaper.EWPUtilities.UI.EWPCasLogin
 	 * 		.processName : EXCEL.EXE
 	 * 		.classIndex : 0
@@ -539,6 +564,31 @@ public abstract class _printObjectsHelper extends ACL_Desktop.AppObject.DesktopS
 	{
 		return new TopLevelSubitemTestObject(
                         getMappedTestObject("workingwindow"), anchor, flags);
+	}
+	
+	/**
+	 * WTL_DotNetTabCtrl: with default state.
+	 *		.text : null
+	 * 		.class : WTL_DotNetTabCtrl
+	 * 		.name : null
+	 * 		.classIndex : 0
+	 */
+	protected GuiSubitemTestObject wtL_DotNetTabCtrlwindow() 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("wtL_DotNetTabCtrlwindow"));
+	}
+	/**
+	 * WTL_DotNetTabCtrl: with specific test context and state.
+	 *		.text : null
+	 * 		.class : WTL_DotNetTabCtrl
+	 * 		.name : null
+	 * 		.classIndex : 0
+	 */
+	protected GuiSubitemTestObject wtL_DotNetTabCtrlwindow(TestObject anchor, long flags) 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("wtL_DotNetTabCtrlwindow"), anchor, flags);
 	}
 	
 	

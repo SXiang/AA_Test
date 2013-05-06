@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.rational.test.ft.visualscript:RFTScript xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.ibm.rational.test.ft.visualscript="http:///com/ibm/rational/test/ft/visualscript.ecore" name="RunOldBats" package="ACL_Desktop.TestCase.Tools" userName="STEVEN_XIANG" date="2013-02-04" time="10:42:45 AM" sinceDate="2013/02/04" hostName="WinNT Version 5.1  Build 2600 (S)" keywordSteps="">
+  <testElements xsi:type="com.ibm.rational.test.ft.visualscript:Comment" value="// TODO Insert code here&#xD;&#xA;" elementType="Comment">
+    <clearscript/>
+  </testElements>
+</com.ibm.rational.test.ft.visualscript:RFTScript>

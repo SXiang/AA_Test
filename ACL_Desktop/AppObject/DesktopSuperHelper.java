@@ -11,6 +11,7 @@ import java.util.Calendar;
 import ACL_Desktop.conf.beans.ProjectConf;
 
 //import com.ibm.security.util.calendar.BaseCalendar.Date;
+import com.rational.test.ft.object.interfaces.FrameSubitemTestObject;
 import com.rational.test.ft.object.interfaces.GuiSubitemTestObject;
 import com.rational.test.ft.object.interfaces.GuiTestObject;
 import com.rational.test.ft.object.interfaces.IWindow;
@@ -52,6 +53,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	protected getObjects gObj;
 	protected keywordUtil kUtil;
 	protected aclDataDialogs dataDlog;
+	protected aclTableTabs aTabs;
 	protected dialogUtil dLog;
 	protected aclRoutines aRou;
 	protected String defaultMenu="";
@@ -77,6 +79,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	protected TopLevelSubitemTestObject mainDialog;
 	protected GuiSubitemTestObject tabMain,tabMore,tabOutput;
 	protected ArrayList<String> filterList = new ArrayList<String>();
+	public static ArrayList<String> tabList = new ArrayList<String>();
+	public static int activeTab = -1;
 	
 	protected int[] itemIndex;
 	protected boolean itemCreated = false,
@@ -107,6 +111,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
                                 //@value   'SaveProject|SaveProjectAs|SaveProjectOverwirte|CloseProject'
 	protected String dpActOnItem="";//@arg Name of the item to be tested.
                                //@value = '[path->to->the->item]'
+	protected String dpActionOnTab;//@arg action for multiple table testing
+	//@value = 'Pin|Close'
 	
          /* Shared varialbel in main - more - output */
 	protected String dpFields="";  //@arg filed name to be extracted, default to 'Record'
@@ -138,6 +144,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		dLog = new dialogUtil();
 		aRou = new aclRoutines();
 		dataDlog = new aclDataDialogs();
+		aTabs = new aclTableTabs();
         
 		readSharedTestData();		
         kUtil.activateAUT(false);		
@@ -153,7 +160,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	          else if(!dpPreCmd.matches("(?i).*SET SAFETY OFF.*"))
 	    	     dpPreCmd ="SET Safety OFF|"+dpPreCmd;
 	    	//dLog.safety = false;
-        }else if(!delFile&&!dLog.safety){
+//        }else if(!delFile&&!dLog.safety){
+        }else if(!delFile){
 	    	if(dpPreCmd.equals(""))
 	        	  dpPreCmd = "SET Safety ON";
 	          else if(!dpPreCmd.matches("(?i).*SET SAFETY ON.*"))
@@ -164,15 +172,15 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	    if(ignoreOverflow&&dLog.overflow){
 	    	if(dpPreCmd.equals(""))
 	        	  dpPreCmd = "SET Overflow OFF";
-	          else  if(!dpPreCmd.matches("(?i).*SET SAFETY OFF.*"))
+	          else  if(!dpPreCmd.matches("(?i).*SET Overflow OFF.*"))
 	    	   dpPreCmd ="SET Overflow OFF|"+dpPreCmd;
-	    	//dLog.safety = false;
+	    	//dLog.overflow = false;
         }else if(!ignoreOverflow&&!dLog.overflow){
 	    	if(dpPreCmd.equals(""))
 	        	  dpPreCmd = "SET Overflow ON";
-	          else  if(!dpPreCmd.matches("(?i).*SET SAFETY ON.*"))
+	          else  if(!dpPreCmd.matches("(?i).*SET Overflow ON.*"))
 	    	   dpPreCmd = "SET Overflow ON|"+dpPreCmd;
-	    	//dLog.safety = true;
+	    	//dLog.overflow = true;
         }
 	   //logTAFInfo("dpPreCmd"+dpPreCmd);
         
@@ -205,6 +213,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		   }
         dpOpenProject = getDpString("OpenProject");
         dpArchiveProject = getDpString("ArchiveProject");
+            thisArchiveProject = dpArchiveProject;
         dpEndWith = getDpString("EndWith");	 
         dpPreCmd = getDpString("PreCmd");	
 		dpActOnItem = getDpString("ActOnItem");	 
@@ -220,7 +229,10 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		//}
          dpPostCmd = getDpString("PostCmd");	
         // dpFilterHistory = getDpString("FilterHistory");
-
+         dpActionOnTab = getDpString("ActionOnTab");
+         if(ProjectConf.testType.equalsIgnoreCase("Server")){
+        	 dpActionOnTab = "";   // It's not available on server table now (Monaco)
+         }
          sharedDataDone= true;
 	}
 	
@@ -270,7 +282,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	}
 	
 	public void openTest(){
-		aRou.exeACLCommands(dpPreCmd);
+		aRou.exeACLCommands(dpPreCmd,dpActionOnTab);
 		aRou.setACLFilters(dpPreFilter);
 		if(!defaultMenu.equals("")&&!command.equals(""))
 		         kUtil.invokeMenuCommand(defaultMenu+"->"+command);
@@ -341,8 +353,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 					"Use Output Table",
 					dpUseOutputTable.equalsIgnoreCase("Yes")?true:false,"New");
 			
-			  if(!fileExt.equalsIgnoreCase(".INX"))
+			  if(!fileExt.equalsIgnoreCase(".INX")){
 			     itemCreated = true;
+			  }
     		}
 		}
     	
@@ -388,6 +401,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			actionOnCheckbox(usetable,
 					"Use Output Table",
 					dpUseOutputTable.equalsIgnoreCase("Yes")?true:false,"New");
+			//aTabs.add(actualName);
 		}
 	}
 	
@@ -486,6 +500,67 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		}
 		return fileCreated;
 	}
+	
+
+	public static String getTableStatus(TestObject anchor,TestObject status,String item){
+
+		String classTag = ".class";
+		String classValue = ".Statictext";
+		String nameTag = ".name";
+		String textTag = ".text";
+		TestObject itemObj,recordObj;
+//		String record = "[0-9]*[\\?]? Records";
+		String record = ".*Records";
+		String tableName = "";
+		String recordNum = "";
+		
+		try{
+			if((status==null||!status.exists())){			
+				if(anchor!=null&&anchor.exists()){
+					status = findTestObject(anchor,true,classTag,"ACL_StatusBar");
+				}
+			}
+			if(status==null||!status.exists()){
+				if(anchor!=null&&anchor.exists()){
+					logTAFWarning(autoIssue+"Automation failed to check the ACL status");
+				}
+				return "";
+			}
+
+			
+			itemObj = findTestObject(status, classTag,classValue,nameTag,"i{0}"+item );
+			if(itemObj==null){
+			    itemObj = findTestObject(status, classTag,classValue,nameTag,item );
+			}
+			if(itemObj==null){
+				//logTAFDebug(autoIssue+" Table "+item+" not showing on status bar correctly?");
+				return "";
+			}
+			try{
+			    tableName = itemObj.getProperty(nameTag).toString();
+			}catch(Exception e){
+				logTAFWarning("Failed to get table name from the status bar");
+			}
+			//logTAFInfo("Table status - name:"+item);
+			recordObj = findTestObject(status, classTag,classValue,nameTag,"i{0}"+record );
+			if(recordObj==null){
+				//logTAFDebug("Num records of "+item+" is not showing on status bar correctly?");
+				//return tableName;
+			}else{
+				try{
+					recordNum = recordObj.getProperty(nameTag).toString();
+				}catch(Exception e){
+					logTAFWarning("Failed to get num records from the status bar");
+				}
+			}
+		}catch(Exception e){
+			if(anchor!=null&&anchor.exists()){
+				logTAFError(autoIssue+"Automation failed to get table status '"+e.toString()+"'");
+			}
+			//return "";
+		}
+		return tableName + "|"+recordNum ;
+	}	
 	public boolean isRunningScript(TestObject status){
 		return isRunningScript(null,status,false);
 	}
@@ -505,10 +580,11 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		if(dismissPopup){
 			dismissPopup(-1,".*Test Passed.*|.*Are you sure.*|.*Save in.*"+
 //					"|.*The failures include: vSeq2, vSeq3, vSeq4, vSeq5, vSeq6."+   // For Chinese batch
-					"|.*The failures include:.*LOCFun.*"+                                    // For other localized languages
+//					"|.*The failures include:.*LOCFun.*"+                                    // For other localized languages
 //					"|.*is undefined.*"+
 					"|.*Namespace Tree Control.*"+                //Temp workaround for problem on  win7 
-			"|Test Failed! %CleanFail%.");
+//			"|Test Failed! %CleanFail%."
+					"");
 		}
 
 		sleep(2);
@@ -522,11 +598,13 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			}
 			if(status==null||!status.exists()){
 				if(anchor!=null&&anchor.exists()){
-					logTAFWarning(autoIssue+"Automation failed to check the ACL status, wait for 10 minutes to check the result istead");
-					sleep(10*60);
+					logTAFWarning(autoIssue+"Automation failed to check the ACL status, is it still running?");
+					return true;
+//					sleep(30*60);
 				}
 				return false;
 			}
+			
 			runObj = findTestObject(status, classTag,classValue,nameTag,run );
 			if(runObj==null){
 				//printObjectTree(status);
@@ -538,8 +616,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			}
 		}catch(Exception e){
 			if(anchor!=null&&anchor.exists()){
-				logTAFError(autoIssue+"Automation failed to check the ACL status '"+e.toString()+"', wait for 10 minutes to check the result istead");
-				sleep(10*60);
+				logTAFError(autoIssue+"Automation failed to check the ACL status '"+e.toString()+"', is it still running?");
+				return true;
+//				sleep(30*60);
 			}
 			return false;
 		}
@@ -574,6 +653,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		File aFile = new File(filename);
 		File masFile = new File(mFile);
 		if(command.matches("RunScript")){
+//			localName = keywordUtil.workingProject+"\\"+
+//			  keywordUtil.replaceSpecialChars(dpScriptName);
 			if(!aFile.isAbsolute()){
 				if(location.equalsIgnoreCase("Server")){
 					filename = ProjectConf.curLabel+":\\"+filename;
@@ -583,13 +664,16 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 				}
 			}						
 			if(mFile.equals("")){
+				
 				fName = aFile.getName();
 				tempMasterFile = FileUtil.getAbsDir(fName,
 						ProjectConf.expectedDataDir+defaultMenu+"/"+command+"/"+localName+"/");				
 			}else{
 				if(!masFile.isAbsolute()){
 					tempMasterFile = FileUtil.getAbsDir(mFile,
-							ProjectConf.expectedDataDir);	
+							ProjectConf.expectedDataDir+defaultMenu+"/"+command+"/");
+//					tempMasterFile = FileUtil.getAbsDir(mFile,
+//							ProjectConf.expectedDataDir);
 				}else{
 					fName = masFile.getName();
 					tempMasterFile = FileUtil.getAbsDir(fName,
@@ -599,6 +683,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 					}
 				}
 			}
+		}else if(command.startsWith("_")){
+			tempMasterFile = FileUtil.getAbsDir(filename,
+					ProjectConf.expectedDataDir+defaultMenu+"/"+command+"/"+localName+"/");		
 		}else{
 			tempMasterFile = FileUtil.getAbsDir(filename,ProjectConf.expectedDataDir);
 		}
@@ -651,7 +738,11 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		     dpActualFile  = tempActualFile;
 		}
 		
-
+        thisMasterFiles = dpMasterFiles;
+        thisActualFiles = dpActualFiles;
+        thisMasterFile = dpMasterFile;
+        thisActualFile = dpActualFile;
+        
     	return filename;
 	}
 	//TODO Insert shared functionality here
@@ -1052,19 +1143,22 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
      // **** Handle task progress bar (possible multi threading...)
      
      public boolean handleProgressBar(String command ){
-    	 return handleProgressBar(null,command,"Finish",false);
+    	 return handleProgressBar(null,command,dpEndWith,false);
      }
      public boolean handleProgressBar(TestObject progressInfo,String command, boolean isMultiTask){
-    	 return handleProgressBar(progressInfo,command,"Finish",isMultiTask);
+    	 return handleProgressBar(progressInfo,command,dpEndWith,isMultiTask);
      }
      public boolean handleProgressBar(TestObject progressInfo,String command,String action, boolean isMultiTask){
-    	 
+    	// This multitask won't be implemented in Monaco now, so test popup window and progression only  
     	              if(!isMultiTask)
     	            	  return true;
     	              
     	TestObject progressBar = null;                  	              
  		String winTitle = "Status of Task"+
-                              "|.*Progress\\.\\.\\.";
+                              "|.*Progress\\.\\.\\."+
+                              "|Import Status"+
+                              "|Import - .*"+
+                              "";
         String winClass = "#32770";
         
         if(progressInfo==null
@@ -1116,6 +1210,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
       
 		if(isMultiTask){
 			//Do other job while 'in progress...'
+			
 			checkProgressInfo(progressBar=progressInfo.getParent(),false);
 			doSomething(command);
 			checkProgressInfo(progressBar=progressInfo.getParent());
@@ -1126,7 +1221,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			int maxProcessTime=60,atime=0;
 			while((progressBar=progressInfo.getParent())!=null
 					&&progressBar.exists()
-					&&isBoundsVisiable(progressBar)
+					//&&isBoundsVisiable(progressBar)
 					&&atime++<maxProcessTime){
 			  logTAFInfo("Status of task: In progress..., wait for 10 seconds");
 			  checkProgressInfo(progressBar=progressInfo.getParent());
@@ -1140,8 +1235,14 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
     	 //TBD
     	 String script = "LOCALCompare";
     	 String tb = "InventoryW";
+    	 boolean devCompleted = false;
+    	 
+    	 if(!devCompleted){
+    		 sleep(15);
+    		 return;
+    	 }
     	 logTAFInfo("Act while import is in progress: ");
-
+    	 
     	 try{    
     		 aRou.activateACL();
     		 aRou.exeACLCommand("DO "+script);
@@ -1164,6 +1265,21 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
     	 if(pb==null||!pb.exists())
     		 return;
     	 
+    	 if(!compare){    		 
+    		 try{
+    			 FrameSubitemTestObject pbf = (FrameSubitemTestObject) pb;
+    		    pbf.minimize();
+    		    logTAFStep("Minimize the progress popup window");
+    		    sleep(2);
+    		    pbf.restore();
+    		    logTAFStep("Restore the progress popup window");
+//    		    sleep(2);
+//    		    pbf.maximize();
+//    		    logTAFStep("Maximize the progress popup window");
+    		 }catch(Exception e){
+    			 logTAFError("Failed to minimize/maximize/restore the progress popup window "+e.toString());
+    		 }
+    	 }
     	 
     	 TestObject[] progressInfo = pb.find(atChild(".class","Static"));
     	 
@@ -1229,16 +1345,25 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
      public boolean cancelRunningTask(TestObject pb, String action){
     	 //TBD 
     	 GuiTestObject cancelButton = findPushbutton(pb,"Cancel");
-    	 if(cancelButton!=null&&cancelButton.exists()&&isBoundsVisiable(cancelButton)){
-    		 click(cancelButton,"Cancel");	
+    	 if(cancelButton!=null&&cancelButton.exists()//&&isBoundsVisiable(cancelButton)
+    			 ){
+    		 click(cancelButton,"Cancel");
+    		 sleep(1);
+    		 if(cancelButton.exists()){
+    			 click(cancelButton); 
+    			 sleep(1);
+    		 }
     		 if(!action.equalsIgnoreCase("Cancel")){
     			 logTAFWarning("Task canceled !!!");
+    		 }else{
+    			 logTAFStep("Cancel Import...");
     		 }
     		 dismissPopup();
     		 return false;
     		 
     	 }else {
-    		 if(pb.exists()&&isBoundsVisiable(pb)){
+    		 if(pb.exists()//&&isBoundsVisiable(pb)
+    				 ){
     		   logTAFError("Cancel button not found!");
     		 }
     	 }
@@ -1252,7 +1377,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
      }
  	public void doVerification(String verifyType,boolean otionalItem){
 		String logView = "Log"; // When file and not use output table
-				
+		dismissPopup("Any",true,true);	// In case of 'Progress bar' especially
 		// Verify ACL resulted file
 		if(fileCreated&&verifyType.equals("File")&&fileComparable){
 		    compareTextFile(dpMasterFile, dpActualFile,
@@ -1289,9 +1414,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 						ProjectConf.updateMasterFile,verifyType);
  	}
  	public void saveProjectToServer(){
-
- 		if(!testResult.equals("Fail")){ 
- 			//Log file could be very big, to save disk space on server,
+       // saveProjectToServer(dpArchiveProject,dpActualfile);
+ 		if(!testResult.equalsIgnoreCase("Fail")||dpArchiveProject.equals("")){ 
+ 			//Log file could be very big (unicode 255M bytes), to save disk space on server,
             //we avoid unnecessary achieve 
  			return;
  		}
@@ -1317,8 +1442,15 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 				   for(String file:files){
 					   FileUtil.copyFile(workingDir+keywordUtil.workingProject+file,aclFolder);
 				   }
+				   if(new File(dpActualFile).exists()){
+				       FileUtil.copyFiles(dpActualFile,aclFolder+"\\verification.log");
+				   }
 			   }
 			   projectArchived = true;
+//			   message =(message.equals("")? "" : message+"\n***\t"+"<a style=\"background-color:#886A08\" href=\"file:///"
+//                   + aclFolder +"\">"+"[Project Archive]</a>");
+			   message =(message.equals("")? "" : message+""+"<a style=\"background-color:#886A08\" href=\"file:///"
+	                   + aclFolder +"\">"+"[ACL Project Archive]</a>");
 			}catch(Exception e){
 				logTAFWarning("Problem to access '"+aclFolder+"'");
 			}

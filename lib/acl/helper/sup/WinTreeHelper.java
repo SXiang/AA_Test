@@ -18,8 +18,12 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
 
+import lib.acl.util.FileUtil;
 import lib.acl.util.ImageCompare;
 import lib.acl.util.NLSUtil;
+
+import ACL_Desktop.AppObject.DesktopSuperHelper;
+import ACL_Desktop.conf.beans.ProjectConf;
 
 import com.rational.test.ft.object.interfaces.ClientTestObject;
 import com.rational.test.ft.object.interfaces.GuiSubitemTestObject;
@@ -64,6 +68,7 @@ public abstract class WinTreeHelper extends PrintObjectInfoHelper
     public Point actionPoint = new Point(-30,10),
                   textPoint = new Point(5,10),
                   iconPoint = new Point (-15,10);
+   
     public boolean  collapsible = true; 
     protected static void locateTreeRoot(GuiTestObject anchor){
     	locateTreeRoot(anchor,true);
@@ -113,6 +118,8 @@ public abstract class WinTreeHelper extends PrintObjectInfoHelper
 //		indicator.dragToScreenPoint(scrollbar.getScreenPoint(atPoint(0,0)));
 //		sleep(0);
 	}
+	
+ 
     protected int searchSubitem(GuiSubitemTestObject tree, String itemPath){
 
     	String[] nodes = itemPath.split(SEP_REP_PATH);
@@ -189,7 +196,7 @@ public abstract class WinTreeHelper extends PrintObjectInfoHelper
     	return itemName;
     }
     //  ****************  Expand ********************
-
+    
 	protected boolean expandNode(GuiSubitemTestObject tree, Subitem item){
 	    return expandNode(tree,item,true);
 	}
@@ -220,9 +227,52 @@ public abstract class WinTreeHelper extends PrintObjectInfoHelper
     	}
 		return expanded;
 	}
-	
 
+	//verify icon
+	protected boolean verifyItemIcon(GuiSubitemTestObject tree, Subitem item, String name,int status,String[] mFile, String[] aFile)
+	{		
+        boolean done = true;
+    	int iconHeight = 18,
+    	    iconWidth = 18,
+    	    offsetX = - 18,
+    	    offsetY = 0;
+		String[] statusArray = {"Closed","Primary","Secondary","Opened"};
+    	Point topLeft = tree.getScreenPoint(item,new Point(offsetX,offsetY));
+    	
+    	Rectangle iconRectangle = new Rectangle(topLeft.x,topLeft.y,iconWidth,iconHeight);
+    	logTAFStep("Check table icon status,  expected - "+statusArray[status]);
+    	tree.getImage(iconRectangle,aFile[status]);
+    	
+        if(compareImage(mFile[status],aFile[status],ProjectConf.updateMasterFile)){
+        	logTAFInfo("Item "+name+" is with the icon indicating - "+statusArray[status]+" as expected"	);
+        }else{
+        	logTAFError("Item "+name+" is not with the icon indicating - "+statusArray[status]+" as expected"	);
+        }
+    	
+        return done;
+	}
 	
+    public boolean compareImage(String fileMaster,String fileActual,boolean updateMasterFile){
+ 	   File temp = new File(fileActual);
+ 	   if(!temp.exists()){
+ 		   logTAFWarning("File not found - '"+fileActual+"'");
+ 		   return true;
+ 	   }else if(!temp.isFile()){
+ 		   logTAFWarning("Not a file - '"+fileActual+"'");
+ 		   return true;
+ 	   }
+ 	                    // For debugging, don't update
+ 	                    // updateMasterFile = false;
+ 	   if(updateMasterFile||!new File(fileMaster).exists()){
+ 		   logTAFInfo("Save/Update contents of master file '"+fileMaster+"'");
+ 			   FileUtil.copyFile(fileActual, fileMaster);
+            return true;
+ 	   }
+ 	       	   
+ 	   logTAFStep("Comparing image"+": "+fileMaster +" and "+fileActual);
+ 	   return ImageCompare.isSimilarImage(fileActual,fileMaster);
+ 	   
+    }
 	//**************** Helps *********************
   	public static boolean propertyMatch(TestObject to, String name,String value){
   		return propertyMatch(to,name,value,true);

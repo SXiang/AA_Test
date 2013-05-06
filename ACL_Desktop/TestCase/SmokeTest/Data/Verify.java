@@ -28,8 +28,8 @@ public class Verify extends VerifyHelper
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 2; // 4-9
-		endAtLine = 2;     //
+		startFromLine = 6; // 4-9
+		endAtLine = 8;     //
 	    exeTestCase(args);
 	}
 			
