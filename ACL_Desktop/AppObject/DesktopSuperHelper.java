@@ -160,7 +160,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	          else if(!dpPreCmd.matches("(?i).*SET SAFETY OFF.*"))
 	    	     dpPreCmd ="SET Safety OFF|"+dpPreCmd;
 	    	//dLog.safety = false;
-        }else if(!delFile&&!dLog.safety){
+//        }else if(!delFile&&!dLog.safety){
+        }else if(!delFile){
 	    	if(dpPreCmd.equals(""))
 	        	  dpPreCmd = "SET Safety ON";
 	          else if(!dpPreCmd.matches("(?i).*SET SAFETY ON.*"))
@@ -171,15 +172,15 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	    if(ignoreOverflow&&dLog.overflow){
 	    	if(dpPreCmd.equals(""))
 	        	  dpPreCmd = "SET Overflow OFF";
-	          else  if(!dpPreCmd.matches("(?i).*SET SAFETY OFF.*"))
+	          else  if(!dpPreCmd.matches("(?i).*SET Overflow OFF.*"))
 	    	   dpPreCmd ="SET Overflow OFF|"+dpPreCmd;
-	    	//dLog.safety = false;
+	    	//dLog.overflow = false;
         }else if(!ignoreOverflow&&!dLog.overflow){
 	    	if(dpPreCmd.equals(""))
 	        	  dpPreCmd = "SET Overflow ON";
-	          else  if(!dpPreCmd.matches("(?i).*SET SAFETY ON.*"))
+	          else  if(!dpPreCmd.matches("(?i).*SET Overflow ON.*"))
 	    	   dpPreCmd = "SET Overflow ON|"+dpPreCmd;
-	    	//dLog.safety = true;
+	    	//dLog.overflow = true;
         }
 	   //logTAFInfo("dpPreCmd"+dpPreCmd);
         
@@ -229,6 +230,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
          dpPostCmd = getDpString("PostCmd");	
         // dpFilterHistory = getDpString("FilterHistory");
          dpActionOnTab = getDpString("ActionOnTab");
+         if(ProjectConf.testType.equalsIgnoreCase("Server")){
+        	 dpActionOnTab = "";   // It's not available on server table now (Monaco)
+         }
          sharedDataDone= true;
 	}
 	
@@ -349,8 +353,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 					"Use Output Table",
 					dpUseOutputTable.equalsIgnoreCase("Yes")?true:false,"New");
 			
-			  if(!fileExt.equalsIgnoreCase(".INX"))
+			  if(!fileExt.equalsIgnoreCase(".INX")){
 			     itemCreated = true;
+			  }
     		}
 		}
     	
@@ -396,6 +401,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			actionOnCheckbox(usetable,
 					"Use Output Table",
 					dpUseOutputTable.equalsIgnoreCase("Yes")?true:false,"New");
+			//aTabs.add(actualName);
 		}
 	}
 	
@@ -495,6 +501,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		return fileCreated;
 	}
 	
+
 	public static String getTableStatus(TestObject anchor,TestObject status,String item){
 
 		String classTag = ".class";
@@ -502,7 +509,10 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		String nameTag = ".name";
 		String textTag = ".text";
 		TestObject itemObj,recordObj;
-		String record = "[0-9]* Records";
+//		String record = "[0-9]*[\\?]? Records";
+		String record = ".*Records";
+		String tableName = "";
+		String recordNum = "";
 		
 		try{
 			if((status==null||!status.exists())){			
@@ -516,35 +526,40 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 				}
 				return "";
 			}
-//			itemObj = findTestObject(status, classTag,classValue,nameTag,"(?i)"+item );
-			itemObj = findTestObject(status, classTag,classValue,nameTag,item );
+
+			
+			itemObj = findTestObject(status, classTag,classValue,nameTag,"i{0}"+item );
 			if(itemObj==null){
-				logTAFError(autoIssue+" Table "+item+" not showing on status bar correctly?");
+			    itemObj = findTestObject(status, classTag,classValue,nameTag,item );
+			}
+			if(itemObj==null){
+				//logTAFDebug(autoIssue+" Table "+item+" not showing on status bar correctly?");
 				return "";
 			}
 			try{
-			    item = itemObj.getProperty(nameTag).toString();
+			    tableName = itemObj.getProperty(nameTag).toString();
 			}catch(Exception e){
 				logTAFWarning("Failed to get table name from the status bar");
 			}
 			//logTAFInfo("Table status - name:"+item);
-			recordObj = findTestObject(status, classTag,classValue,nameTag,record );
+			recordObj = findTestObject(status, classTag,classValue,nameTag,"i{0}"+record );
 			if(recordObj==null){
-				logTAFDebug("Num records of "+item+" is not showing on status bar correctly?");
-				return item;
-			}
-			try{
-			     record = recordObj.getProperty(nameTag).toString();
-			}catch(Exception e){
-				logTAFWarning("Failed to get num records from the status bar");
+				//logTAFDebug("Num records of "+item+" is not showing on status bar correctly?");
+				//return tableName;
+			}else{
+				try{
+					recordNum = recordObj.getProperty(nameTag).toString();
+				}catch(Exception e){
+					logTAFWarning("Failed to get num records from the status bar");
+				}
 			}
 		}catch(Exception e){
 			if(anchor!=null&&anchor.exists()){
 				logTAFError(autoIssue+"Automation failed to get table status '"+e.toString()+"'");
 			}
-			return "";
+			//return "";
 		}
-		return item + "   "+record ;
+		return tableName + "|"+recordNum ;
 	}	
 	public boolean isRunningScript(TestObject status){
 		return isRunningScript(null,status,false);
@@ -583,11 +598,13 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			}
 			if(status==null||!status.exists()){
 				if(anchor!=null&&anchor.exists()){
-					logTAFWarning(autoIssue+"Automation failed to check the ACL status, wait for 30 minutes to check the result istead");
-					sleep(30*60);
+					logTAFWarning(autoIssue+"Automation failed to check the ACL status, is it still running?");
+					return true;
+//					sleep(30*60);
 				}
 				return false;
 			}
+			
 			runObj = findTestObject(status, classTag,classValue,nameTag,run );
 			if(runObj==null){
 				//printObjectTree(status);
@@ -599,8 +616,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			}
 		}catch(Exception e){
 			if(anchor!=null&&anchor.exists()){
-				logTAFError(autoIssue+"Automation failed to check the ACL status '"+e.toString()+"', wait for 30 minutes to check the result istead");
-				sleep(30*60);
+				logTAFError(autoIssue+"Automation failed to check the ACL status '"+e.toString()+"', is it still running?");
+				return true;
+//				sleep(30*60);
 			}
 			return false;
 		}
@@ -635,6 +653,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		File aFile = new File(filename);
 		File masFile = new File(mFile);
 		if(command.matches("RunScript")){
+//			localName = keywordUtil.workingProject+"\\"+
+//			  keywordUtil.replaceSpecialChars(dpScriptName);
 			if(!aFile.isAbsolute()){
 				if(location.equalsIgnoreCase("Server")){
 					filename = ProjectConf.curLabel+":\\"+filename;
@@ -644,13 +664,16 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 				}
 			}						
 			if(mFile.equals("")){
+				
 				fName = aFile.getName();
 				tempMasterFile = FileUtil.getAbsDir(fName,
 						ProjectConf.expectedDataDir+defaultMenu+"/"+command+"/"+localName+"/");				
 			}else{
 				if(!masFile.isAbsolute()){
 					tempMasterFile = FileUtil.getAbsDir(mFile,
-							ProjectConf.expectedDataDir);	
+							ProjectConf.expectedDataDir+defaultMenu+"/"+command+"/");
+//					tempMasterFile = FileUtil.getAbsDir(mFile,
+//							ProjectConf.expectedDataDir);
 				}else{
 					fName = masFile.getName();
 					tempMasterFile = FileUtil.getAbsDir(fName,
@@ -1133,7 +1156,9 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
     	TestObject progressBar = null;                  	              
  		String winTitle = "Status of Task"+
                               "|.*Progress\\.\\.\\."+
-                              "|Import Status";
+                              "|Import Status"+
+                              "|Import - .*"+
+                              "";
         String winClass = "#32770";
         
         if(progressInfo==null
@@ -1352,7 +1377,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
      }
  	public void doVerification(String verifyType,boolean otionalItem){
 		String logView = "Log"; // When file and not use output table
-				
+		dismissPopup("Any",true,true);	// In case of 'Progress bar' especially
 		// Verify ACL resulted file
 		if(fileCreated&&verifyType.equals("File")&&fileComparable){
 		    compareTextFile(dpMasterFile, dpActualFile,

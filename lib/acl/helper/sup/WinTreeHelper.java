@@ -262,7 +262,7 @@ public abstract class WinTreeHelper extends PrintObjectInfoHelper
  		   return true;
  	   }
  	                    // For debugging, don't update
- 	                     updateMasterFile = false;
+ 	                    // updateMasterFile = false;
  	   if(updateMasterFile||!new File(fileMaster).exists()){
  		   logTAFInfo("Save/Update contents of master file '"+fileMaster+"'");
  			   FileUtil.copyFile(fileActual, fileMaster);

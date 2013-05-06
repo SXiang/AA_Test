@@ -564,6 +564,7 @@ public class InitializeTerminateHelper extends LoggerHelper {
 					   if(projectArchived){
 						   summary = summary + "\n**\tProject Archived In: "+getFileLink(workingDir_Server);
 					   }
+					   
 					   summary = summary +"\n**\tAbout: [[Desktop_Continues_Testing]], [[Desktop_Automation_Guide]]";
 					   summary = summary + "\n"+_closeTag;
 					   //***************************************
@@ -579,8 +580,22 @@ public class InitializeTerminateHelper extends LoggerHelper {
 				   //		    	  		           "\n**\t\t\t...\n***\t\t\t..."+
 				   //		    	  		           "\n*\t\tFixed Known Bugs: "+fixedBugs+"" +
 				   //		    	  		           "\n**\t\t\t...\n***\t\t\t...";
-
+				  
 				   summary = summary +"\n"+resultAnalysis+"\n";
+				   
+				   String guiTestCoveredBugs = FileUtil.getFileContents("\\\\192.168.10.129\\Automation\\Monaco\\userContent\\buglist\\guiTestCoveredBugs.html");
+				   String batchTestCoveredBugs = FileUtil.getFileContents("\\\\192.168.10.129\\Automation\\Monaco\\userContent\\buglist\\batchTestCoveredBugs.html");
+				   if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){						   
+				         if(bugNumN+bugNumA>0&&guiTestCoveredBugs!=null&&guiTestCoveredBugs.length()>100){
+				        	 summary = summary+wikiTitleSubPre+colorDiv+"Possible Bugs"+_closeTag+wikiTitleSubSuf;
+				        	 summary = summary + "\n"+guiTestCoveredBugs.replaceAll("\r\n","")+"\n";
+				         }
+				   }else{
+				         if(bugNumN+bugNumA>0&&batchTestCoveredBugs!=null&&batchTestCoveredBugs.length()>100){
+				        	 summary = summary+wikiTitleSubPre+colorDiv+"Possible Bugs"+_closeTag+wikiTitleSubSuf;
+				        	 summary = summary + "\n"+batchTestCoveredBugs.replaceAll("\r\n","")+"\n";
+				         }				         
+				   }
 			   }
 		    	  //^^^^^^^^^^^^ Start of Error Details ^^^^^^^^^^^^
 		    	  if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){ // Contains passed tests 

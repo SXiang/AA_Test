@@ -74,6 +74,23 @@ public class aclRoutines extends aclRoutinesHelper
 			return true;
 		GuiSubitemTestObject cmdLine;// = findTestObject(, String... pairs ) {
 		boolean done = false;
+		String tableStatus = "";
+		String item = "";
+		
+		if(comm.matches("(?i)OPEN .*")){
+			item = comm.replaceAll("(?i)OPEN (.*)", "$1").trim();
+			//logTAFInfo(tableName + " is opened and active ? "+aTabs.isActive(tableName));
+//			if(aTabs.isActive(item)){
+			if(aTabs.isActive(item)||!aTabs.isTraceable(item)){
+				tableStatus = aTabs.getTableStatus(item);
+				//logTAFInfo("Acl status: '"+tableStatus+"'");
+				if(applyWR&&tableStatus.matches("(?i)"+item+"\\|.*")){
+				  logTAFInfo("Warning: "+item+" had been opened and is active!");
+//				  return true;
+				}
+			}
+			
+		}
 		TestObject to = findTestObject(acl_SplitterWin(),".class","ACL_CommandLine_WND");
 		//TestObject to = findTestObject(acl_SplitterWin(),".class","ACL_CmdLine_Edit",".classIndex","0");
 		if((to==null||!propertyMatch(to,".visible","true",false))&&
@@ -123,13 +140,14 @@ public class aclRoutines extends aclRoutinesHelper
         
         //comm = comm.toUpperCase();
 		if(comm.matches("(?i)OPEN .*")){
+			//tableName = comm.replaceAll("(?i)OPEN (.*)", "$1").trim();
 			sleep(2);	
 			dismissPopup("Any",true);
             kUtil.closeServerActivity(false);
             kUtil.isActivated(true);  
             
             if(!comm.matches("(?i).* SECONDARY")){
-              aTabs.add(comm.replaceAll("(?i)OPEN (.*)", "$1"),actionOnTab);
+              aTabs.add(item,actionOnTab);
               //aTabs.actOnTab(actionOnTab);
             }
             //kUtil.checkACLCrash();

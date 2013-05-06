@@ -27,8 +27,8 @@ public class CRCreateTemplate extends CRCreateTemplateHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Data/CRCreateTemplate.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 2; // 4-9
-		endAtLine = 2;     //
+		startFromLine = 4; // 4-9
+		endAtLine = 4;     //
 	    exeTestCase(args);
 	}
 			

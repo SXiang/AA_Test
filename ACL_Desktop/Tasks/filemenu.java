@@ -265,9 +265,11 @@ public class filemenu extends filemenuHelper
 			}else{
 				pass = false;
 				if(fh!=""&&expected.contains(fh)){
-					logTAFError("Expected filter "+(sizeExp-i)+": '"+fe+", not found in the history list");
+					logTAFError("Expected filter "+(sizeExp-i)+": '"+fe+"', not found in the history list");
+				}else if(fh==""){
+					logTAFError("Expected filter "+(sizeExp-i)+": '"+fe+"', not found in the history list");
 				}else{
-					logTAFError("Expected filter "+(sizeExp-i)+": '"+fe+", Actual '"+fh+"' found");
+					logTAFError("Expected filter "+(sizeExp-i)+": '"+fe+"', Actual '"+fh+"' found");
 				}
 			}
 		}

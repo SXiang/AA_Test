@@ -61,11 +61,14 @@ public class LoggerHelper extends RationalTestScript {
 	                  numTCs = 0,
 	                  numTCsFail = 0,
 	                  numSnapshots = 0;
-	public static boolean stopScript = false,
+	public static boolean 
+	              stopScript = false,
+	              stopTest = false,
 	              batchRun = false,
 	              isWeb = false,
 	              RFT_emailReport = false,
-	              localOnlyTest = false;
+	              localOnlyTest = false
+	              ;
 	          
 	public static String stopMessage ="",
 	                     expectedErr = "",
@@ -127,6 +130,8 @@ public class LoggerHelper extends RationalTestScript {
     
     public static boolean errorHandledInLine=false;
     public static boolean onRecovery=true;
+    public static boolean applyWR=false;
+    public static boolean testInterrupted = false;
 	// Dynamic data
 	public static String pathToTestCaseScripts = "";
 	public static String originalPathToTestCaseScripts = "";
@@ -610,6 +615,7 @@ public class LoggerHelper extends RationalTestScript {
      	   killProcess();
      	   
 	    	}
+		unregisterAll();
 		app = null;
 	}
 	public static void killProcess(){
@@ -661,13 +667,19 @@ public class LoggerHelper extends RationalTestScript {
 		                     "Correct the problem and try again",
 		                     "Window is disabled",
 		                     "Failed to connect to server",
+		                     "server connection",
 		                     "Project name",  // In case of invalid name used somehow 
+		                     "Invalid field data",
+		                     "null window",
 		                     autoIssue
 		                     };
 		boolean isauto = false;
 		for(String key:autoPattern){
 			if(msg.toUpperCase().contains(key.toUpperCase())){
 				isauto = true;
+				if(key.equalsIgnoreCase("null window")){
+					testInterrupted = true;
+				}
 				break;
 			}
 		}
@@ -816,7 +828,12 @@ public class LoggerHelper extends RationalTestScript {
 			  sysExceptionCaught = true;
 			  stopApp();
 			  return true;
-		  }		        
+		  }else if(e instanceof com.rational.test.ft.RationalTestError ||
+				  e instanceof java.lang.NoClassDefFoundError){
+			  sysExceptionCaught = true;
+			  stopApp();
+			  return false;
+		  }
 		  return true;
 	  }
 	public LoggerHelper(){

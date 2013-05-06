@@ -49,7 +49,7 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 		LoggerConf.filterLevel = LoggerConf.batchRunfilterLevel; 	
 		
 		dpReset();
-		while (!dpDone())
+		while (!dpDone()&&!stopTest)
 		{
 			    currentLine++;
 			    numTestedKeywordInCase =0;
@@ -205,8 +205,8 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 		String newIssueHints = getNewIssueHints(bugnew);
 		bugmessage  = newIssueHints+
 		//"\n*"+colorNewIssue+"   New Issues?:  "+bugnew.replaceAll("\\n.*Snapshot:.*","")+closeTag+
-			          "\n*"+colorRemainBug+"   Remaining Issues:  "+getString(bugNumR)+bugremaining+closeTag+
-		              "\n*"+colorFixedBug+"   Fixed Bugs:  "+getString(bugNumF)+bugfixed+closeTag+
+			          "\n*"+colorRemainBug+"   Known Issues:  "+getString(bugNumR)+bugremaining+closeTag+
+//		              "\n*"+colorFixedBug+"   Fixed Known Issues:  "+getString(bugNumF)+bugfixed+closeTag+
 		              "\n*"+colorAutomationIssue+"   Automation Issues?:  "+getString(bugNumA)+bugauto.replaceAll("\\n.*Snapshot:.*","")+closeTag;
 		
 		String Output_Report = testSummary(testSuite);
@@ -326,6 +326,9 @@ public class BatchRunSuperHelper extends InitializeTerminateHelper{
 		FileUtil.removeDir(reportDir+"\\FinishedTest\\");
 		if(isfinal){
 			FileUtil.mkDirs(reportDir+"\\FinishedTest\\file");
+			if(testInterrupted){
+				FileUtil.mkDirs(reportDir+"\\Interrupted\\file");
+			}
 		}else{
 			//FileUtil.removeDir(reportDir+"\\FinishedTest\\");
 		}

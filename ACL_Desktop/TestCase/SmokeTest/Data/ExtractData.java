@@ -28,8 +28,8 @@ public class ExtractData extends ExtractDataHelper
 
 	public void testMain(Object[] args) 
 	{
-		//startFromLine = 11; // 4-9
-		endAtLine =2;     //
+		startFromLine = 3; // 4-9
+		endAtLine =4;     //
 	    exeTestCase(args);
 	}
 			

@@ -17,12 +17,12 @@ import com.rational.test.ft.vp.IFtVerificationPoint;
 
 /**
  * Script Name   : <b>moreddwmenu</b><br>
- * Generated     : <b>2012/03/09 8:01:49 PM</b><br>
+ * Generated     : <b>2013/04/09 2:30:47 PM</b><br>
  * Description   : Helper class for script<br>
  * Original Host : Windows XP x86 5.1 build 2600 Service Pack 3 <br>
  * 
- * @since  March 09, 2012
- * @author Karen_zou
+ * @since  April 09, 2013
+ * @author steven_xiang
  */
 public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.DesktopSuperHelper
 {
@@ -53,9 +53,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * Context: with default state.
-	 *		.text : Context
+	 *		.text : RegularExpression(Context)
 	 * 		.class : .Menupopup
-	 * 		.name : Context
+	 * 		.name : RegularExpression(Context)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject contextpopupMenu() 
@@ -65,9 +65,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * Context: with specific test context and state.
-	 *		.text : Context
+	 *		.text : RegularExpression(Context)
 	 * 		.class : .Menupopup
-	 * 		.name : Context
+	 * 		.name : RegularExpression(Context)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject contextpopupMenu(TestObject anchor, long flags) 
@@ -153,9 +153,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * Cancel: with default state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_cancel() 
@@ -165,9 +165,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * Cancel: with specific test context and state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_cancel(TestObject anchor, long flags) 
@@ -203,9 +203,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * Finish: with default state.
-	 *		.text : Finish
+	 *		.text : RegularExpression(Finish)
 	 * 		.class : .Pushbutton
-	 * 		.name : Finish
+	 * 		.name : RegularExpression(Finish)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_finish() 
@@ -215,9 +215,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * Finish: with specific test context and state.
-	 *		.text : Finish
+	 *		.text : RegularExpression(Finish)
 	 * 		.class : .Pushbutton
-	 * 		.name : Finish
+	 * 		.name : RegularExpression(Finish)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_finish(TestObject anchor, long flags) 
@@ -314,9 +314,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * Next: with default state.
-	 *		.text : Next >
+	 *		.text : RegularExpression(Next >)
 	 * 		.class : .Pushbutton
-	 * 		.name : Next >
+	 * 		.name : RegularExpression(Next >)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_next() 
@@ -326,9 +326,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * Next: with specific test context and state.
-	 *		.text : Next >
+	 *		.text : RegularExpression(Next >)
 	 * 		.class : .Pushbutton
-	 * 		.name : Next >
+	 * 		.name : RegularExpression(Next >)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_next(TestObject anchor, long flags) 
@@ -339,9 +339,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_ok() 
@@ -351,9 +351,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_ok(TestObject anchor, long flags) 
@@ -364,9 +364,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_ok1() 
@@ -376,9 +376,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_ok1(TestObject anchor, long flags) 
@@ -435,9 +435,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_selectfileok() 
@@ -447,9 +447,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_selectfileok(TestObject anchor, long flags) 
@@ -485,9 +485,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * Cancel: with default state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_xmlcancel() 
@@ -497,9 +497,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * Cancel: with specific test context and state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject ddw_xmlcancel(TestObject anchor, long flags) 
@@ -560,9 +560,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject fd_ok() 
@@ -572,9 +572,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject fd_ok(TestObject anchor, long flags) 
@@ -735,9 +735,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject finish_ok() 
@@ -747,9 +747,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject finish_ok(TestObject anchor, long flags) 
@@ -927,9 +927,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject rd_ok() 
@@ -939,9 +939,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject rd_ok(TestObject anchor, long flags) 
@@ -1049,7 +1049,7 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	/**
 	 * Cancel: with default state.
 	 *		.text : Cancel
-	 * 		.class : RegularExpression(\.Pushbutton|.*)
+	 * 		.class : .Pushbutton
 	 * 		.name : Cancel
 	 * 		.classIndex : 0
 	 */
@@ -1061,7 +1061,7 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	/**
 	 * Cancel: with specific test context and state.
 	 *		.text : Cancel
-	 * 		.class : RegularExpression(\.Pushbutton|.*)
+	 * 		.class : .Pushbutton
 	 * 		.name : Cancel
 	 * 		.classIndex : 0
 	 */
@@ -1097,35 +1097,35 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	
 	/**
-	 * ComboBox: with default state.
-	 *		.text : File name:
-	 * 		.class : ComboBox
-	 * 		.name : File name:
+	 * ComboBoxEx32: with default state.
+	 *		.text : RegularExpression(File name:)
+	 * 		.class : ComboBoxEx32
+	 * 		.name : RegularExpression(File name:)
 	 * 		.classIndex : 0
 	 */
-	protected TextSelectGuiSubitemTestObject sf_localfilename1() 
+	protected GuiSubitemTestObject sf_localfilename_old() 
 	{
-		return new TextSelectGuiSubitemTestObject(
-                        getMappedTestObject("sf_localfilename1"));
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("sf_localfilename_old"));
 	}
 	/**
-	 * ComboBox: with specific test context and state.
-	 *		.text : File name:
-	 * 		.class : ComboBox
-	 * 		.name : File name:
+	 * ComboBoxEx32: with specific test context and state.
+	 *		.text : RegularExpression(File name:)
+	 * 		.class : ComboBoxEx32
+	 * 		.name : RegularExpression(File name:)
 	 * 		.classIndex : 0
 	 */
-	protected TextSelectGuiSubitemTestObject sf_localfilename1(TestObject anchor, long flags) 
+	protected GuiSubitemTestObject sf_localfilename_old(TestObject anchor, long flags) 
 	{
-		return new TextSelectGuiSubitemTestObject(
-                        getMappedTestObject("sf_localfilename1"), anchor, flags);
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("sf_localfilename_old"), anchor, flags);
 	}
 	
 	/**
 	 * ComboBox: with default state.
-	 *		.text : Look in:
+	 *		.text : Save in:
 	 * 		.class : ComboBox
-	 * 		.name : Look in:
+	 * 		.name : Save in:
 	 * 		.classIndex : 0
 	 */
 	protected TextSelectGuiSubitemTestObject sf_lookin() 
@@ -1135,9 +1135,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * ComboBox: with specific test context and state.
-	 *		.text : Look in:
+	 *		.text : Save in:
 	 * 		.class : ComboBox
-	 * 		.name : Look in:
+	 * 		.name : Save in:
 	 * 		.classIndex : 0
 	 */
 	protected TextSelectGuiSubitemTestObject sf_lookin(TestObject anchor, long flags) 
@@ -1148,9 +1148,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * Open: with default state.
-	 *		.text : Open
-	 * 		.class : RegularExpression(\.Pushbutton|.*)
-	 * 		.name : Open
+	 *		.text : RegularExpression(Open)
+	 * 		.class : .Pushbutton
+	 * 		.name : RegularExpression(Open)
 	 */
 	protected GuiTestObject sf_open() 
 	{
@@ -1159,9 +1159,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * Open: with specific test context and state.
-	 *		.text : Open
-	 * 		.class : RegularExpression(\.Pushbutton|.*)
-	 * 		.name : Open
+	 *		.text : RegularExpression(Open)
+	 * 		.class : .Pushbutton
+	 * 		.name : RegularExpression(Open)
 	 */
 	protected GuiTestObject sf_open(TestObject anchor, long flags) 
 	{
@@ -1195,10 +1195,35 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	
 	/**
+	 * Save: with default state.
+	 *		.text : RegularExpression(Save)
+	 * 		.class : .Pushbutton
+	 * 		.name : RegularExpression(Save)
+	 * 		.classIndex : 0
+	 */
+	protected GuiTestObject sf_save_old() 
+	{
+		return new GuiTestObject(
+                        getMappedTestObject("sf_save_old"));
+	}
+	/**
+	 * Save: with specific test context and state.
+	 *		.text : RegularExpression(Save)
+	 * 		.class : .Pushbutton
+	 * 		.name : RegularExpression(Save)
+	 * 		.classIndex : 0
+	 */
+	protected GuiTestObject sf_save_old(TestObject anchor, long flags) 
+	{
+		return new GuiTestObject(
+                        getMappedTestObject("sf_save_old"), anchor, flags);
+	}
+	
+	/**
 	 * Edit: with default state.
-	 *		.text : File name:
+	 *		.text : RegularExpression(File name:)
 	 * 		.class : Edit
-	 * 		.name : File name:
+	 * 		.name : RegularExpression(File name:)
 	 * 		.classIndex : 0
 	 */
 	protected TextGuiTestObject sf_serverfilename() 
@@ -1208,9 +1233,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * Edit: with specific test context and state.
-	 *		.text : File name:
+	 *		.text : RegularExpression(File name:)
 	 * 		.class : Edit
-	 * 		.name : File name:
+	 * 		.name : RegularExpression(File name:)
 	 * 		.classIndex : 0
 	 */
 	protected TextGuiTestObject sf_serverfilename(TestObject anchor, long flags) 
@@ -1371,9 +1396,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * NewRecord: with default state.
-	 *		.text : New Record
+	 *		.text : RegularExpression(New Record)
 	 * 		.class : .Radiobutton
-	 * 		.name : New Record
+	 * 		.name : RegularExpression(New Record)
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject specifyrecordtype_newrecord() 
@@ -1383,9 +1408,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * NewRecord: with specific test context and state.
-	 *		.text : New Record
+	 *		.text : RegularExpression(New Record)
 	 * 		.class : .Radiobutton
-	 * 		.name : New Record
+	 * 		.name : RegularExpression(New Record)
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject specifyrecordtype_newrecord(TestObject anchor, long flags) 
@@ -1396,9 +1421,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject specifyrecordtype_ok() 
@@ -1408,9 +1433,9 @@ public abstract class moreddwmenuHelper extends ACL_Desktop.AppObject_Karen.Desk
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject specifyrecordtype_ok(TestObject anchor, long flags) 

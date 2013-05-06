@@ -151,8 +151,11 @@ public class runScript extends runScriptHelper
 		   		}
 		   		//String filename,String location, String append, String defaultFileExt,String mFile
 		   		//aFileName = FileUtil.getAbsDir(aFileName,kUtil.workingDir);	
-		   		if(mFile.length>i){
+		   		if(mFile.length>i&&!dpUserMasterFiles.equals("")){
 		   			masFile = mFile[i].trim();
+		   		}else{
+		   			masFile = keywordUtil.projName+"\\"+
+					  keywordUtil.replaceSpecialChars(dpScriptName)+"\\"+aFileName;
 		   		}
 		   		setupTestFiles(aFileName,prefix,"No",fileExt,masFile,i);		
 		   	}
@@ -195,8 +198,10 @@ public class runScript extends runScriptHelper
 	}
 	
 	public void thisMainTab(GuiSubitemTestObject tabDialog){
-		int maxTime = 900;
-		int wTime = 0;
+		//long maxTime = 1800*1000;
+		long maxTime = 45*60*1000;
+		long startTime = System.currentTimeMillis( );
+		
 		boolean isScriptRunning = true;
 		String script="",ifexp="";
 		String names[] = dpScriptName.split("\\|");
@@ -253,8 +258,10 @@ public class runScript extends runScriptHelper
 	    	}
 	    	
 
-
-			while(isScriptRunning&&wTime++<maxTime){
+            
+          
+			while(isScriptRunning&&System.currentTimeMillis( )<maxTime+startTime){
+				unregisterAll();
 				sleep(2);
 				isScriptRunning=isRunningScript(ACL9(),acl_StatusBar(),dismissPopup);
 				//isScriptRunning=isRunningScript(ACL9(),null,dismissPopup);
@@ -271,11 +278,14 @@ public class runScript extends runScriptHelper
     		    }
 		
 			}
-
-			isScriptRunning = true;
-			if(!kUtil.isActivated()){
+			
+			if(isScriptRunning){
+				logTAFError(autoIssue+"This script has been running for "+(long)(maxTime/(60*1000))+
+						" minutes which is much longer than usual, check the screenshot and console log for details");
+			}else if(!kUtil.isActivated()){
 				logTAFWarning("AUT is not activated at the end of this test, please check if there were anything wrong!");
 			}
+			isScriptRunning = true;
 	    	
 		}
 	}

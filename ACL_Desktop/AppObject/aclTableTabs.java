@@ -11,6 +11,8 @@ import lib.acl.helper.sup.LoggerHelper;
 import lib.acl.helper.sup.ObjectHelper;
 
 import resources.ACL_Desktop.AppObject.aclTableTabsHelper;
+import ACL_Desktop.conf.beans.ProjectConf;
+
 import com.rational.test.ft.*;
 import com.rational.test.ft.object.interfaces.*;
 import com.rational.test.ft.object.interfaces.SAP.*;
@@ -69,7 +71,9 @@ public class aclTableTabs extends aclTableTabsHelper
 		add(item,"");
 	}
 	public void add(String item,String actOnTab){
-		if(!isTraceable(item))
+//		if(!isTraceable(item))
+//			return;
+		if(!isTableItem(item))
 			return;
 		if(!tabList.contains(item)){
 			LoggerHelper.logInfo("Table tab "+item+" added to document manager");
@@ -101,6 +105,9 @@ public class aclTableTabs extends aclTableTabsHelper
 	public boolean isActive(int index){
 		return index==DesktopSuperHelper.activeTab;
 	}
+	public boolean isActive(String tab){
+		return isActive(tabList.indexOf(tab));
+	}
 	public void moveActiveTab(String tab){
 		   int index = tabList.indexOf(tab); 		   
  		   if(isActive(index)){
@@ -111,18 +118,38 @@ public class aclTableTabs extends aclTableTabsHelper
  		 //  verifyTabStatus(tab);
 	}
 	
-	public void verifyTabStatus(String item){		
-	   if(!isTableItem(item)){
-		   //LoggerHelper.logTAFWarning("There is no status for the "+wPage);
-		   return;
-	   }
-	   // TBD: Need to debug the find method -- Steven
-	   LoggerHelper.logInfo("Status bar - "+DesktopSuperHelper.getTableStatus(ACL10(),acl_StatusBar(),item));
-	  // ObjectHelper.printObjectTree(acl_StatusBar());
+	public String getTableStatus(String item){
+		   if(!isTableItem(item)){
+			   //LoggerHelper.logTAFWarning("There is no status for the "+wPage);
+			   return "Not a table";
+		   }
+		   //
+		return DesktopSuperHelper.getTableStatus(ACL10(),acl_StatusBar(),item);
 	}
+	public boolean verifyTabStatus(String item){		
+       boolean found = false;
+	   String tableStatus = getTableStatus(item);
+	   
+	   if(tableStatus.matches("(?i)"+item+"\\|.*")){
+		   found = true;
+		   LoggerHelper.logTAFInfo(item+" has been opened/activated successfully.");
+	   }else if(tableStatus.matches("(?i)"+"\\|.*")||  // This is in case any automation issue, remove it if it's stable enough then - Steven
+			   tableStatus.equals("")){
+		   found = true;
+		   LoggerHelper.logTAFWarning("Failed to open/activate table '"+item+"'?");
+	   }else if( tableStatus.equals("Not a table")){
+		   found = true;		  
+	   }else{
+		   found = false;
+		   LoggerHelper.logTAFWarning("Failed to open/activate table '"+item+"'? current active item is '"+tableStatus+"'");
+	   }
+	   return found;
+	}
+	
 	public void verifyActiveTable(int activeIndex){
-		verifyTabStatus(tabList.get(activeIndex));
-		DesktopSuperHelper.activeTab = activeIndex;
+		if(verifyTabStatus(tabList.get(activeIndex))){
+		  DesktopSuperHelper.activeTab = activeIndex;
+		}
 	}
 	public void switchTableTabs(){
 	
@@ -136,8 +163,14 @@ public class aclTableTabs extends aclTableTabsHelper
 		return actOnTab(act,getLast());
 	}
     public boolean actOnTab(String act,String item){
-		if(act.equals(""))
-			return true;
+    	
+		if(act.equals("")){
+			if(ProjectConf.pinTable){
+				act="Pin";
+			}else{
+			  return true;
+			}
+		}
 		if(act.equalsIgnoreCase("Pin"))
 			return pinTab(item);
 		else if(act.equalsIgnoreCase("Close"))
@@ -170,19 +203,25 @@ public class aclTableTabs extends aclTableTabsHelper
   	   return done;
   	 } 	 
  	 public boolean isUnpined(String tab){
- 		return false;
-        //return !isPined(tab);
+ 		if(ProjectConf.testType.equalsIgnoreCase("Server")){
+ 			return true;
+ 		}
+ 		     return false;
+ 	 // Enable this if isPined works properly
+ 	 //        return !isPined(tab);
  	 }
  	 public boolean isPined(String tab){
- 		 boolean pined = false;
- 		 //TBD ..... Steven - need to capture the icon 
- 		 
- 		 
- 		 
- 		 
- 		 
- 		 
- 		 return pined;
+ 		 boolean pined = true;
+ 		 if(ProjectConf.testType.equalsIgnoreCase("Server")){
+ 			 // Pin doesn't work for server table
+ 			 pined = false;
+ 		 }else {
+ 			 pined = true;
+ 		 }
+        //
+//TBD ..... Steven - need to capture the icon, then return pined instead false;	  		  		 
+// 		 return pined;
+ 		 return false;
  	 }
  	 //********* Close Tab ***********
      public boolean closeTab(){

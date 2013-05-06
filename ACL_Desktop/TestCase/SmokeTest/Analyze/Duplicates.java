@@ -27,8 +27,8 @@ public class Duplicates extends DuplicatesHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Analyze/Duplicates.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 12; // 4-9
-		endAtLine = 16;     //
+		startFromLine = 14; // 4-9
+		endAtLine = 14;     //
 	    exeTestCase(args);
 	}
 			

@@ -149,9 +149,17 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
             	//sleep(1);
             	//logTAFWarning("\t!!! No korean aclse available, some tests may fail due to the failure of server connection!!!");
             }   
-            
+
+            String temp = getDpString("ProjectName");
+
+            if(ProjectConf.testType.matches("(?i)SERVER")){   
+
+            	if(temp.matches("(?i).+LOCAL(\\.ACL)?")){
+            		skipTest = true;
+            	}
+            }            
             if(localOnlyTest){            	
-            	if(getDpString("ProjectName").matches("(?i).+SERVER(\\.ACL)?")){
+            	if(getDpString("ProjectName").matches("(?i)(.+SERVER(\\.ACL)?)")){
             		skipTest = true;
             	}
             	if(keywordName.matches("(?i)servermenu"))
@@ -376,7 +384,7 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
 		} // End of while (all keywords)
 		
 		if(stopScript){
-			logTAFInfo(stopMessage+" - stop remaining executions for this test case");
+			logTAFInfo(stopMessage+" - stop remaining execution from this test suite");
 		}
 
 		if(testCaseResult == "Fail"){

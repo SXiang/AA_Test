@@ -37,8 +37,8 @@ public class GenTestCasesWiki extends GenTestCasesWikiHelper
 	{
 		String projectPrefix = "AX_";
 //		TESTCASE_DIR = "/KeywordTable/RegressionTest";
-		TESTCASE_DIR = "/DATA/KeywordTable/Tools";
-//		TESTCASE_DIR = "/DATA/KeywordTable/SmokeTest/DDW";
+//		TESTCASE_DIR = "/DATA/KeywordTable/Tools";
+		TESTCASE_DIR = "/DATA/KeywordTable/SmokeTest/DDW";
 //		project = "GatewayPro";		
 //		project = "Exception";
 //		project = "GatewayPro";

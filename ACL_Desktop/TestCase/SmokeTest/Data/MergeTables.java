@@ -28,8 +28,8 @@ public class MergeTables extends MergeTablesHelper
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 17; // 4-9
-		endAtLine = 17;     //
+		startFromLine = 2; // 4-9
+		//endAtLine = 3;     //
 	    exeTestCase(args);
 	}
 			

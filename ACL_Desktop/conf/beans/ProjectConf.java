@@ -26,7 +26,8 @@ public class ProjectConf {
                           updateProjects = false,
                           finalization=true,
                           singleInstance=false,
-                          jenkinsReport=false;
+                          jenkinsReport=false,
+                          pinTable=false;
     public static String imageName = "ACLWin.exe";
     public static String autTitle = "ACL Analytics 10"; // "ACL 9"
     public static String AUT,appLocale="",startComm;
@@ -49,6 +50,7 @@ public class ProjectConf {
 					unicodeServerIP = "192.168.10.84",
 					nonUnicodeServerIP = "192.168.10.92",
 					curLabel = "",
+					curPrf = "acl10.prf",
 					serverPrefix = "C:/ACL/Automation/RFT_DATA/",
 					serverNetDir = ":/ACL/Automation/",
 					serverNetUser = "Administrator",
@@ -243,6 +245,8 @@ public class ProjectConf {
         if(testType.equalsIgnoreCase("LOCALONLY")){
         	LoggerHelper.localOnlyTest = true;
         		testType="LOCAL";
+        	}else{
+        		LoggerHelper.localOnlyTest = false;
         	}
 		ProjectConf.testType = testType;
 	}
@@ -341,19 +345,25 @@ public class ProjectConf {
         
 		serverInputDataDir = serverPrefix+serverInputDataDir;
 		
+		String uniPrf = "acl9.prf";
+		String nonuniPrf = "aclwin9.prf";
+
+		if(ProjectConf.autTitle.endsWith("10")){
+			uniPrf = "acl10.prf";
+			nonuniPrf = "aclwin10.prf";
+		}else if(AUT!=""){
+			FileUtil.regsvr32("ACLServer.dll",AUT);
+		}
+		
 		if(isUnicodeTest()){
 			workbookBackupDir = workbookBackupDir+"BACKUP\\Unicode\\";
 			workbookDir = workbookDir+"Unicode\\";
-			
-//			expectedDataDir += "Unicode\\"+locale+"\\";
-//			expectedDataBackupDir = workbookDir+"BACKUP\\ExpectedData\\Unicode\\"+locale+"\\";
-			
 			expectedDataDir += "Unicode\\"+locale+"\\"+ProjectConf.testType+"\\";
 			expectedDataBackupDir = workbookBackupDir+"BACKUP\\ExpectedData\\Unicode\\"+locale+"\\"+ProjectConf.testType+"\\";
 			curLabel = uNetLabel;
 			serverNetDir = uNetLabel+": \\\\"+unicodeServerIP+"\\"+serverNetDir;		
 			tempServerNetDir = uNetLabel+":/"+tempServerNetDir;
-			
+            curPrf = uniPrf;
 		}else{
 			workbookBackupDir = workbookBackupDir+"BACKUP\\NonUnicode\\";
 			workbookDir = workbookDir+"NonUnicode\\";
@@ -365,19 +375,13 @@ public class ProjectConf {
 			curLabel = nUNetLabel;
 			serverNetDir = nUNetLabel+": \\\\"+nonUnicodeServerIP+"\\"+serverNetDir;
 			tempServerNetDir = nUNetLabel+":/"+tempServerNetDir;
+			curPrf = nonuniPrf;
 		}
 		
-		if(AUT!=""){
-			FileUtil.copyFile(workbookBackupDir+"acl9.prf", workbookDir+"acl9.prf");
-			FileUtil.copyFile(workbookBackupDir+"acl9.prf", workbookDir+"acl10.prf");
-			FileUtil.copyFile(workbookBackupDir+"aclwin9.prf", workbookDir+"aclwin9.prf");
-			FileUtil.copyFile(workbookBackupDir+"aclwin9.prf", workbookDir+"aclwin10.prf");
-			FileUtil.copyFile(workbookBackupDir+"acl10.prf", workbookDir+"acl10.prf");
-			FileUtil.copyFile(workbookBackupDir+"aclwin10.prf", workbookDir+"aclwin10.prf");
+		FileUtil.delFile(workbookDir+"*.prf");
+		FileUtil.copyFile(workbookBackupDir+curPrf, workbookDir+curPrf);
 
-			FileUtil.regsvr32("ACLServer.dll",AUT);
-			//ProjectConf.startComm = "Start \""+imageName+"\" /D\""+FileUtil.getAbsDir(workbookDir)+"\" /MAX /SEPARATE /B \""+AUT+imageName+"\"";
-		
+		if(AUT!=""){
 			ProjectConf.startComm = "Start \""+imageName+"\" /D\""+FileUtil.getAbsDir(workbookDir)+"\\\" /MAX /B /WAIT /SEPARATE \""+AUT+imageName+"\"";
 		}else{
 		    ProjectConf.startComm = "";
