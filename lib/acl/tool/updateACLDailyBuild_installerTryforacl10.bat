@@ -20,51 +20,59 @@
 @ECHO OFF
 COLOR 1F
 :: Set our SRC and DES root folder
+
 :RELOAD
 ::SET SRCROOT=\\biollante02\DailyBuild\Silverstone\Desktop
-IF '%tFolder%'=='' SET tFolder=Dev
-::SET tFolder=RC
+IF '%tFolder%'=='' SET tFolder=DEV
+Rem SET tFolder=RC
 SET SRCROOT=\\biollante02\DailyBuild\Monaco\%tFolder%
-SET _SRCROOT_installer=\\nas-build\DevRoot\Data\Acldbld\biollante\Silverstone
+SET _SRCROOT_installer=%SRCROOT%
+REM SET _SRCROOT_installer=\\nas-build\DevRoot\Data\Acldbld\biollante\Silverstone
 Rem LOCALE=En,De,Es,Pt,Fr;Zh,Pl,Ko,Ja
 IF '%LOCALE%'=='' SET LOCALE=En
 SET INSTALLEXE=ACLSilentInstall.exe
 SET NUM_TOKENS=5
 SET INSTALL_DIR=%DESROOT%
-SET INSTALL_DIR1=C:\Progra~1\ACL Software\ACL Analytics 10
-SET INSTALL_DIR2=C:\Progra~2\ACL Software\ACL Analytics 10
+SET INSTALL_DIR1=C:\ACL\CI_Jenkins\Analytics10
+SET INSTALL_DIR2=C:\ACL\CI_Jenkins\Analytics10
 IF '"%DESROOT%"'=='""' (
-    SET DESROOT=D:\ACL\TFSView\RFT_Automation\Monako\Desktop
+    SET DESROOT=D:\ACL\TFSView\RFT_Automation\Monaco\Desktop
     IF NOT EXIST D: SET DESROOT=C:\ACL\Desktop
-	Rem SET STANDALONG=TRUE
-    Rem DESROOT=%INSTALL_DIR1%
-    Rem SILENT_INSTALL=TRUE
+	SET STANDALONG=TRUE
+    DESROOT=%INSTALL_DIR1%
+    ILENT_INSTALL=TRUE
 )
+SET DESROOT="%DESROOT%\%tFolder%"
 SET INSTALL_DIR=%DESROOT%
-SET DESROOT="%DESROOT%"
 SET MISSINGDLLSSRC=\\winrunner\winrunner\SharedFiles\ACL_missing_Files
+SET MISSINGDLLSSRCIH=\\winrunner\winrunner\SharedFiles\Ironhide_missing_Files
 SET RFTSharedFiles=\\winrunner\RFT\SharedFiles
 SET ThirdPartDllSRC=%SRCROOT%\..\ThirdPartyDll
 SET MISSINGDLLSDES=ReleaseSingleUser
 SET MISSINGDLLSDES_U=UnicodeSingleUser
 SET ACL_DATA="C:\ACL DATA\Sample Data Files"
-SET VerPrefix=Build_
-SET VerPrefixOld=9.3.0.
-SET NameprefixOld=ACLv93
-SET Nameprefix=ACLv931
+SET VerPrefix=Build_2
+SET VerPrefixOld=Build_2
+SET NameprefixOld=ACLv931
+SET Nameprefix=ACLv10
 SET Executable=ACLWin.exe
 SET DOMAIN_NAME=ACL
 SET USER_NAME=QAMail
 SET PASSWORD=Password00
 IF NOT '%1'=='' SET _Version=%1
-IF NOT '%2'=='' SET VerPrefix=%2
-IF /I '%tFolder%'=='Dev' SET VerPrefix=%VerPrefix%1
+::IF NOT '%2'=='' SET VerPrefix=%2
+IF /I '%tFolder%'=='Dev' SET VerPrefix=%VerPrefix%2
 if NOT '%5'=='' SET PASSWORD=%5
 if NOT '%4'=='' SET USER_NAME=%4
 if NOT '%3'=='' SET DOMAIN_NAME=%3
 
 SET ACLNonUni=Release
 SET ACLUni=Unicode
+SET DTUni=%ACLUni%
+SET DTNonUni=%ACLNonUni%
+SET IHUni=Ironhide%ACLUni%
+SET IHNonUni=Ironhide%ACLNonUni%
+
 SET VerType=%tFolder%Build
 IF EXIST %DESROOT%\Acl.ini (
   SET VerType=%tFolder%Copy
@@ -86,30 +94,30 @@ GOTO CONTINUE
 :INSTALLER
   SET SRCROOT_installer=%_SRCROOT_installer%
   IF /I '%LOCALE%'=='EN' SET LOCALE=En
-  IF NOT '%LOCALE%'=='En' SET SRCROOT_installer=%_SRCROOT_installer%\LocalizedInstallers
-  IF '%LOCALE%'=='Pl' SET SRCROOT_installer=%SRCROOT_installer%\Polish
+rem  IF NOT '%LOCALE%'=='En' SET SRCROOT_installer=%_SRCROOT_installer%\LocalizedInstallers
+rem  IF '%LOCALE%'=='Pl' SET SRCROOT_installer=%SRCROOT_installer%\Polish
   IF /I '%SILENT_INSTALL%'=='FALSE' GOTO CONTINUE
   SET VerType=Installer
   SET SRCROOT=%SRCROOT_installer%
-  SET ACLNonUni=%NamePrefix%%LOCALE%_Desktop_NonUnicode
-  SET ACLUni=%NamePrefix%%LOCALE%_Desktop_Unicode
+  SET ACLNonUni=%NamePrefix%%LOCALE%_Release
+  SET ACLUni=%NamePrefix%%LOCALE%_Unicode
   IF /I '%LOCALE%'=='ZH' (
-    SET ACLNonUni=%NamePrefix%%Ch_Desktop_NonUnicode
-    SET ACLUni=%NamePrefix%Ch_Desktop_Unicode
+    SET ACLNonUni=%NamePrefix%%Ch_Release
+    SET ACLUni=%NamePrefix%Ch_Unicode
 	) ELSE (
-	   SET ACLNonUni=%NamePrefix%%LOCALE%_Desktop_NonUnicode
-       SET ACLUni=%NamePrefix%%LOCALE%_Desktop_Unicode
+	   SET ACLNonUni=%NamePrefix%%LOCALE%_Release
+       SET ACLUni=%NamePrefix%%LOCALE%_Unicode
 	)
   IF /I '%LOCALE%'=='JA' (
-    SET ACLNonUni=%NamePrefix%%Jp_Desktop_NonUnicode
-    SET ACLUni=%NamePrefix%Jp_Desktop_Unicode
+    SET ACLNonUni=%NamePrefix%%Jp_Release
+    SET ACLUni=%NamePrefix%Jp_Unicode
 	)
   SET LatestVer=0
   IF /I '%LOCALE%'=='En' (
      SET NUM_TOKENS=7
 	 SET VerPrefix=%VerPrefixOld%
-	 SET ACLNonUni=%NamePrefixOld%%LOCALE%_Desktop_NonUnicode
-     SET ACLUni=%NamePrefixOld%%LOCALE%_Desktop_Unicode
+	 SET ACLNonUni=%NamePrefixOld%%LOCALE%_Release
+     SET ACLUni=%NamePrefixOld%%LOCALE%_Unicode
   ) ELSE  (
      SET NUM_TOKENS=8
   )
@@ -119,7 +127,7 @@ GOTO CONTINUE
   ) 
 :CONTINUE
 
-SET Reg=regsvr32 /s ACLServer.dll
+SET Reg=regsvr32 /s
 ::SET UnReg=regsvr32 /u /s
 SET Done=
 SET XCSWITCH=/Y /E /R /I
@@ -319,33 +327,28 @@ IF /I '%VerType%'=='DevCopy' (
    RMDIR /S /Q %DESROOT%.\%VerType%
    IF /I '%TEST_UNICODE%'=='Yes' (
       MKDIR %DESROOT%.\%VerType%\%Version%.\%ACLUni%
-	  REM MKDIR %DESROOT%.\%VerType%_History\%Version%
-      REM RMDIR /S /Q %DESROOT%.\%VerType%\%Version%.\%ACLNonUni%
       XCOPY %SRCROOT%.\%Version%.\%ACLUni% %DESROOT%.\ %XCSWITCH%
    ) ELSE IF /I '%TEST_NONUNICODE%'=='Yes' (
       MKDIR %DESROOT%.\%VerType%\%Version%.\%ACLNonUni%
-	  REM RMDIR /S /Q %DESROOT%.\%VerType%\%Version%.\%ACLUni%
       XCOPY %SRCROOT%.\%Version%.\%ACLNonUni% %DESROOT%.\ %XCSWITCH%
    )
 ) ELSE IF /I '%VerType%'=='Installer' (
-
-   IF NOT EXIST %DESROOT%\%VerType%\%INSTALLEXE% (
-     XCOPY %RFTSharedFiles%\%INSTALLEXE% %DESROOT%\%VerType%\ %XCSWITCH_%
-   )
-   IF EXIST %DESROOT%\%Executable% (
-      
+rem   IF NOT EXIST %DESROOT%\%VerType%\%INSTALLEXE% (
+rem     XCOPY %RFTSharedFiles%\%INSTALLEXE% %DESROOT%\%VerType%\ %XCSWITCH_%
+rem   )
+   IF EXIST %DESROOT%\%Executable% (      
       TASKKILL /F /T /IM %Executable%
-	  REM TASKKILL /F /T /IM %ACLUni%.exe
-	  REM TASKKILL /F /T /IM %ACLNonUni%.exe
 	  TASKKILL /F /T /IM %INSTALLEXE% 
 	  
-      REM %DESROOT%\%VerType%\%ACLUni%.exe /s /a /x /s /v"/qb /passive /quiet /l* \"%INSTALL_DIR%\%VerType%\Uninstallation.log\""
-      REM %DESROOT%\%VerType%\%ACLNonUni%.exe /s /a /x /s /v"/qb /passive /quiet /l* \"%INSTALL_DIR%\%VerType%\Uninstallation.log\""
 	  %DESROOT%\%VerType%\%INSTALLEXE% /s /a /x /s /v"/qb /passive /quiet /l* \"%INSTALL_DIR%\%VerType%\Uninstallation.log\""
 	  echo. %RFT_PROJECT_LOCATION%
-	  
-	  REM TASKKILL /F /T /IM %ACLUni%.exe
-	  REM TASKKILL /F /T /IM %ACLNonUni%.exe
+    IF /I '%TEST_UNICODE%'=='Yes' (
+      MKDIR %DESROOT%.\%ACLUni%
+      XCOPY %SRCROOT%.\%Version%.\%VerType%.\%ACLUni% %DESROOT%.\ %XCSWITCH%
+   ) ELSE IF /I '%TEST_NONUNICODE%'=='Yes' (
+      MKDIR %DESROOT%.\%VerType%\%Version%.\%ACLNonUni%
+      XCOPY %SRCROOT%.\%Version%.\%ACLNonUni% %DESROOT%.\ %XCSWITCH%
+   )
    )
    
     RMDIR /S /Q %DESROOT%.\%VerType%
@@ -363,11 +366,7 @@ IF /I '%VerType%'=='DevCopy' (
    )
 
    IF NOT EXIST %DESROOT%\%Executable% (
-      REM TASKKILL /F /T /IM %ACLUni%.exe
-	  REM TASKKILL /F /T /IM %ACLNonUni%.exe
 	  TASKKILL /F /T /IM %INSTALLEXE% 
-      Rem IF /I '%TEST_UNICODE%'=='Yes' %DESROOT%\%VerType%\%ACLUni%.exe /s /a /s /v"/qb /passive /quiet PIDKEY=CAW1234567890 COMPANYNAME=\"ACLQA Automation\" INSTALLDIR=\"%INSTALL_DIR%\" /l* \"%INSTALL_DIR%\%VerType%\Installation.log\""
-      Rem IF /I '%TEST_NONUNICODE%'=='Yes' %DESROOT%\%VerType%\%ACLNonUni%.exe /s /a /s /v"/qb /passive /quiet PIDKEY=CAW1234567890 COMPANYNAME=\"ACLQA Automation\" INSTALLDIR=\"%INSTALL_DIR%\" /l* \"%INSTALL_DIR%\%VerType%\Installation.log\""
       %DESROOT%\%VerType%\%INSTALLEXE% /s /a /s /v"/qb /passive /quiet PIDKEY=CAW1234567890 COMPANYNAME=\"ACLQA Automation\" INSTALLDIR=\"%INSTALL_DIR%\" /l* \"%INSTALL_DIR%\%VerType%\Installation.log\""
       IF NOT EXIST %DESROOT%\%Executable% (
          IF /I '%TEST_UNICODE%'=='Yes' RMDIR /S /Q %DESROOT%\%VerType%\%Version%.\%ACLNonUni%
@@ -375,18 +374,28 @@ IF /I '%VerType%'=='DevCopy' (
       )
     )
   ) ELSE (
-   XCOPY %ThirdPartDllSRC%  %MISSINGDLLSSRC%.\ %XCSWITCH%
-   Rem XCOPY %SRCROOT%.\%Version% %DESROOT%.\%Version%.\ %XCSWITCH%
-   Rem XCOPY %MISSINGDLLSSRC%  %DESROOT%.\%Version%.\Release.\ %XCSWITCH%
-   Rem XCOPY %MISSINGDLLSSRC%  %DESROOT%.\%Version%.\Unicode.\ %XCSWITCH%
    IF /I '%TEST_UNICODE%'=='Yes' (
-      XCOPY %MISSINGDLLSSRC%  %DESROOT%.\%Version%.\%ACLUni%.\ %XCSWITCH%
-      XCOPY %SRCROOT%.\%Version%.\%ACLUni% %DESROOT%.\%Version%.\%ACLUni%\ %XCSWITCH%
-   ) ELSE IF /I '%TEST_NONUNICODE%'=='Yes' (
-      XCOPY %MISSINGDLLSSRC%  %DESROOT%.\%Version%.\%ACLNonUni%.\ %XCSWITCH%
-      XCOPY %SRCROOT%.\%Version%.\%ACLNonUni% %DESROOT%.\%Version%.\%ACLNonUni%\ %XCSWITCH%
-   )
+      IF NOT EXIST %DESROOT%.\%Version%.\%ACLUni%.\ACLWin.exe (
+	     XCOPY %MISSINGDLLSSRC%  %DESROOT%.\%Version%.\%ACLUni%.\ %XCSWITCH%
+         XCOPY %SRCROOT%.\%Version%.\%ACLUni% %DESROOT%.\%Version%.\%ACLUni%\ %XCSWITCH%
+	     )
+	  IF NOT EXIST %DESROOT%.\%Version%.\%IHUni%.\ACLScript.exe (
+	     XCOPY %MISSINGDLLSSRCIH%  %DESROOT%.\%Version%.\%IHUni%.\ %XCSWITCH%
+	     XCOPY %SRCROOT%.\%Version%.\%IHUni% %DESROOT%.\%Version%.\%IHUni%\ %XCSWITCH%
+		 )
+   ) 
+   IF /I '%TEST_NONUNICODE%'=='Yes' (
+      IF NOT EXIST %DESROOT%.\%Version%.\%ACLNonUni%.\ACLWin.exe (
+          XCOPY %MISSINGDLLSSRC%  %DESROOT%.\%Version%.\%ACLNonUni%.\ %XCSWITCH%
+          XCOPY %SRCROOT%.\%Version%.\%ACLNonUni% %DESROOT%.\%Version%.\%ACLNonUni%\ %XCSWITCH%
+	      )
+	  IF NOT EXIST %DESROOT%.\%Version%.\%IHNonUni%.\ACLScript.exe (
+	      XCOPY %MISSINGDLLSSRCIH%  %DESROOT%.\%Version%.\%IHNonUni%.\ %XCSWITCH%
+	      XCOPY %SRCROOT%.\%Version%.\%IHNonUni% %DESROOT%.\%Version%.\%IHNonUni%\ %XCSWITCH%
+		  )
+   ) 
 )
+
 ::RENAME %DESROOT%.\%Version%.\%MISSINGDLLSDES%.\%Executable% ACLWin_%Version%.exe
 ::RENAME %DESROOT%.\%Version%.\%MISSINGDLLSDES_U%.\%Executable% ACLWin_%Version%.exe
 
@@ -394,10 +403,21 @@ IF /I '%VerType%'=='DevCopy' (
 ::RMDIR /S /Q %DESROOT%.\(%Version%-10).\
 IF EXIST %DESROOT%\%Version%\%ACLUni%\%Executable% (
    SET UNI_PATH=%DESROOT%\%Version%\%ACLUni%\%Executable%
+   %Reg% %DESROOT%\%Version%\%ACLUni%\ACLServer.dll
+)
+IF EXIST "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe" (
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe %UNI_PATH%\..\ACLImex.dll /unregister > NUL
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe  %UNI_PATH%\..\ACLImex.dll /register > NUL
 )
 IF EXIST %DESROOT%\%Version%\%ACLNonUni%\%Executable% (
    SET NONUNI_PATH=%DESROOT%\%Version%\%ACLNonUni%\%Executable%
+   %Reg% %DESROOT%\%Version%\%ACLNonUni%\ACLServer.dll
 )
+IF EXIST "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe" (
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe %NONUNI_PATH%\..\ACLImex.dll /unregister > NUL
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe  %NONUNI_PATH%\..\ACLImex.dll /register > NUL
+)
+ECHO.%Version%> %DESROOT%\..\Latest_Installed_Build.TXT
 :GETBUILDDONE
 IF '%Done%'=='true' GOTO :EOF
 GOTO JOBDONE
@@ -410,9 +430,9 @@ GOTO MAINMENU
 :RUNNUni
 IF NOT '%VerType%'=='Installer' (
   REM %UnReg% %DESROOT%\%Version%\%ACLUni%\ACLServer.dll
-  %Reg% %DESROOT%\%Version%\%ACLUni%\ACLServer.dll
+  %Reg% %DESROOT%\%Version%\%ACLNonUni%\ACLServer.dll
   ECHO. Start ACLWin at: %DESROOT%\%Version%\%ACLNonUni%\%Executable%
-  Start "Desktop - %Version%\%ACLUni%\%Executable%" /D%ACL_DATA%\ /MAX /SEPARATE /B "%INSTALL_DIR%.\%Version%.\%ACLNonUni%.\%Executable%"
+  Start "Desktop - %Version%\%ACLNonUni%\%Executable%" /D%ACL_DATA%\ /MAX /SEPARATE /B "%INSTALL_DIR%.\%Version%.\%ACLNonUni%.\%Executable%"
 ) ELSE (
     REM %UnReg% %DESROOT%\ACLServer.dll
     %Reg% %DESROOT%\ACLServer.dll
@@ -477,6 +497,15 @@ IF NOT '%1'=='' SET Done=%1
 
 IF /I '%TEST_UNICODE%'=='Yes' SET ENCODE=Unicode
 IF /I '%TEST_NONUNICODE%'=='Yes' SET ENCODE=NonUnicode
+Rem ******** for cmd exec ******
+IF /I '%tExecutable%'=='ACLScript.exe' (
+      SET ACLUni=%IHUni%
+	  SET ACLNonUni=%IHNonUni%
+	  SET Executable=ACLScript.exe
+)
+
+Rem ************************
+
 IF NOT '%VerType%'=='DevBuild' (
   SET UNI_PATH=%DESROOT%\%Executable%
   SET NONUNI_PATH=%DESROOT%\%Executable%
@@ -495,7 +524,7 @@ IF NOT '%VerType%'=='DevBuild' (
 ) ELSE (
     SET UNI_PATH=%DESROOT%\%Version%\%ACLUni%\%Executable%
     SET NONUNI_PATH=%DESROOT%\%Version%\%ACLNonUni%\%Executable%
-	SET TEST_FLAG=%DESROOT%\%Version%\Auto_%TEST_CATEGORY%Test[%PROJECT_TYPE%]_Log[%ENCODE%].TXT
+	SET TEST_FLAG=%DESROOT%\%Version%\Auto_%TEST_CATEGORY%%tExecutable%Test[%PROJECT_TYPE%%ACL_PROJECT%]_Log[%ENCODE%%ACL_SCRIPT%].TXT
     IF NOT EXIST %DESROOT%\%Version%\%ACLUni%\%Executable% CALL :GETBUILD %Done%
     IF NOT EXIST %DESROOT%\%Version%\%ACLNonUni%\%Executable% CALL :GETBUILD %Done%
 )
@@ -505,11 +534,32 @@ IF NOT '%VerType%'=='DevBuild' (
 IF /I NOT '%RETEST%'=='Yes' (
 	IF EXIST %TEST_FLAG% GOTO :EOF
 	)
-ECHO "Run test..." 	/D"%RFT_PROJECT_LOCATION%\lib\acl\tool" /WAIT /B doTest.bat
-START "Run test..." /D%RFT_PROJECT_LOCATION%\lib\acl\tool /WAIT /B doTest.bat
-GOTO :EOF
+	
+IF /I '%TEST_UNICODE%'=='Yes' (
+    %Reg% %DESROOT%\%Version%\%ACLUni%\ACLServer.dll
+    SET RUN_COMMAND="%UNI_PATH%" %RUN_PARAMETER%
+) ELSE IF /I '%TEST_NONUNICODE%'=='Yes' (
+    %Reg% %DESROOT%\%Version%\%ACLNonUni%\ACLServer.dll
+    SET RUN_COMMAND="%NONUNI_PATH%" %RUN_PARAMETER%
+) ELSE (
+  ECHO. No test performed on %Version%
+  GOTO EXIT
+)
+ECHO.%Version%> %DESROOT%\..\Latest_Tested_Build.TXT
+IF /I '%tExecutable%'=='' (
+   ECHO "Run test..." 	/D"%RFT_PROJECT_LOCATION%\lib\acl\tool" /WAIT /B doTest.bat
+   START "Run test..." /D%RFT_PROJECT_LOCATION%\lib\acl\tool /WAIT /B doTest.bat
+   GOTO :EOF
+) ELSE (
+   TASKKILL /F /T /IM %tExecutable%
+   ECHO. "Excute command..." /WAIT /B %RUN_COMMAND%
+   START "Excute command..." %RUN_COMMAND%
+   GOTO EXIT
+)
+GOTO EOF
 
 :EOF
 ECHO. End of Xcopy
 EXIT %ERRORLEVEL%
+:EXIT
 EXIT %ERRORLEVEL%

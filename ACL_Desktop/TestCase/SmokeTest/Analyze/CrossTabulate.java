@@ -27,8 +27,8 @@ public class CrossTabulate extends CrossTabulateHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Analyze/CrossTabulate.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 24; // 4-9
-		//endAtLine = 6;     //
+		startFromLine = 4; // 4-9
+		endAtLine = 5;     //
 	    exeTestCase(args);
 	}
 			

@@ -28,7 +28,7 @@ public class Age extends AgeHelper
 	public void testMain(Object[] args) 
 	{
 		startFromLine = 16; // 4-9
-		endAtLine = 16;     //
+		endAtLine = 17;     //
 	    exeTestCase(args);
 	}
 			

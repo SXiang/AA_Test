@@ -27,8 +27,8 @@ public class Classify extends ClassifyHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Analyze/Classify.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 4; // 4-9
-		endAtLine = 5;     //
+		startFromLine = 2; // 4-9
+		endAtLine = 3;     //
 	    exeTestCase(args);
 	}
 			
