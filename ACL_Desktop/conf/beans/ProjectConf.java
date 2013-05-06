@@ -76,6 +76,7 @@ public class ProjectConf {
 //		LoggerHelper.RFT_jenkinsReport = ProjectConf.jenkinsReport;
 	}
 
+
 	public static void setJenkinsReportDir(String jenkinsReportDir) {
 		ProjectConf.jenkinsReportDir = jenkinsReportDir;
 		if(!jenkinsReportDir.equals("")){
@@ -83,7 +84,7 @@ public class ProjectConf {
 		}else{
 			ProjectConf.jenkinsReport = false;
 		}
-		LoggerHelper.RFT_jenkinsReport = ProjectConf.jenkinsReport;		
+		LoggerHelper.RFT_jenkinsReport = ProjectConf.jenkinsReport;
 		LoggerHelper.RFT_jenkinsReportDir = ProjectConf.jenkinsReportDir;
 	}
 

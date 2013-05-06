@@ -17,6 +17,7 @@ visuals/
 *.dmp
 # Floder and Files
 null/
+<<<<<<< HEAD
 /ACL_Desktop/DATA/
 TempData/
 keywordTable/
@@ -24,6 +25,24 @@ keywordTable/
 /output/
 /bin/
 /doc/*/
+=======
+<<<<<<< HEAD
+DATA/
+TempData/
+keywordTable/
+/.*Cache/
+/output/
+/bin/
+=======
+/ACL_Desktop/DATA/
+TempData/
+keywordTable/
+/.*Cache/
+/output/
+/bin/
+/doc/*/
+>>>>>>> refs/heads/progressBar
+>>>>>>> refs/heads/monaco_dev
 /doc/
 /lib/acl/resource/
 /lib/commons*/

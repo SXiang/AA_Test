@@ -86,13 +86,13 @@ IF '"%DESROOT%"'=='""' (
     IF /I '%SILENT_INSTALL%' == 'TRUE' (
 	   SET DESROOT=%INSTALL_DIR1%
 	) ELSE (
-	       SET DESROOT=D:\ACL\Analytics10_Binary
-		   IF NOT EXIST D: SET DESROOT=C:\ACL\Analytics10_Binary
+	       SET DESROOT=D:\ACL\TFSView\RFT_Automation\Monaco\Desktop
+		   IF NOT EXIST D: SET DESROOT=C:\ACL\TFSView\RFT_Automation\Monaco\Desktop
 	 )
 )
 SET INSTALL_MODE=Run Installer
 IF /I NOT '%SILENT_INSTALL%'=='TRUE' (
- IF /I NOT '%choice%'=='R' SET DESROOT=%DESROOT%\%tFolder%
+ SET DESROOT="%DESROOT%\%tFolder%"
  SET INSTALL_MODE=Copy from Binary
  )
 
@@ -332,7 +332,7 @@ IF /I '%choice%'=='ON' GOTO OpenNUniCMD
 IF /I '%choice%'=='OU' GOTO OpenUniCMD
 IF /I '%choice%'=='R' GOTO Permission
 IF /I '%choice%'=='M' GOTO Mode
-GOTO MAINMENU
+GOTO DESDIR
 
 :LIST
 CLS
