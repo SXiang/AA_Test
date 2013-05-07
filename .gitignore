@@ -1,5 +1,6 @@
 # Lines that begin with #, like this one, are ignored.
 /*.*
+!/*.bat
 *.rftv*
 *.db
 Thumbs.*
@@ -18,6 +19,13 @@ visuals/
 # Floder and Files
 null/
 <<<<<<< HEAD
+/ACL_Desktop/DATA/
+TempData/
+keywordTable/
+/.*Cache/
+/output/
+/bin/
+/doc/*/
 /ACL_Desktop/DATA/
 TempData/
 keywordTable/
