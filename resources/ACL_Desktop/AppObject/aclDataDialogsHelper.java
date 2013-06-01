@@ -17,20 +17,20 @@ import com.rational.test.ft.vp.IFtVerificationPoint;
 
 /**
  * Script Name   : <b>aclDataDialogs</b><br>
- * Generated     : <b>2012/04/10 2:36:15 AM</b><br>
+ * Generated     : <b>2013/05/24 4:15:51 PM</b><br>
  * Description   : Helper class for script<br>
  * Original Host : Windows XP x86 5.1 build 2600 Service Pack 3 <br>
  * 
- * @since  April 10, 2012
- * @author Steven_Xiang
+ * @since  May 24, 2013
+ * @author steven_xiang
  */
 public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelper
 {
 	/**
 	 * Add: with default state.
-	 *		.text : Add
+	 *		.text : Hinzufügen
 	 * 		.class : .Pushbutton
-	 * 		.name : Add
+	 * 		.name : Hinzufügen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject addTable_add() 
@@ -40,9 +40,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Add: with specific test context and state.
-	 *		.text : Add
+	 *		.text : Hinzufügen
 	 * 		.class : .Pushbutton
-	 * 		.name : Add
+	 * 		.name : Hinzufügen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject addTable_add(TestObject anchor, long flags) 
@@ -53,9 +53,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Close: with default state.
-	 *		.text : Close
+	 *		.text : Schließen
 	 * 		.class : .Pushbutton
-	 * 		.name : Close
+	 * 		.name : Schließen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject addTable_close() 
@@ -65,9 +65,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Close: with specific test context and state.
-	 *		.text : Close
+	 *		.text : Schließen
 	 * 		.class : .Pushbutton
-	 * 		.name : Close
+	 * 		.name : Schließen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject addTable_close(TestObject anchor, long flags) 
@@ -100,10 +100,35 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	
 	/**
+	 * AddTable: with default state.
+	 *		.text : Tabelle hinzufügen
+	 * 		.class : #32770
+	 * 		.processName : ACLWin.exe
+	 * 		.name : Tabelle hinzufügen
+	 */
+	protected TopLevelSubitemTestObject addTablewindow() 
+	{
+		return new TopLevelSubitemTestObject(
+                        getMappedTestObject("addTablewindow"));
+	}
+	/**
+	 * AddTable: with specific test context and state.
+	 *		.text : Tabelle hinzufügen
+	 * 		.class : #32770
+	 * 		.processName : ACLWin.exe
+	 * 		.name : Tabelle hinzufügen
+	 */
+	protected TopLevelSubitemTestObject addTablewindow(TestObject anchor, long flags) 
+	{
+		return new TopLevelSubitemTestObject(
+                        getMappedTestObject("addTablewindow"), anchor, flags);
+	}
+	
+	/**
 	 * AddAll: with default state.
-	 *		.text : Add All
+	 *		.text : Alle hinzufügen
 	 * 		.class : .Pushbutton
-	 * 		.name : Add All
+	 * 		.name : Alle hinzufügen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject crt_addall() 
@@ -113,9 +138,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * AddAll: with specific test context and state.
-	 *		.text : Add All
+	 *		.text : Alle hinzufügen
 	 * 		.class : .Pushbutton
-	 * 		.name : Add All
+	 * 		.name : Alle hinzufügen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject crt_addall(TestObject anchor, long flags) 
@@ -149,9 +174,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Cancel: with default state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel|Abbrechen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel|Abbrechen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject crt_cancel() 
@@ -161,9 +186,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Cancel: with specific test context and state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel|Abbrechen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel|Abbrechen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject crt_cancel(TestObject anchor, long flags) 
@@ -174,9 +199,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * ClearAll: with default state.
-	 *		.text : Clear All
+	 *		.text : Alle entfernen
 	 * 		.class : .Pushbutton
-	 * 		.name : Clear All
+	 * 		.name : Alle entfernen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject crt_clearall() 
@@ -186,9 +211,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * ClearAll: with specific test context and state.
-	 *		.text : Clear All
+	 *		.text : Alle entfernen
 	 * 		.class : .Pushbutton
-	 * 		.name : Clear All
+	 * 		.name : Alle entfernen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject crt_clearall(TestObject anchor, long flags) 
@@ -224,9 +249,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * LaunchCrystalReportsApplication: with default state.
-	 *		.text : Launch Crystal Reports application
+	 *		.text : Anwendung Crystal Reports starten
 	 * 		.class : .Checkbutton
-	 * 		.name : Launch Crystal Reports application
+	 * 		.name : Anwendung Crystal Reports starten
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject crt_launchCR() 
@@ -236,9 +261,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * LaunchCrystalReportsApplication: with specific test context and state.
-	 *		.text : Launch Crystal Reports application
+	 *		.text : Anwendung Crystal Reports starten
 	 * 		.class : .Checkbutton
-	 * 		.name : Launch Crystal Reports application
+	 * 		.name : Anwendung Crystal Reports starten
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject crt_launchCR(TestObject anchor, long flags) 
@@ -343,9 +368,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject error_ok() 
@@ -355,9 +380,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject error_ok(TestObject anchor, long flags) 
@@ -393,9 +418,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Cancel: with default state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel|Abbrechen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel|Abbrechen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject exp_cancel() 
@@ -405,9 +430,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Cancel: with specific test context and state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel|Abbrechen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel|Abbrechen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject exp_cancel(TestObject anchor, long flags) 
@@ -419,7 +444,7 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	/**
 	 * ListBox: with default state.
 	 *		.class : ListBox
-	 * 		.name : Filters
+	 * 		.name : Filter
 	 * 		.classIndex : 0
 	 */
 	protected SelectGuiSubitemTestObject exp_filters() 
@@ -430,7 +455,7 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	/**
 	 * ListBox: with specific test context and state.
 	 *		.class : ListBox
-	 * 		.name : Filters
+	 * 		.name : Filter
 	 * 		.classIndex : 0
 	 */
 	protected SelectGuiSubitemTestObject exp_filters(TestObject anchor, long flags) 
@@ -441,9 +466,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * ComboBox: with default state.
-	 *		.text : From Table
+	 *		.text : Aus Tabelle
 	 * 		.class : ComboBox
-	 * 		.name : From Table
+	 * 		.name : Aus Tabelle
 	 * 		.classIndex : 0
 	 */
 	protected TextSelectGuiSubitemTestObject exp_fromtable() 
@@ -453,9 +478,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * ComboBox: with specific test context and state.
-	 *		.text : From Table
+	 *		.text : Aus Tabelle
 	 * 		.class : ComboBox
-	 * 		.name : From Table
+	 * 		.name : Aus Tabelle
 	 * 		.classIndex : 0
 	 */
 	protected TextSelectGuiSubitemTestObject exp_fromtable(TestObject anchor, long flags) 
@@ -489,9 +514,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * ComboBox: with default state.
-	 *		.text : Functions
+	 *		.text : Funktionen
 	 * 		.class : ComboBox
-	 * 		.name : Functions
+	 * 		.name : Funktionen
 	 * 		.classIndex : 1
 	 */
 	protected TextSelectGuiSubitemTestObject exp_functions() 
@@ -501,9 +526,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * ComboBox: with specific test context and state.
-	 *		.text : Functions
+	 *		.text : Funktionen
 	 * 		.class : ComboBox
-	 * 		.name : Functions
+	 * 		.name : Funktionen
 	 * 		.classIndex : 1
 	 */
 	protected TextSelectGuiSubitemTestObject exp_functions(TestObject anchor, long flags) 
@@ -514,9 +539,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject exp_ok() 
@@ -526,9 +551,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject exp_ok(TestObject anchor, long flags) 
@@ -539,9 +564,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * PasteParameters: with default state.
-	 *		.text : Paste Parameters
+	 *		.text : Parameter einfügen
 	 * 		.class : .Checkbutton
-	 * 		.name : Paste Parameters
+	 * 		.name : Parameter einfügen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject exp_pasteParameters() 
@@ -551,9 +576,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * PasteParameters: with specific test context and state.
-	 *		.text : Paste Parameters
+	 *		.text : Parameter einfügen
 	 * 		.class : .Checkbutton
-	 * 		.name : Paste Parameters
+	 * 		.name : Parameter einfügen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject exp_pasteParameters(TestObject anchor, long flags) 
@@ -564,9 +589,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Edit: with default state.
-	 *		.text : Save As
+	 *		.text : RegularExpression(Save As|Speichern\sunter)
 	 * 		.class : Edit
-	 * 		.name : Save As
+	 * 		.name : RegularExpression(Save As|Speichern\sunter)
 	 * 		.classIndex : 1
 	 */
 	protected TextGuiTestObject exp_saveas() 
@@ -576,9 +601,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Edit: with specific test context and state.
-	 *		.text : Save As
+	 *		.text : RegularExpression(Save As|Speichern\sunter)
 	 * 		.class : Edit
-	 * 		.name : Save As
+	 * 		.name : RegularExpression(Save As|Speichern\sunter)
 	 * 		.classIndex : 1
 	 */
 	protected TextGuiTestObject exp_saveas(TestObject anchor, long flags) 
@@ -590,7 +615,7 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	/**
 	 * ListBox: with default state.
 	 *		.class : ListBox
-	 * 		.name : Variables
+	 * 		.name : Variablen
 	 * 		.classIndex : 1
 	 */
 	protected SelectGuiSubitemTestObject exp_variables() 
@@ -601,7 +626,7 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	/**
 	 * ListBox: with specific test context and state.
 	 *		.class : ListBox
-	 * 		.name : Variables
+	 * 		.name : Variablen
 	 * 		.classIndex : 1
 	 */
 	protected SelectGuiSubitemTestObject exp_variables(TestObject anchor, long flags) 
@@ -612,11 +637,11 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Options: with default state.
-	 *		.text : RegularExpression(ACL 9|Options|Server Profiles|Security*|Select|Data Definition ...
+	 *		.text : RegularExpression(ACL Analytics 10|ACL\sAnalytics\s10|Options|Optionen|Server Pr ...
 	 * 		.class : #32770
-	 * 		.visible : true
 	 * 		.processName : ACLWin.exe
-	 * 		.name : RegularExpression(ACL 9|Options|Server Profile|Security*|Select*|Data Definition ...
+	 * 		.visible : true
+	 * 		.name : RegularExpression(ACL Analytics 10|ACL\sAnalytics\s10|Options|Optionen|Server Pr ...
 	 */
 	protected TopLevelSubitemTestObject mainDialog() 
 	{
@@ -625,41 +650,16 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Options: with specific test context and state.
-	 *		.text : RegularExpression(ACL 9|Options|Server Profiles|Security*|Select|Data Definition ...
+	 *		.text : RegularExpression(ACL Analytics 10|ACL\sAnalytics\s10|Options|Optionen|Server Pr ...
 	 * 		.class : #32770
-	 * 		.visible : true
 	 * 		.processName : ACLWin.exe
-	 * 		.name : RegularExpression(ACL 9|Options|Server Profile|Security*|Select*|Data Definition ...
+	 * 		.visible : true
+	 * 		.name : RegularExpression(ACL Analytics 10|ACL\sAnalytics\s10|Options|Optionen|Server Pr ...
 	 */
 	protected TopLevelSubitemTestObject mainDialog(TestObject anchor, long flags) 
 	{
 		return new TopLevelSubitemTestObject(
                         getMappedTestObject("mainDialog"), anchor, flags);
-	}
-	
-	/**
-	 * CrystalReportsTemplateProperties: with default state.
-	 *		.text : Crystal Reports Template Properties
-	 * 		.class : #32770
-	 * 		.processName : ACLWin.exe
-	 * 		.name : Crystal Reports Template Properties
-	 */
-	protected TopLevelSubitemTestObject mainDialog_CR() 
-	{
-		return new TopLevelSubitemTestObject(
-                        getMappedTestObject("mainDialog_CR"));
-	}
-	/**
-	 * CrystalReportsTemplateProperties: with specific test context and state.
-	 *		.text : Crystal Reports Template Properties
-	 * 		.class : #32770
-	 * 		.processName : ACLWin.exe
-	 * 		.name : Crystal Reports Template Properties
-	 */
-	protected TopLevelSubitemTestObject mainDialog_CR(TestObject anchor, long flags) 
-	{
-		return new TopLevelSubitemTestObject(
-                        getMappedTestObject("mainDialog_CR"), anchor, flags);
 	}
 	
 	/**
@@ -739,9 +739,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Local: with default state.
-	 *		.text : Local
+	 *		.text : Lokal
 	 * 		.class : .Checkbutton
-	 * 		.name : Local
+	 * 		.name : Lokal
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainExtract_local() 
@@ -751,9 +751,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Local: with specific test context and state.
-	 *		.text : Local
+	 *		.text : Lokal
 	 * 		.class : .Checkbutton
-	 * 		.name : Local
+	 * 		.name : Lokal
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainExtract_local(TestObject anchor, long flags) 
@@ -789,9 +789,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * UseOutputTable: with default state.
-	 *		.text : Use Output Table
+	 *		.text : Ausgabetabelle verwenden
 	 * 		.class : .Checkbutton
-	 * 		.name : Use Output Table
+	 * 		.name : Ausgabetabelle verwenden
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainExtract_useOutputTable() 
@@ -801,9 +801,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * UseOutputTable: with specific test context and state.
-	 *		.text : Use Output Table
+	 *		.text : Ausgabetabelle verwenden
 	 * 		.class : .Checkbutton
-	 * 		.name : Use Output Table
+	 * 		.name : Ausgabetabelle verwenden
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainExtract_useOutputTable(TestObject anchor, long flags) 
@@ -839,9 +839,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Local: with default state.
-	 *		.text : Local
+	 *		.text : Lokal
 	 * 		.class : .Checkbutton
-	 * 		.name : Local
+	 * 		.name : Lokal
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainJoin_local() 
@@ -851,9 +851,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Local: with specific test context and state.
-	 *		.text : Local
+	 *		.text : Lokal
 	 * 		.class : .Checkbutton
-	 * 		.name : Local
+	 * 		.name : Lokal
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainJoin_local(TestObject anchor, long flags) 
@@ -864,9 +864,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * PrimaryFields: with default state.
-	 *		.text : Primary Fields...
+	 *		.text : Primärfelder...
 	 * 		.class : .Pushbutton
-	 * 		.name : Primary Fields...
+	 * 		.name : Primärfelder...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject mainJoin_pfields() 
@@ -876,9 +876,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * PrimaryFields: with specific test context and state.
-	 *		.text : Primary Fields...
+	 *		.text : Primärfelder...
 	 * 		.class : .Pushbutton
-	 * 		.name : Primary Fields...
+	 * 		.name : Primärfelder...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject mainJoin_pfields(TestObject anchor, long flags) 
@@ -914,9 +914,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * PrimaryKeys: with default state.
-	 *		.text : Primary Keys...
+	 *		.text : Primärschlüssel...
 	 * 		.class : .Pushbutton
-	 * 		.name : Primary Keys...
+	 * 		.name : Primärschlüssel...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject mainJoin_pkeys() 
@@ -926,9 +926,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * PrimaryKeys: with specific test context and state.
-	 *		.text : Primary Keys...
+	 *		.text : Primärschlüssel...
 	 * 		.class : .Pushbutton
-	 * 		.name : Primary Keys...
+	 * 		.name : Primärschlüssel...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject mainJoin_pkeys(TestObject anchor, long flags) 
@@ -964,9 +964,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * PresortPrimaryTable: with default state.
-	 *		.text : Presort Primary Table
+	 *		.text : Primärtabelle vorsortieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Presort Primary Table
+	 * 		.name : Primärtabelle vorsortieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainJoin_ppresort() 
@@ -976,9 +976,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * PresortPrimaryTable: with specific test context and state.
-	 *		.text : Presort Primary Table
+	 *		.text : Primärtabelle vorsortieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Presort Primary Table
+	 * 		.name : Primärtabelle vorsortieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainJoin_ppresort(TestObject anchor, long flags) 
@@ -1014,9 +1014,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * SecondaryKeys: with default state.
-	 *		.text : Secondary Keys...
+	 *		.text : Sekundärschlüssel...
 	 * 		.class : .Pushbutton
-	 * 		.name : Secondary Keys...
+	 * 		.name : Sekundärschlüssel...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject mainJoin_skeys() 
@@ -1026,9 +1026,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * SecondaryKeys: with specific test context and state.
-	 *		.text : Secondary Keys...
+	 *		.text : Sekundärschlüssel...
 	 * 		.class : .Pushbutton
-	 * 		.name : Secondary Keys...
+	 * 		.name : Sekundärschlüssel...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject mainJoin_skeys(TestObject anchor, long flags) 
@@ -1064,9 +1064,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * PresortSecondaryTable: with default state.
-	 *		.text : Presort Secondary Table
+	 *		.text : Sekundärtabelle vorsortieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Presort Secondary Table
+	 * 		.name : Sekundärtabelle vorsortieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainJoin_spresort() 
@@ -1076,9 +1076,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * PresortSecondaryTable: with specific test context and state.
-	 *		.text : Presort Secondary Table
+	 *		.text : Sekundärtabelle vorsortieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Presort Secondary Table
+	 * 		.name : Sekundärtabelle vorsortieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainJoin_spresort(TestObject anchor, long flags) 
@@ -1139,9 +1139,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * UseOutputTable: with default state.
-	 *		.text : Use Output Table
+	 *		.text : Ausgabetabelle verwenden
 	 * 		.class : .Checkbutton
-	 * 		.name : Use Output Table
+	 * 		.name : Ausgabetabelle verwenden
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainJoin_useoutputtable() 
@@ -1151,9 +1151,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * UseOutputTable: with specific test context and state.
-	 *		.text : Use Output Table
+	 *		.text : Ausgabetabelle verwenden
 	 * 		.class : .Checkbutton
-	 * 		.name : Use Output Table
+	 * 		.name : Ausgabetabelle verwenden
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainJoin_useoutputtable(TestObject anchor, long flags) 
@@ -1164,9 +1164,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Presort: with default state.
-	 *		.text : Presort
+	 *		.text : Vorsortieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Presort
+	 * 		.name : Vorsortieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainMerge_presort() 
@@ -1176,9 +1176,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Presort: with specific test context and state.
-	 *		.text : Presort
+	 *		.text : Vorsortieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Presort
+	 * 		.name : Vorsortieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject mainMerge_presort(TestObject anchor, long flags) 
@@ -1189,9 +1189,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Index: with default state.
-	 *		.text : RegularExpression(Index|More\.\.\.|Export|Extract|Report|Join|Sort|Verify)
+	 *		.text : RegularExpression(Index|More\.\.\.|Weiter...|Export|Exportieren|Extract|Extrahie ...
 	 * 		.class : #32770
-	 * 		.name : RegularExpression(Index|More\.\.\.|Export|Extract|Report|Join|Sort|Verify)
+	 * 		.name : RegularExpression(Index|More\.\.\.|Weiter...|Export|Exportieren|Extract|Extrahie ...
 	 * 		.classIndex : RegularExpression(1|0|2)
 	 */
 	protected GuiSubitemTestObject mainWin() 
@@ -1201,9 +1201,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Index: with specific test context and state.
-	 *		.text : RegularExpression(Index|More\.\.\.|Export|Extract|Report|Join|Sort|Verify)
+	 *		.text : RegularExpression(Index|More\.\.\.|Weiter...|Export|Exportieren|Extract|Extrahie ...
 	 * 		.class : #32770
-	 * 		.name : RegularExpression(Index|More\.\.\.|Export|Extract|Report|Join|Sort|Verify)
+	 * 		.name : RegularExpression(Index|More\.\.\.|Weiter...|Export|Exportieren|Extract|Extrahie ...
 	 * 		.classIndex : RegularExpression(1|0|2)
 	 */
 	protected GuiSubitemTestObject mainWin(TestObject anchor, long flags) 
@@ -1214,9 +1214,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Cancel: with default state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel|Abbrechen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel|Abbrechen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject main_cancel() 
@@ -1226,9 +1226,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Cancel: with specific test context and state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel|Abbrechen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel|Abbrechen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject main_cancel(TestObject anchor, long flags) 
@@ -1264,9 +1264,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * ComboBox: with default state.
-	 *		.text : Export As
+	 *		.text : Exportieren als
 	 * 		.class : ComboBox
-	 * 		.name : Export As
+	 * 		.name : Exportieren als
 	 * 		.classIndex : 0
 	 */
 	protected TextSelectGuiSubitemTestObject main_exportas() 
@@ -1276,9 +1276,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * ComboBox: with specific test context and state.
-	 *		.text : Export As
+	 *		.text : Exportieren als
 	 * 		.class : ComboBox
-	 * 		.name : Export As
+	 * 		.name : Exportieren als
 	 * 		.classIndex : 0
 	 */
 	protected TextSelectGuiSubitemTestObject main_exportas(TestObject anchor, long flags) 
@@ -1289,9 +1289,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Fields: with default state.
-	 *		.text : Fields
+	 *		.text : Felder
 	 * 		.class : .Radiobutton
-	 * 		.name : Fields
+	 * 		.name : Felder
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_fields() 
@@ -1301,9 +1301,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Fields: with specific test context and state.
-	 *		.text : Fields
+	 *		.text : Felder
 	 * 		.class : .Radiobutton
-	 * 		.name : Fields
+	 * 		.name : Felder
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_fields(TestObject anchor, long flags) 
@@ -1339,9 +1339,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * FitToPage: with default state.
-	 *		.text : Fit to page
+	 *		.text : An Seite anpassen
 	 * 		.class : .Checkbutton
-	 * 		.name : Fit to page
+	 * 		.name : An Seite anpassen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_fittopage() 
@@ -1351,9 +1351,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * FitToPage: with specific test context and state.
-	 *		.text : Fit to page
+	 *		.text : An Seite anpassen
 	 * 		.class : .Checkbutton
-	 * 		.name : Fit to page
+	 * 		.name : An Seite anpassen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_fittopage(TestObject anchor, long flags) 
@@ -1364,9 +1364,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Edit: with default state.
-	 *		.text : Footer
+	 *		.text : Fußzeile
 	 * 		.class : Edit
-	 * 		.name : Footer
+	 * 		.name : Fußzeile
 	 * 		.classIndex : 1
 	 */
 	protected TextGuiTestObject main_footer() 
@@ -1376,9 +1376,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Edit: with specific test context and state.
-	 *		.text : Footer
+	 *		.text : Fußzeile
 	 * 		.class : Edit
-	 * 		.name : Footer
+	 * 		.name : Fußzeile
 	 * 		.classIndex : 1
 	 */
 	protected TextGuiTestObject main_footer(TestObject anchor, long flags) 
@@ -1389,9 +1389,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Edit: with default state.
-	 *		.text : Header
+	 *		.text : Kopfdaten
 	 * 		.class : Edit
-	 * 		.name : Header
+	 * 		.name : Kopfdaten
 	 * 		.classIndex : 0
 	 */
 	protected TextGuiTestObject main_header() 
@@ -1401,9 +1401,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Edit: with specific test context and state.
-	 *		.text : Header
+	 *		.text : Kopfdaten
 	 * 		.class : Edit
-	 * 		.name : Header
+	 * 		.name : Kopfdaten
 	 * 		.classIndex : 0
 	 */
 	protected TextGuiTestObject main_header(TestObject anchor, long flags) 
@@ -1414,9 +1414,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * _If: with default state.
-	 *		.text : If...
+	 *		.text : Wenn...
 	 * 		.class : Button
-	 * 		.name : If...
+	 * 		.name : Wenn...
 	 * 		.classIndex : RegularExpression(0|8)
 	 */
 	protected GuiSubitemTestObject main_if() 
@@ -1426,9 +1426,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * _If: with specific test context and state.
-	 *		.text : If...
+	 *		.text : Wenn...
 	 * 		.class : Button
-	 * 		.name : If...
+	 * 		.name : Wenn...
 	 * 		.classIndex : RegularExpression(0|8)
 	 */
 	protected GuiSubitemTestObject main_if(TestObject anchor, long flags) 
@@ -1464,9 +1464,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Local: with default state.
-	 *		.text : Local
+	 *		.text : Lokal
 	 * 		.class : .Checkbutton
-	 * 		.name : Local
+	 * 		.name : Lokal
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_local() 
@@ -1476,9 +1476,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Local: with specific test context and state.
-	 *		.text : Local
+	 *		.text : Lokal
 	 * 		.class : .Checkbutton
-	 * 		.name : Local
+	 * 		.name : Lokal
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_local(TestObject anchor, long flags) 
@@ -1489,9 +1489,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject main_ok() 
@@ -1501,9 +1501,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject main_ok(TestObject anchor, long flags) 
@@ -1515,7 +1515,7 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	/**
 	 * IndexOn: with default state.
 	 *		.class : Button
-	 * 		.name : RegularExpression(Index On\.\.\.|Export Fields\.\.\.|Extract Fields\.\.\.|Sort O ...
+	 * 		.name : RegularExpression(Index On\.\.\.|Index\sfür...|Export Fields\.\.\.|Datenfelder\s ...
 	 */
 	protected GuiSubitemTestObject main_onfields() 
 	{
@@ -1525,7 +1525,7 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	/**
 	 * IndexOn: with specific test context and state.
 	 *		.class : Button
-	 * 		.name : RegularExpression(Index On\.\.\.|Export Fields\.\.\.|Extract Fields\.\.\.|Sort O ...
+	 * 		.name : RegularExpression(Index On\.\.\.|Index\sfür...|Export Fields\.\.\.|Datenfelder\s ...
 	 */
 	protected GuiSubitemTestObject main_onfields(TestObject anchor, long flags) 
 	{
@@ -1535,9 +1535,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Presort: with default state.
-	 *		.text : Presort
+	 *		.text : Vorsortieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Presort
+	 * 		.name : Vorsortieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_presort() 
@@ -1547,9 +1547,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Presort: with specific test context and state.
-	 *		.text : Presort
+	 *		.text : Vorsortieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Presort
+	 * 		.name : Vorsortieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_presort(TestObject anchor, long flags) 
@@ -1560,9 +1560,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Record: with default state.
-	 *		.text : Record
+	 *		.text : Datensatz
 	 * 		.class : .Radiobutton
-	 * 		.name : Record
+	 * 		.name : Datensatz
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_record() 
@@ -1572,9 +1572,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Record: with specific test context and state.
-	 *		.text : Record
+	 *		.text : Datensatz
 	 * 		.class : .Radiobutton
-	 * 		.name : Record
+	 * 		.name : Datensatz
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_record(TestObject anchor, long flags) 
@@ -1610,9 +1610,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Summarize: with default state.
-	 *		.text : Summarize
+	 *		.text : Summenstruktur
 	 * 		.class : .Checkbutton
-	 * 		.name : Summarize
+	 * 		.name : Summenstruktur
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_summarize() 
@@ -1622,9 +1622,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Summarize: with specific test context and state.
-	 *		.text : Summarize
+	 *		.text : Summenstruktur
 	 * 		.class : .Checkbutton
-	 * 		.name : Summarize
+	 * 		.name : Summenstruktur
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_summarize(TestObject anchor, long flags) 
@@ -1635,9 +1635,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * SuppressBlankDetailLines: with default state.
-	 *		.text : Suppress blank detail lines
+	 *		.text : Ohne Leerzeilen zwischen Einzelposten
 	 * 		.class : .Checkbutton
-	 * 		.name : Suppress blank detail lines
+	 * 		.name : Ohne Leerzeilen zwischen Einzelposten
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_suppressblank() 
@@ -1647,9 +1647,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * SuppressBlankDetailLines: with specific test context and state.
-	 *		.text : Suppress blank detail lines
+	 *		.text : Ohne Leerzeilen zwischen Einzelposten
 	 * 		.class : .Checkbutton
-	 * 		.name : Suppress blank detail lines
+	 * 		.name : Ohne Leerzeilen zwischen Einzelposten
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_suppressblank(TestObject anchor, long flags) 
@@ -1660,9 +1660,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * ComboBox: with default state.
-	 *		.text : Text Qualifier
+	 *		.text : Text-Kennzeichner
 	 * 		.class : ComboBox
-	 * 		.name : Text Qualifier
+	 * 		.name : Text-Kennzeichner
 	 * 		.classIndex : 2
 	 */
 	protected TextSelectGuiSubitemTestObject main_textqualifier() 
@@ -1672,9 +1672,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * ComboBox: with specific test context and state.
-	 *		.text : Text Qualifier
+	 *		.text : Text-Kennzeichner
 	 * 		.class : ComboBox
-	 * 		.name : Text Qualifier
+	 * 		.name : Text-Kennzeichner
 	 * 		.classIndex : 2
 	 */
 	protected TextSelectGuiSubitemTestObject main_textqualifier(TestObject anchor, long flags) 
@@ -1685,9 +1685,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * _To: with default state.
-	 *		.text : To...
+	 *		.text : Nach...
 	 * 		.class : Button
-	 * 		.name : To...
+	 * 		.name : Nach...
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject main_to() 
@@ -1697,9 +1697,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * _To: with specific test context and state.
-	 *		.text : To...
+	 *		.text : Nach...
 	 * 		.class : Button
-	 * 		.name : To...
+	 * 		.name : Nach...
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject main_to(TestObject anchor, long flags) 
@@ -1760,9 +1760,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * UseOutputTable: with default state.
-	 *		.text : Use Output Table
+	 *		.text : Ausgabetabelle verwenden
 	 * 		.class : .Checkbutton
-	 * 		.name : Use Output Table
+	 * 		.name : Ausgabetabelle verwenden
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_useOutputTable() 
@@ -1772,9 +1772,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * UseOutputTable: with specific test context and state.
-	 *		.text : Use Output Table
+	 *		.text : Ausgabetabelle verwenden
 	 * 		.class : .Checkbutton
-	 * 		.name : Use Output Table
+	 * 		.name : Ausgabetabelle verwenden
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_useOutputTable(TestObject anchor, long flags) 
@@ -1785,9 +1785,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * View: with default state.
-	 *		.text : View
+	 *		.text : Ansicht
 	 * 		.class : .Radiobutton
-	 * 		.name : View
+	 * 		.name : Ansicht
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_view() 
@@ -1797,9 +1797,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * View: with specific test context and state.
-	 *		.text : View
+	 *		.text : Ansicht
 	 * 		.class : .Radiobutton
-	 * 		.name : View
+	 * 		.name : Ansicht
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_view(TestObject anchor, long flags) 
@@ -1810,9 +1810,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * ExportWithFieldNames: with default state.
-	 *		.text : Export with field names
+	 *		.text : Mit Feldnamen exportieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Export with field names
+	 * 		.name : Mit Feldnamen exportieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_withFieldNames() 
@@ -1822,9 +1822,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * ExportWithFieldNames: with specific test context and state.
-	 *		.text : Export with field names
+	 *		.text : Mit Feldnamen exportieren
 	 * 		.class : .Checkbutton
-	 * 		.name : Export with field names
+	 * 		.name : Mit Feldnamen exportieren
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject main_withFieldNames(TestObject anchor, long flags) 
@@ -1835,9 +1835,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * All: with default state.
-	 *		.text : All
+	 *		.text : Alle
 	 * 		.class : .Radiobutton
-	 * 		.name : All
+	 * 		.name : Alle
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_all() 
@@ -1847,9 +1847,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * All: with specific test context and state.
-	 *		.text : All
+	 *		.text : Alle
 	 * 		.class : .Radiobutton
-	 * 		.name : All
+	 * 		.name : Alle
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_all(TestObject anchor, long flags) 
@@ -1860,9 +1860,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * AppendToExistingFile: with default state.
-	 *		.text : Append To Existing File
+	 *		.text : An diese Datei anhängen
 	 * 		.class : .Checkbutton
-	 * 		.name : Append To Existing File
+	 * 		.name : An diese Datei anhängen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_append() 
@@ -1872,9 +1872,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * AppendToExistingFile: with specific test context and state.
-	 *		.text : Append To Existing File
+	 *		.text : An diese Datei anhängen
 	 * 		.class : .Checkbutton
-	 * 		.name : Append To Existing File
+	 * 		.name : An diese Datei anhängen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_append(TestObject anchor, long flags) 
@@ -1885,9 +1885,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * First: with default state.
-	 *		.text : First
+	 *		.text : Erste
 	 * 		.class : .Radiobutton
-	 * 		.name : First
+	 * 		.name : Erste
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_first() 
@@ -1897,9 +1897,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * First: with specific test context and state.
-	 *		.text : First
+	 *		.text : Erste
 	 * 		.class : .Radiobutton
-	 * 		.name : First
+	 * 		.name : Erste
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_first(TestObject anchor, long flags) 
@@ -1935,9 +1935,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * IncludeAllPrimaryRecords: with default state.
-	 *		.text : Include All Primary Records
+	 *		.text : Alle Primärdatensätze einschließen
 	 * 		.class : .Checkbutton
-	 * 		.name : Include All Primary Records
+	 * 		.name : Alle Primärdatensätze einschließen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_includeAllPrimary() 
@@ -1947,9 +1947,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * IncludeAllPrimaryRecords: with specific test context and state.
-	 *		.text : Include All Primary Records
+	 *		.text : Alle Primärdatensätze einschließen
 	 * 		.class : .Checkbutton
-	 * 		.name : Include All Primary Records
+	 * 		.name : Alle Primärdatensätze einschließen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_includeAllPrimary(TestObject anchor, long flags) 
@@ -1960,9 +1960,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * IncludeAllSecondaryRecords: with default state.
-	 *		.text : Include All Secondary Records
+	 *		.text : Alle Sekundärdatensätze einschließen
 	 * 		.class : .Checkbutton
-	 * 		.name : Include All Secondary Records
+	 * 		.name : Alle Sekundärdatensätze einschließen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_includeAllSecondary() 
@@ -1972,9 +1972,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * IncludeAllSecondaryRecords: with specific test context and state.
-	 *		.text : Include All Secondary Records
+	 *		.text : Alle Sekundärdatensätze einschließen
 	 * 		.class : .Checkbutton
-	 * 		.name : Include All Secondary Records
+	 * 		.name : Alle Sekundärdatensätze einschließen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_includeAllSecondary(TestObject anchor, long flags) 
@@ -1985,9 +1985,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * ManyToManyMatchedRecords: with default state.
-	 *		.text : Many-to-Many Matched Records
+	 *		.text : Abgeglichene Viele-zu-Viele-Datensätze
 	 * 		.class : .Radiobutton
-	 * 		.name : Many-to-Many Matched Records
+	 * 		.name : Abgeglichene Viele-zu-Viele-Datensätze
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_manyToMany() 
@@ -1997,9 +1997,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * ManyToManyMatchedRecords: with specific test context and state.
-	 *		.text : Many-to-Many Matched Records
+	 *		.text : Abgeglichene Viele-zu-Viele-Datensätze
 	 * 		.class : .Radiobutton
-	 * 		.name : Many-to-Many Matched Records
+	 * 		.name : Abgeglichene Viele-zu-Viele-Datensätze
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_manyToMany(TestObject anchor, long flags) 
@@ -2010,9 +2010,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * MatchedPrimaryRecords: with default state.
-	 *		.text : Matched Primary Records
+	 *		.text : Abgeglichene Primärdatensätze
 	 * 		.class : .Radiobutton
-	 * 		.name : Matched Primary Records
+	 * 		.name : Abgeglichene Primärdatensätze
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_matchedPrimary() 
@@ -2022,9 +2022,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * MatchedPrimaryRecords: with specific test context and state.
-	 *		.text : Matched Primary Records
+	 *		.text : Abgeglichene Primärdatensätze
 	 * 		.class : .Radiobutton
-	 * 		.name : Matched Primary Records
+	 * 		.name : Abgeglichene Primärdatensätze
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_matchedPrimary(TestObject anchor, long flags) 
@@ -2035,9 +2035,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Next: with default state.
-	 *		.text : Next
+	 *		.text : Nächste
 	 * 		.class : .Radiobutton
-	 * 		.name : Next
+	 * 		.name : Nächste
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_next() 
@@ -2047,9 +2047,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Next: with specific test context and state.
-	 *		.text : Next
+	 *		.text : Nächste
 	 * 		.class : .Radiobutton
-	 * 		.name : Next
+	 * 		.name : Nächste
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_next(TestObject anchor, long flags) 
@@ -2085,9 +2085,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * UnmatchedPrimaryRecords: with default state.
-	 *		.text : Unmatched Primary Records
+	 *		.text : Nicht abgeglichene Primärdatensätze
 	 * 		.class : .Radiobutton
-	 * 		.name : Unmatched Primary Records
+	 * 		.name : Nicht abgeglichene Primärdatensätze
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_unmatchedPrimary() 
@@ -2097,9 +2097,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * UnmatchedPrimaryRecords: with specific test context and state.
-	 *		.text : Unmatched Primary Records
+	 *		.text : Nicht abgeglichene Primärdatensätze
 	 * 		.class : .Radiobutton
-	 * 		.name : Unmatched Primary Records
+	 * 		.name : Nicht abgeglichene Primärdatensätze
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject moreJoin_unmatchedPrimary(TestObject anchor, long flags) 
@@ -2110,9 +2110,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * While: with default state.
-	 *		.text : While...
+	 *		.text : Solange...
 	 * 		.class : .Pushbutton
-	 * 		.name : While...
+	 * 		.name : Solange...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject moreJoin_while() 
@@ -2122,9 +2122,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * While: with specific test context and state.
-	 *		.text : While...
+	 *		.text : Solange...
 	 * 		.class : .Pushbutton
-	 * 		.name : While...
+	 * 		.name : Solange...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject moreJoin_while(TestObject anchor, long flags) 
@@ -2160,9 +2160,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * All: with default state.
-	 *		.text : All
+	 *		.text : Alle
 	 * 		.class : .Radiobutton
-	 * 		.name : All
+	 * 		.name : Alle
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_all() 
@@ -2172,9 +2172,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * All: with specific test context and state.
-	 *		.text : All
+	 *		.text : Alle
 	 * 		.class : .Radiobutton
-	 * 		.name : All
+	 * 		.name : Alle
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_all(TestObject anchor, long flags) 
@@ -2185,9 +2185,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * AppendToExistingFile: with default state.
-	 *		.text : Append To Existing File
+	 *		.text : An diese Datei anhängen
 	 * 		.class : .Checkbutton
-	 * 		.name : Append To Existing File
+	 * 		.name : An diese Datei anhängen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_append() 
@@ -2197,9 +2197,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * AppendToExistingFile: with specific test context and state.
-	 *		.text : Append To Existing File
+	 *		.text : An diese Datei anhängen
 	 * 		.class : .Checkbutton
-	 * 		.name : Append To Existing File
+	 * 		.name : An diese Datei anhängen
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_append(TestObject anchor, long flags) 
@@ -2210,9 +2210,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * EOFEndOfFileProcessing: with default state.
-	 *		.text : EOF (End of file processing)
+	 *		.text : EOF (Dateiende)
 	 * 		.class : .Checkbutton
-	 * 		.name : EOF (End of file processing)
+	 * 		.name : EOF (Dateiende)
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_eof() 
@@ -2222,9 +2222,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * EOFEndOfFileProcessing: with specific test context and state.
-	 *		.text : EOF (End of file processing)
+	 *		.text : EOF (Dateiende)
 	 * 		.class : .Checkbutton
-	 * 		.name : EOF (End of file processing)
+	 * 		.name : EOF (Dateiende)
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_eof(TestObject anchor, long flags) 
@@ -2235,9 +2235,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * _10: with default state.
-	 *		.text : Error Limit
+	 *		.text : Fehlerlimit
 	 * 		.class : Edit
-	 * 		.name : Error Limit
+	 * 		.name : Fehlerlimit
 	 * 		.classIndex : 3
 	 */
 	protected TextGuiTestObject more_errorLimitText() 
@@ -2247,9 +2247,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * _10: with specific test context and state.
-	 *		.text : Error Limit
+	 *		.text : Fehlerlimit
 	 * 		.class : Edit
-	 * 		.name : Error Limit
+	 * 		.name : Fehlerlimit
 	 * 		.classIndex : 3
 	 */
 	protected TextGuiTestObject more_errorLimitText(TestObject anchor, long flags) 
@@ -2260,9 +2260,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * First: with default state.
-	 *		.text : First
+	 *		.text : Erste
 	 * 		.class : .Radiobutton
-	 * 		.name : First
+	 * 		.name : Erste
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_first() 
@@ -2272,9 +2272,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * First: with specific test context and state.
-	 *		.text : First
+	 *		.text : Erste
 	 * 		.class : .Radiobutton
-	 * 		.name : First
+	 * 		.name : Erste
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_first(TestObject anchor, long flags) 
@@ -2310,9 +2310,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Next: with default state.
-	 *		.text : Next
+	 *		.text : Nächste
 	 * 		.class : .Radiobutton
-	 * 		.name : Next
+	 * 		.name : Nächste
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_next() 
@@ -2322,9 +2322,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Next: with specific test context and state.
-	 *		.text : Next
+	 *		.text : Nächste
 	 * 		.class : .Radiobutton
-	 * 		.name : Next
+	 * 		.name : Nächste
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject more_next(TestObject anchor, long flags) 
@@ -2360,9 +2360,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * While: with default state.
-	 *		.text : While...
+	 *		.text : Solange...
 	 * 		.class : .Pushbutton
-	 * 		.name : While...
+	 * 		.name : Solange...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject more_while() 
@@ -2372,9 +2372,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * While: with specific test context and state.
-	 *		.text : While...
+	 *		.text : Solange...
 	 * 		.class : .Pushbutton
-	 * 		.name : While...
+	 * 		.name : Solange...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject more_while(TestObject anchor, long flags) 
@@ -2410,9 +2410,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Cancel: with default state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel|Abbrechen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel|Abbrechen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject nameRelation_cancel() 
@@ -2422,9 +2422,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Cancel: with specific test context and state.
-	 *		.text : Cancel
+	 *		.text : RegularExpression(Cancel|Abbrechen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Cancel
+	 * 		.name : RegularExpression(Cancel|Abbrechen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject nameRelation_cancel(TestObject anchor, long flags) 
@@ -2435,9 +2435,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject nameRelation_ok() 
@@ -2447,9 +2447,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : .Pushbutton
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject nameRelation_ok(TestObject anchor, long flags) 
@@ -2481,10 +2481,10 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * NameRelation: with default state.
-	 *		.text : Name Relation
+	 *		.text : Beziehung
 	 * 		.class : #32770
 	 * 		.processName : ACLWin.exe
-	 * 		.name : Name Relation
+	 * 		.name : Beziehung
 	 */
 	protected TopLevelSubitemTestObject nameRelationwin() 
 	{
@@ -2493,10 +2493,10 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * NameRelation: with specific test context and state.
-	 *		.text : Name Relation
+	 *		.text : Beziehung
 	 * 		.class : #32770
 	 * 		.processName : ACLWin.exe
-	 * 		.name : Name Relation
+	 * 		.name : Beziehung
 	 */
 	protected TopLevelSubitemTestObject nameRelationwin(TestObject anchor, long flags) 
 	{
@@ -2506,9 +2506,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * OK: with default state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : Button
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 */
 	protected GuiSubitemTestObject okwindow() 
 	{
@@ -2517,9 +2517,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * OK: with specific test context and state.
-	 *		.text : OK
+	 *		.text : RegularExpression(OK)
 	 * 		.class : Button
-	 * 		.name : OK
+	 * 		.name : RegularExpression(OK)
 	 */
 	protected GuiSubitemTestObject okwindow(TestObject anchor, long flags) 
 	{
@@ -2529,9 +2529,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * File: with default state.
-	 *		.text : File
+	 *		.text : Datei
 	 * 		.class : .Radiobutton
-	 * 		.name : File
+	 * 		.name : Datei
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_file() 
@@ -2541,9 +2541,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * File: with specific test context and state.
-	 *		.text : File
+	 *		.text : Datei
 	 * 		.class : .Radiobutton
-	 * 		.name : File
+	 * 		.name : Datei
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_file(TestObject anchor, long flags) 
@@ -2604,9 +2604,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Graph: with default state.
-	 *		.text : Graph
+	 *		.text : Diagramm
 	 * 		.class : .Radiobutton
-	 * 		.name : Graph
+	 * 		.name : Diagramm
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_graph() 
@@ -2616,9 +2616,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Graph: with specific test context and state.
-	 *		.text : Graph
+	 *		.text : Diagramm
 	 * 		.class : .Radiobutton
-	 * 		.name : Graph
+	 * 		.name : Diagramm
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_graph(TestObject anchor, long flags) 
@@ -2654,9 +2654,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Local: with default state.
-	 *		.text : Local
+	 *		.text : Lokal
 	 * 		.class : .Checkbutton
-	 * 		.name : Local
+	 * 		.name : Lokal
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_local() 
@@ -2666,9 +2666,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Local: with specific test context and state.
-	 *		.text : Local
+	 *		.text : Lokal
 	 * 		.class : .Checkbutton
-	 * 		.name : Local
+	 * 		.name : Lokal
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_local(TestObject anchor, long flags) 
@@ -2704,9 +2704,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Print: with default state.
-	 *		.text : Print
+	 *		.text : Drucken
 	 * 		.class : .Radiobutton
-	 * 		.name : Print
+	 * 		.name : Drucken
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_print() 
@@ -2716,9 +2716,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Print: with specific test context and state.
-	 *		.text : Print
+	 *		.text : Drucken
 	 * 		.class : .Radiobutton
-	 * 		.name : Print
+	 * 		.name : Drucken
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_print(TestObject anchor, long flags) 
@@ -2729,9 +2729,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Screen: with default state.
-	 *		.text : Screen
+	 *		.text : Anzeige
 	 * 		.class : .Radiobutton
-	 * 		.name : Screen
+	 * 		.name : Anzeige
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_screen() 
@@ -2741,9 +2741,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Screen: with specific test context and state.
-	 *		.text : Screen
+	 *		.text : Anzeige
 	 * 		.class : .Radiobutton
-	 * 		.name : Screen
+	 * 		.name : Anzeige
 	 * 		.classIndex : 0
 	 */
 	protected ToggleGUITestObject output_screen(TestObject anchor, long flags) 
@@ -2754,9 +2754,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * AddTable: with default state.
-	 *		.text : Add Table...
+	 *		.text : Tabelle hinzufügen...
 	 * 		.class : .Pushbutton
-	 * 		.name : Add Table...
+	 * 		.name : Tabelle hinzufügen...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject relation_addTable() 
@@ -2766,9 +2766,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * AddTable: with specific test context and state.
-	 *		.text : Add Table...
+	 *		.text : Tabelle hinzufügen...
 	 * 		.class : .Pushbutton
-	 * 		.name : Add Table...
+	 * 		.name : Tabelle hinzufügen...
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject relation_addTable(TestObject anchor, long flags) 
@@ -2779,9 +2779,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Finish: with default state.
-	 *		.text : Finish
+	 *		.text : RegularExpression(Finish|Fertig\sstellen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Finish
+	 * 		.name : RegularExpression(Finish|Fertig\sstellen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject relation_finish() 
@@ -2791,9 +2791,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Finish: with specific test context and state.
-	 *		.text : Finish
+	 *		.text : RegularExpression(Finish|Fertig\sstellen)
 	 * 		.class : .Pushbutton
-	 * 		.name : Finish
+	 * 		.name : RegularExpression(Finish|Fertig\sstellen)
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject relation_finish(TestObject anchor, long flags) 
@@ -2829,10 +2829,10 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * Relations: with default state.
-	 *		.text : Relations
+	 *		.text : Beziehungen
 	 * 		.class : #32770
 	 * 		.processName : ACLWin.exe
-	 * 		.name : Relations
+	 * 		.name : Beziehungen
 	 */
 	protected TopLevelSubitemTestObject relationswin() 
 	{
@@ -2841,10 +2841,10 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * Relations: with specific test context and state.
-	 *		.text : Relations
+	 *		.text : Beziehungen
 	 * 		.class : #32770
 	 * 		.processName : ACLWin.exe
-	 * 		.name : Relations
+	 * 		.name : Beziehungen
 	 */
 	protected TopLevelSubitemTestObject relationswin(TestObject anchor, long flags) 
 	{
@@ -2854,9 +2854,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * AddAll: with default state.
-	 *		.text : Add All
+	 *		.text : Alle hinzufügen
 	 * 		.class : .Pushbutton
-	 * 		.name : Add All
+	 * 		.name : Alle hinzufügen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject seFields_addall() 
@@ -2866,9 +2866,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * AddAll: with specific test context and state.
-	 *		.text : Add All
+	 *		.text : Alle hinzufügen
 	 * 		.class : .Pushbutton
-	 * 		.name : Add All
+	 * 		.name : Alle hinzufügen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject seFields_addall(TestObject anchor, long flags) 
@@ -2879,9 +2879,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	
 	/**
 	 * ClearAll: with default state.
-	 *		.text : Clear All
+	 *		.text : Alle entfernen
 	 * 		.class : .Pushbutton
-	 * 		.name : Clear All
+	 * 		.name : Alle entfernen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject seFields_clearall() 
@@ -2891,9 +2891,9 @@ public abstract class aclDataDialogsHelper extends lib.acl.helper.sup.ObjectHelp
 	}
 	/**
 	 * ClearAll: with specific test context and state.
-	 *		.text : Clear All
+	 *		.text : Alle entfernen
 	 * 		.class : .Pushbutton
-	 * 		.name : Clear All
+	 * 		.name : Alle entfernen
 	 * 		.classIndex : 0
 	 */
 	protected GuiTestObject seFields_clearall(TestObject anchor, long flags) 

@@ -3,6 +3,7 @@ package ACL_Desktop.Tasks;
 import java.io.File;
 
 import lib.acl.helper.sup.LoggerHelper;
+import lib.acl.helper.sup.RFTGuiFinderHelper;
 import lib.acl.util.FileUtil;
 import resources.ACL_Desktop.Tasks.ddwmenuHelper;
 import ACL_Desktop.conf.beans.ProjectConf;
@@ -177,7 +178,7 @@ public class ddwmenu extends ddwmenuHelper
 				kUtil.invokeMenuCommand("File->New->NewTable");
 			}
             selectPlatform(ddwtext + " - Select Platform for Data Source");
-            selectDataSource(ddwtext + " - Select .+ Data Source"); 
+            selectDataSource(ddwtext + " - Select.*Data Source"); 
             
             //selectDataSource(ddwtext + " - Select .+"); 
             if(dpDataSource.matches("FlatFiles|Disk")){
@@ -280,11 +281,17 @@ public class ddwmenu extends ddwmenuHelper
 	    }
 	    
 	    public void selectFileToDefine(String title){
-	     	  if(ddwWizardError("OK",false)){
-	              cancelDDW();
-		    	 }
-	     	  
-	    	if(!sf_open().exists()){
+	    	if(!waitForExistence(sf_open())){
+	    	   click(ddw_next(),"Next >");
+	    	   sleep(1);
+	    	}
+	     	if(!waitForExistence(sf_open())){
+	    	//if(!sf_open().exists()){
+	     		logTAFError("File chooser not found");
+	     		
+		     	  if(ddwWizardError("OK",false)){
+		              cancelDDW();
+			    	 }
 	    		return;
 	    	}
 	    	File f = new File(dpSelectFile);	
@@ -422,8 +429,8 @@ public class ddwmenu extends ddwmenuHelper
     	  if(!checkWinAvailablity(ddwt)) return;
     	  logTAFInfo("Select sheet '"+dpWorksheet+"'"	);
           sds_sheet().select(dpWorksheet);
-          
-    	  actionOnCheckbox(sds_firstrows(),"Use first row as Field Names",
+          //sds_firstrows()
+    	  actionOnCheckbox(RFTGuiFinderHelper.findCheckbutton(DDW(),"Use first row as Field Names"),"Use first row as Field Names",
     			  dpUseFirst.equalsIgnoreCase("ON")?true:false,"New");
     	  if(dpDetectType.equals("First 100")){
     		  actionOnCheckbox(sds_first100(),"First 100 records",
@@ -650,25 +657,32 @@ public class ddwmenu extends ddwmenuHelper
 		public boolean checkWinAvailablity(GuiTestObject gto,String title){
 			
 			boolean found = false;
-//        	if(title.contains(" - Select .+ Data Source")){
-//			    sleep(0);
-//		    }
-	    	if(ddwWizardError("OK",false)){
-	              cancelDDW();
-		    	 }
-			if(cancelTest)
-					return false;
+			String title_en = title,reportTitle = title;
+//	    	if(ddwWizardError("OK",false)){
+//	              cancelDDW();
+//		    	 }
+//			if(cancelTest)
+//					return false;
 			waitForExistence(gto);
 			
 			if(title.equals("")){
 				return true;
 			}
+			if(title.contains(" - Select.*Data Source"))
+				sleep(0);
+			
+			title = getLocValue(title);
+			if(!title.equals(title_en)){
+				reportTitle = title+"["+title_en+"]";
+			}else{
+				reportTitle = title;
+			}
 			if(!propertyMatch(gto,".text",title)){
-				logTAFDebug("'"+title+"' not found? ");
+				logTAFDebug("'"+reportTitle+"' not found? ");
 				sleep(0);
 			}else{
 				found = true;
-				logTAFStep(title);
+				logTAFStep(reportTitle);
 			}
 			return found;
 		}
@@ -688,6 +702,7 @@ public class ddwmenu extends ddwmenuHelper
 			boolean dismissed = false;
 			sleep(1);
 			dataFileCreated = true;
+			dismissPopup("Yes",true); // Temp for l10n problem
 			if(getDialog(winTitle,className)!=null){
 				if(replace_msg().exists())
 				   msg = replace_msg().getProperty(".text").toString();

@@ -280,7 +280,12 @@ public abstract class WinTreeHelper extends PrintObjectInfoHelper
    	public static boolean propertyMatch(TestObject to, 
    			String name,String value,boolean ignoreNotFound){
    		boolean match = false;
+
    		value = getLocValues(value);
+   		
+   		if(value.matches("Data Definition Wizard.*")){
+   			value = value;
+   		}
    		String actualValue ="";
    		if(to!=null&&to.exists()){
    			try{

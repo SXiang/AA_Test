@@ -28,8 +28,8 @@ private String batchRunDataFile = "ACL_Desktop/DATA/KeywordTable/batchRunData.xl
 	
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 2;
-		endAtLine = 2;
+		//startFromLine = 2;
+		//endAtLine = 2;
 		testCategory = "Daily";
 		exeBatchRun(args);
 	}

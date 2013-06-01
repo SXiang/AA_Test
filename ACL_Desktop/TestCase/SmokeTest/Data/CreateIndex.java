@@ -28,8 +28,8 @@ public class CreateIndex extends CreateIndexHelper
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 8; // 4-9
-		endAtLine = 8;     //
+		startFromLine = 2; // 4-9
+		endAtLine = 2;     //
 	    exeTestCase(args);
 	}
 			

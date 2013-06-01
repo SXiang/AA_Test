@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 //import ACL_Desktop.conf.beans.ProjectConf;
 
 import lib.acl.helper.sup.LoggerHelper;
+import lib.acl.helper.sup.ObjectHelper;
 import lib.acl.helper.sup.TAFLogger;
 import lib.acl.helper.sup.RFTGuiFinderHelper;
 import conf.beans.LoggerConf;
@@ -41,6 +42,7 @@ public class NLSUtil {
                                      "|Open|Save|Cancel"+
                                      "";
 	public  static   	String idPattern = "lv_.*";
+	public static String noTranslation = "Not_Found_lv";
 	// convert "myString" to String set by current locale
 
 	public static String _convert2Locale(String myString){
@@ -51,53 +53,80 @@ public class NLSUtil {
     }
     public static String _convert2Locale(String myString,String className, boolean trucate) {
     	String oriString = myString;
-    	String pre = "SingleLocValue_";
+    	String pre = "SingleLocValue_";    // Not values, just value!!!
+        boolean singleValue = false;
+    	
     	if(myString.startsWith(pre)){
     		myString = myString.replaceFirst(pre, "");
+    		
     	}else{
     		pre = "";
+    		
     	}
-    	if((!myString.matches(idPattern))&&(appLocale.getLanguage().equalsIgnoreCase("en"))){
+    	
+    	if(
+    			(!myString.matches(idPattern))
+    			&&(appLocale.getLanguage().equalsIgnoreCase("en"))){
     		return myString;
     	}
     	
-    	
+
     	enFile = baseName+"_en.properties";
     	if(resBundle==null){
 			resBundle = getUTF8Bundle(baseName,appLocale);
 			//resBundle = getUTF8Bundle(enFile,appLocale);
 		}
+    	
+    	//String lstring = _convert2Locale(resBundle,getPropID(enFile,pre+myString,className));
     	String lstring = _convert2Locale(resBundle,getPropID(enFile,pre+myString,className));
-
-    	if(lstring.equals(myString)||
-    			(RFTGuiFinderHelper.isValidPattern(myString)&&lstring.matches(myString))){
+        if(!lstring.contains(noTranslation)){
+        	return lstring = addExp(lstring,oriString,true);
+        }else{
+        	lstring = lstring.replaceAll(noTranslation, myString);
+        
+        }
+    	if(
+    			(lstring.equals(myString)||
+    			     (RFTGuiFinderHelper.isValidPattern(myString)&&lstring.matches(myString)))){
+    		
     	    String temp = "",temp1;
+    	    
     		for(int i=0;i<splitPattern.length;i=i+2){
-    			if(myString.contains(splitPattern[i])||myString.matches(".*"+splitPattern[i]+".*")){    	
+    			if(myString.contains(splitPattern[i])||myString.matches(".*"+splitPattern[i]+".*")){
+    				
     				String[] myStrings = myString.split(splitPattern[i]);
     			   for(String part:myStrings){
+    				   if(part.trim().equals(""))
+    					   continue;
     				   temp1 = _convert2Locale(resBundle,getPropID(enFile,pre+part,className));   
+    				   if(temp1.contains(noTranslation))
+   			        	  temp1=temp1.replaceAll(noTranslation,part);
        			       temp1 = addExp(temp1,part,true);    			       
-  			           if(temp1.equals("")){
-  			    	       temp1 = part;
-  			           }
+//  			           if(temp1.equals("")){
+//  			    	       temp1 = part;
+//  			           }
   			    	   if(""!=temp1){
   			    		   if(temp.equals(""))
   			    			   temp = temp1;
-  			    		   else                   	
-  			    			   temp += splitPattern[i+1]+temp1;
+  			    		   else   
+  			    			 temp = combineExp(temp,splitPattern[i+1],temp1);
+  			    			  // temp += splitPattern[i+1]+temp1;
   			    	   }
                      temp1 = "";
     			   }//End of inner for loop
     			}//End of if
     		}//End of outer for loop
+    
     		lstring = temp;
     	}else{
     	   lstring = addExp(lstring,myString,trucate);
     	}
-    	if(lstring.equals("")){
-    		lstring = myString;
-    	}
+    	
+       	if(lstring.equals("")){ // In case
+     	   lstring = myString;
+     	}
+//       	if(RFTGuiFinderHelper.isPattern(myString))
+//       		lstring = RFTGuiFinderHelper._correctPattern(lstring);
        return lstring;
        //return _convert2Locale(resBundle,getPropID(enFile,myString),className);
     }
@@ -109,14 +138,14 @@ public class NLSUtil {
     }
     public static String _convert2English(String myString,String className,boolean truncate) {
     	
-    	String oriString = myString;
+    	
     	String pre = "SingleLocValue_";
     	if(myString.startsWith(pre)){
     		myString = myString.replaceFirst(pre, "");
     	}else{
     		pre = "";
     	}
-    	
+    	String oriString = myString;
     	if((!myString.matches(idPattern))&&(appLocale.getLanguage().equalsIgnoreCase("en"))){
     		return myString;
     	}
@@ -126,8 +155,16 @@ public class NLSUtil {
 			resBundleEn = getUTF8Bundle(baseName,Locale.ENGLISH);
 			//resBundleEn = getUTF8Bundle(curFile,Locale.ENGLISH);
 		}
+    	LoggerHelper.logTAFDebug("  Translating - '"+myString+"'");
     	String lstring = _convert2Locale(resBundleEn,getPropID(curFile,pre+myString,className,true));
-
+    	if(myString.contains("(.prf)"))
+    			LoggerHelper.logTAFDebug("  Translated - '"+myString+"' -> '"+lstring+"'");
+        if(!lstring.contains(noTranslation)){
+        	return lstring = addExp(lstring,oriString,truncate);
+        }else{
+        	lstring = lstring.replaceAll(noTranslation, myString);
+        
+        }
     	if(lstring.equals(myString)||
     			(RFTGuiFinderHelper.isValidPattern(myString)&&lstring.matches(myString))){
     	    String temp = "",temp1;
@@ -135,16 +172,20 @@ public class NLSUtil {
     			if(myString.contains(splitPattern[i])||myString.matches(".*"+splitPattern[i]+".*")){    	
     				String[] myStrings = myString.split(splitPattern[i]);
     			   for(String part:myStrings){
+    				   LoggerHelper.logTAFDebug("---------  Translating part- '"+part+"'");
     				   temp1 = _convert2Locale(resBundleEn,getPropID(curFile,pre+part,className,true));   
+    				   LoggerHelper.logTAFDebug("---------  Translated part- '"+part+"' -> '"+temp1+"'");
+    			        if(temp1.contains(noTranslation))
+    			        	temp1=temp1.replaceAll(noTranslation,part);
        			       temp1 = addExp(temp1,part,true);    			       
-  			           if(temp1.equals("")){
-  			    	       temp1 = part;
-  			           }
+  			           
   			    	   if(""!=temp1){
   			    		   if(temp.equals(""))
   			    			   temp = temp1;
-  			    		   else                   	
-  			    			   temp += splitPattern[i+1]+temp1;
+  			    		   else {   
+  			    			   temp = combineExp(temp,splitPattern[i+1],temp1);
+  			    			   //temp += splitPattern[i+1]+temp1;
+  			    		   }
   			    	   }
                      temp1 = "";
     			   }//End of inner for loop
@@ -152,19 +193,31 @@ public class NLSUtil {
     		}//End of outer for loop
     		lstring = temp;
     	}else{
-    	   lstring = addExp(lstring,myString,truncate);
+    	   lstring = addExp(lstring,oriString,truncate);
     	}
-    	if(lstring.equals("")){
-    		lstring = myString;
-    	}
-    	
+       	if(lstring.equals("")){ // In case
+      	   lstring = myString;
+      	}  
+//		 if(RFTGuiFinderHelper.isPattern(myString)){
+//			 lstring = RFTGuiFinderHelper._correctPattern(lstring);
+//		 }
        return lstring;
     }
-
+    public static String combineExp(String first,String conn,String second){
+    	String[] secondArray = second.split("\\|");
+    	String exp = "";
+    	for(int i=0;i<secondArray.length;i++){
+    		if(i==0)
+    			exp = first + conn + secondArray[i];
+    		else
+    		    exp += "|"+ first+ conn + secondArray[i];
+    	}
+    	return exp;
+    }
     public static String addExp(String lstring,String oriString,boolean truncate){
-    	String[] replacement = {
-    			                "%s",".*",
-    			                "\\.{2,}([*+])",".$1"};
+//    	String[] replacement = {
+//    			                "%s",".*",
+//    			                "\\.{2,}([*+])",".$1"};
     	String[] patt ={".*",".+"};
     	String rep = ".*";
     	boolean done = false;
@@ -176,8 +229,12 @@ public class NLSUtil {
 			String temp[] = lstring.split("\\|");
 			lstring = "";
 			for(String st:temp){
-			   if(truncate&&st.length()> 100)
-                  st = RFTGuiFinderHelper.correctPattern(st.substring(0,100));
+			   if(truncate&&st.length()> 100){
+				    st = st.substring(0,100);
+					//st = RFTGuiFinderHelper.correctPattern(st);
+			   }
+			   
+			   st = RFTGuiFinderHelper.correctPattern(st);
 			   st = rep+st;
 			   if(lstring.equals(""))
 			      lstring = st;
@@ -195,8 +252,11 @@ public class NLSUtil {
     			String temp[] = lstring.split("\\|");
     			lstring = "";
     			for(String st:temp){
-    			   if(truncate&&st.length()> 100)
-    				 st = RFTGuiFinderHelper.correctPattern(st.substring(0,100));
+    				if(truncate&&st.length()> 100){
+    					  st = st.substring(0,100);
+    	                  //st = RFTGuiFinderHelper.correctPattern(st.substring(0,100));
+    				   }
+    				st = RFTGuiFinderHelper.correctPattern(st);
     			   st += rep;
     			   if(lstring.equals(""))
     			      lstring = st;
@@ -208,9 +268,9 @@ public class NLSUtil {
     		}
     	}
     	
-    	for(int i=0;i<replacement.length;i=i+2){
-    		lstring.replaceAll(replacement[i], replacement[i+1]);
-    	}
+//    	for(int i=0;i<replacement.length;i=i+2){
+//    		lstring.replaceAll(replacement[i], replacement[i+1]);
+//    	}
     	return lstring;
     }
 //	public  static String _convert2Locale(ResourceBundle rb,String myString) {
@@ -218,19 +278,24 @@ public class NLSUtil {
 //	}
 	public  static String _convert2Locale(ResourceBundle rb,String myString){//, String className) {
 		String conv = "",temp = "";
-//    	if(myString.contains(" - Select .+ Data Source")||
-//    			myString.contains("lv_211")){
-//		    myString = myString;
-//	    }
+    	if(myString.contains("ACL 기본 설정 파일을(.prf)")||
+    			myString.contains("lv_ACLTXTG_RH_MISC_008_ID")){
+		    myString = myString;
+	    }
+		if (myString == null)
+			return myString;
+		String[] ms = myString.split("\\|");
 		try {			
 			if (myString != null && ! "".equalsIgnoreCase(myString)) {
-				String[] ms = myString.split("\\|");
+				
 				for(String id:ms){
-					temp = rb.getString(id);
-					// remove last ".", we have problem to get it from msg box somehow - Steven.
-//			       if(temp.endsWith("."))
-//			            temp =	temp.substring(0,temp.length()-1);
-			       
+					if(!id.matches(idPattern)){
+						temp = id;
+					}else{
+					    temp = rb.getString(id);
+					}
+			        if(temp==null||temp==""||temp.matches("^([\\s]*['\"(\\[]?%[\\d]*[l]?[Icds]['\")\\]]?[\\s]*)*"))
+			        	continue;
 					if(conv.equals("")){
 						conv = temp;
 					}else if(!conv.equals(temp)&&
@@ -251,9 +316,14 @@ public class NLSUtil {
 		}
         
 		
-        if(conv==null||conv=="")
-        	conv = myString;
-		return conv;
+        if(conv==null||conv==""||conv.matches("^([\\s]*['\"(\\[]?%[\\d]*[l]?[Icds]['\")\\]]?[\\s]*)*"))
+        	//conv = myString;
+            conv = myString;
+        
+        //   conv = RFTGuiFinderHelper.correctPattern(conv);
+        
+        return conv;
+		//return conv.replaceAll("%s", ".+");
 	}
 
 	public static String convert2English(String myString) {
@@ -333,9 +403,9 @@ public class NLSUtil {
 					else
 					   convertedStr += pat1+convertedString;
 			     }
-				 if(RFTGuiFinderHelper.isPattern(convertedStr)){
-					 convertedStr = RFTGuiFinderHelper.correctPattern(convertedStr);
-				 }
+//				 if(RFTGuiFinderHelper.isPattern(convertedStr)){
+//					 convertedStr = RFTGuiFinderHelper.correctPattern(convertedStr);
+//				 }
 			     LoggerHelper.logTAFDebug("i18nReplaceAll for '"+value+"': "+convertedStr);
 
            return convertedStr;
@@ -384,21 +454,23 @@ public class NLSUtil {
 		}
 		return classKey;
 	}
-
-	public static String getPropID(String file,String sValue, String cName,boolean reverse,boolean isPattern){
-		String key = "",keys="";
+	public static String getPropID_working(String file,String sValue, String cName,boolean reverse,boolean isPattern){
+		String key = noTranslation;
+		String keys="";
 		String value = "";
 		String temp = null;
 		Properties pr = null;
 		boolean noTrans = false;
         boolean single = false;
     	String oriValue = sValue;
+    	
     	String pre = "SingleLocValue_";
     	if(sValue.startsWith(pre)){
     		sValue = sValue.replaceFirst(pre, "");
     		single = true;
     	}else{
     		pre = "";
+    		single = false;
     	}
         
     	if(sValue.matches(idPattern)){
@@ -429,34 +501,39 @@ public class NLSUtil {
 		//LoggerHelper.logTAFInfo(+idSet.size()+"props in '"+file+"' loaded");
 		
 		String sValueTemp = "";
+		int numIds = idSet.size(),curNum=0;
 		if(!sValue.endsWith("$")){
 			sValueTemp = sValue;
 		}else{
-			sValueTemp = sValue.replaceAll("([\\s][']?)%[\\d]*[l]?[Icds]([']?)", "$1.*$2");
+			//sValueTemp = sValue.replaceAll("([\\s]['\"]?)%[\\d]*[l]?[Icds](['\"]?)", "$1.*$2");
+			sValueTemp = RFTGuiFinderHelper.correctPattern(sValue);
+			//sValueTemp = sValueTemp.replaceAll("\\n|\\r","/");
 		}
-		for(String id:idSet){
-            if(id.equals("lv_WinName_DLG_REPORT_DIALOG_3_30_5_6_CONTROL_BS_AUTOCHECKBOX_dup4")
-            		&&sValue.contains("Fit to page"))
-            	temp=temp+"1";
-			temp = pr.getProperty(id);
-//			if(sValue.equals("Working"))
-//			   LoggerHelper.logTAFInfo(id+" = "+temp+" ("+sValue+")");
-			
 		
+		for(String id:idSet){
+			
+			        	
+			temp = pr.getProperty(id);
+
 			if(temp==null){
 				temp="";
 				LoggerHelper.logTAFDebug("'"+id+" == null?'");
 				continue;
 			}
 			temp = temp.trim();
+			
+//			if(sValue.contains(debugString)&&id.contains("lv_ACLTXT_RH_SX_750_ID")){
+//				LoggerHelper.logTAFWarning("'"+sValue+" ?=\n\t '"+temp+"'");
+//			}
 			if(sValueTemp.equals(sValueTemp.toUpperCase())||
 			    temp.equals(temp.toUpperCase()))
-				noTrans = true;
-			if((!noTrans&&(temp.equals(sValue)||temp.equals(sValueTemp)))
-					&&(classKey.equals("")||id.matches(classKey))){	
-//				if(!classKey.equals("")&&id.matches(classKey)){
-//					return id;
-//				}
+				noTrans = true; // No translation for all UPPERCASE English!!!
+			if(
+					(!noTrans
+							&&(temp.equals(sValue)||temp.equals(sValueTemp)) // Value equal
+							)
+					&&(classKey.equals("")||id.matches(classKey)) // Class equal
+					){	
 				
 				if(keys!="")
 					   keys += "|"+id;
@@ -464,17 +541,21 @@ public class NLSUtil {
 						keys = id;
 				if(single)
 			         return id;
-			}else{ 
+			}else{ // Pattern match
 				try{					
-					Pattern.compile(sValue+"|"+sValueTemp);
+					Pattern.compile(RFTGuiFinderHelper.correctPattern(sValue)+"|"+sValueTemp);
 					isPattern = true;
 				}catch(Exception e){
 					//System.err.println(e.toString());
 					isPattern = false;
 				}
 				
-				if((temp.equalsIgnoreCase(sValueTemp)||temp.equalsIgnoreCase(sValueTemp+":")||(temp+":").equalsIgnoreCase(sValue))
-						||(isPattern&&temp.matches(sValue+"|"+sValueTemp))){
+				if(
+						(temp.equalsIgnoreCase(sValueTemp)
+								||temp.equalsIgnoreCase(sValueTemp+":")
+								||(temp+":").equalsIgnoreCase(sValue))
+						||(isPattern&&temp.replaceAll("\\n|\\r","/").matches(
+								RFTGuiFinderHelper.correctPattern(sValue)+"|"+sValueTemp))){
 					
             // *** Option 1, get shortest trans
 //					if(value.equals("")||temp.length()<value.length()){
@@ -483,7 +564,7 @@ public class NLSUtil {
 //					}
 					
 			//*** Option 2, get all possible matches
-					if(key!="")
+					if(!key.equals(noTranslation)&&key!="")
 						   key += "|"+id;
 					else
 						   key = id;
@@ -495,23 +576,336 @@ public class NLSUtil {
 		if(keys!=""){
 			key = keys;
 		}
-		if(key==""){
-			key = sValue;
-		}
-		//Debug area
-    	if(sValue.matches(".*Running.*")){
-	      try {
-			Thread.sleep(0);
-		  } catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		  }
-        }
-    	
+//		if(key==""){
+//			key = sValue;
+//			if(single){
+//				key = pre+key;
+//			}
+//		}
+
 //		LoggerHelper.logTAFDebug("Property '"+key+"' = '"+sValue+"'");
 		return key;
 	}
 	
+	public static String getPropID(String file,String sValue, String cName,boolean reverse,boolean isPattern){
+		String key = noTranslation;
+		String key_r="";
+		String keys="";
+		String temp = null;
+		Properties pr = null;
+		
+        boolean single = false;
+   	
+    	String pre = "SingleLocValue_";
+    	if(sValue.startsWith(pre)){
+    		sValue = sValue.replaceFirst(pre, "");
+    		single = true;
+    	}else{
+    		pre = "";
+    		single = false;
+    	}
+    	sValue = ObjectHelper.removeLineFeed(sValue);
+    	if(sValue.matches(idPattern)){
+    		return sValue;
+    	}
+		//boolean validPattern = true;
+
+    	String classKey = getClassKey(cName);
+		if(!reverse){
+    		if(enProps==null||enFile==null
+//    				||!file.equals(enFile)
+    				){
+		    enProps = loadProperties(file);
+		    enFile = file;
+		    idSet = enProps.stringPropertyNames();
+		     }	
+    		pr = enProps;
+		}else{
+    		if(curProps==null||curFile==null
+//    				||!file.equals(curFile)
+    				){
+    		    curProps = loadProperties(file);
+    		    curFile = file;
+    		    idSet = curProps.stringPropertyNames();
+    		     }	
+        		pr = curProps;
+		}
+		//LoggerHelper.logTAFInfo(+idSet.size()+"props in '"+file+"' loaded");
+		
+		String sValuePattern = "";
+		int numIds = idSet.size(),curNum=0;
+        boolean isValuePattern = false;
+		try{
+			  Pattern.compile(sValue);
+			  isPattern = true;
+		}catch(Exception e){
+			isPattern = false;
+		}
+		try{
+			  Pattern.compile(sValuePattern=RFTGuiFinderHelper.correctPattern(sValue));
+			  isValuePattern = true;
+		}catch(Exception e){
+			isValuePattern = false;
+		}
+		
+		boolean isTempPattern = false;
+		for(String id:idSet){            	
+			temp = pr.getProperty(id);
+			String debugString = "ACL 기본 설정 파일을(.prf)";
+			
+			if(sValue.contains(debugString)){	
+			    if(temp.contains("ACL 기본 설정 파일을(.prf)")){
+				 LoggerHelper.logTAFDebug("'"+sValue+" ?=\n\t '"+temp+"'");
+			    }
+			}    
+            
+			if((temp=cleanUpMsg(temp)).equals("IGNOREABLE")){
+				continue;
+			}
+			temp = ObjectHelper.removeLineFeed(temp);
+			if(
+					((temp.equals(sValue)) // Value equal
+							)
+					&&(classKey.equals("")||id.matches(classKey)) // Class equal
+					){	
+				
+				if(keys!="")
+					   keys += "|"+id;
+					else
+						keys = id;
+				if(single)
+			         return id;
+			}else{ // Pattern match
+				
+				String tempPattern = RFTGuiFinderHelper.correctPattern(temp);
+				try{
+					Pattern.compile(tempPattern);
+					
+					    isTempPattern = true;
+					
+				}catch(Exception e){
+					//System.err.println(e.toString());
+					isTempPattern = false;
+				}
+				
+				if(
+						(temp.equalsIgnoreCase(sValuePattern)
+								||temp.equalsIgnoreCase(sValue+":")
+								||(temp+":").equalsIgnoreCase(sValue))
+						||(isPattern)&&temp.matches(sValue)
+						||(isValuePattern&&temp.matches(sValuePattern))
+				){
+					
+					if(!key.equals(noTranslation)&&key!="")
+						   key += "|"+id;
+					else
+						   key = id;
+			    }
+				
+				if(	(reverse
+						&&isTempPattern&&sValue.matches(tempPattern))){
+					if(!key_r.equals(""))
+						   key_r += "|"+id;
+					else
+						   key_r = id;
+				}
+
+			}
+		}
+		if(keys!=""){
+			key = keys;
+		}
+		if(reverse&&key.matches(noTranslation)&&key_r!=""){
+			key = key_r;
+		}
+		return key;
+	}
+
+	public static String cleanUpMsg(String message){
+		String msg = "IGNOREABLE";
+		String str = message;
+
+		String[] control = {				 
+	            "[\\uEFEE-\\uFFFF]"
+                ,"\\p{Cc}|\\p{Cntrl}"
+	};
+		String[] pat = {
+				     "\\n"
+				     ,"\\r"
+				     ,"['\"(\\[]?%[\\-+]?[\\d]*[Icds]['\")\\])\\]]?"
+		             ,"[\\.+*?'\"\\d\\\\/\\s\\n\\r\\(\\)\\[\\]\\-,;]"
+		             ,"\\d"
+		             ,"^([\\s]*['\"(\\[]?%[\\d]*[l]?[Icds]['\")\\]]?[\\s]*)*"
+		};
+
+		if(message==null||message.equals("")){
+           return msg;
+		}
+		
+		for(int i=0;i<control.length;i++){
+		   str = message.trim().replaceAll(control[i],"");
+		}
+		
+		//str = message;
+		for(int j=0;j<pat.length;j++){
+		    str = str.replaceAll(pat[j],"");
+		}
+		
+		if(str.length()<2){
+			return msg;
+		}
+		
+		return message;
+	}
+	public static String _getPropID(String file,String sValue, String cName,boolean reverse,boolean isPattern){
+		String key = noTranslation;
+		String keys="";
+		String temp = null;
+		
+		Properties pr = null;
+		boolean noTrans = false;
+        boolean single = false;
+        boolean isValuePattern = isPattern;
+        boolean isTempPattern = false;
+    	//String oriValue = sValue;
+    	
+    	String pre = "SingleLocValue_";
+    	sValue = sValue.trim();
+    	if(sValue.startsWith(pre)){
+    		sValue = sValue.replaceFirst(pre, "");
+    		single = true;
+    	}else{
+    		pre = "";
+    		single = false;
+    	}
+        
+    	if(sValue.equals("")){
+    		return key;
+    	}
+    	if(sValue.matches(idPattern)){
+    		return sValue;
+    	}
+		//boolean validPattern = true;
+
+    	
+    	String classKey = getClassKey(cName);
+		if(!reverse){
+    		if(enProps==null||enFile==null
+//    				||!file.equals(enFile)
+    				){
+		    enProps = loadProperties(file);
+		    enFile = file;
+		    idSet = enProps.stringPropertyNames();
+		     }	
+    		pr = enProps;
+		}else{
+    		if(curProps==null||curFile==null
+//    				||!file.equals(curFile)
+    				){
+    		    curProps = loadProperties(file);
+    		    curFile = file;
+    		    idSet = curProps.stringPropertyNames();
+    		     }	
+        		pr = curProps;
+		}
+		//LoggerHelper.logTAFInfo(+idSet.size()+"props in '"+file+"' loaded");
+		
+		String sValueLine = sValue.replaceAll("\\n","/").replaceAll("\\r","/");
+		String sValuePattern = RFTGuiFinderHelper.correctPattern(sValueLine)+"[ ]?[:]?";
+		       sValuePattern = RFTGuiFinderHelper.trimExp(sValuePattern);
+		String tempLine;
+		String tempPattern;
+		//int numIds = idSet.size(),curNum=0;
+		try{	
+			if(isValuePattern){
+			  Pattern.compile(RFTGuiFinderHelper.correctPattern(sValuePattern));
+			  isValuePattern = true;
+			}
+			
+		}catch(Exception e){
+			//System.err.println(e.toString());
+			isValuePattern = false;
+		}
+		for(String id:idSet){
+            	
+			temp = pr.getProperty(id);
+			if(temp==null){
+				temp="";
+				LoggerHelper.logTAFDebug("'"+id+" == null?'");
+				continue;
+			}
+			
+			
+			temp = temp.trim();
+			if(temp.equals(""))
+				continue;
+			tempLine = temp.replaceAll("\\\\n","/").replaceAll("\\\\r","/");
+			tempPattern = RFTGuiFinderHelper.correctPattern(tempLine)+"[ ]?[:]?";
+			
+			if(sValueLine.equals(sValueLine.toUpperCase())||
+			    tempLine.equals(tempLine.toUpperCase()))
+				noTrans = true; // No translation for all UPPERCASE words?!!!
+			if(
+					(!noTrans
+							&&(tempLine.equalsIgnoreCase(sValueLine)) // Value equal
+							)
+					&&(classKey.equals("")||id.matches(classKey)) // Class equal
+					){	
+				
+				if(keys!="")
+					   keys += "|"+id;
+					else
+						keys = id;
+				if(single)
+			         return id;
+			}else if(lvMatched(sValueLine,sValuePattern,tempLine,tempPattern,isPattern)){ // Pattern match
+					if(!key.equals(noTranslation)&&key!="")
+						   key += "|"+id;
+					else
+						   key = id;
+			    
+			}
+		}
+		if(keys!=""){
+			key = keys;
+		}
+		return key;
+	}
+	public static boolean lvMatched(String searchString, String searchPattern, String valueString, String valuePattern,boolean isSearchPattern){
+		boolean matched = false;
+		boolean isValuePattern = false;
+        if(valueString.matches("[/ :|+*?\\r\\n]*")||searchString.matches("[/ :|+*?\\r\\n]*")){
+        	return matched = false;
+        }
+		if(searchString.equalsIgnoreCase(valuePattern)
+				||searchString.equalsIgnoreCase(valueString+":")
+				||(searchString+":").equalsIgnoreCase(valueString)
+				){
+			return matched = true;
+		}
+		try{					
+			Pattern.compile(valuePattern);
+			isValuePattern = true;
+		}catch(Exception e){
+			//System.err.println(e.toString());
+			isValuePattern = false;
+		}
+		try{
+			if(!isSearchPattern&&isValuePattern&&searchString.matches(valuePattern)){
+				return matched = true;
+			}
+		}catch(Exception e){
+			
+		}
+		try{
+			if(isSearchPattern&&valueString.matches(searchPattern)){
+				return matched = true;
+			}
+		}catch(Exception e){
+			
+		}
+       return matched;
+	}
 //	public static boolean isOutputFormat(String format, String value){
 //		String st = "%s|%d|%i|%f";
 //		String[] temp = format.split(st);
@@ -539,6 +933,7 @@ public class NLSUtil {
 		} catch (Exception e) {
 			LoggerHelper.logTAFDebug(e.toString());
 		} 
+		LoggerHelper.logTAFDebug("Loaded properties '"+file+"'");
 		return curProps;
 		
 	}

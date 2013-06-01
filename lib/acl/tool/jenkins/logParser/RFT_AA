@@ -1,0 +1,13 @@
+#Keyword:.*Failed.*?[\r\n]?.*[\r\n]?.*[\r\n]?.*\[KNOwN bugs:
+start /(?i)======	 \d{1,3}. Test Suite:/
+# >!!  Automation Error; >>!   Known issue
+warn /(?i)^\s*>[!>]! Keyword:.*Failed.*/
+error /(?i)^\s*!!! Keyword:.*Failed./
+start /(?i)^\s*===   Test Summary/
+info /(?i)^\*	 <b>TEST ENVIRONMENT:</b>/
+info /(?i)^\*\*	 AUT:</b>/
+info /(?i)^\*	 <b>RESULTS:</b></b>/
+info /(?i)^\*	 <b>LINKS:</b>/
+#info /(?i)^**	About:</b>/
+#info /(?i)^\s*>>> Keyword:.*Passed.*/
+#info /(?i)^\s*>>- Keyword:.*Passed.*/

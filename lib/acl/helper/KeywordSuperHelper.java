@@ -33,6 +33,7 @@ public abstract class KeywordSuperHelper extends lib.acl.helper.sup.ObjectHelper
 
 	public void testMain(Object[] args) 
 	{
+
 		// Data-Driven Stub
 		dataInit(args); 
 		//exeCommands();
@@ -58,9 +59,9 @@ public abstract class KeywordSuperHelper extends lib.acl.helper.sup.ObjectHelper
 			//if(dpKnownBugs.equals("")&&dpExpectedErr.equals("")){
 			applyWR = true;
 		}
-//		dpCommand = getDpString("Command");
-//		dpEndWith = getDpString("EndWith");
-		
+////		dpCommand = getDpString("Command");
+////		dpEndWith = getDpString("EndWith");
+
 		return done;
 	}
 	

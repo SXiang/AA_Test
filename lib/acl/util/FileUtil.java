@@ -26,7 +26,8 @@ public class FileUtil extends ibm.util.FileOps {
 	
 	public static String encoding = "UTF-8";	
 	public static Locale javalocale = Locale.getDefault();	
-	public static Locale locale = javalocale;//FileUtil.getSystemLocale();
+	public static Locale locale = javalocale;
+	//FileUtil.getSystemLocale();
 	//**************  CMD operations ********************************
 	
 	public static String makeWriteable(String dir){

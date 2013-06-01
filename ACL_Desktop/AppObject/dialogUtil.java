@@ -144,10 +144,10 @@ public class dialogUtil extends dialogUtilHelper
 		if(doneWith.equalsIgnoreCase("Cancel")){
 			clickOnObjectSafely(op_Cancel(),"Cancel");
 		}else if(doneWith.equalsIgnoreCase("Factory")){
-		 if(ProjectConf.appLocale.equalsIgnoreCase("En")){
+		 //if(ProjectConf.appLocale.equalsIgnoreCase("En")){
 			clickOnObjectSafely(op_Factory(),"Factory");
 			confirmAction("Yes");	
-    		 }
+    	//	 }
 			clickOnObjectSafely(op_OK(),"OK");
     		
 			currentSetting = doneWith;

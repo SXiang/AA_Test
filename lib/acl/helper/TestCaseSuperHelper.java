@@ -107,6 +107,7 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
 				!stopScript)
 		{
 			skipTest = false;
+			
 			runTest = getDpString("Run_Test");
 			logItem = "";
 			// To select form 'Defect Daily, Smoke, or Regression
@@ -144,11 +145,11 @@ public class TestCaseSuperHelper extends InitializeTerminateHelper {
             		skipTest = true;
             	}
             }
-            if(ProjectConf.appLocale.matches("(?i)Ko|Pl")){  // Ko ACLSE is not available at this time - Steven
-            	ProjectConf.testType = "LOCALONLY";
-            	//sleep(1);
-            	//logTAFWarning("\t!!! No korean aclse available, some tests may fail due to the failure of server connection!!!");
-            }   
+//            if(ProjectConf.appLocale.matches("(?i)Ko|Pl")){  // Ko ACLSE is not available at this time - Steven
+//            	ProjectConf.testType = "LOCALONLY";
+//            	//sleep(1);
+//            	//logTAFWarning("\t!!! No korean aclse available, some tests may fail due to the failure of server connection!!!");
+//            }   
 
             String temp = getDpString("ProjectName");
 

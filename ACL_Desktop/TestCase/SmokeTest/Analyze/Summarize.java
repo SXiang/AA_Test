@@ -27,8 +27,8 @@ public class Summarize extends SummarizeHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Analyze/Summarize.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 4; // 4-9
-		endAtLine = 4;     //
+		startFromLine = 7; // 4-9
+		endAtLine = 7;     //
 	    exeTestCase(args);
 	}
 			

@@ -28,8 +28,8 @@ public class FilemenuProject extends FilemenuProjectHelper
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 7; // 4-9
-		endAtLine =7;     //
+		startFromLine = 4; // 4-9
+		endAtLine =4;     //
 	    exeTestCase(args);
 	}
 			

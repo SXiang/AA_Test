@@ -74,8 +74,9 @@ public class filemenu extends filemenuHelper
 
 	public void testMain(Object[] args) 
 	{
+		setWelcomeTab(false);
 		super.testMain(args);
-
+               
 		//Steps:
 		//@Step Activate ACLWin
 		//@Step Click File->'MenuItem' [Such as File->Open Project]
@@ -87,6 +88,7 @@ public class filemenu extends filemenuHelper
 		//@@Step Verify filters in the history list.
 		//@Step Perform Rename,Delete or SaveAs on ACL items
 		//@Step Execute the command specified in 'EndWith' such as 'Kill'
+        
 		if(!dpItemName.equals("")){
 			itemName = getNameFromPath(dpItemName);
 			exeActOnItem();
@@ -96,7 +98,7 @@ public class filemenu extends filemenuHelper
             verifyItemStatus(dpItemStatus);
 			aTabs.switchTableTabs();
 		}
-
+		setWelcomeTab(true);
 	}
 
 	public void exeActOnItem(){
@@ -241,6 +243,7 @@ public class filemenu extends filemenuHelper
 		int sizeExp = expected.size();
 		boolean pass = true;
 		String fh = null,fe=null;
+		
 		GuiTestObject to = (GuiTestObject) aRou.getFilterBox();
 		if(to==null){
 			logTAFWarning("ACL filter Edit box not found?");

@@ -1,6 +1,8 @@
 package ACL_Desktop.Tasks.Edit;
 
 import resources.ACL_Desktop.Tasks.Edit.variableAndFilterHelper;
+import ACL_Desktop.conf.beans.ProjectConf;
+
 import com.rational.test.ft.*;
 import com.rational.test.ft.object.interfaces.*;
 import com.rational.test.ft.object.interfaces.SAP.*;
@@ -55,7 +57,7 @@ public class variableAndFilter extends variableAndFilterHelper
                      mainSep = "==";
     protected String keyNew = "New",
                      keyRename = "Rename...",
-                     keyDuplicate = "lv_WinName_DLG_SELECT_DIALOG_13_27_5_6_PUSHBUTTON_5",//Duplicate",
+                     keyDuplicate = "lv_Native_rc_DLG_SELECT_DIALOG_PUSHBUTTON_5_ID",//Duplicate",
                      keyEdit = "OK",
                      keyDelete = "Delete",
                      keyCopy = "Copy From...";
@@ -271,7 +273,14 @@ public class variableAndFilter extends variableAndFilterHelper
 		for(int i=0;i<item.length&&!item[i].equals("");i++){
 		  if(actionOnSelect(listBoxlist(),command,item[i],"New",true)){	
 		     click(findPushbutton(mainDialog,keyDelete),keyDelete);
-		     dismissPopup(winClass,winTitle,"Delete",false,true,3,".*Delete.*");
+		     //String delete_LV = getLocValue("Delete");
+		     
+		     //if(ProjectConf.appLocale.equalsIgnoreCase("En"))
+		       dismissPopup(winClass,winTitle,"Delete",false,true,3,".*Delete.*");
+		    // else{
+		    	 //There is a problem to check the expected msg in l10n -- Steven. 
+		    	 //dismissPopup(winClass,winTitle,"Delete",true,true,3); 
+		    // }
 		     //dismissPopup(winTitle,endWith,"Any",false,true);
 		  }
 		}

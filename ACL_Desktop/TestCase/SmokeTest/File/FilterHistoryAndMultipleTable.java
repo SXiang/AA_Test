@@ -36,8 +36,8 @@ public class FilterHistoryAndMultipleTable extends FilterHistoryAndMultipleTable
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 13; // 4-9
-	   //endAtLine =6;     //
+		//startFromLine = 16; // 4-9
+	    //endAtLine =16;     //
 	    exeTestCase(args);
 	}
 			

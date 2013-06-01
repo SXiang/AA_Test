@@ -75,7 +75,12 @@ public class keywordUtil extends keywordUtilHelper
 	public boolean isActivated(String winTitle,String winClass,boolean isInfo){
 		boolean activated = true;
 		Point treeTop ;
-	      
+	    
+//		if(!ProjectConf.appLocale.equalsIgnoreCase("En")){
+//			sleep(2);
+//			return activated;
+//		}
+		//logTAFStep("Debug - Check ACL availability... ");
         IWindow win = null,activeWin;
         String curWinTitle,expectedWinTitle="";
         int maxCheck = 3,numChecks = 0;
@@ -83,7 +88,10 @@ public class keywordUtil extends keywordUtilHelper
         if((win = getDialog(winTitle,winClass))!=null){
         
 			try{
-				expectedWinTitle = win.getText().trim();
+				expectedWinTitle = win.getText();
+				if(expectedWinTitle==null){
+					expectedWinTitle = "";
+				}
 				win.maximize();
 			    win.click(atPoint(200,5));
 			    win.activate();			
@@ -125,6 +133,7 @@ public class keywordUtil extends keywordUtilHelper
 			}
 
 		}else{
+			logTAFInfo("Not found: window '"+winClass+"'");
 			activated = false;
 		}
 		return activated;
@@ -133,11 +142,12 @@ public class keywordUtil extends keywordUtilHelper
        activateAUT(true);
     }
     	public void activateAUT(boolean reopenProject){	
+    		boolean blocked = false;
     	if(((batchRun&&projPath.equals(""))   // Start of new batch test
     			||sysExceptionCaught
     			||app==null
     			||individualTest
-    			||!isActivated(null,appClass,true))// AUT not activated
+    			||(blocked = !isActivated(null,appClass,true)))// AUT not activated
              ){ 
 //    		if(app!=null)
 //    		   logTAFWarning("!RFT failed to detect the AUT "+appClass+" or caught a sys exception/fatal error, " +
@@ -147,6 +157,10 @@ public class keywordUtil extends keywordUtilHelper
     			return;
     		}
     		
+    		if(blocked){
+    			logTAFWarning(autoIssue+" Winodw '"+appClass+"' is blocked?");
+//    			stopScript = true; // Restart application will discard any variables or other things  - Steven
+    		}
     		 startApp(); 
     		
     		 if(!projPath.equals("")&&sysExceptionCaught&&reopenProject){
@@ -183,6 +197,7 @@ public class keywordUtil extends keywordUtilHelper
 				while(!started&&maxStartTime>0){
 				    sleep(5);
 				    maxStartTime -= 5;
+				    dismissPopup("OK",false);
 				    started = ACL9window().exists();
 				}
 			}
@@ -295,8 +310,9 @@ public class keywordUtil extends keywordUtilHelper
     			LoggerHelper.projName ="";
     			return "";
     		}
-    		if(aRou.getProperties(0,"Name").equalsIgnoreCase("Unknown")&&
-    				!projPath.equals("")){
+    		if(!projPath.equals("")
+    				&&aRou.getProperties(0,"Name").equalsIgnoreCase("Unknown")
+    				){
     		   projName = projPath;
     		}else if(!option.equalsIgnoreCase("OpenRecent")){
     		   return workingProject;
@@ -335,7 +351,10 @@ public class keywordUtil extends keywordUtilHelper
     	
     	projName = new File(fullName).getName().replaceAll("\\.[Aa][cC].?$", "");
     	
-    	
+    	if(projName.contains("_LOCALONLY")){
+			LoggerHelper.logWarning("ProjectName - '"+projName+"' is possible? check it out!!!");
+			projName = projName.replace("_LOCALONLY", "_LOCAL");
+		}
        	if(option.equals("")&&!projName.equals("")){
        		curProj = aRou.getProperties(0,"Name").replaceAll("\\.[Aa][cC].?$", "").replace("Unknown", "");
        		
@@ -428,7 +447,7 @@ public class keywordUtil extends keywordUtilHelper
     			
     			
     	        if(isRunScript){
-    	        	locFile = localizeACLScript(source+projName);
+    	        	//locFile = localizeACLScript(source+projName);
     	        	//FileUtil.copyFile(file+"_"+ProjectConf.appLocale+".ACL",file)
     	        	//return "";
     	        }
@@ -538,7 +557,8 @@ public class keywordUtil extends keywordUtilHelper
         		 dismissPopup("Yes|"+warningOp,true);     
                //dismissPopup("Yes|"+warningOp,true,true,3);         	   
         	 }
-         	dismissPopup("OK",false);
+        	 
+         	dismissPopup("OK|Yes",false);
          	
          	if(aclVersionUpdate){
                 // copy back to backup -- due to possible version change -- Steven.         		
@@ -576,6 +596,7 @@ public class keywordUtil extends keywordUtilHelper
     	boolean done = false;
  	   String msg = "ACL encountered a problem and needs to close.";
        //sleep(2);
+ 	   //logTAFStep("Debug - Check ACL crashing... ");
  	   if(acl_CrashWin().exists()
  			   &&acl_CrashCancel().exists()
  			   &&propertyMatch(acl_CrashWin(),".text","ACL")){
@@ -612,11 +633,14 @@ public class keywordUtil extends keywordUtilHelper
 	   String winTitle = "Server Activity";
 	   String winClass = "#32770";
 	   int maxWait = 60,wt =0;
-
+	   if(!ProjectConf.testType.equalsIgnoreCase("SERVER")){
+		   return true;
+	   }
+	   //logTAFStep("Debug - Check Server connection... ");
 	   while((serverActivity=findTopLevelWindow(winTitle))!=null
 			   &&((closeBtn=findPushbutton(serverActivity,"Close"))==null)
 			   && wt++<maxWait){
-		   logTAFInfo("Server Activity..., wait...");
+		   //logTAFInfo("Server Activity..., wait...");
 		   sleep(2);
 		   
 		   if(wt>=maxWait

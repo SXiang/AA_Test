@@ -155,8 +155,7 @@ public class keywordDifinition extends keywordDifinitionHelper
 		//dpPreCmd = getDpString("PreCmd");	         
         //dpPostCmd = getDpString("PostCmd");	 
         dpPreFilter = getDpString("PreFilter");
-           dpPreFilter = dpPreFilter.replaceAll(";", ",");
-		dpMenuItem = getDpString("MenuItem");
+   		dpMenuItem = getDpString("MenuItem");
 		  if(!dpMenuItem.equals("")){			  
 			  String[] temp = dpMenuItem.split("->");
 			  menuItem = temp[temp.length-1];
@@ -648,7 +647,7 @@ public class keywordDifinition extends keywordDifinitionHelper
 //					click(findPushbutton(winDialogExp,"Cancel"),"Cancel");
 //				}
 			}else if(command.equalsIgnoreCase("-->")){
-				String fieldsArr[] = fields.split("[\\|,]");
+				String fieldsArr[] = fields.split("[\\|,;]");
 				String fromTable, fieldName;
 				TextSelectGuiSubitemTestObject  fromT= findComboBox(winDialog,true,0);
 				GuiTestObject addButton = findPushbutton(winDialog,command);
@@ -732,7 +731,7 @@ public class keywordDifinition extends keywordDifinitionHelper
             
 			Point firstRow = atPoint(50,30),
 			      upbarbutton = getGuiRelativePoint(sgto, "topright", atPoint(-12,12));
-			String fieldsArr[] = fields.split("[\\|,]");
+			String fieldsArr[] = fields.split("[\\|,;]");
 		    int[] rowIndex = new int[fieldsArr.length];
 		    
 		    String headerName = "Name";

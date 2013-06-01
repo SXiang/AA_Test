@@ -28,7 +28,7 @@ public class Variables extends VariablesHelper
 	public void testMain(Object[] args) 
 	{
 		startFromLine = 2; // 4-9
-		endAtLine = 2;     //
+		endAtLine = 4;     //
 	    exeTestCase(args);
 	}
 			

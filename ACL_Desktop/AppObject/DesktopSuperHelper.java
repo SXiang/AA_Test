@@ -80,7 +80,12 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	protected GuiSubitemTestObject tabMain,tabMore,tabOutput;
 	protected ArrayList<String> filterList = new ArrayList<String>();
 	public static ArrayList<String> tabList = new ArrayList<String>();
+	
+	public static String wPage = "Welcome";
+	public static String wPageLoc = "";
 	public static int activeTab = -1;
+	public static int startTab = 1;
+	public static boolean keepWelcomeTab = true;
 	
 	protected int[] itemIndex;
 	protected boolean itemCreated = false,
@@ -138,6 +143,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	
 	public void testMain(Object[] args) 
 	{ 
+		
 		super.testMain(args);
 		gObj = new getObjects();
 		kUtil = new keywordUtil();
@@ -194,7 +200,6 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		//dpPreCmd = getDpString("PreCmd");	         
         //dpPostCmd = getDpString("PostCmd");	 
         dpPreFilter = getDpString("PreFilter");
-           dpPreFilter = dpPreFilter.replaceAll(";", ",");
         dpTestProgressBar = getDpString("TestProgressBar");
 		dpMenuItem = getDpString("MenuItem");
 		  if(!dpMenuItem.equals("")){			  
@@ -206,11 +211,19 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		  }
 		  
 		dpProjectName = getDpString("ProjectName");
+		   if(ProjectConf.testType.equalsIgnoreCase("LOCALONLY")){
+			  LoggerHelper.logWarning("ProjectType - '"+ProjectConf.testType+"'?");
+			  ProjectConf.testType = "LOCAL";
+		   }
 		   if(dpProjectName.endsWith("_")){
 			   dpProjectName = dpProjectName+ProjectConf.testType;
 		   }else if(dpProjectName.endsWith("_"+ProjectConf.testType)){
 		    // Nothing, will run always
 		   }
+		   if(dpProjectName.contains("_LOCALONLY")){
+				LoggerHelper.logWarning("ProjectName - '"+dpProjectName+"'?");
+				dpProjectName = dpProjectName.replace("_LOCALONLY", "_LOCAL");
+			}
         dpOpenProject = getDpString("OpenProject");
         dpArchiveProject = getDpString("ArchiveProject");
             thisArchiveProject = dpArchiveProject;
@@ -235,7 +248,21 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
          }
          sharedDataDone= true;
 	}
-	
+	public void setWelcomeTab(boolean keep){
+		if(keepWelcomeTab==keep
+				||ProjectConf.appLocale.equalsIgnoreCase("En"))
+			return;
+         if(wPageLoc.equals("")){
+        	 wPageLoc = getLocValue(wPage).split("\\|")[0];
+         }
+         if(!wPageLoc.equals(wPage)&&!keep){
+     		startTab = 0;
+    		keepWelcomeTab = false;
+         }else{
+     		startTab = 1;
+    		keepWelcomeTab = true;
+         }
+	}
 	public void readSharedMainTestData(){
         if(sharedMainDataDone)
         	return;
@@ -514,6 +541,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		String tableName = "";
 		String recordNum = "";
 		
+//		if(!ProjectConf.appLocale.equalsIgnoreCase("En"))
+//			return item+"|? Records";  // It's time consuming for L10N testing --- Steven
 		try{
 			if((status==null||!status.exists())){			
 				if(anchor!=null&&anchor.exists()){
@@ -927,7 +956,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 //					click(findPushbutton(winDialogExp,"Cancel"),"Cancel");
 //				}
 			}else if(command.equalsIgnoreCase("-->")){
-				String fieldsArr[] = fields.split("[\\|,]");
+				String fieldsArr[] = fields.split("[\\|,;]");
 				String fromTable, fieldName;
 				TextSelectGuiSubitemTestObject  fromT= findComboBox(winDialog,true,0);
 				GuiTestObject addButton = findPushbutton(winDialog,command);
@@ -979,8 +1008,8 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 		}
 		
 		public String buildExpression(String... options){
-			String endWith = "OK"; //Default action  lv_WinName_DLG_EXPR_DIALOG_24_27_5_6_DEFPUSHBUTTON_1 - OK
-			                       // lv_WinName_DLG_EXPR_DIALOG_24_27_5_6_PUSHBUTTON_8 - Verify
+			String endWith = "OK"; //Default action  lv_*_DLG_EXPR_DIALOG_DEFPUSHBUTTON_1 - OK
+			                       // lv_*_DLG_EXPR_DIALOG_PUSHBUTTON_8 - Verify
 			if(options==null||options.length==0){
 				return "Cancel";
 			}
@@ -1000,7 +1029,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 				endWith = options[2];
 			}
 			
-				click(findPushbutton(winDialogExp,"lv_WinName_DLG_EXPR_DIALOG_24_27_5_6_DEFPUSHBUTTON_1"),endWith);
+				click(findPushbutton(winDialogExp,"lv_Native_rc_DLG_EXPR_DIALOG_DEFPUSHBUTTON_1_ID"),endWith);
 				if(dismissPopup("Any",false,true)){//userAction,boolean isInfo, boolean loop
 					click(findPushbutton(winDialogExp,"Cancel"),"Cancel");
 					endWith = "Cancel";
@@ -1008,19 +1037,22 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 			
 			return endWith;
 		}
+		
+		static boolean reported = false;
 		public static int[] selectSomeFields(SelectGuiSubitemTestObject sgto, String... fs){
             
 			Point firstRow = atPoint(50,30),
 			      upbarbutton = getGuiRelativePoint(sgto, "topright", atPoint(-12,12)),
 			      downbarbutton = getGuiRelativePoint(sgto, "bottomright", atPoint(-12,-30));
 			String fields = fs[0];
-			String oriName = "lv_332";//"Name";
+			String oriName = "lv_IFDRES_RH_332_ID";//"Name";
 		    if(fs.length>1){
 		    	oriName = fs[1];
 		    }
 			String headerName = getLocValue(oriName);
-			String fieldsArr[] = fields.split("[\\|,]");
+			String fieldsArr[] = fields.split("[\\|,;]");
 			boolean resetRoot = false;
+			
 		    int[] rowIndex = new int[fieldsArr.length];
 		    
 		    
@@ -1039,7 +1071,11 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 						logTAFError("Field not found - '"+fieldsArr[i]+"'");
 						continue;
 					}else{
-						logTAFWarning("Table header '"+oriName+"' should be localized as '"+headerName+"'");
+						if(!reported){
+						  knownBugs = "9.3 Issue: Table header '"+oriName+"' should be localized as '"+headerName+"'";
+						  logTAFError("Table header '"+oriName+"' should be localized as '"+headerName+"' in '"+ProjectConf.appLocale+"'?");
+						  reported = true;
+						}
 						headerName = oriName;
 						if(fs.length>1){
 					    	fs[1]=oriName;

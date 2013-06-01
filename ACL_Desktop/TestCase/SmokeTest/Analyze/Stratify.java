@@ -27,8 +27,8 @@ public class Stratify extends StratifyHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Analyze/Stratify.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 23; // 4-9
-		endAtLine = 23;     //
+		startFromLine = 15; // 4-9
+		endAtLine = 15;     //
 	    exeTestCase(args);
 	}
 			

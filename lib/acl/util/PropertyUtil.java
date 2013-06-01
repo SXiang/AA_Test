@@ -34,8 +34,8 @@ public class PropertyUtil {
 				fiv = value;
 			}
 		}
-		if(!fi.equals("")&&setProperty(target, fi, fiv)){ //Finalization
-			//System.out.println("Server enviroment has been set");
+		if(!fi.equals("")&&setProperty(target, fi, fiv)){ //Finalisation
+			//System.out.println("Server environment has been set");
 		}
 	}
 	

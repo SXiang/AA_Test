@@ -28,8 +28,8 @@ public class ExportToApp extends ExportToAppHelper
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 2; // 4-9
-		endAtLine = 2;     //
+		startFromLine = 45; // 4-9
+		endAtLine = 45;     //
 	    exeTestCase(args);
 	}
 			

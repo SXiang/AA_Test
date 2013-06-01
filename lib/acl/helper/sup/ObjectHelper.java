@@ -1561,9 +1561,21 @@ public class ObjectHelper extends RFTGuiFinderHelper{
     	   }
     	    return text;
        }
-       
+       public static String removeLineFeed(String input,String to){
+    	   // Debugging ... Steven, we should use system linefeed instead? 
+    	   String oriInput = input;
+    	   String output;
+    	   output = input.replace(System.getProperty("line.separator").toString(), to);
+    	   output = input.replaceAll("\\r ",to);
+    	   output = output.replaceAll("\\r",to);
+    	   output = output.replaceAll("\\n","");
+    	   input = output;
+    	   output = input.replaceAll("\\r",to);
+    	  input = oriInput;
+    	   return output;
+       }      
        public static String removeLineFeed(String input){
-    	   return input.replaceAll("\\n","/").replaceAll("\\r", "/");
+    	   return removeLineFeed(input,"/");
        }
        public static String getPrintableText(String text){  
     	   String[] pattern = {"[^\\p{Print}]+", //Not printable
@@ -2256,6 +2268,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
         		logTAFInfo(gto.toString() +" not exists for clicking?");
         		return;
         	}
+        	
         	Object oj = gto.getProperty(".name");
         	if(label!=null&&label!="")
         		logTAFInfo("Click on '"+label+"' on object - "+(oj==null?"label":oj));
@@ -2422,7 +2435,11 @@ public class ObjectHelper extends RFTGuiFinderHelper{
     	    		try{
      		    		 to.select(oriInput) ;
   	    		    }catch(Exception e1){
-    	    		 logTAFError("Select "+label+" '"+input+"' failed");
+  	    		    	if(keywordName.equalsIgnoreCase("variableAndFilter")){
+  	    		    		logTAFError(autoIssue+"Select "+label+" '"+input+"' failed");
+  	    		    	}else{
+    	    		      logTAFError("Select "+label+" '"+input+"' failed");
+  	    		    	}
     	    		 selected = false;
   	    		    }
     	    	}
@@ -3259,6 +3276,46 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 
 	@SuppressWarnings("finally")
 	public boolean aclVersionUpdate = false;
+	public static String nonError = "",nonError_cons="";//,msg_en;
+	
+	
+	//****b. filtering message and compare with non error pattern
+	public static boolean isMatched(String msg,String exps,String cons){
+			boolean matched = false;
+			
+			String san_msg = sanitizeText(msg);	
+			String allString = exps;
+			if(!cons.equals("")){
+				if(exps.equals(""))
+				  allString = cons;
+				else
+				  allString += "|"+cons;
+			}
+			
+			if(allString.trim().equals(""))
+				return false;
+			String san_nonError = sanitizeText(allString);	
+			
+			if(msg.matches(exps)||
+					msg.contains(exps)||
+					san_msg.matches(san_nonError)||
+					exps.contains(msg)){
+						return matched = true;
+					}
+			//if(!ProjectConf.appLocale.equalsIgnoreCase("En")){
+			  String[] expArray = exps.split("\\|");
+			  for(int i=0;i<expArray.length;i++){
+				if(msg.matches("(?i).*"+expArray[i]+".*")){
+					//msg_en = expArray[i];
+					return matched = true;
+				}
+			}
+			
+
+			return matched;
+	}
+//	logTAFInfo("***********'"+msg +"' matches '"+nonError +" = " + san_msg.matches(nonError));
+			
 	public boolean dismissPopup(String winClass, String winTitle,String userAction,
 			  boolean isInfoUser, boolean loop,int maxCheck,String expInfo){		
 //		dismissPopup("#32770","ACL Wizard Error|"+LoggerHelper.autTitle,"OK",
@@ -3289,6 +3346,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 				         "|ACL Error.?|Error.?"+
 				         "|Automatic Updates.?"+
 				         "|Save the file as.?"+
+				         "|Save file as.?:?"+
 				         "|Visual Studio .* Debugger.?"+
 				         "|Option files is missing.?"+
 				         "|Status of Task.?"+
@@ -3309,6 +3367,8 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 		String userPre = "User Decision: ";
 		String autoPre = "Automation Decision: ";
 		String actualTitle = "";
+		String reportTitle = "";
+		
 	    // ******************************************
 		
 
@@ -3332,34 +3392,36 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 	 //*******************************************
         
 	 // *** Pattern represented informations which are not considered as Error 
-	    String nonError = "Automatic Updates|All previously saved.*"+
+	    String nonErrors = "All previously saved.*"+
            "|.*Do you want to save the changes.*"+
            "|.*Namespace Tree Control.*"+
            "|.*will attempt to harmonize these fields.*"+
            "|.*Do you wish to continue.*"+
            "|.*Do you want to proceed.*"+
+           "|.*Do you want to continue.*"+
+           "|.*Do you still want to use.*"+
            "|.*is from a previous version.*"+
            "|.*Options file missing.*"+
            "|.*Are you sure you want to.*"+
+           "|.*ACL preferences file.*"+
 //           "|.*This may take some time.*"+
-           "|Edit"+
+//           "|.*Delete.*"+
            "";
+	    String nonErrors_cons ="Automatic Updates"+
+	    		"|Edit";
 	    String passInfo = ".*Test Passed.*";
-		if(!expInfo.equals("")){
-			nonError += "|"+expInfo;
-		}
+	    String expError = "";
+
+		
 	 // *** Max number of loops, negative number means infinite	
 		if(maxCheck<=0){
 			maxCheck = QACheckTime;//Integer.MAX_VALUE;
 		}
-    
+		if(userAction.equals("Yes"))
+			sleep(0);
     //  *** Title,Class and actions *************************
 		if(winTitle.trim().equals("")){     //Title 0 - use specified caption
 			winTitle = getLocalizedWinTitle(winTitleDefault);     //Title 1 - check default caption pattern
-		}else if(!winTitle.matches(winTitleDefault)||
-				!winTitleDefault.contains(winTitle)){
-			actions = actions2;               // if it's a popup other than those in default,
-			                                  // the default actions changes: cancel first
 		}
 		
 		if(winClass.equals("")){          //Class 0 - user input
@@ -3373,8 +3435,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 //		if(winTitle.contains("ACL Wizard Error")||expInfo.contains("continue")){
 //			sleep(0);
 //		}
-		if(userAction.equals("Yes"))
-			sleep(0);
+
 		while(tryAgain
 				&&numCheck<maxCheck
 				&&(popupObject=findTopLevelWindow(winTitle,winClass))!=null
@@ -3445,16 +3506,30 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 				}
 				
 				
-				String locTitle = actualTitle;			
-				actualTitle = getEngValue(actualTitle);
+				String locTitle = actualTitle.replaceAll("%\\s", "");
+				
+			    String[] titleArray = getEngValue(locTitle).split("\\|");
+				actualTitle = titleArray[titleArray.length-1];
+				
+                if(locTitle.matches(locWinTitleDefault)||actualTitle.matches(winTitleDefault)){
+                	//actions = actions;
+                }else //if(!winTitle.matches(winTitleDefault)||
+        				//!winTitleDefault.contains(winTitle))
+                {
+        			actions = actions2;               // if it's a popup other than those in default,
+        			                                  // the default actions changes: cancel first
+        		}
 			// ********************************************************	
 		    // 2. *** Wait if in progress....
+                
+                if(actualTitle.contains("Error"))
+                	sleep(0);
 				if(actualTitle.matches(platformVariants)){
 					logTAFWarning("Label '"+actualTitle+"' is not an ACL message?");
 				}
-				// in the case of  not being handled in msg, currently trans props not found - Steven
+				
 				else if(actualTitle.matches("Delete")){  
-					logTAFWarning("Delete warning ?");
+					logTAFDebug("Delete warning ?");
 					isInfo = false;
 				}else if(actualTitle.matches(vsError)||actualTitle.contains("Studio")){  
 					logTAFWarning(actualTitle);
@@ -3478,6 +3553,12 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 					}else{
 					   return false;
 					}
+				}
+				
+				if(!actualTitle.equalsIgnoreCase(locTitle)){
+					reportTitle = locTitle+"["+actualTitle+"]";
+				}else{
+					reportTitle = locTitle;
 				}
 			// *********************************************************
 				
@@ -3522,25 +3603,43 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 				}else if(msg.matches(getLocValues(incompletedMsg))){       // message incompleted.
 					msg = "Incompleted message ?"+msg;
 					isInfo = false;
-				}else if(msg.matches(getLocValues(".*is from a previous version.*"))){					
+				}else if(removeLineFeed(msg).matches(removeLineFeed(
+								getLocValues(".*is from a previous version.*")))
+								){		
+				
 					aclVersionUpdate = true;
+					isInfo = true;
 				}else if(msg.matches(getLocValues(aclseError))){
 					isInfo = false;
 				}else if(msg.matches(getLocValues(connectionError))){
 					msg = autoIssue+msg;
 					isInfo = false;
 				}
-				//****b. filtering message and compare with non error pattern
-				nonError = removeLineFeed(getLocValues(nonError));
-				msg = removeLineFeed(msg);
-				String san_msg = sanitizeText(msg);				
-				String san_nonError = sanitizeText(nonError);				
-//		logTAFInfo("***********'"+msg +"' matches '"+nonError +" = " + san_msg.matches(nonError));
+
+				if(nonError.equals("")){
+//					nonError = getLocValues(".*Do you still want to use.*");
+					   nonError = removeLineFeed(getLocValues(nonErrors));
+					}
+				if(nonError_cons.equals(""))
+					   nonError_cons = removeLineFeed(getLocValues(nonErrors_cons));
 				
-				if(msg.matches(nonError)||
-						//msg.contains(nonError)||
-						san_msg.matches(san_nonError)||
-						nonError.contains(msg)){
+				
+				if(!expInfo.equals("")){
+					expError = removeLineFeed(getLocValues(expInfo));
+				}
+//				String debugString = "ACL 기본 설정 파일을(.prf)";
+//				if(msg.contains("ACL preferences file")){
+//					 LoggerHelper.logTAFDebug("'"+msg+"'");
+//				  }
+    
+				msg = removeLineFeed(msg);
+//				if(msg.contains("¿Eliminar")){
+//					sleep(0);
+//				}
+				
+				if(isMatched(msg,expError,"")){
+					isInfo = true;
+				}else if(isMatched(msg,nonError,nonError_cons)){
 					isInfo = true;
 				}else if(!expInfo.equals("")){ // if user specific info, user user specific true|false
 					isInfo = isInfoUser;
@@ -3560,14 +3659,14 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 					//if(userAction.matches(".*Working|.*Last-saved|.*Cancel"));
 					
 					if(userAction.equalsIgnoreCase("X")){
-						reportDismissedWin(actualTitle,msg,isInfo);
+						reportDismissedWin(reportTitle,msg,isInfo);
 						popup.close();
 					}else if(userAction.equalsIgnoreCase("ENTER")){
-						reportDismissedWin(actualTitle,msg,isInfo);
+						reportDismissedWin(reportTitle,msg,isInfo);
 						getScreen().inputKeys("{"+userAction+"}");
 					}else if((userButton = findPushbutton(popup,userAction))!= null){
 						if(isEnabled(userButton)){
-						   reportDismissedWin(actualTitle,msg,isInfo);
+						   reportDismissedWin(reportTitle,msg,isInfo);
 						   click(userButton,userPre+userAction);	
 					       dismissed = true;
 						}else{
@@ -3582,7 +3681,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 				//****b. Apply default actions - trying one by one until button found
 					for(int act=0;act<actions.length;act++){
 						if(actions[act].equalsIgnoreCase("X")){  // Close the popup
-							reportDismissedWin(actualTitle,msg,isInfo);
+							reportDismissedWin(reportTitle,msg,isInfo);
 						    getScreen().getActiveWindow().close();
 							try{
 						       getScreen().getActiveWindow().close();
@@ -3595,7 +3694,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 							if((autoButton = findPushbutton(popup,actions[act]))!=null){
 //								if(msg.matches(getLocValues(".*harmonize.*")))
 //								    logTAFDebug("Taking Action["+act+"]: "+autoPre+actions[act]);
-								reportDismissedWin(actualTitle,msg,isInfo);
+								reportDismissedWin(reportTitle,msg,isInfo);
 								click(autoButton,autoPre+actions[act]);	
 							    dismissed = true;
 							    break;
@@ -3611,7 +3710,7 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 					logTAFWarning("Failed to dismiss this "+actualTitle+
 					" by submit any button actions, we will try to use 'X' to close it now");					
 					try{
-					 reportDismissedWin(actualTitle,msg,isInfo);
+					 reportDismissedWin(reportTitle,msg,isInfo);
 					 getScreen().getActiveWindow().close();
 					 //popup.close();
 					 dismissed = true;
@@ -3666,9 +3765,23 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 
             String progressMsg = ".*may take some time.*";
 		    
-		    String msg_en = getEngValue(msg+".*");
-		    if(!msg_en.equals(msg+".*")){
-		    	msg += "\n\t\t("+msg_en+")";
+		    String msg_en = "";
+		    if(!ProjectConf.appLocale.equalsIgnoreCase("En")){
+		    	msg_en = getEngValue(msg);
+		    	if(!msg_en.equals(msg)
+		    			&&!(msg_en.matches("^\\s*['\"(\\[]?%[scd]['\")\\]]?\\s*"))
+		    			&&!(msg_en.matches("^[\\\\]?\\s*['\"(\\[]?.[*+?]['\")\\]]?[\\\\]?\\s*"))
+		    			&&!(msg).contains(msg_en)
+		    			&&!msg_en.contains(msg))
+		    	{
+		        String[] msgArray=msg_en.split("\\|");
+		    	//msg_en = msgArray[msgArray.length-1];		    	// Debug...
+		    	msg_en = msgArray[0];
+		    	msg_en = removeLineFeed(msg_en);
+		    	msg_en = RFTGuiFinderHelper.removePattern(msg_en);
+		    	if(!msg_en.equals("")&&!msg.matches(msg_en))
+		    	   msg += "[Possible english:"+msg_en+"]";
+		    	}
 		    }else{
 		    	//logTAFInfo("English: "+msg_en);
 		    }

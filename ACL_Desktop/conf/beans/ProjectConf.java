@@ -245,11 +245,17 @@ public class ProjectConf {
 	public static void setTestType(String testType) {
         if(testType.equalsIgnoreCase("LOCALONLY")){
         	LoggerHelper.localOnlyTest = true;
-        		testType="LOCAL";
         	}else{
         		LoggerHelper.localOnlyTest = false;
         	}
+        if(!testType.equalsIgnoreCase("SERVER")){
+        	testType = "LOCAL";
+        }
 		ProjectConf.testType = testType;
+		if(ProjectConf.testType.equalsIgnoreCase("LOCALONLY")){
+			LoggerHelper.logWarning("ProjectType - '"+ProjectConf.testType+"'?");
+			ProjectConf.testType = "LOCAL";
+		}
 	}
 
 	public static void setUnicodeServerIP(String unicodeServerIP) {
@@ -434,7 +440,7 @@ public class ProjectConf {
 		}else if("en".equalsIgnoreCase(ProjectConf.appLocale)){
 			//changeMap = false;
 		}else if(!ProjectConf.appLocale.equalsIgnoreCase(prefix)){           
-				LoggerHelper.logTAFDebug("Are you testing application ("+
+				LoggerHelper.logTAFInfo("Are you testing application ("+
 						ProjectConf.appLocale+")"+ " with system locale - '"+prefix+"'?");
 				 FileUtil.locale = new Locale(ProjectConf.appLocale);
 
@@ -444,7 +450,8 @@ public class ProjectConf {
 		
 		prefix = ProjectConf.appLocale;			
 		NLSUtil.appLocale = FileUtil.locale;
-		String mapLabel = "Working_Map_",curMap = mapLabel+prefix;
+		String mapLabelFolder="Working_map\\";
+		String mapLabel = mapLabelFolder+"Working_Map_",curMap = mapLabel+prefix+"\\whatever";
 		
 		i18nMapBackupDir = localizationDir + "i18nMapsBackup\\";
 		i18nMapBackupDir2 = localizationDir + "i18nMapsBackup"+subDir+"\\";
@@ -455,8 +462,8 @@ public class ProjectConf {
 			LoggerHelper.logTAFDebug("Using current maps - Locale "+prefix);
 			return;
 		}else if(new File(localizationDir+mapLabel+"en").exists()){
-			FileUtil.copyFile(objectMapDir+"*.rftmap",i18nMapBackupDir+"*.en"+"_rftmap" ,false);
-			FileUtil.copyFile(objectMapDir2+"*.rftmap",i18nMapBackupDir2+"*.en"+"_rftmap",false);
+			FileUtil.copyFile(objectMapDir+"*.rftmap",i18nMapBackupDir+"*.en"+"_LastWorking_rftmap" ,false);
+			FileUtil.copyFile(objectMapDir2+"*.rftmap",i18nMapBackupDir2+"*.en"+"_LastWorking_rftmap",false);
 		}
 		
 //		if(!changeMap){
@@ -466,6 +473,8 @@ public class ProjectConf {
 		LoggerHelper.logTAFDebug("Start to update RFT map - "+prefix+" ");
 		LoggerHelper.logTAFDebug("Rename RFT map - "+localizationDir+mapLabel+"*"+" to "+curMap);
 		FileUtil.renameFiles(localizationDir+mapLabel+"*", curMap,false);
+		FileUtil.removeDir(localizationDir+mapLabelFolder);
+    	FileUtil.mkDirs(localizationDir+curMap,true);
 		LoggerHelper.logTAFDebug("Delete RFT map - "+objectMapDir+"*.rftmap");
 		FileUtil.delFile(objectMapDir+"*.rftmap");
 		LoggerHelper.logTAFDebug("Delete RFT map - "+objectMapDir2+"*.rftmap");
@@ -479,6 +488,7 @@ public class ProjectConf {
 		LoggerHelper.logTAFDebug("Copy RFT map from "+i18nMapBackupDir2+"*."+prefix+"_rftmap"+
                 " to "+objectMapDir2+"*.rftmap");
 		FileUtil.copyFile(i18nMapBackupDir2+"*."+prefix+"_rftmap", objectMapDir2+"*.rftmap",false);
+		
 		LoggerHelper.logTAFInfo("Map updated for - Locale "+prefix);
 		return;
 	}

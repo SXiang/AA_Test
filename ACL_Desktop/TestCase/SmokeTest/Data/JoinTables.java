@@ -28,8 +28,8 @@ public class JoinTables extends JoinTablesHelper
 
 	public void testMain(Object[] args) 
 	{
-		//startFromLine = 2; // 4-9
-		//endAtLine = 3;     //
+		startFromLine = 6; // 4-9
+		endAtLine = 7;     //
 	    exeTestCase(args);
 	}
 			

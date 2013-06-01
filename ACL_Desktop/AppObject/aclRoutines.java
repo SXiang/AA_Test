@@ -89,7 +89,7 @@ public class aclRoutines extends aclRoutinesHelper
 //				  return true;
 				}
 			}
-			
+			aTabs.handleWpage();
 		}
 		TestObject to = findTestObject(acl_SplitterWin(),".class","ACL_CommandLine_WND");
 		//TestObject to = findTestObject(acl_SplitterWin(),".class","ACL_CmdLine_Edit",".classIndex","0");
@@ -198,10 +198,11 @@ public class aclRoutines extends aclRoutinesHelper
 	}
 	
 	public TestObject getFilterBox(){
-		TestObject to = acl_docManager();
 		
-		if(DesktopSuperHelper.activeTab>1){
-			to = findTestObject(to,true,".class","ATL:.*",".classIndex",(DesktopSuperHelper.activeTab-1)+"");	
+		TestObject to = acl_docManager();
+
+		if(DesktopSuperHelper.activeTab>DesktopSuperHelper.startTab){
+			to = findTestObject(to,true,".class","ATL:.*",".classIndex",(DesktopSuperHelper.activeTab-DesktopSuperHelper.startTab)+"");	
 		}
 		return to = findTestObject(to,false,".class","Edit",".text","Filter:");	
 	}
@@ -427,8 +428,8 @@ public class aclRoutines extends aclRoutinesHelper
 	}
 	public void showNavigator(String tab){
 		
-		Point tabOverview = new Point(40, 3);
-		Point tabLog = new Point(80, 10);
+		Point tabOverview = new Point(30, 3);
+		Point tabLog = new Point(60, 10);
 		GuiSubitemTestObject nav = acl_TabNavigator();
 		GuiTestObject guio,guil;
 		TestObject anchor;

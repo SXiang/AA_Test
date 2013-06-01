@@ -316,7 +316,7 @@ public abstract class UnicodeHelper extends DatabaseHelper
 		}
 		logTAFDebug("LocaleValuesConvert: "+name+
 				" = '"+value+"'");
-		return value;
+		return RFTGuiFinderHelper.trimExp(value);
 	}	
 	public static String getLocValue(String name){
 		return getLocValue(name,true);
@@ -325,16 +325,24 @@ public abstract class UnicodeHelper extends DatabaseHelper
 		return getLocValue(name,"",truncate);
 	}
 	public static String getLocValue(String name,String className){
-		return getLocValue(name,className,true);
+		return RFTGuiFinderHelper.trimExp(getLocValue(name,className,true));
 	}
 	public static String getLocValue(String name,String className,boolean truncate){
+		if(RFTGuiFinderHelper.isPattern(name)){
+			return getLocExp(name,className,truncate);
+		}else{		
+			//return getLocExp(name,className,truncate);
+          return getLocExp(name,className,truncate).split("\\|")[0];
+		}
+	}
+	public static String getLocExp(String name,String className,boolean truncate){
     	
     	String pre = "SingleLocValue_";
     	
 		String value = NLSUtil._convert2Locale(pre+name,className,truncate);
 		logTAFDebug("LocaleValueConvert: "+name+
 				" = '"+value+"'");
-		return value.split("\\|")[0];
+		return RFTGuiFinderHelper.trimExp(value);
 	}
 	public static String getEngValues(String name){
 		return getEngValues(name,"");
@@ -346,10 +354,10 @@ public abstract class UnicodeHelper extends DatabaseHelper
 		}
 		logTAFDebug("EnglishValuesConvert: "+name+
 				" = '"+value+"'");
-		return value;
+		return RFTGuiFinderHelper.trimExp(value);
 	}	
 	public String getEngValue(String name){
-		return getEngValue(name,"").split("\\|")[0];
+		return getEngValue(name,"");
 	}
 	public String getEngValue(String name,String className){
 		String pre = "SingleLocValue_";
@@ -357,18 +365,25 @@ public abstract class UnicodeHelper extends DatabaseHelper
 		String value = NLSUtil._convert2English(pre+name,className);
 		logTAFDebug("EnglishValueConvert: "+name+
 				" = '"+value+"'");
-		return value.split("\\|")[0];
+		value = RFTGuiFinderHelper.trimExp(value);
+		if(RFTGuiFinderHelper.isPattern(name)){
+			return value;
+			//return RFTGuiFinderHelper.correctPattern(value);
+		}else{		
+		  //return value;
+          return value.split("\\|")[0];
+		}
 	}
 
 	public String replaceLocAll(String pattern, String input){  
 		Pattern p = Pattern.compile(pattern);  
 		Matcher m = p.matcher(input);  
 		StringBuffer sb = new StringBuffer();  
-		String suffix = "[\\s]*[:]?[\\s]*['%Iclds\\d]*[\\^]?[\\s]*$"+
-			            "|[\\s]*[:]?[\\s]*[']?[%][\\d]*[l]?[Idsc][']?.*$";
-		String prefix = "";//"([\\s]*[\\^]?[\\s]*['%ds\\d]*[\\s]*";
+		String suffix = "[\\s]*[:]?[\\s]*['\"%Iclds\\d]*[\\^]?[\\s]*$"+
+			            "|[\\s]*[:]?[\\s]*['\"]?[%][\\d]*[l]?[Idsc]['\"]?.*$";
+		String prefix = "";//"([\\s]*[\\^]?[\\s]*['\"%ds\\d]*[\\s]*";
 		
-		String[] idTrans = {"(?i)Count","lv_SX_630"};
+		String[] idTrans = {"(?i)Count","lv_ACLTXT_RH_SX_630_ID"};
 		String temp = "";
 		while (m.find())  
 		{  

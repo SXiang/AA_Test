@@ -255,23 +255,125 @@ public abstract class RFTGuiFinderHelper extends WinTreeHelper
     	return true;
     }
     
-    public static String correctPattern(String pattern){
-    	
+    public static String removePattern(String pattern){
     	String[] ori = {
-    			"\\s"            //Spaces
-    			//,"([^\\\\]?)[\\(]"       // ( and )
-    			//, "([^\\\\]?)[\\)]"
-    			, "([^\\\\])([\\.\\+\\*\\(\\)])"
-    			,"[']?%[\\d]*[Icds][']?"  
-    			,"(\\\\)+"// In case of duplicates
+    			"\\s",
+    			"\\\\[.]"
+    	};
+    	String[] rep = {
+    			" ",
+    			"."
+    	};
+    	for(int i=0;i<ori.length;i++){
+    		pattern = pattern.replace(ori[i], rep[i]);
+    	}
+    	pattern = trimString(pattern,"\\.\\*")	;
+    	pattern = trimString(pattern,"\\.\\+")	;
+    	return pattern;
+    }
+    public static String correctPattern(String pattern){
+    	if(pattern.contains("Arbeitskopie ist kleiner oder älter als das Projekt")){
+    		sleep(0);
+    	}
+    	String skipS=".*[\\.][\\+\\*]$"+
+        "|^[\\.][\\+\\*].+"+
+        "|.*[\\.][\\+?\\*][\\|].*"+
+        "|.*[\\|][\\.][\\+?\\*].*";
+    	if(pattern.matches(skipS)){
+    		return pattern;
+    	}
+//    	if(!isPattern(pattern))
+//    		return pattern;
+//    	String[] ori = {
+////    			"\\\\n|\\\\r"
+//    			"\\n|\\r"
+//    			,"\\s"            //Spaces
+//
+//    			,"\"\""
+//    			//,"\\-"
+//    			,"([^\\\\]?)[\\(]"       // ( and )
+//    			, "([^\\\\]?)[\\)]"
+//    			, "([^\\\\])([\\.\\+\\*])"
+//    			,"(['\"]?)%[\\-+]?[I]?[\\d]*[l]?[Icdsi](['\"]?)"  
+//    			,"(['\"]?)%[\\-+]?[I]?[\\d]*xh(['\"]?)"
+//    			,"(['\"]?)%\\(0x%X\\)(['\"]?)"
+//    			,"\\?"
+//    			,"[\\\\]+"// In case of duplicates
+//    			};                  
+//    	String[] rep = {
+//    //   		"/"
+//    			"/"
+//    			,"\\\\s"
+//
+//    			,"\""
+//    			//,"\\\\-"
+//    			,"$1\\\\("
+//    			,"$1\\\\)"
+//    			,"$1\\\\$2"
+//    			,"$1.+$2"
+//    			,"$1.+$2"
+//    			,"$1.+$2"
+//    			,"\\\\?"
+//    			,"\\\\"
+//    			};
+    	String[] ori = {
+    			"\\n|\\r"
+    			,"\\s"            //Spaces
+    			,"\"\""
+    			,"([^\\\\]?)[\\(]"       // ( and )
+    			, "([^\\\\]?)[\\)]"
+    			, "([^\\\\])([\\.])([^\\+\\*\\?])" // escape .
+    			, "([^\\.%])([\\+\\*\\?])" 	  // escape +*?  
+    			,"(['\"]?)%[\\-+]?[I]?[\\d]*[l]?[Icdsi](['\"]?)"  
+    			,"(['\"]?)%[\\-+]?[I]?[\\d]*xh(['\"]?)"
+    			,"(['\"]?)%\\(0x%X\\)(['\"]?)"
+    			,"\\?"
+    			,"[\\\\]+"// In case of duplicates
     			};                  
     	String[] rep = {
-    			"\\\\s"
-    			//"$1\\\\("
-    			//,"$1\\\\)"
-    			,"$1\\\\$2"
-    			,".+"
+    			"/"
+    			,"\\\\s"
+    			,"\""
+    			,"$1\\\\("
+    			,"$1\\\\)"
+    			,"$1\\\\$2$3"
+    			,"$1\\\\$2"	 
+    			,"$1.+$2"
+    			,"$1.+$2"
+    			,"$1.+$2"
+    			,"\\\\?"
     			,"\\\\"
+    			};    	
+    	for(int i=0;i<ori.length;i++){
+    	    pattern = pattern.replaceAll("(?i)"+ori[i], rep[i]);
+    	}
+    	
+    	//pattern = pattern.replaceAll("\\s", "\\\\s");
+    	//logTAFDebug("Pattern: "+pattern);
+    	
+    	return trimExp(pattern);
+    }
+    public static String _correctPattern(String pattern){
+    	String skipS=".*\\.[+*]$"+
+    	             "|^\\.[+*?].+"+
+    	             "|.*\\.[+?*]\\|.*"+
+    	             "|.*\\|[.][+?*].*";
+    	if(pattern.matches(skipS)){
+    		return pattern;
+    	}
+//    	if(!isPattern(pattern))
+//    		return pattern;
+    	String[] ori = {
+    			"\\n|\\r"
+    			, "([^\\\\])([.+*()])"
+    			,"(['\"]?)%[\\d]*[Icds](['\"]?)"  
+    			,"[?]"
+    			};                  
+    	String[] rep = {
+    			"/"
+    			,"$1\\\\$2"
+    			,"$1.+2"
+    			,"\\\\?"
     			};
     	
     	for(int i=0;i<ori.length;i++){
@@ -281,11 +383,13 @@ public abstract class RFTGuiFinderHelper extends WinTreeHelper
     	//pattern = pattern.replaceAll("\\s", "\\\\s");
     	//logTAFDebug("Pattern: "+pattern);
     	
-    	return pattern;
-    }
-    
+    	return trimExp(pattern);
+    }    
     public static boolean isPattern(String str){
-    	if(str.matches(".*[\\[\\]\\|\\*].*|.*\\(\\?i\\).*|i{0}")){
+    	if(str.matches(".*[\\[\\]\\|\\*+?].*"
+    			+"|.*\\(\\?i\\).*"
+    			+"|i{0}"
+    			)){
     		//LoggerHelper.logTAFWarning(str+ " is a reg pattern");
     		return true;
     	}else{
@@ -338,23 +442,34 @@ public abstract class RFTGuiFinderHelper extends WinTreeHelper
     	for(int i=0;i<pairs.length-1;i=i+2){
             if(pairs[i].matches(localProp)){ // Localized value
             	temp = getLocValues(pairs[i+1],className);
-//            	if(pairs[i+1].matches(".*Working|.*Last-saved|.*Cancel")){
-//            		logTAFWarning("\t\t\t Convert "+pairs[i]+"-"+pairs[i+1]+" -> '"+temp+"'");
-//            		sleep(0);
-//            	}
+            	if(pairs[i+1].equals("ACL_CmdLine_RunBtn")){
+            		className = className;
+            	}
+            	
             	logTAFDebug("\t\t\t Convert "+pairs[i]+"-"+pairs[i+1]+" -> '"+temp+"'");
             	if(isValidPattern(pairs[i+1] +"|"+temp)&&!pairs[i+1].matches("(.*\\|)?"+temp+"(\\|.*)?")){
-//            		if(isdbtn&&!temp.matches(".+\\([A-Z]\\)[\\.]{0,3}")){
-//            			temp += "\\([A-Z]\\)[\\.]{0,3}"+"|"+temp;
-//            		}
-            	    pairs[i+1] += "|"+temp;
+            		if(!temp.equals(""))
+            	      pairs[i+1] += "|"+temp;
             	}else{
             		pairs[i+1] = temp;
             	}
+            	//.correctPattern("");
+            	pairs[i+1] = trimExp(pairs[i+1]);
             }
     	}
     }
-    
+    public static String trimExp(String from){
+//    	return from;
+    	from = from.replaceAll("\\|\\|", "|");
+    	from = from.replaceAll("\\|\\s[.][\\*\\+\\?]\\s\\|", "|");
+    	return trimString(from,"\\|");
+    }
+    public static String trimString(String from,String st){
+    	
+    	from = from.replaceAll("^"+st, "");
+    	from = from.replaceAll(st+"$", "");
+    	return from;
+    }
 	public static boolean isDButton(String className){
 		 String[] dButton = {"BUTTON","MENUITEM"};
 		 String[] dLang = {"zh","ja","ko"};
@@ -595,12 +710,15 @@ public abstract class RFTGuiFinderHelper extends WinTreeHelper
     	GuiTestObject to;
     	String className = ".Pushbutton";
     	boolean isPattern = false;
+    	
+
     	try{
     	    to = new GuiTestObject(findTestObject(anchor,classKey,className,nameKey,label));   
     	}catch(Exception e){
     		to = null;
     		logTAFDebug("Exception when searching for '"+className+"' - '"+label+"': "+e.toString());
     	}
+
     	return to;
     }
  

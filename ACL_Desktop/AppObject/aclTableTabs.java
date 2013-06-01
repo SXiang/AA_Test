@@ -41,17 +41,22 @@ public class aclTableTabs extends aclTableTabsHelper
 	 * @since  2013/01/23
 	 * @author STEVEN_XIANG
 	 */
-	private ArrayList<String> tabList;
-	private String wPage = "Welcome";
+	private ArrayList<String> tabList;	
+//	private String wPage = DesktopSuperHelper.wPage;
+//	private String wPageEn = DesktopSuperHelper.wPageEn;
 	public aclTableTabs(){
 		tabList = DesktopSuperHelper.tabList;
 	}
+	
 	public void clear(){
-		boolean ws = true;
+		boolean ws = DesktopSuperHelper.keepWelcomeTab; // remove welcome page tab for L10N test - Steven
 		tabList.clear();
 		if(ws){
-		  tabList.add(wPage);
+		  tabList.add(DesktopSuperHelper.wPage);
 		  verifyActiveTable( 0);
+		  
+		}else{
+			DesktopSuperHelper.activeTab = -1;
 		}
 	}
 	public void remove(){
@@ -64,7 +69,8 @@ public class aclTableTabs extends aclTableTabsHelper
 	 	   if(tabList.contains(item)){
 	 		   LoggerHelper.logInfo("Table tab "+item+" removed from desktop manager");
 	 		   moveActiveTab(item);
-	 	      tabList.remove(item);  
+	 	       tabList.remove(item);  
+	 	      sleep(0);
 	 	   }
 		}	
 	public void add(String item){
@@ -77,14 +83,17 @@ public class aclTableTabs extends aclTableTabsHelper
 			return;
 		if(!tabList.contains(item)){
 			LoggerHelper.logInfo("Table tab "+item+" added to document manager");
-			String temp = tabList.get(DesktopSuperHelper.activeTab);
-			if(isTableItem(temp)&&isUnpined(temp)){
+			String temp = "";
+			if(DesktopSuperHelper.activeTab>-1){
+			  temp = tabList.get(DesktopSuperHelper.activeTab);
+			}
+			  if(isTableItem(temp)&&isUnpined(temp)){
 				remove(temp	);
 				tabList.add(DesktopSuperHelper.activeTab,item);
-			}else{
-    		  tabList.add(item);
-		      verifyActiveTable(tabList.size()-1);
-			}
+			  }else{
+    		    tabList.add(item);
+		        verifyActiveTable(tabList.size()-1);
+			  }
 			
 			if(!actOnTab.equalsIgnoreCase("Close")){
 				actOnTab(actOnTab,item);
@@ -95,6 +104,15 @@ public class aclTableTabs extends aclTableTabsHelper
 				actOnTab(actOnTab,item);
 			}
 		}
+	}
+	
+	public void handleWpage(){
+		if(!DesktopSuperHelper.keepWelcomeTab){
+		   if(DesktopSuperHelper.activeTab<0){
+			     clickCloseTab(DesktopSuperHelper.wPage);
+		   }
+		}
+				
 	}
 	public boolean isLast(int index){
 		return index==tabList.size()-1;
@@ -147,6 +165,10 @@ public class aclTableTabs extends aclTableTabsHelper
 	}
 	
 	public void verifyActiveTable(int activeIndex){
+		if(activeIndex<0){
+			DesktopSuperHelper.activeTab = -1;
+			return;
+		}
 		if(verifyTabStatus(tabList.get(activeIndex))){
 		  DesktopSuperHelper.activeTab = activeIndex;
 		}
@@ -228,16 +250,21 @@ public class aclTableTabs extends aclTableTabsHelper
       return closeTab(getLast());
 	 }
 	 
+     public boolean clickCloseTab(String tab){
+    	 try{
+    	    ObjectHelper.click(tabCtrlwindow(),getCloseTabPoint(),"Close Tab "+tab);
+    	    remove(tab);
+    	    return true;
+    	 }catch(Exception e){
+    	    	return false;
+    	    }
+     }
 	 public boolean closeTab(String tab){
-       boolean done = false;
+       boolean done = true;
        if(!isActive(tabList.indexOf(tab)))
 	       done = switchToTab(tab);
        
-       ObjectHelper.click(tabCtrlwindow(),getCloseTabPoint(),"Close Tab "+tab);
-	   if(done){
-		   remove(tab);
-	   }
-	   
+       done = clickCloseTab(tab);	   
 	   return done;
 	 }
   	 
@@ -276,7 +303,7 @@ public class aclTableTabs extends aclTableTabsHelper
 	 }
 
 	 //*******  defined for table tab tracing *************
-     public String[][] tableTab ={{wPage,"87","93"},
+     public String[][] tableTab ={{DesktopSuperHelper.wPage,"87","93"},
 				{"Inventory","86","98"},
 				{"Trans","69","73"},
 				{"Ap_Trans","88","95"},
@@ -307,7 +334,7 @@ public class aclTableTabs extends aclTableTabsHelper
     	 return isTableItem(tabList.get(index));
      }
      public boolean isTableItem(String tab){
-    	 return !tab.equalsIgnoreCase(wPage);
+    	 return !tab.equalsIgnoreCase(DesktopSuperHelper.wPage);
      }
 	 public int lengthOf(String tab,boolean active){
 		 int index = 1;

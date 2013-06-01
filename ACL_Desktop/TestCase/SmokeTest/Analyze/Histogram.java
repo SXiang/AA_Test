@@ -27,8 +27,8 @@ public class Histogram extends HistogramHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Analyze/Histogram.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 7; // 4-9
-		endAtLine = 8;     //
+		startFromLine = 11; // 4-9
+		endAtLine = 12;     //
 	    exeTestCase(args);
 	}
 			

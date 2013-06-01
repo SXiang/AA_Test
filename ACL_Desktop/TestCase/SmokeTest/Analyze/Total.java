@@ -28,8 +28,8 @@ public class Total extends TotalHelper
 	//private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Data/Total.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 12; // 4-9
-		endAtLine = 12;     //
+		startFromLine = 2; // 4-9
+		endAtLine = 2;     //
 	    exeTestCase(args);
 	}
 			

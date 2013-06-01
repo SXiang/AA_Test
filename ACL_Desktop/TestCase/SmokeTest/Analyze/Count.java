@@ -27,8 +27,8 @@ public class Count extends CountHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Analyze/Count.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 8; // 4-9
-		endAtLine = 8;     //
+		startFromLine = 21; // 4-9
+		endAtLine = 21;     //
 	    exeTestCase(args);
 	}
 			

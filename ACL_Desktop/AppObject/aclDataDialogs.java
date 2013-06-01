@@ -181,7 +181,7 @@ public class aclDataDialogs extends aclDataDialogsHelper
 					nameRelation_ok().waitForExistence();
 					click(nameRelation_ok(),"OK");
 					
-					sleep(1);
+					sleep(2);
 					dismissPopup("Name Relation","OK",true);
 					//if(nameRelationwin().exists()){
 					if((iw=getDialog("Name Relation","#32770"))!=null){
@@ -196,7 +196,17 @@ public class aclDataDialogs extends aclDataDialogsHelper
 			}
 			
 			sleep(1);
-			click(addTable_close());
+			if((iw=getDialog("Add Table","#32770"))!=null){
+				iw.activate();
+			}
+			click(addTable_close(),"Close Add table dialog");
+			sleep(2);
+			if(addTable_close().exists()){
+			 logTAFWarning("Failed to colse add table dialog?");			 
+			 click(addTable_close(),"Close Add table dialog");
+			 
+			}
+				
 			return itemCreated;
 			
 		}

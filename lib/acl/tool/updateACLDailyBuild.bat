@@ -32,7 +32,7 @@ REM IF /I "%STANDALONG%"=="TRUE" SET SILENT_INSTALL=TRUE
 
 IF '%tFolder%'=='' SET tFolder=DEV
 Rem SET tFolder=RC
-SET SRCROOT=\\biollante02\DailyBuild\Monaco\%tFolder%
+SET SRCROOT=\\biollante02\DailyBuild\Monaco
 SET DOMAIN_NAME=ACL
 SET USER_NAME=Your ACL User Name
 SET PASSWORD=Your ACL Password
@@ -68,11 +68,12 @@ NET USE %SRCROOT% "%PASSWORD%" /USER:"%UserFullName%" /P:Yes
 GOTO Permission
 
 :RELOAD
+
 SET MISSINGDLLSSRC=\\winrunner\winrunner\SharedFiles\ACL_missing_Files
 IF "%FILE_SERVER%" == "" SET FILE_SERVER=\\192.168.10.129\Automation
 IF NOT EXIST %MISSINGDLLSSRC% NET USE %MISSINGDLLSSRC% "%PASSWORD%" /USER:"%UserFullName%" /P:Yes
 IF NOT EXIST %FILE_SERVER% NET USE %FILE_SERVER% "%PASSWORD%" /USER:"%UserFullName%" /P:Yes
-SET _SRCROOT_installer=%SRCROOT%
+
 Rem LOCALE=En,De,Es,Pt,Fr;Zh,Pl,Ko,Ja
 IF '%LOCALE%'=='' SET LOCALE=En
 SET INSTALLEXE=ACLSilentInstall.exe
@@ -86,13 +87,13 @@ IF '"%DESROOT%"'=='""' (
     IF /I '%SILENT_INSTALL%' == 'TRUE' (
 	   SET DESROOT=%INSTALL_DIR1%
 	) ELSE (
-	       SET DESROOT=D:\ACL\TFSView\RFT_Automation\Monaco\Desktop
-		   IF NOT EXIST D: SET DESROOT=C:\ACL\TFSView\RFT_Automation\Monaco\Desktop
+	       SET DESROOT=D:\ACL\Analytics10_Binary
+		   IF NOT EXIST D: SET DESROOT=C:\ACL\Analytics10_Binary
 	 )
 )
 SET INSTALL_MODE=Run Installer
 IF /I NOT '%SILENT_INSTALL%'=='TRUE' (
- SET DESROOT="%DESROOT%\%tFolder%"
+ IF /I NOT '%choice%'=='R' SET DESROOT=%DESROOT%\%tFolder%
  SET INSTALL_MODE=Copy from Binary
  )
 
@@ -100,7 +101,7 @@ SET INSTALL_DIR=%DESROOT%
 
 SET MISSINGDLLSSRCIH=\\winrunner\winrunner\SharedFiles\Ironhide_missing_Files
 SET RFTSharedFiles=\\winrunner\RFT\SharedFiles
-SET ThirdPartDllSRC=%SRCROOT%\..\ThirdPartyDll
+SET ThirdPartDllSRC=%SRCROOT%\dlls
 SET MISSINGDLLSDES=ReleaseSingleUser
 SET MISSINGDLLSDES_U=UnicodeSingleUser
 SET ACL_DATA="C:\ACL DATA\Sample Data Files"
@@ -143,10 +144,15 @@ IF /I '%SILENT_INSTALL%'=='TRUE' GOTO INSTALLER
 
 GOTO CONTINUE
 :INSTALLER
-  SET SRCROOT_installer=%_SRCROOT_installer%
+ 
   IF /I '%LOCALE%'=='EN' SET LOCALE=En
-  IF NOT '%LOCALE%'=='En' SET SRCROOT_installer=%_SRCROOT_installer%\LocalizedInstallers
-  IF '%LOCALE%'=='Pl' SET SRCROOT_installer=%SRCROOT_installer%\Polish
+  IF /I '%LOCALE%'=='EN' SET tFolder=DEV
+  IF /I NOT '%LOCALE%'=='EN' SET tFolder=DEV_localized_release
+  SET SRCROOT=\\biollante02\DailyBuild\Monaco\%tFolder%
+  SET _SRCROOT_installer=%SRCROOT%
+  SET SRCROOT_installer=%_SRCROOT_installer%
+  REM IF NOT '%LOCALE%'=='En' SET SRCROOT_installer=%_SRCROOT_installer%\LocalizedInstallers
+  rem IF '%LOCALE%'=='Pl' SET SRCROOT_installer=%SRCROOT_installer%\Polish
   IF /I '%SILENT_INSTALL%'=='FALSE' GOTO CONTINUE
   SET VerType=Installer
   SET SRCROOT=%SRCROOT_installer%
@@ -154,30 +160,40 @@ GOTO CONTINUE
   SET ACLUni=%NamePrefix%%LOCALE%_Desktop_Unicode
   SET IHNonUni=%NamePrefixOld%%LOCALE%_%IHNonUni%
   SET IHUni=%NamePrefixOld%%LOCALE%_%IHUni%
+  SET SupportUni=True
+  SET SupportNonUni=True
+  SET ACLNonUni=%NamePrefix%%LOCALE%_Desktop_NonUnicode
+  SET ACLUni=%NamePrefix%%LOCALE%_Desktop_Unicode
+  
   IF /I '%LOCALE%'=='ZH' (
+    SET SupportNonUni=False
     SET ACLNonUni=%NamePrefix%%Ch_Desktop_NonUnicode
     SET ACLUni=%NamePrefix%Ch_Desktop_Unicode
-	) ELSE (
-	   SET ACLNonUni=%NamePrefix%%LOCALE%_Desktop_NonUnicode
-       SET ACLUni=%NamePrefix%%LOCALE%_Desktop_Unicode
-	)
+	) 
   IF /I '%LOCALE%'=='JA' (
+    SET SupportNonUni=False
     SET ACLNonUni=%NamePrefix%%Jp_Desktop_NonUnicode
     SET ACLUni=%NamePrefix%Jp_Desktop_Unicode
 	)
   SET LatestVer=0
   IF /I '%LOCALE%'=='En' (
-rem     SET NUM_TOKENS=7
+     SET NUM_TOKENS=5
 rem	 SET VerPrefix=%VerPrefixOld%
 REM	 SET ACLNonUni=%NamePrefixOld%%LOCALE%_Desktop_NonUnicode
 REM     SET ACLUni=%NamePrefixOld%%LOCALE%_Desktop_Unicode
   ) ELSE  (
-     SET NUM_TOKENS=8
+     SET NUM_TOKENS=5
   )
-   IF /I '%LOCALE%'=='Pl' (
-     SET VerPrefix=9.3.2.
-     SET NUM_TOKENS=9
-  ) 
+rem   IF /I '%LOCALE%'=='Pl' (
+rem     SET VerPrefix=9.3.2.
+rem     SET NUM_TOKENS=9
+rem  ) 
+
+IF /I '%LOCALE%'=='Jp' SET SupportNonUni=False
+IF /I '%LOCALE%'=='Ch' SET SupportNonUni=False
+IF /I '%LOCALE%'=='Ko' SET SupportNonUni=False
+rem IF /I '%LOCALE%'=='Pl' SET SET SupportUni=False
+
 :CONTINUE
 
 SET Reg=regsvr32 /s
@@ -198,9 +214,8 @@ FOR /D  %%g IN (%SRCROOT%\%VerPattern%) DO (
     FOR /F "eol=. tokens=%NUM_TOKENS% usebackq delims=\" %%f IN ('%%g') DO (
 	   IF /I '%LatestVer%' LEQ '%%f' (
 	      IF /I '%SILENT_INSTALL%'=='TRUE' (
-		    IF EXIST %SRCROOT%\%%f\Installer\%ACLUni%.exe (
-			  IF EXIST %SRCROOT%\%%f\Installer\%ACLNonUni%.exe SET LatestVer=%%f
-			)
+		    IF EXIST %SRCROOT%\%%f\Installer\%ACLUni%.exe SET LatestVer=%%f
+			IF EXIST %SRCROOT%\%%f\Installer\%ACLNonUni%.exe SET LatestVer=%%f
 		  ) ELSE (
 	        SET LatestVer=%%f
 		  )
@@ -235,11 +250,32 @@ IF NOT EXIST %DESROOT% SET desExist=!Not Found
 IF NOT EXIST %SRCROOT% SET srcExist=!Not Found
 IF NOT EXIST %SRCROOT%\%Version% SET verExist=!Not Found
 IF /I '%VerType%'=='Installer' (
- IF NOT EXIST %DESROOT%\%VerType%\%Version%\%ACLNonUni% SET aclNonUniExist=!Not Found, Enter 'GN' to install
- IF NOT EXIST %DESROOT%\%VerType%\%Version%\%ACLUni% SET aclUniExist=!Not Found, Enter 'GU' to install
+ IF NOT EXIST %DESROOT%\%VerType%\%Version%\%ACLNonUni% (
+   SET aclNonUniExist=!Not Installed
+   IF EXIST %SRCROOT%\%Version%\%VerType%\%ACLNonUni%.exe SET aclNonUniExist=Ready
+   IF NOT EXIST %SRCROOT%\%Version%\%VerType%\%ACLNonUni%.exe SET aclNonUniExist=!Installer Not Ready Yet
+   )
+
+ 
+ 
+ IF NOT EXIST %DESROOT%\%VerType%\%Version%\%ACLUni% (
+   SET aclUniExist=!Not Installed
+   IF EXIST %SRCROOT%\%Version%\%VerType%\%ACLUni%.exe SET aclUniExist=Ready
+   IF NOT EXIST %SRCROOT%\%Version%\%VerType%\%ACLUni%.exe SET aclUniExist=!Installer Not Ready Yet
+   )
+ 
+ 
 ) ELSE (
- IF NOT EXIST %DESROOT%\%Version%\%ACLNonUni%\%Executable% SET aclNonUniExist=!Not Found, Enter 'GN' to get the build
- IF NOT EXIST %DESROOT%\%Version%\%ACLUni%\%Executable% SET aclUniExist=!Not Found, Enter 'GU' to get the build
+ IF NOT EXIST %DESROOT%\%Version%\%ACLNonUni%\%Executable% (
+   SET aclNonUniExist=!Not Installed
+   IF EXIST %SRCROOT%.\%Version%.\%ACLNonUni% SET aclNonUniExist=Ready
+   IF NOT EXIST %SRCROOT%\%Version%\%ACLNonUni% SET aclNonUniExist=!Binary Not Ready Yet
+   )
+ IF NOT EXIST %DESROOT%\%Version%\%ACLUni%\%Executable% (
+   SET aclUniExist=!Not Installed
+   IF EXIST %SRCROOT%.\%Version%.\%ACLUni% SET aclUniExist=Ready
+   IF NOT EXIST %SRCROOT%\%Version%\%ACLUni% SET aclUniExist=!Binary Not Ready Yet
+   )
 )
 
 IF NOT '%TEST_BUILD%'=='' (
@@ -271,26 +307,37 @@ ECHO.*
 ECHO.*    Change Build....................................V 
 ECHO.*         [%Version%%isLatest%]   %verExist%
 ECHO.*
-REM ECHO.*    Change Locale .................................CL 
-REM ECHO.*         [%LOCALE%]   En,De,Es,Pt,Fr;Zh,Pl,Ko,Ja
+ECHO.*    Change Locale .................................CL 
+ECHO.*         [%LOCALE%]   En,De,Es,Pt,Fr,Ch,Ko,Jp,Pl
 REM ECHO.*
 Rem IF /I '%VerType%'=='DevBuild' ECHO.*    Get This  Build.................................G
 REM IF Not %VerType%'=='DevBuild' ECHO.*    Install Unicode Build...............................GU
 REM IF Not %VerType%'=='DevBuild' ECHO.*    Install NonUnicode Build............................GN
 REM IF /I '%VerType%'=='DevBuild' ECHO.*         [%Version%%isLatest%]   %verExist%
 ECHO.*   
-REM IF '%LOCALE%'=='Zh' | '%LOCALE%'=='Ja' | '%LOCALE%'=='Ko' |'%LOCALE%'=='Ch' (
-IF "%aclNonUniExist%"=="" ECHO.*    Run  %Version% - NonUnicode....................RN
-IF Not "%aclNonUniExist%"=="" ECHO.*    Install  %Version% - NonUnicode................GN
-rem		 ECHO.*    Open(CMD)  ACLScript - NonUnicode..............ON
-rem         ECHO.*         [%Version%%isLatest%]   %aclNonUniExist%
-         ECHO.*
-REM )
-IF "%aclUniExist%"=="" ECHO.*    Run  %Version% - Unicode.......................RU
-IF Not "%aclUniExist%"=="" ECHO.*    Install  %Version% - Unicode...................GU
-rem ECHO.*    Open(CMD)  ACLScript - NonUnicode..............OU
-rem ECHO.*         [%Version%%isLatest%]   %aclUniExist%  
-ECHO.*         
+
+IF /I '%SupportNonUni%' == 'True' (
+   IF "%aclNonUniExist%"=="" ECHO.*    Run  %Version% - NonUnicode....................RN
+   IF /I "%aclNonUniExist%"=="Ready" (
+       ECHO.*    Install  %Version% - NonUnicode................GN
+   ) Else (
+      IF NOT "%aclNonUniExist%"=="" ECHO.*     %Version% - NonUnicode[%aclNonUniExist%]
+   )
+   rem		 ECHO.*    Open(CMD)  ACLScript - NonUnicode..............ON
+   rem         ECHO.*         [%Version%%isLatest%]   %aclNonUniExist%
+   ECHO.*
+)
+IF /I '%SupportUni%' == 'True' (
+   IF "%aclUniExist%"=="" ECHO.*    Run  %Version% - Unicode.......................RU
+   IF /I "%aclUniExist%"=="Ready" (
+      ECHO.*    Install  %Version% - Unicode...................GU
+   ) Else (
+      IF NOT "%aclUniExist%"=="" ECHO.*    %Version% - Unicode [%aclUniExist%]
+   )
+   rem ECHO.*    Open(CMD)  ACLScript - NonUnicode..............OU
+   rem ECHO.*         [%Version%%isLatest%]   %aclUniExist%  
+   ECHO.*
+)
 ECHO.*    Refresh ........................................R
 ECHO.*       
 ECHO.*    Quit (no further action)........................Q
@@ -332,7 +379,7 @@ IF /I '%choice%'=='ON' GOTO OpenNUniCMD
 IF /I '%choice%'=='OU' GOTO OpenUniCMD
 IF /I '%choice%'=='R' GOTO Permission
 IF /I '%choice%'=='M' GOTO Mode
-GOTO DESDIR
+GOTO MAINMENU
 
 :LIST
 CLS
@@ -433,20 +480,26 @@ REM   )
       TASKKILL /F /T /IM %IHExecutable% 2>NUL
 	  TASKKILL /F /T /IM %IHINSTALLEXE% 2>NUL
 	  
-	  %DESROOT%\%VerType%\%IHINSTALLEXE% /s /a /x /s /v"/qb /passive /quiet /l* \"%INSTALL_DIR%\%VerType%\IH_Uninstallation.log\"" 2>NUL
+	  IF /I '%LOCALE%' == 'En' (
+	   %DESROOT%\%VerType%\%IHINSTALLEXE% /s /a /x /s /v"/qb /passive /quiet /l* \"%INSTALL_DIR%\%VerType%\IH_Uninstallation.log\"" 2>NUL
+	   )
    )
     RMDIR /S /Q %DESROOT%.\%VerType% 2>NUL
 	MKDIR %DESROOT%.\%VerType%\%Version% 2>NUL
 		
    IF /I '%TEST_UNICODE%'=='Yes' (
       ECHO. F | XCOPY %SRCROOT%\%Version%\Installer\%ACLUni%.exe %DESROOT%\%VerType%\%INSTALLEXE% %XCSWITCH_%
-	  ECHO. F | XCOPY %SRCROOT%\%Version%\Installer\%IHUni%.exe %DESROOT%\%VerType%\%IHINSTALLEXE% %XCSWITCH_%
+	  IF /I '%LOCALE%' == 'En' (
+	    ECHO. F | XCOPY %SRCROOT%\%Version%\Installer\%IHUni%.exe %DESROOT%\%VerType%\%IHINSTALLEXE% %XCSWITCH_%
+		)
       MKDIR %DESROOT%\%VerType%\%Version%\%ACLUni% 2>NUL
 	  MKDIR %DESROOT%\%VerType%_History\%Version%\%ACLUni% 2>NUL
       REM RMDIR /S /Q %DESROOT%\%VerType%\%Version%.\%ACLNonUni%
 	) ELSE IF /I '%TEST_NONUNICODE%'=='Yes' (
 	  ECHO. F | XCOPY %SRCROOT%\%Version%\Installer\%ACLNonUni%.exe %DESROOT%\%VerType%\%INSTALLEXE% %XCSWITCH_%
-	  ECHO. F | XCOPY %SRCROOT%\%Version%\Installer\%IHNonUni%.exe %DESROOT%\%VerType%\%IHINSTALLEXE% %XCSWITCH_%
+	  IF /I '%LOCALE%' == 'En' (
+	    ECHO. F | XCOPY %SRCROOT%\%Version%\Installer\%IHNonUni%.exe %DESROOT%\%VerType%\%IHINSTALLEXE% %XCSWITCH_%
+		)
       MKDIR %DESROOT%\%VerType%\%Version%\%ACLNonUni% 2>NUL
 	  MKDIR %DESROOT%\%VerType%_History\%Version%\%ACLNonUni% 2>NUL
 	  REM RMDIR /S /Q %DESROOT%\%VerType%\%Version%\%ACLUni%
@@ -464,8 +517,10 @@ REM   )
 
    IF Not EXIST %IHDESROOT%\%IHExecutable% (
 	  TASKKILL /F /T /IM %IHINSTALLEXE% 2>NUL
-      %DESROOT%\%VerType%\%IHINSTALLEXE% /s /a /s /v"/qb /passive /quiet PIDKEY=NoKey COMPANYNAME=\"%COMPANYNAME%\" INSTALLDIR=\"%INSTALL_DIR%\Ironhide\" /l* \"%INSTALL_DIR%\%VerType%\IHInstallation.log\"" 2>NUL
-	  Call Cscript %ihscriptdir%\createShortcut.vbs %IHshortcutName% %IHtargetPath% "%cmdOP% && %IHcmdOP%" "%IHhotKey%" %IHiconLocation% %IHDESROOT% %IHdescription%
+      IF /I '%LOCALE%' == 'En' (
+	    %DESROOT%\%VerType%\%IHINSTALLEXE% /s /a /s /v"/qb /passive /quiet PIDKEY=NoKey COMPANYNAME=\"%COMPANYNAME%\" INSTALLDIR=\"%INSTALL_DIR%\Ironhide\" /l* \"%INSTALL_DIR%\%VerType%\IHInstallation.log\"" 2>NUL
+	    Call Cscript %ihscriptdir%\createShortcut.vbs %IHshortcutName% %IHtargetPath% "%cmdOP% && %IHcmdOP%" "%IHhotKey%" %IHiconLocation% %IHDESROOT% %IHdescription%
+	   )
 	  rem Call Cscript %ihscriptdir%\createShortcut.vbs %IHshortcutName% "%IHtargetPath% %IHcmdOP% && ACLSE -V" %IHiconLocation% %IHDESROOT% %IHdescription%
     )
   ) ELSE (

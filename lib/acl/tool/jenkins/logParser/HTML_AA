@@ -1,0 +1,9 @@
+﻿start /(?i).*<h2>Automation Test Report</h2>/
+info /(?i)^<li><b>TEST ENVIRONMENT:</b>/
+info /(?i)^<li>AUT:</b>/
+info /(?i)^<li><b>LINKS:</b>/
+info /(?i)^<li><b>RESULTS:</b>/
+info /(?i)^<li>About:</b>/
+warn /(?i).*color="#8904B1">\[KNOWN ISSUE:/
+warn /(?i).*color="#886A08">\[AUTOMATION ISSUE/
+error /(?i).*color="#886A08">\[NEW ISSUE/

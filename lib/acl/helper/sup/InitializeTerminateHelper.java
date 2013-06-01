@@ -171,7 +171,8 @@ public class InitializeTerminateHelper extends LoggerHelper {
                 
      			if(!ProjectConf.appLocale.equals(""))
      			   logTAFInfo("- AUT Locale: "+ProjectConf.appLocale);
-     			logTAFInfo("- System Locale: "+TAFLogger.locale);
+     			else
+     			   logTAFInfo("- System Locale: "+TAFLogger.locale);
      			logTAFInfo("- Tester: "+FrameworkConf.testerName);
      			if(isWeb){					
      				logTAFInfo("- Browser Name: "+FrameworkConf.browserName+ ", Version: "+FrameworkConf.browserVersion);
@@ -481,7 +482,7 @@ public class InitializeTerminateHelper extends LoggerHelper {
 			 summary = "\n"+line0+linkToWikiAuto+colorDiv+line1;
 			 summary = summary + 
 			   "\n*\t <b>TEST ENVIRONMENT:</b>"+
-//			   "\n**\t "+reportSubject+
+			   (reportSubject.equals("")?"":"\n**\t "+reportSubject)+
 //		       "\n**\t- AUT: "+projName+" - "+FrameworkConf.buildName+
 //		            "["+FrameworkConf.buildInfo+"]-"+		            
 //		            (ProjectConf.isUnicodeTest()?"Unicode":"NonUnicode")+

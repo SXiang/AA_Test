@@ -66,8 +66,9 @@ public class LoggerHelper extends RationalTestScript {
 	              stopTest = false,
 	              batchRun = false,
 	              isWeb = false,
-	              RFT_emailReport = false,
-	              localOnlyTest = false
+	              
+	              localOnlyTest = false,
+	              RFT_emailReport = false
 	              ;
 	          
 	public static String stopMessage ="",
@@ -109,7 +110,7 @@ public class LoggerHelper extends RationalTestScript {
 						 testResultHeader = "",
 						 reportSubject = "",
 						 scriptStartTime; // As we want to user the time used in TAF logger
-	
+	                     
 	
 	public static String curTestScenario = "";
 	public static String scenarioDesLinePrefix = "#@";
@@ -481,7 +482,30 @@ public class LoggerHelper extends RationalTestScript {
 		return savedSnapshot;
 	}
 	
-
+    public String getL10NExpression(String exp){
+    	  // 	  Decimal Place Symbol  .   -> ,
+    	  // 	 Thousands Separator  ,      -> .
+    	  // 	 List Separator  ,          -> ;
+    	String enNumber = "(?i)EN, ZH, KO";
+        String euroNumber = "(?i)ES|PT|DE|FR";
+    	String specialNumber = "(?i)TBD";
+    	String l10nExp = exp;
+    	
+		   if(ProjectConf.appLocale.matches(euroNumber)){
+			     
+				  l10nExp = exp.replaceAll("([0-9])[\\.]([0-9])", "$1::$2");
+				  l10nExp = l10nExp.replaceAll("([0-9]),([0-9])", "$1.$2");
+				  //l10nExp = l10nExp.replaceAll("(\\(.*),(.*\\))", "$1;$2");// Use ; for list
+				  l10nExp = l10nExp.replaceAll(",", ";");// Use 
+				  l10nExp = l10nExp.replaceAll("::", ",");
+				  
+			   }else if(ProjectConf.appLocale.matches(specialNumber)){
+			       //
+			   }else{
+				   l10nExp = l10nExp.replaceAll(";", ","); // Use , for list
+			   }
+    	return l10nExp;
+    }
     public String getDpString(String var){
  	   String value = "";
  	   String localValue = "";
@@ -489,9 +513,11 @@ public class LoggerHelper extends RationalTestScript {
  	   String csvComma = "<<;>>";
  	   String devUser1 ="ACL\\acldbld";   	   
  	   String devPass1 = "ncc1701a"; 
- 	   
- 	   String ACLExpressions = "PreFilter|Filter|Expression"+
- 	                           "|If|While"+        //Not so sure if we need this ... Steven
+
+ 	   String ACLExpressions = "(?i)PreFilter|Filter|Expression"+
+ 	                           "|If|While|On|Fields"+        
+ 	                           "|Minimum|Maximum"+
+ 	                           "|Errors"+
  	                           "";
  	   logTAFDebug("Trying to get value of '"+var+"'");
  	   
@@ -504,7 +530,7 @@ public class LoggerHelper extends RationalTestScript {
  		   }
  		   
  		   if(var.matches(ACLExpressions)){
- 			   value = value.replaceAll(";", ",");
+ 			   value = getL10NExpression(value);
  		   }
  	   }catch(Exception e){
  		   value = "";
@@ -622,6 +648,7 @@ public class LoggerHelper extends RationalTestScript {
 		if (app != null && app.isAlive()) {
 	    	try{
 	    		if(app.isAlive()){
+	    			logTAFInfo("Kill '"+app.getDescriptiveName()+" with 'app.kill() method");
 	    			app.kill(); // This is good as it close the application normally		
 	    		}	    		
 	        }catch(Exception e){
@@ -633,6 +660,7 @@ public class LoggerHelper extends RationalTestScript {
 		try{
 			//In case of the app could not be closed normally, we force to kill the process form OS
 			//FileUtil.exeComm("taskkill /F /PID " + app.getProcessId() + " /T");
+			logTAFInfo("Kill '"+imageName+" with cmd 'taskkill /F /T /IM ");
 			FileUtil.exeComm("taskkill /F /T /IM " + imageName);
 			sleep(1);
 		}catch(Exception e){
@@ -656,7 +684,7 @@ public class LoggerHelper extends RationalTestScript {
 	
 	public boolean isAutomationIssue(String msg){
 		String[] autoPattern = {"UnhandledException",
-		                     "java.lang.",
+		                     "java.",
 		                     "noplausiblecandidate",
 		                     "ObjectNotFoundException",
 		                     "ApplicationNotResponding",
@@ -668,9 +696,11 @@ public class LoggerHelper extends RationalTestScript {
 		                     "Window is disabled",
 		                     "Failed to connect to server",
 		                     "server connection",
+		                     "Server Activity",
 		                     "Project name",  // In case of invalid name used somehow 
 		                     "Invalid field data",
 		                     "null window",
+		                     "Not found",
 		                     autoIssue
 		                     };
 		boolean isauto = false;
@@ -786,18 +816,50 @@ public class LoggerHelper extends RationalTestScript {
 	}
 	
 	public boolean isValidBuild(String buildInfo){
+		String cch = "";
+		String validLocale = cch+"En"+
+		                     "|"+cch+"De"+
+		                     "|"+cch+"Es"+
+		                     "|"+cch+"Pt"+
+		                     "|"+cch+"Fr"+
+		                     "|"+cch+"Zh|"+cch+"Ch|"+cch+"Cn"+
+		                     "|"+cch+"Pl"+
+		                     "|"+cch+"Ko"+
+		                     "|"+cch+"Ja|"+cch+"Jp"+
+		                     "";
+		String validBranch = "-RC"+ // may be needed on future releases - Steven
+		                     "|-Dev"+
+		                     "";
+		boolean isValidBuild = false;
+		boolean isValidLocale = false;
 		boolean isValid = false;
 		String builds[]=buildInfo.split(",");
-		if(buildInfo.equals(""))
+		if(buildInfo.trim().equals(""))
 			return true;
+		if(buildInfo.trim().equalsIgnoreCase("All")){
+			return true;
+		}	    
 		for(int i=0;i<builds.length;i++){
+			String buildArray[] = builds[i].split("_");
+			isValidBuild = false;
 			if(
-			   builds[i].equalsIgnoreCase("All")||
-			   builds[i].equalsIgnoreCase(FrameworkConf.buildName.trim())||
-			   (builds[i]+"_RC").equalsIgnoreCase(FrameworkConf.buildName.trim())
-			   )
-				return true;
-				
+				buildArray[0].equalsIgnoreCase("All")||
+				buildArray[0].equalsIgnoreCase(FrameworkConf.buildName.trim())||
+				(buildArray[0]+"-RC").equalsIgnoreCase(FrameworkConf.buildName.trim())
+			){
+				isValidBuild = true;
+			}
+			isValidLocale = false;
+			if(buildArray.length==1){
+				isValidLocale = true;
+			}else if(buildArray[1].matches("(?i)"+cch+ProjectConf.appLocale)
+					){
+				isValidLocale = true;				
+			}
+
+			if(isValid=isValidBuild&&isValidLocale)	{
+				return isValid;
+			}
 		}
 		return isValid;
 	}
