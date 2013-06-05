@@ -10,6 +10,7 @@ import com.rational.test.ft.object.interfaces.IWindow;
 import com.rational.test.ft.object.interfaces.SelectGuiSubitemTestObject;
 import com.rational.test.ft.object.interfaces.TestObject;
 import com.rational.test.ft.object.interfaces.ToggleGUITestObject;
+import com.rational.test.ft.object.interfaces.TopLevelTestObject;
 import com.rational.test.ft.script.Action;
 import com.rational.test.ft.script.Subitem;
 
@@ -159,11 +160,19 @@ public class aclDataDialogs extends aclDataDialogsHelper
 		}
 		public boolean addTable(String table,String tableIndex){
 			boolean itemCreated = false,done=true;
+			String endList="Payroll,Sales_Reps,Trans,Vendor,Work_Depts,Inventory2,Inventory_Sorted,Inventory";
+            String endString="H";
 			IWindow iw;
 			click(relation_addTable(),"Add Table");
 			sleep(1);
 			if(!table.equals("")){
-			actionOnSelect(addTable_list(),"Select Table",table,"New");
+			//if(endList.contains(table)){
+			if(compareString(table,endString)>0){
+				moveScrollbar(addTablewindow(), addTable_list(), "END");
+			}else{
+				moveScrollbar(addTablewindow(), addTable_list(), "UP");
+			}
+			actionOnSelect(false,addTable_list(),"Select Table",table,"New");
 			addTable_add().waitForExistence();
 			click(addTable_add(),"Add");
 			sleep(1);
@@ -196,9 +205,12 @@ public class aclDataDialogs extends aclDataDialogsHelper
 			}
 			
 			sleep(1);
-			if((iw=getDialog("Add Table","#32770"))!=null){
-				iw.activate();
-			}
+//			if((iw=getDialog("Add Table","#32770"))!=null){
+//				iw.activate();
+//			}
+			
+			waitForExistence(addTable_close());
+			
 			click(addTable_close(),"Close Add table dialog");
 			sleep(2);
 			if(addTable_close().exists()){

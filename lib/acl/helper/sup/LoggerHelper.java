@@ -52,7 +52,7 @@ public class LoggerHelper extends RationalTestScript {
 	public static String bugremaining="";
 	public static String bugfixed="",bugnew="",bugauto="";
 	public static int bugNumF=0, bugNumN=0,bugNumA=0,bugNumR=0,numTested =0;
-	//********************************************
+	public static String sysLineSep = System.getProperty("line.separator");
 	
 	public static int 
 	                  numKWs = 0,
@@ -899,6 +899,8 @@ public class LoggerHelper extends RationalTestScript {
 		  return true;
 	  }
 	public LoggerHelper(){
+		if(sysLineSep==null)
+			sysLineSep = "\\n\\r";
 		if(batchRun){
 			LoggerConf.filterLevel = LoggerConf.batchRunfilterLevel;
 		}

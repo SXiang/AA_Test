@@ -317,7 +317,8 @@ public abstract class RFTGuiFinderHelper extends WinTreeHelper
 //    			,"\\\\"
 //    			};
     	String[] ori = {
-    			"\\n|\\r"
+    			sysLineSep
+    			,"\\n|\\r[ ]?"
     			,"\\s"            //Spaces
     			,"\"\""
     			,"([^\\\\]?)[\\(]"       // ( and )
@@ -331,7 +332,9 @@ public abstract class RFTGuiFinderHelper extends WinTreeHelper
     			,"[\\\\]+"// In case of duplicates
     			};                  
     	String[] rep = {
-    			"/"
+    			//"/"
+    			""
+    			,""
     			,"\\\\s"
     			,"\""
     			,"$1\\\\("
@@ -364,13 +367,16 @@ public abstract class RFTGuiFinderHelper extends WinTreeHelper
 //    	if(!isPattern(pattern))
 //    		return pattern;
     	String[] ori = {
-    			"\\n|\\r"
+    			sysLineSep
+    			,"\\n|\\r[ ]?"
     			, "([^\\\\])([.+*()])"
     			,"(['\"]?)%[\\d]*[Icds](['\"]?)"  
     			,"[?]"
     			};                  
     	String[] rep = {
-    			"/"
+    			""
+    			//"/"
+    			,""
     			,"$1\\\\$2"
     			,"$1.+2"
     			,"\\\\?"

@@ -74,7 +74,7 @@ public class filemenu extends filemenuHelper
 
 	public void testMain(Object[] args) 
 	{
-		setWelcomeTab(false);
+		//setWelcomeTab();
 		super.testMain(args);
                
 		//Steps:
@@ -98,7 +98,7 @@ public class filemenu extends filemenuHelper
             verifyItemStatus(dpItemStatus);
 			aTabs.switchTableTabs();
 		}
-		setWelcomeTab(true);
+		//setWelcomeTab();
 	}
 
 	public void exeActOnItem(){

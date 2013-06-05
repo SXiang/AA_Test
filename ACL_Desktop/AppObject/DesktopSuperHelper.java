@@ -86,6 +86,7 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 	public static int activeTab = -1;
 	public static int startTab = 1;
 	public static boolean keepWelcomeTab = true;
+	public static boolean setWelcomeTab = true;
 	
 	protected int[] itemIndex;
 	protected boolean itemCreated = false,
@@ -248,17 +249,19 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
          }
          sharedDataDone= true;
 	}
-	public void setWelcomeTab(boolean keep){
-		if(keepWelcomeTab==keep
-				||ProjectConf.appLocale.equalsIgnoreCase("En"))
-			return;
-         if(wPageLoc.equals("")){
-        	 wPageLoc = getLocValue(wPage).split("\\|")[0];
-         }
-         if(!wPageLoc.equals(wPage)&&!keep){
+	public static void setWelcomeTab(boolean keep){
+		//boolean keep = setWelcomeTab;
+		if(wPageLoc.equals("")){
+       	 wPageLoc = getLocValue(wPage).split("\\|")[0];
+        }
+         
+         if(!keep 
+        		 && !ProjectConf.appLocale.equalsIgnoreCase("En") 
+        		 && !wPageLoc.equals(wPage) ){
      		startTab = 0;
     		keepWelcomeTab = false;
          }else{
+			//new keywordUtil().invokeMenuCommand("Window->ShowWelcomeScreen");
      		startTab = 1;
     		keepWelcomeTab = true;
          }
@@ -1071,10 +1074,12 @@ public abstract class DesktopSuperHelper extends lib.acl.helper.KeywordSuperHelp
 						logTAFError("Field not found - '"+fieldsArr[i]+"'");
 						continue;
 					}else{
-						if(!reported){
+						if(!ProjectConf.appLocale.equalsIgnoreCase("En")){
+						 if(!reported){
 						  knownBugs = "9.3 Issue: Table header '"+oriName+"' should be localized as '"+headerName+"'";
 						  logTAFError("Table header '"+oriName+"' should be localized as '"+headerName+"' in '"+ProjectConf.appLocale+"'?");
 						  reported = true;
+						 }
 						}
 						headerName = oriName;
 						if(fs.length>1){

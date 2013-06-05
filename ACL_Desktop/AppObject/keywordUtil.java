@@ -143,24 +143,28 @@ public class keywordUtil extends keywordUtilHelper
     }
     	public void activateAUT(boolean reopenProject){	
     		boolean blocked = false;
-    	if(((batchRun&&projPath.equals(""))   // Start of new batch test
-    			||sysExceptionCaught
+    	if(((batchRun&&projPath.equals(""))   // Start of new batch test    			
     			||app==null
     			||individualTest
+    			||sysExceptionCaught
     			||(blocked = !isActivated(null,appClass,true)))// AUT not activated
              ){ 
-//    		if(app!=null)
-//    		   logTAFWarning("!RFT failed to detect the AUT "+appClass+" or caught a sys exception/fatal error, " +
-//		       		"\t\twe will try to restart the application");
-    		
-    		if(ProjectConf.singleInstance&&ACL9window().exists()){ // Stress test - memory and performance
-    			return;
+    		if(sysExceptionCaught){
+    		   logTAFWarning(autoIssue+" Restart app due to system exception catched");
     		}
     		
-    		if(blocked){
-    			logTAFWarning(autoIssue+" Winodw '"+appClass+"' is blocked?");
-//    			stopScript = true; // Restart application will discard any variables or other things  - Steven
+    		
+    	    if(ProjectConf.singleInstance||blocked){
+    	    	if(ACL9window().exists()){ // Stress test - memory and performance    			                       // and other unknown issues - restart is not a good idea for testing
+                    dismissPopup("", true, true);
+    			 return;
+    		  }
     		}
+    		
+//    		if(blocked){
+//    			logTAFError(autoIssue+" Winodw '"+appClass+"' is blocked?");
+////    			stopScript = true; // Restart application will discard any variables or other things  - Steven
+//    		}
     		 startApp(); 
     		
     		 if(!projPath.equals("")&&sysExceptionCaught&&reopenProject){
@@ -740,7 +744,10 @@ public class keywordUtil extends keywordUtilHelper
    	       inputShortcut(commands);
    	       return done;
       	}
-    	//click(ACL9window());
+    	if(!ACL9window().exists()){
+    		logTAFWarning("ACL is not running?");
+    		return false;
+    	}
     	if(showNavigator)
     	   aRou.showNavigator();
     	String[] command = commands.split("->");

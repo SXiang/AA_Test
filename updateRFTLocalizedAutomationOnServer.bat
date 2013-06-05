@@ -28,7 +28,7 @@ SET DESBACKUP=W:\Backups\Automation_Dev
 ::SET TOAUTOTEST=DailyTest SmokeTest RegressionTest
 SET XCSWITCH=/Y /E /D /R /EXCLUDE:.uploadExclude
 SET XCSWITCH_=/Y /D /R /EXCLUDE:.uploadExclude
-SET XCSCWITCH_REPLACE=/Y /R /E /I
+SET XCSCWITCH_REPLACE=/Y /R /E /I /EXCLUDE:.uploadExclude
 ::SET XCSWITCH_USER=/Y /E /D /R
 ::SET XCSWITCH=/Y /E /D /R
 SET XCSWITCH_USER=%XCSWITCH%
@@ -85,12 +85,14 @@ IF Exist %DESBACKUP% XCOPY %SRCROOT%.\%FROMProject% %DESBACKUP%.\%PROJECT_NAME%.
 :UPDate
 ::ECHO. Update from %FD1%.  to - %DESROOT%.\%UPLOADTO%\AuditExchange.  >> %OUTPUT%
 If /I '%UPDATE_PROJECT%'=='TRUE' (
-   ECHO. XCOPY %SRCROOT%.\ACLQA_Automation\ACL_Desktop\DATA\KeywordTable %FD1%\BACKUP\KeywordTable\ %XCSWITCH%
-   XCOPY %SRCROOT%.\ACLQA_Automation\ACL_Desktop\DATA\KeywordTable %FD1%\BACKUP\KeywordTable\ %XCSWITCH%
-   ECHO. XCOPY %FD1% %DESROOT%.\..\SharedAutomationTestData\ACLProject\ %XCSWITCH%
-   XCOPY %FD1% %DESROOT%.\..\SharedAutomationTestData\ACLProject\ %XCSWITCH%
-   XCOPY %FD2% %DESROOT%.\..\SharedAutomationTestData\Jenkins\ACLAnalytics\ %XCSWITCH%
-   XCOPY \\192.168.10.129\Automation\Monaco\userContent %FD2%\ %XCSWITCH%
+   ECHO. XCOPY %SRCROOT%.\ACLQA_Automation\ACL_Desktop\DATA\KeywordTable %FD1%\BACKUP\KeywordTable\ %XCSCWITCH_REPLACE%
+   XCOPY %SRCROOT%.\ACLQA_Automation\ACL_Desktop\DATA\KeywordTable %FD1%\BACKUP\KeywordTable\ %XCSCWITCH_REPLACE%
+   ECHO. XCOPY %FD1% %DESROOT%.\..\SharedAutomationTestData\ACLProject\ %XCSCWITCH_REPLACE%
+   XCOPY %FD1% %DESROOT%.\..\SharedAutomationTestData\ACLProject\ %XCSCWITCH_REPLACE%
+   XCOPY %FD2% %DESROOT%.\..\SharedAutomationTestData\Jenkins\ACLAnalytics\ %XCSCWITCH_REPLACE%
+   XCOPY \\192.168.10.129\Automation\Monaco\userContent %FD2%\ %XCSCWITCH_REPLACE%
+   ECHO. XCOPY %SRCROOT%.\ACLQA_Automation\ACL_Desktop\DATA\LocalizationProperty %DESROOT%.\%UPLOADTO%\%FROMProject%.\ACL_Desktop\DATA\LocalizationProperty\ %XCSCWITCH_REPLACE%
+   XCOPY %SRCROOT%.\ACLQA_Automation\ACL_Desktop\DATA\LocalizationProperty %DESROOT%.\%UPLOADTO%\%FROMProject%.\ACL_Desktop\DATA\LocalizationProperty\ %XCSCWITCH_REPLACE%
 rem   XCOPY %FD2% %DESROOT%.\..\SharedAutomationTestData\Jenkins\ACLAnalytics\ %XCSWITCH%
 rem   XCOPY %FD2% \\192.168.10.129\Automation\\Monaco\userContent\ %XCSWITCH%
    )
@@ -114,6 +116,7 @@ REM XCOPY %DESROOT%.\%UPLOADTO%\%FROMProject%.\lib\acl\tool\SilentInstallation_6
 XCOPY %DESROOT%.\%UPLOADTO%\%FROMProject%.\lib\acl\tool\autoTest.bat %DESROOT%.\ %XCSWITCH_%
 XCOPY %DESROOT%.\%UPLOADTO%\%FROMProject%.\ACL_Desktop\DATA\KeywordTable\batchRunData.xls %DESROOT%.\ %XCSWITCH_%
 FOR %%U IN (%TOUSER%) DO IF NOT '%%U'=='' XCOPY %DESROOT%.\%UPLOADTO%\%FROMProject% %DESROOT%.\%%U.\%FROMProject%.\ %XCSWITCH_USER%
+FOR %%U IN (%TOUSER%) DO IF NOT '%%U'=='' XCOPY %DESROOT%.\%UPLOADTO%\%FROMProject%\ACL_Desktop\DATA\LocalizationProperty %DESROOT%.\%%U.\%FROMProject%.\ACL_Desktop\DATA\LocalizationProperty\ %XCSCWITCH_REPLACE%
 REM If /I '%UPDATE_PROJECT%'=='TRUE' (
 REM   XCOPY %DESROOT%.\%UPLOADTO%\%FROMProject%\ACL_Desktop\DATA\ACLProject\BACKUP %ACL_Project%.\ %XCSWITCH%
 REM   FOR %%U IN (%TOAUTOTEST%) DO IF NOT '%%U'=='' XCOPY %DESROOT%.\%UPLOADTO%\%FROMProject%\ACL_Desktop\DATA\ACLProject\BACKUP %DESROOT%.\%%U.\%FROMProject%.\ACL_Desktop\DATA\ACLProject\BACKUP\ %XCSWITCH%

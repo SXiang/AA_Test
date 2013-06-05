@@ -28,8 +28,8 @@ public class SampleRecords extends SampleRecordsHelper
 	
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 2; // 
-		endAtLine = 2;     //
+		startFromLine = 7; // 
+		endAtLine = 7;     //
 	    exeTestCase(args);
 	}
 			

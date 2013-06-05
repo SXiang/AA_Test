@@ -40,6 +40,7 @@ public abstract class KeywordSuperHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	private boolean dataInit(Object[] args){
 		boolean done= true;
+		
 		dpInitialization(args[0], args[1]);
 		dataInitialization(); 
 		

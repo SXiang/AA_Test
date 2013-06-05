@@ -69,6 +69,7 @@ public class aclRoutines extends aclRoutinesHelper
 	public boolean exeACLCommand(String comm, boolean clear){
 		return exeACLCommand(comm,clear,"");
 	}
+	public static TestObject cmd_to=null;
 	public boolean exeACLCommand(String comm, boolean clear,String actionOnTab){
 		if(comm==null||comm.equals(""))
 			return true;
@@ -104,6 +105,8 @@ public class aclRoutines extends aclRoutinesHelper
 			logTAFWarning("Failed to find acl command line?");
 			return false;
 			}
+		}else{
+		   cmd_to = to;
 		}
         
 //        if(clear){
@@ -429,7 +432,7 @@ public class aclRoutines extends aclRoutinesHelper
 	public void showNavigator(String tab){
 		
 		Point tabOverview = new Point(30, 3);
-		Point tabLog = new Point(60, 10);
+		Point tabLog = new Point(70, 10);
 		GuiSubitemTestObject nav = acl_TabNavigator();
 		GuiTestObject guio,guil;
 		TestObject anchor;

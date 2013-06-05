@@ -28,8 +28,8 @@ public class RunScript extends RunScriptHelper
 
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 13; // 4-9
-		endAtLine =14;     //
+		startFromLine = 9; // 4-9
+		endAtLine =9;     //
 	    exeTestCase(args);
 	}
 			

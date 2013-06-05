@@ -27,8 +27,8 @@ public class Filters extends FiltersHelper
 	private String poolFile = "ACL_Desktop/DATA/KeywordTable/SmokeTest/Edit/Filters.xls";
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 2; // 4-9
-		endAtLine = 2;     //
+		startFromLine = 6; // 4-9
+		endAtLine = 9;     //
 	    exeTestCase(args);
 	}
 			

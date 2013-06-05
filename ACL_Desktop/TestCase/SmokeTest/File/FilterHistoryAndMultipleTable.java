@@ -4,6 +4,8 @@
 package ACL_Desktop.TestCase.SmokeTest.File;
 
 import resources.ACL_Desktop.TestCase.SmokeTest.File.FilterHistoryAndMultipleTableHelper;
+import ACL_Desktop.AppObject.DesktopSuperHelper;
+
 import com.rational.test.ft.*;
 import com.rational.test.ft.object.interfaces.*;
 import com.rational.test.ft.object.interfaces.SAP.*;
@@ -36,9 +38,13 @@ public class FilterHistoryAndMultipleTable extends FilterHistoryAndMultipleTable
 
 	public void testMain(Object[] args) 
 	{
-		//startFromLine = 16; // 4-9
-	    //endAtLine =16;     //
+		//startFromLine = 5; // 4-9
+	    //endAtLine =6;  
+	       //
+	    DesktopSuperHelper.setWelcomeTab(false);
 	    exeTestCase(args);
+	    DesktopSuperHelper.setWelcomeTab(true);
+	    sleep(0);
 	}
 			
 	public void onInitialize() {

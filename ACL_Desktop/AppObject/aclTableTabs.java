@@ -52,6 +52,9 @@ public class aclTableTabs extends aclTableTabsHelper
 		boolean ws = DesktopSuperHelper.keepWelcomeTab; // remove welcome page tab for L10N test - Steven
 		tabList.clear();
 		if(ws){
+//			if(aclRoutines.cmd_to==null||!aclRoutines.cmd_to.exists()){
+//		       new keywordUtil().invokeMenuCommand("Window->ShowWelcomeScreen");
+//			}
 		  tabList.add(DesktopSuperHelper.wPage);
 		  verifyActiveTable( 0);
 		  
@@ -89,6 +92,7 @@ public class aclTableTabs extends aclTableTabsHelper
 			}
 			  if(isTableItem(temp)&&isUnpined(temp)){
 				remove(temp	);
+				DesktopSuperHelper.activeTab += 1;
 				tabList.add(DesktopSuperHelper.activeTab,item);
 			  }else{
     		    tabList.add(item);
@@ -108,7 +112,10 @@ public class aclTableTabs extends aclTableTabsHelper
 	
 	public void handleWpage(){
 		if(!DesktopSuperHelper.keepWelcomeTab){
-		   if(DesktopSuperHelper.activeTab<0){
+		   //if(DesktopSuperHelper.activeTab<0){
+		   if(tabList.size()==0){
+			     clickCloseTab(DesktopSuperHelper.wPage);
+			     sleep(2);
 			     clickCloseTab(DesktopSuperHelper.wPage);
 		   }
 		}
@@ -147,7 +154,10 @@ public class aclTableTabs extends aclTableTabsHelper
 	public boolean verifyTabStatus(String item){		
        boolean found = false;
 	   String tableStatus = getTableStatus(item);
-	   
+	   if( tableStatus.equals("Not a table")){
+		   found = true;
+		   return found;
+	   }
 	   if(tableStatus.matches("(?i)"+item+"\\|.*")){
 		   found = true;
 		   LoggerHelper.logTAFInfo(item+" has been opened/activated successfully.");
@@ -155,8 +165,6 @@ public class aclTableTabs extends aclTableTabsHelper
 			   tableStatus.equals("")){
 		   found = true;
 		   LoggerHelper.logTAFWarning("Failed to open/activate table '"+item+"'?");
-	   }else if( tableStatus.equals("Not a table")){
-		   found = true;		  
 	   }else{
 		   found = false;
 		   LoggerHelper.logTAFWarning("Failed to open/activate table '"+item+"'? current active item is '"+tableStatus+"'");
@@ -251,7 +259,9 @@ public class aclTableTabs extends aclTableTabsHelper
 	 }
 	 
      public boolean clickCloseTab(String tab){
-    	 try{
+    	 if(!tabCtrlwindow().exists())
+    		 return true;
+    	 try{    		
     	    ObjectHelper.click(tabCtrlwindow(),getCloseTabPoint(),"Close Tab "+tab);
     	    remove(tab);
     	    return true;
@@ -334,7 +344,15 @@ public class aclTableTabs extends aclTableTabsHelper
     	 return isTableItem(tabList.get(index));
      }
      public boolean isTableItem(String tab){
-    	 return !tab.equalsIgnoreCase(DesktopSuperHelper.wPage);
+    	 boolean isTable = false;
+    	 if(!(tab==null)
+    			 &&!("".equals(tab.trim()))
+    			 &&!(tab.equalsIgnoreCase(DesktopSuperHelper.wPage)
+    					 ||tab.equalsIgnoreCase(DesktopSuperHelper.wPageLoc))
+    			 ){
+    				 isTable = true;
+    			 }
+    	 return isTable;
      }
 	 public int lengthOf(String tab,boolean active){
 		 int index = 1;

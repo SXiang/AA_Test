@@ -461,7 +461,8 @@ public class ProjectConf {
 		if(new File(localizationDir+curMap).exists()&&(prefix.equalsIgnoreCase("en")||!updateMasterFile)){
 			LoggerHelper.logTAFDebug("Using current maps - Locale "+prefix);
 			return;
-		}else if(new File(localizationDir+mapLabel+"en").exists()){
+		}
+		else if(new File(localizationDir+mapLabel+"en").exists()){
 			FileUtil.copyFile(objectMapDir+"*.rftmap",i18nMapBackupDir+"*.en"+"_LastWorking_rftmap" ,false);
 			FileUtil.copyFile(objectMapDir2+"*.rftmap",i18nMapBackupDir2+"*.en"+"_LastWorking_rftmap",false);
 		}
@@ -488,7 +489,13 @@ public class ProjectConf {
 		LoggerHelper.logTAFDebug("Copy RFT map from "+i18nMapBackupDir2+"*."+prefix+"_rftmap"+
                 " to "+objectMapDir2+"*.rftmap");
 		FileUtil.copyFile(i18nMapBackupDir2+"*."+prefix+"_rftmap", objectMapDir2+"*.rftmap",false);
-		
+		try {
+			
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		LoggerHelper.logTAFInfo("Map updated for - Locale "+prefix);
 		return;
 	}

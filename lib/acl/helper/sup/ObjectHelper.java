@@ -712,7 +712,15 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 			}
 			return true;
 		}
-		public void moveScrollbar(BrowserTestObject browser, GuiTestObject logo,String direction){
+		public int compareString(String str1,String str2){
+			//A=65,a=97
+			int result = 0;
+			char ch1 = str1.charAt(0);
+			char ch2 = str2.charAt(0);
+			result = ch1 - ch2;
+			return result;
+		}
+		public void moveScrollbar(ITopWindow browser, GuiTestObject logo,String direction){
 		    int numMove = 50;
 		    String shortcut = "{PGUP}";
 		    
@@ -1565,17 +1573,20 @@ public class ObjectHelper extends RFTGuiFinderHelper{
     	   // Debugging ... Steven, we should use system linefeed instead? 
     	   String oriInput = input;
     	   String output;
-    	   output = input.replace(System.getProperty("line.separator").toString(), to);
+    	   
+    	   
+    	   //not so sure this line will work properly on diff os
+    	   output = input.replace(sysLineSep.toString(), to);
+    	   //these 3 lines are supposed to be removed -- Steven.
     	   output = input.replaceAll("\\r ",to);
-    	   output = output.replaceAll("\\r",to);
-    	   output = output.replaceAll("\\n","");
-    	   input = output;
-    	   output = input.replaceAll("\\r",to);
-    	  input = oriInput;
+    	   output = output.replaceAll("\\n",to);
+    	   output = output.replaceAll("\\r","");
+    	   
     	   return output;
        }      
        public static String removeLineFeed(String input){
-    	   return removeLineFeed(input,"/");
+    	   //return removeLineFeed(input,"/");
+    	   return removeLineFeed(input,"");
        }
        public static String getPrintableText(String text){  
     	   String[] pattern = {"[^\\p{Print}]+", //Not printable
@@ -3282,7 +3293,10 @@ public class ObjectHelper extends RFTGuiFinderHelper{
 	//****b. filtering message and compare with non error pattern
 	public static boolean isMatched(String msg,String exps,String cons){
 			boolean matched = false;
-			
+//			msg = "告诫！处理中的副本的大小比项目小或版本比项目旧。这是不正常的。是否仍要使用处理中的副本?Çüé_âäàåçêëèïîì_9_PÄ.ACL 58910 字节Tue Jun 04 19:44:48 2013Çüé_âäàåçêëèïîì_9_PÄ.AC 53186 字节Tue Jun 04 19:44:48 2013";
+//			String temp = getLocValues("All previously saved.*");
+//			if(msg.contains("All previously saved"))
+//				sleep(0);
 			String san_msg = sanitizeText(msg);	
 			String allString = exps;
 			if(!cons.equals("")){

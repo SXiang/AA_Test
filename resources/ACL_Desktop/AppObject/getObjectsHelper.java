@@ -17,12 +17,12 @@ import com.rational.test.ft.vp.IFtVerificationPoint;
 
 /**
  * Script Name   : <b>getObjects</b><br>
- * Generated     : <b>2012/10/24 3:19:58 PM</b><br>
+ * Generated     : <b>2013/06/03 3:10:01 PM</b><br>
  * Description   : Helper class for script<br>
  * Original Host : Windows XP x86 5.1 build 2600 Service Pack 3 <br>
  * 
- * @since  October 24, 2012
- * @author Steven_Xiang
+ * @since  June 03, 2013
+ * @author steven_xiang
  */
 public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 {
@@ -70,9 +70,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * ActivityLog: with default state.
-	 *		.text : Activity Log...
+	 *		.text : RegularExpression(Activity Log\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Activity Log...
+	 * 		.name : RegularExpression(Activity Log\.\.\.)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_ActivityLog() 
@@ -82,9 +82,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * ActivityLog: with specific test context and state.
-	 *		.text : Activity Log...
+	 *		.text : RegularExpression(Activity Log\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Activity Log...
+	 * 		.name : RegularExpression(Activity Log\.\.\.)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_ActivityLog(TestObject anchor, long flags) 
@@ -95,9 +95,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Age: with default state.
-	 *		.text : Age...
+	 *		.text : RegularExpression(Age\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Age...
+	 * 		.name : RegularExpression(Age\.\.\.)
 	 * 		.classIndex : 6
 	 */
 	protected GuiSubitemTestObject acl_Age() 
@@ -107,9 +107,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Age: with specific test context and state.
-	 *		.text : Age...
+	 *		.text : RegularExpression(Age\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Age...
+	 * 		.name : RegularExpression(Age\.\.\.)
 	 * 		.classIndex : 6
 	 */
 	protected GuiSubitemTestObject acl_Age(TestObject anchor, long flags) 
@@ -120,9 +120,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Analyze: with default state.
-	 *		.text : Analyze
+	 *		.text : RegularExpression(Analyze)
 	 * 		.class : .Menuitem
-	 * 		.name : Analyze
+	 * 		.name : RegularExpression(Analyze)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_Analyze() 
@@ -132,9 +132,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Analyze: with specific test context and state.
-	 *		.text : Analyze
+	 *		.text : RegularExpression(Analyze)
 	 * 		.class : .Menuitem
-	 * 		.name : Analyze
+	 * 		.name : RegularExpression(Analyze)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_Analyze(TestObject anchor, long flags) 
@@ -145,9 +145,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Applications: with default state.
-	 *		.text : Applications
+	 *		.text : RegularExpression(Applications)
 	 * 		.class : .Menuitem
-	 * 		.name : Applications
+	 * 		.name : RegularExpression(Applications)
 	 * 		.classIndex : 5
 	 */
 	protected GuiSubitemTestObject acl_Applications() 
@@ -157,9 +157,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Applications: with specific test context and state.
-	 *		.text : Applications
+	 *		.text : RegularExpression(Applications)
 	 * 		.class : .Menuitem
-	 * 		.name : Applications
+	 * 		.name : RegularExpression(Applications)
 	 * 		.classIndex : 5
 	 */
 	protected GuiSubitemTestObject acl_Applications(TestObject anchor, long flags) 
@@ -170,9 +170,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * CalculateSampleSize: with default state.
-	 *		.text : Calculate Sample Size...
+	 *		.text : RegularExpression(Calculate Sample Size\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Calculate Sample Size...
+	 * 		.name : RegularExpression(Calculate Sample Size\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_CalculateSampleSize() 
@@ -182,9 +182,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * CalculateSampleSize: with specific test context and state.
-	 *		.text : Calculate Sample Size...
+	 *		.text : RegularExpression(Calculate Sample Size\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Calculate Sample Size...
+	 * 		.name : RegularExpression(Calculate Sample Size\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_CalculateSampleSize(TestObject anchor, long flags) 
@@ -195,9 +195,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Classify: with default state.
-	 *		.text : Classify...
+	 *		.text : RegularExpression(Classify\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Classify...
+	 * 		.name : RegularExpression(Classify\.\.\.)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_Classify() 
@@ -207,9 +207,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Classify: with specific test context and state.
-	 *		.text : Classify...
+	 *		.text : RegularExpression(Classify\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Classify...
+	 * 		.name : RegularExpression(Classify\.\.\.)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_Classify(TestObject anchor, long flags) 
@@ -220,9 +220,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * ClearHistory: with default state.
-	 *		.text : Clear History
+	 *		.text : RegularExpression(Clear History)
 	 * 		.class : .Menuitem
-	 * 		.name : Clear History
+	 * 		.name : RegularExpression(Clear History)
 	 */
 	protected GuiSubitemTestObject acl_ClearHistory() 
 	{
@@ -231,9 +231,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * ClearHistory: with specific test context and state.
-	 *		.text : Clear History
+	 *		.text : RegularExpression(Clear History)
 	 * 		.class : .Menuitem
-	 * 		.name : Clear History
+	 * 		.name : RegularExpression(Clear History)
 	 */
 	protected GuiSubitemTestObject acl_ClearHistory(TestObject anchor, long flags) 
 	{
@@ -243,9 +243,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * CloseProject: with default state.
-	 *		.text : Close Project
+	 *		.text : RegularExpression(Close Project)
 	 * 		.class : .Menuitem
-	 * 		.name : Close Project
+	 * 		.name : RegularExpression(Close Project)
 	 * 		.classIndex : 7
 	 */
 	protected GuiSubitemTestObject acl_CloseProject() 
@@ -255,9 +255,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * CloseProject: with specific test context and state.
-	 *		.text : Close Project
+	 *		.text : RegularExpression(Close Project)
 	 * 		.class : .Menuitem
-	 * 		.name : Close Project
+	 * 		.name : RegularExpression(Close Project)
 	 * 		.classIndex : 7
 	 */
 	protected GuiSubitemTestObject acl_CloseProject(TestObject anchor, long flags) 
@@ -268,9 +268,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Connect: with default state.
-	 *		.text : Connect...
+	 *		.text : RegularExpression(Connect\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Connect...
+	 * 		.name : RegularExpression(Connect\.\.\.)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_Connect() 
@@ -280,9 +280,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Connect: with specific test context and state.
-	 *		.text : Connect...
+	 *		.text : RegularExpression(Connect\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Connect...
+	 * 		.name : RegularExpression(Connect\.\.\.)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_Connect(TestObject anchor, long flags) 
@@ -318,9 +318,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * CreateIndex: with default state.
-	 *		.text : Create Index...
+	 *		.text : RegularExpression(Create Index\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Create Index...
+	 * 		.name : RegularExpression(Create Index\.\.\.)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_CreateIndex() 
@@ -330,9 +330,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * CreateIndex: with specific test context and state.
-	 *		.text : Create Index...
+	 *		.text : RegularExpression(Create Index\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Create Index...
+	 * 		.name : RegularExpression(Create Index\.\.\.)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_CreateIndex(TestObject anchor, long flags) 
@@ -343,9 +343,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * CreateTemplate: with default state.
-	 *		.text : Create Template...
+	 *		.text : RegularExpression(Create Template\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Create Template...
+	 * 		.name : RegularExpression(Create Template\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_CreateTemplate() 
@@ -355,9 +355,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * CreateTemplate: with specific test context and state.
-	 *		.text : Create Template...
+	 *		.text : RegularExpression(Create Template\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Create Template...
+	 * 		.name : RegularExpression(Create Template\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_CreateTemplate(TestObject anchor, long flags) 
@@ -368,9 +368,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * CrossTabulate: with default state.
-	 *		.text : Cross-tabulate...
+	 *		.text : RegularExpression(Cross-tabulate\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Cross-tabulate...
+	 * 		.name : RegularExpression(Cross-tabulate\.\.\.)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_CrossTabulate() 
@@ -380,9 +380,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * CrossTabulate: with specific test context and state.
-	 *		.text : Cross-tabulate...
+	 *		.text : RegularExpression(Cross-tabulate\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Cross-tabulate...
+	 * 		.name : RegularExpression(Cross-tabulate\.\.\.)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_CrossTabulate(TestObject anchor, long flags) 
@@ -393,9 +393,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * CrystalReports: with default state.
-	 *		.text : Crystal Reports
+	 *		.text : RegularExpression(Crystal Reports)
 	 * 		.class : .Menuitem
-	 * 		.name : Crystal Reports
+	 * 		.name : RegularExpression(Crystal Reports)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_CrystalReports() 
@@ -405,9 +405,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * CrystalReports: with specific test context and state.
-	 *		.text : Crystal Reports
+	 *		.text : RegularExpression(Crystal Reports)
 	 * 		.class : .Menuitem
-	 * 		.name : Crystal Reports
+	 * 		.name : RegularExpression(Crystal Reports)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_CrystalReports(TestObject anchor, long flags) 
@@ -418,9 +418,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Data: with default state.
-	 *		.text : Data
+	 *		.text : RegularExpression(Data)
 	 * 		.class : .Menuitem
-	 * 		.name : Data
+	 * 		.name : RegularExpression(Data)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_Data() 
@@ -430,9 +430,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Data: with specific test context and state.
-	 *		.text : Data
+	 *		.text : RegularExpression(Data)
 	 * 		.class : .Menuitem
-	 * 		.name : Data
+	 * 		.name : RegularExpression(Data)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_Data(TestObject anchor, long flags) 
@@ -443,9 +443,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * DatabaseProfiles: with default state.
-	 *		.text : Database Profiles...
+	 *		.text : RegularExpression(Database Profiles\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Database Profiles...
+	 * 		.name : RegularExpression(Database Profiles\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_DatabaseProfiles() 
@@ -455,9 +455,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * DatabaseProfiles: with specific test context and state.
-	 *		.text : Database Profiles...
+	 *		.text : RegularExpression(Database Profiles\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Database Profiles...
+	 * 		.name : RegularExpression(Database Profiles\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_DatabaseProfiles(TestObject anchor, long flags) 
@@ -468,9 +468,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Delete: with default state.
-	 *		.text : Delete
+	 *		.text : RegularExpression(Delete)
 	 * 		.class : .Menuitem
-	 * 		.name : Delete
+	 * 		.name : RegularExpression(Delete)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_Delete() 
@@ -480,9 +480,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Delete: with specific test context and state.
-	 *		.text : Delete
+	 *		.text : RegularExpression(Delete)
 	 * 		.class : .Menuitem
-	 * 		.name : Delete
+	 * 		.name : RegularExpression(Delete)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_Delete(TestObject anchor, long flags) 
@@ -493,9 +493,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * DeleteAllNotesFromTable: with default state.
-	 *		.text : Delete All Notes from Table
+	 *		.text : RegularExpression(Delete All Notes from Table)
 	 * 		.class : .Menuitem
-	 * 		.name : Delete All Notes from Table
+	 * 		.name : RegularExpression(Delete All Notes from Table)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_DeleteAllNotesFromTable() 
@@ -505,9 +505,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * DeleteAllNotesFromTable: with specific test context and state.
-	 *		.text : Delete All Notes from Table
+	 *		.text : RegularExpression(Delete All Notes from Table)
 	 * 		.class : .Menuitem
-	 * 		.name : Delete All Notes from Table
+	 * 		.name : RegularExpression(Delete All Notes from Table)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_DeleteAllNotesFromTable(TestObject anchor, long flags) 
@@ -518,9 +518,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Disconnect: with default state.
-	 *		.text : Disconnect...
+	 *		.text : RegularExpression(Disconnect\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Disconnect...
+	 * 		.name : RegularExpression(Disconnect\.\.\.)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_Disconnect() 
@@ -530,9 +530,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Disconnect: with specific test context and state.
-	 *		.text : Disconnect...
+	 *		.text : RegularExpression(Disconnect\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Disconnect...
+	 * 		.name : RegularExpression(Disconnect\.\.\.)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_Disconnect(TestObject anchor, long flags) 
@@ -593,9 +593,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Edit: with default state.
-	 *		.text : Edit
+	 *		.text : RegularExpression(Edit)
 	 * 		.class : .Menuitem
-	 * 		.name : Edit
+	 * 		.name : RegularExpression(Edit)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_Edit() 
@@ -605,9 +605,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Edit: with specific test context and state.
-	 *		.text : Edit
+	 *		.text : RegularExpression(Edit)
 	 * 		.class : .Menuitem
-	 * 		.name : Edit
+	 * 		.name : RegularExpression(Edit)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_Edit(TestObject anchor, long flags) 
@@ -618,9 +618,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * EditNote: with default state.
-	 *		.text : Edit Note...
+	 *		.text : RegularExpression(Edit Note\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Edit Note...
+	 * 		.name : RegularExpression(Edit Note\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_EditNote() 
@@ -630,9 +630,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * EditNote: with specific test context and state.
-	 *		.text : Edit Note...
+	 *		.text : RegularExpression(Edit Note\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Edit Note...
+	 * 		.name : RegularExpression(Edit Note\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_EditNote(TestObject anchor, long flags) 
@@ -643,9 +643,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * EvaluateError: with default state.
-	 *		.text : Evaluate Error...
+	 *		.text : RegularExpression(Evaluate Error\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Evaluate Error...
+	 * 		.name : RegularExpression(Evaluate Error\.\.\.)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_EvaluateError() 
@@ -655,9 +655,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * EvaluateError: with specific test context and state.
-	 *		.text : Evaluate Error...
+	 *		.text : RegularExpression(Evaluate Error\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Evaluate Error...
+	 * 		.name : RegularExpression(Evaluate Error\.\.\.)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_EvaluateError(TestObject anchor, long flags) 
@@ -693,9 +693,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * ExportToOtherApplication: with default state.
-	 *		.text : Export To Other Application...
+	 *		.text : RegularExpression(Export To Other Application\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Export To Other Application...
+	 * 		.name : RegularExpression(Export To Other Application\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_ExportToApp() 
@@ -705,9 +705,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * ExportToOtherApplication: with specific test context and state.
-	 *		.text : Export To Other Application...
+	 *		.text : RegularExpression(Export To Other Application\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Export To Other Application...
+	 * 		.name : RegularExpression(Export To Other Application\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_ExportToApp(TestObject anchor, long flags) 
@@ -718,9 +718,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * ExtractData: with default state.
-	 *		.text : Extract Data...
+	 *		.text : RegularExpression(Extract Data\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Extract Data...
+	 * 		.name : RegularExpression(Extract Data\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_ExtractData() 
@@ -730,9 +730,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * ExtractData: with specific test context and state.
-	 *		.text : Extract Data...
+	 *		.text : RegularExpression(Extract Data\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Extract Data...
+	 * 		.name : RegularExpression(Extract Data\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_ExtractData(TestObject anchor, long flags) 
@@ -743,9 +743,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * File: with default state.
-	 *		.text : File
+	 *		.text : RegularExpression(File)
 	 * 		.class : .Menuitem
-	 * 		.name : File
+	 * 		.name : RegularExpression(File)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_File() 
@@ -755,9 +755,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * File: with specific test context and state.
-	 *		.text : File
+	 *		.text : RegularExpression(File)
 	 * 		.class : .Menuitem
-	 * 		.name : File
+	 * 		.name : RegularExpression(File)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_File(TestObject anchor, long flags) 
@@ -768,9 +768,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Filters: with default state.
-	 *		.text : Filters...
+	 *		.text : RegularExpression(Filters\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Filters...
+	 * 		.name : RegularExpression(Filters\.\.\.)
 	 * 		.classIndex : 6
 	 */
 	protected GuiSubitemTestObject acl_Filters() 
@@ -780,9 +780,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Filters: with specific test context and state.
-	 *		.text : Filters...
+	 *		.text : RegularExpression(Filters\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Filters...
+	 * 		.name : RegularExpression(Filters\.\.\.)
 	 * 		.classIndex : 6
 	 */
 	protected GuiSubitemTestObject acl_Filters(TestObject anchor, long flags) 
@@ -793,9 +793,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * FuzzyDuplicates: with default state.
-	 *		.text : Fuzzy Duplicates
+	 *		.text : RegularExpression(Fuzzy Duplicates)
 	 * 		.class : .Menuitem
-	 * 		.name : Fuzzy Duplicates
+	 * 		.name : RegularExpression(Fuzzy Duplicates)
 	 * 		.classIndex : 13
 	 */
 	protected GuiSubitemTestObject acl_FuzzyDuplicates() 
@@ -805,9 +805,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * FuzzyDuplicates: with specific test context and state.
-	 *		.text : Fuzzy Duplicates
+	 *		.text : RegularExpression(Fuzzy Duplicates)
 	 * 		.class : .Menuitem
-	 * 		.name : Fuzzy Duplicates
+	 * 		.name : RegularExpression(Fuzzy Duplicates)
 	 * 		.classIndex : 13
 	 */
 	protected GuiSubitemTestObject acl_FuzzyDuplicates(TestObject anchor, long flags) 
@@ -818,9 +818,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Help: with default state.
-	 *		.text : Help
+	 *		.text : RegularExpression(Help)
 	 * 		.class : .Menuitem
-	 * 		.name : Help
+	 * 		.name : RegularExpression(Help)
 	 * 		.classIndex : 9
 	 */
 	protected GuiSubitemTestObject acl_Help() 
@@ -830,9 +830,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Help: with specific test context and state.
-	 *		.text : Help
+	 *		.text : RegularExpression(Help)
 	 * 		.class : .Menuitem
-	 * 		.name : Help
+	 * 		.name : RegularExpression(Help)
 	 * 		.classIndex : 9
 	 */
 	protected GuiSubitemTestObject acl_Help(TestObject anchor, long flags) 
@@ -893,9 +893,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * LookForDuplicates: with default state.
-	 *		.text : Look for Duplicates...
+	 *		.text : RegularExpression(Look for Duplicates\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Look for Duplicates...
+	 * 		.name : RegularExpression(Look for Duplicates\.\.\.)
 	 * 		.classIndex : 12
 	 */
 	protected GuiSubitemTestObject acl_LookForDuplicates() 
@@ -905,9 +905,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * LookForDuplicates: with specific test context and state.
-	 *		.text : Look for Duplicates...
+	 *		.text : RegularExpression(Look for Duplicates\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Look for Duplicates...
+	 * 		.name : RegularExpression(Look for Duplicates\.\.\.)
 	 * 		.classIndex : 12
 	 */
 	protected GuiSubitemTestObject acl_LookForDuplicates(TestObject anchor, long flags) 
@@ -918,9 +918,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * LookForGaps: with default state.
-	 *		.text : Look for Gaps...
+	 *		.text : RegularExpression(Look for Gaps\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Look for Gaps...
+	 * 		.name : RegularExpression(Look for Gaps\.\.\.)
 	 * 		.classIndex : 11
 	 */
 	protected GuiSubitemTestObject acl_LookForGaps() 
@@ -930,9 +930,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * LookForGaps: with specific test context and state.
-	 *		.text : Look for Gaps...
+	 *		.text : RegularExpression(Look for Gaps\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Look for Gaps...
+	 * 		.name : RegularExpression(Look for Gaps\.\.\.)
 	 * 		.classIndex : 11
 	 */
 	protected GuiSubitemTestObject acl_LookForGaps(TestObject anchor, long flags) 
@@ -943,9 +943,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * MergeTables: with default state.
-	 *		.text : Merge Tables...
+	 *		.text : RegularExpression(Merge Tables\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Merge Tables...
+	 * 		.name : RegularExpression(Merge Tables\.\.\.)
 	 * 		.classIndex : 7
 	 */
 	protected GuiSubitemTestObject acl_MergeTables() 
@@ -955,9 +955,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * MergeTables: with specific test context and state.
-	 *		.text : Merge Tables...
+	 *		.text : RegularExpression(Merge Tables\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Merge Tables...
+	 * 		.name : RegularExpression(Merge Tables\.\.\.)
 	 * 		.classIndex : 7
 	 */
 	protected GuiSubitemTestObject acl_MergeTables(TestObject anchor, long flags) 
@@ -968,9 +968,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * New: with default state.
-	 *		.text : New
+	 *		.text : RegularExpression(New)
 	 * 		.class : .Menuitem
-	 * 		.name : New
+	 * 		.name : RegularExpression(New)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_New() 
@@ -980,9 +980,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * New: with specific test context and state.
-	 *		.text : New
+	 *		.text : RegularExpression(New)
 	 * 		.class : .Menuitem
-	 * 		.name : New
+	 * 		.name : RegularExpression(New)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_New(TestObject anchor, long flags) 
@@ -993,9 +993,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Folder: with default state.
-	 *		.text : Folder...
+	 *		.text : RegularExpression(Folder\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Folder...
+	 * 		.name : RegularExpression(Folder\.\.\.)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_NewFolder() 
@@ -1005,9 +1005,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Folder: with specific test context and state.
-	 *		.text : Folder...
+	 *		.text : RegularExpression(Folder\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Folder...
+	 * 		.name : RegularExpression(Folder\.\.\.)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_NewFolder(TestObject anchor, long flags) 
@@ -1018,9 +1018,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Project: with default state.
-	 *		.text : Project...
+	 *		.text : RegularExpression(Project\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Project...
+	 * 		.name : RegularExpression(Project\.\.\.)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_NewProject() 
@@ -1030,9 +1030,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Project: with specific test context and state.
-	 *		.text : Project...
+	 *		.text : RegularExpression(Project\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Project...
+	 * 		.name : RegularExpression(Project\.\.\.)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_NewProject(TestObject anchor, long flags) 
@@ -1043,9 +1043,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Script: with default state.
-	 *		.text : Script...
+	 *		.text : RegularExpression(Script\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Script...
+	 * 		.name : RegularExpression(Script\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_NewScript() 
@@ -1055,9 +1055,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Script: with specific test context and state.
-	 *		.text : Script...
+	 *		.text : RegularExpression(Script\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Script...
+	 * 		.name : RegularExpression(Script\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_NewScript(TestObject anchor, long flags) 
@@ -1068,9 +1068,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Table: with default state.
-	 *		.text : Table...
+	 *		.text : RegularExpression(Table\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Table...
+	 * 		.name : RegularExpression(Table\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_NewTable() 
@@ -1080,9 +1080,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Table: with specific test context and state.
-	 *		.text : Table...
+	 *		.text : RegularExpression(Table\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Table...
+	 * 		.name : RegularExpression(Table\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_NewTable(TestObject anchor, long flags) 
@@ -1093,9 +1093,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Workspace: with default state.
-	 *		.text : Workspace...
+	 *		.text : RegularExpression(Workspace\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Workspace...
+	 * 		.name : RegularExpression(Workspace\.\.\.)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_NewWorkspace() 
@@ -1105,9 +1105,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Workspace: with specific test context and state.
-	 *		.text : Workspace...
+	 *		.text : RegularExpression(Workspace\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Workspace...
+	 * 		.name : RegularExpression(Workspace\.\.\.)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_NewWorkspace(TestObject anchor, long flags) 
@@ -1118,9 +1118,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Notes: with default state.
-	 *		.text : Notes
+	 *		.text : RegularExpression(Notes)
 	 * 		.class : .Menuitem
-	 * 		.name : Notes
+	 * 		.name : RegularExpression(Notes)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_Notes() 
@@ -1130,9 +1130,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Notes: with specific test context and state.
-	 *		.text : Notes
+	 *		.text : RegularExpression(Notes)
 	 * 		.class : .Menuitem
-	 * 		.name : Notes
+	 * 		.name : RegularExpression(Notes)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_Notes(TestObject anchor, long flags) 
@@ -1168,9 +1168,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Options: with default state.
-	 *		.text : Options...
+	 *		.text : RegularExpression(Options\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Options...
+	 * 		.name : RegularExpression(Options\.\.\.)
 	 * 		.classIndex : 10
 	 */
 	protected GuiSubitemTestObject acl_Options() 
@@ -1180,9 +1180,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Options: with specific test context and state.
-	 *		.text : Options...
+	 *		.text : RegularExpression(Options\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Options...
+	 * 		.name : RegularExpression(Options\.\.\.)
 	 * 		.classIndex : 10
 	 */
 	protected GuiSubitemTestObject acl_Options(TestObject anchor, long flags) 
@@ -1193,9 +1193,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * PageSetup: with default state.
-	 *		.text : Page Setup...
+	 *		.text : RegularExpression(Page Setup\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Page Setup...
+	 * 		.name : RegularExpression(Page Setup\.\.\.)
 	 * 		.classIndex : 10
 	 */
 	protected GuiSubitemTestObject acl_PageSetup() 
@@ -1205,9 +1205,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * PageSetup: with specific test context and state.
-	 *		.text : Page Setup...
+	 *		.text : RegularExpression(Page Setup\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Page Setup...
+	 * 		.name : RegularExpression(Page Setup\.\.\.)
 	 * 		.classIndex : 10
 	 */
 	protected GuiSubitemTestObject acl_PageSetup(TestObject anchor, long flags) 
@@ -1218,9 +1218,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * PerformBenfordAnalysis: with default state.
-	 *		.text : Perform Benford Analysis...
+	 *		.text : RegularExpression(Perform Benford Analysis\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Perform Benford Analysis...
+	 * 		.name : RegularExpression(Perform Benford Analysis\.\.\.)
 	 * 		.classIndex : 9
 	 */
 	protected GuiSubitemTestObject acl_PerformBenfordAnalysis() 
@@ -1230,9 +1230,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * PerformBenfordAnalysis: with specific test context and state.
-	 *		.text : Perform Benford Analysis...
+	 *		.text : RegularExpression(Perform Benford Analysis\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Perform Benford Analysis...
+	 * 		.name : RegularExpression(Perform Benford Analysis\.\.\.)
 	 * 		.classIndex : 9
 	 */
 	protected GuiSubitemTestObject acl_PerformBenfordAnalysis(TestObject anchor, long flags) 
@@ -1243,9 +1243,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * PrintPreview: with default state.
-	 *		.text : Print Preview
+	 *		.text : RegularExpression(Print Preview)
 	 * 		.class : .Menuitem
-	 * 		.name : Print Preview
+	 * 		.name : RegularExpression(Print Preview)
 	 * 		.classIndex : 12
 	 */
 	protected GuiSubitemTestObject acl_PrintPreview() 
@@ -1255,9 +1255,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * PrintPreview: with specific test context and state.
-	 *		.text : Print Preview
+	 *		.text : RegularExpression(Print Preview)
 	 * 		.class : .Menuitem
-	 * 		.name : Print Preview
+	 * 		.name : RegularExpression(Print Preview)
 	 * 		.classIndex : 12
 	 */
 	protected GuiSubitemTestObject acl_PrintPreview(TestObject anchor, long flags) 
@@ -1268,9 +1268,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Profile: with default state.
-	 *		.text : Profile...
+	 *		.text : RegularExpression(Profile\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Profile...
+	 * 		.name : RegularExpression(Profile\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_Profile() 
@@ -1280,9 +1280,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Profile: with specific test context and state.
-	 *		.text : Profile...
+	 *		.text : RegularExpression(Profile\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Profile...
+	 * 		.name : RegularExpression(Profile\.\.\.)
 	 * 		.classIndex : 1
 	 */
 	protected GuiSubitemTestObject acl_Profile(TestObject anchor, long flags) 
@@ -1293,9 +1293,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Properties: with default state.
-	 *		.text : Properties...
+	 *		.text : RegularExpression(Properties\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Properties...
+	 * 		.name : RegularExpression(Properties\.\.\.)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_Properties() 
@@ -1305,9 +1305,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Properties: with specific test context and state.
-	 *		.text : Properties...
+	 *		.text : RegularExpression(Properties\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Properties...
+	 * 		.name : RegularExpression(Properties\.\.\.)
 	 * 		.classIndex : 3
 	 */
 	protected GuiSubitemTestObject acl_Properties(TestObject anchor, long flags) 
@@ -1318,9 +1318,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * RecentProjects: with default state.
-	 *		.text : Recent Projects
+	 *		.text : RegularExpression(Recent Projects)
 	 * 		.class : .Menupopup
-	 * 		.name : Recent Projects
+	 * 		.name : RegularExpression(Recent Projects)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_RPSMenu() 
@@ -1330,9 +1330,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * RecentProjects: with specific test context and state.
-	 *		.text : Recent Projects
+	 *		.text : RegularExpression(Recent Projects)
 	 * 		.class : .Menupopup
-	 * 		.name : Recent Projects
+	 * 		.name : RegularExpression(Recent Projects)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_RPSMenu(TestObject anchor, long flags) 
@@ -1343,9 +1343,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * RecentProjects: with default state.
-	 *		.text : Recent Projects
+	 *		.text : RegularExpression(Recent Projects)
 	 * 		.class : .Menuitem
-	 * 		.name : Recent Projects
+	 * 		.name : RegularExpression(Recent Projects)
 	 * 		.classIndex : 14
 	 */
 	protected GuiSubitemTestObject acl_RecentProjects() 
@@ -1355,9 +1355,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * RecentProjects: with specific test context and state.
-	 *		.text : Recent Projects
+	 *		.text : RegularExpression(Recent Projects)
 	 * 		.class : .Menuitem
-	 * 		.name : Recent Projects
+	 * 		.name : RegularExpression(Recent Projects)
 	 * 		.classIndex : 14
 	 */
 	protected GuiSubitemTestObject acl_RecentProjects(TestObject anchor, long flags) 
@@ -1368,9 +1368,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * RelateTables: with default state.
-	 *		.text : Relate Tables...
+	 *		.text : RegularExpression(Relate Tables\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Relate Tables...
+	 * 		.name : RegularExpression(Relate Tables\.\.\.)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_RelateTables() 
@@ -1380,9 +1380,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * RelateTables: with specific test context and state.
-	 *		.text : Relate Tables...
+	 *		.text : RegularExpression(Relate Tables\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Relate Tables...
+	 * 		.name : RegularExpression(Relate Tables\.\.\.)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_RelateTables(TestObject anchor, long flags) 
@@ -1393,9 +1393,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Rename: with default state.
-	 *		.text : Rename
+	 *		.text : RegularExpression(Rename)
 	 * 		.class : .Menuitem
-	 * 		.name : Rename
+	 * 		.name : RegularExpression(Rename)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_Rename() 
@@ -1405,9 +1405,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Rename: with specific test context and state.
-	 *		.text : Rename
+	 *		.text : RegularExpression(Rename)
 	 * 		.class : .Menuitem
-	 * 		.name : Rename
+	 * 		.name : RegularExpression(Rename)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_Rename(TestObject anchor, long flags) 
@@ -1493,9 +1493,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Sampling: with default state.
-	 *		.text : Sampling
+	 *		.text : RegularExpression(Sampling)
 	 * 		.class : .Menuitem
-	 * 		.name : Sampling
+	 * 		.name : RegularExpression(Sampling)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_Sampling() 
@@ -1505,9 +1505,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Sampling: with specific test context and state.
-	 *		.text : Sampling
+	 *		.text : RegularExpression(Sampling)
 	 * 		.class : .Menuitem
-	 * 		.name : Sampling
+	 * 		.name : RegularExpression(Sampling)
 	 * 		.classIndex : 4
 	 */
 	protected GuiSubitemTestObject acl_Sampling(TestObject anchor, long flags) 
@@ -1518,9 +1518,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Save: with default state.
-	 *		.text : Save
+	 *		.text : RegularExpression(Save)
 	 * 		.class : .Menuitem
-	 * 		.name : Save
+	 * 		.name : RegularExpression(Save)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_Save() 
@@ -1530,9 +1530,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Save: with specific test context and state.
-	 *		.text : Save
+	 *		.text : RegularExpression(Save)
 	 * 		.class : .Menuitem
-	 * 		.name : Save
+	 * 		.name : RegularExpression(Save)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_Save(TestObject anchor, long flags) 
@@ -1543,9 +1543,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * SaveAs: with default state.
-	 *		.text : Save As..
+	 *		.text : RegularExpression(Save As\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Save As..
+	 * 		.name : RegularExpression(Save As\.\.)
 	 * 		.classIndex : 9
 	 */
 	protected GuiSubitemTestObject acl_SaveAs() 
@@ -1555,9 +1555,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * SaveAs: with specific test context and state.
-	 *		.text : Save As..
+	 *		.text : RegularExpression(Save As\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Save As..
+	 * 		.name : RegularExpression(Save As\.\.)
 	 * 		.classIndex : 9
 	 */
 	protected GuiSubitemTestObject acl_SaveAs(TestObject anchor, long flags) 
@@ -1593,9 +1593,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * SaveProjectAs: with default state.
-	 *		.text : Save Project As...
+	 *		.text : RegularExpression(Save Project As\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Save Project As...
+	 * 		.name : RegularExpression(Save Project As\.\.\.)
 	 * 		.classIndex : 6
 	 */
 	protected GuiSubitemTestObject acl_SaveProjectAs() 
@@ -1605,9 +1605,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * SaveProjectAs: with specific test context and state.
-	 *		.text : Save Project As...
+	 *		.text : RegularExpression(Save Project As\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Save Project As...
+	 * 		.name : RegularExpression(Save Project As\.\.\.)
 	 * 		.classIndex : 6
 	 */
 	protected GuiSubitemTestObject acl_SaveProjectAs(TestObject anchor, long flags) 
@@ -1618,9 +1618,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Server: with default state.
-	 *		.text : Server
+	 *		.text : RegularExpression(Server)
 	 * 		.class : .Menuitem
-	 * 		.name : Server
+	 * 		.name : RegularExpression(Server)
 	 * 		.classIndex : 7
 	 */
 	protected GuiSubitemTestObject acl_Server() 
@@ -1630,9 +1630,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Server: with specific test context and state.
-	 *		.text : Server
+	 *		.text : RegularExpression(Server)
 	 * 		.class : .Menuitem
-	 * 		.name : Server
+	 * 		.name : RegularExpression(Server)
 	 * 		.classIndex : 7
 	 */
 	protected GuiSubitemTestObject acl_Server(TestObject anchor, long flags) 
@@ -1643,9 +1643,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * ServerProfiles: with default state.
-	 *		.text : Server Profiles...
+	 *		.text : RegularExpression(Server Profiles\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Server Profiles...
+	 * 		.name : RegularExpression(Server Profiles\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_ServerProfiles() 
@@ -1655,9 +1655,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * ServerProfiles: with specific test context and state.
-	 *		.text : Server Profiles...
+	 *		.text : RegularExpression(Server Profiles\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Server Profiles...
+	 * 		.name : RegularExpression(Server Profiles\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_ServerProfiles(TestObject anchor, long flags) 
@@ -1668,9 +1668,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * ShowCommandLine: with default state.
-	 *		.text : Show Command Line
+	 *		.text : RegularExpression(Show Command Line)
 	 * 		.class : .Menuitem
-	 * 		.name : Show Command Line
+	 * 		.name : RegularExpression(Show Command Line)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_ShowCommandLine() 
@@ -1680,9 +1680,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * ShowCommandLine: with specific test context and state.
-	 *		.text : Show Command Line
+	 *		.text : RegularExpression(Show Command Line)
 	 * 		.class : .Menuitem
-	 * 		.name : Show Command Line
+	 * 		.name : RegularExpression(Show Command Line)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_ShowCommandLine(TestObject anchor, long flags) 
@@ -1692,10 +1692,35 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	
 	/**
-	 * SortRecords: with default state.
-	 *		.text : Sort Records...
+	 * ShowWelcomeScreen: with default state.
+	 *		.text : RegularExpression(Show Welcome Screen)
 	 * 		.class : .Menuitem
-	 * 		.name : Sort Records...
+	 * 		.name : RegularExpression(Show Welcome Screen)
+	 * 		.classIndex : 1
+	 */
+	protected GuiSubitemTestObject acl_ShowWelcomeScreen() 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("acl_ShowWelcomeScreen"));
+	}
+	/**
+	 * ShowWelcomeScreen: with specific test context and state.
+	 *		.text : RegularExpression(Show Welcome Screen)
+	 * 		.class : .Menuitem
+	 * 		.name : RegularExpression(Show Welcome Screen)
+	 * 		.classIndex : 1
+	 */
+	protected GuiSubitemTestObject acl_ShowWelcomeScreen(TestObject anchor, long flags) 
+	{
+		return new GuiSubitemTestObject(
+                        getMappedTestObject("acl_ShowWelcomeScreen"), anchor, flags);
+	}
+	
+	/**
+	 * SortRecords: with default state.
+	 *		.text : RegularExpression(Sort Records\.\.\.)
+	 * 		.class : .Menuitem
+	 * 		.name : RegularExpression(Sort Records\.\.\.)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_SortRecords() 
@@ -1705,9 +1730,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * SortRecords: with specific test context and state.
-	 *		.text : Sort Records...
+	 *		.text : RegularExpression(Sort Records\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Sort Records...
+	 * 		.name : RegularExpression(Sort Records\.\.\.)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_SortRecords(TestObject anchor, long flags) 
@@ -1718,9 +1743,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Statistical: with default state.
-	 *		.text : Statistical
+	 *		.text : RegularExpression(Statistical)
 	 * 		.class : .Menuitem
-	 * 		.name : Statistical
+	 * 		.name : RegularExpression(Statistical)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_Statistical() 
@@ -1730,9 +1755,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Statistical: with specific test context and state.
-	 *		.text : Statistical
+	 *		.text : RegularExpression(Statistical)
 	 * 		.class : .Menuitem
-	 * 		.name : Statistical
+	 * 		.name : RegularExpression(Statistical)
 	 * 		.classIndex : 2
 	 */
 	protected GuiSubitemTestObject acl_Statistical(TestObject anchor, long flags) 
@@ -1743,9 +1768,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Statistical: with default state.
-	 *		.text : Statistical
+	 *		.text : RegularExpression(Statistical)
 	 * 		.class : .Menupopup
-	 * 		.name : Statistical
+	 * 		.name : RegularExpression(Statistical)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_Statistical_2() 
@@ -1755,9 +1780,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Statistical: with specific test context and state.
-	 *		.text : Statistical
+	 *		.text : RegularExpression(Statistical)
 	 * 		.class : .Menupopup
-	 * 		.name : Statistical
+	 * 		.name : RegularExpression(Statistical)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_Statistical_2(TestObject anchor, long flags) 
@@ -1768,9 +1793,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Statistics: with default state.
-	 *		.text : Statistics...
+	 *		.text : RegularExpression(Statistics\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Statistics...
+	 * 		.name : RegularExpression(Statistics\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_Statistics() 
@@ -1780,9 +1805,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Statistics: with specific test context and state.
-	 *		.text : Statistics...
+	 *		.text : RegularExpression(Statistics\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Statistics...
+	 * 		.name : RegularExpression(Statistics\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_Statistics(TestObject anchor, long flags) 
@@ -1843,9 +1868,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Tools: with default state.
-	 *		.text : Tools
+	 *		.text : RegularExpression(Tools)
 	 * 		.class : .Menuitem
-	 * 		.name : Tools
+	 * 		.name : RegularExpression(Tools)
 	 * 		.classIndex : 6
 	 */
 	protected GuiSubitemTestObject acl_Tools() 
@@ -1855,9 +1880,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Tools: with specific test context and state.
-	 *		.text : Tools
+	 *		.text : RegularExpression(Tools)
 	 * 		.class : .Menuitem
-	 * 		.name : Tools
+	 * 		.name : RegularExpression(Tools)
 	 * 		.classIndex : 6
 	 */
 	protected GuiSubitemTestObject acl_Tools(TestObject anchor, long flags) 
@@ -1893,9 +1918,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * UpdateTemplate: with default state.
-	 *		.text : Update Template...
+	 *		.text : RegularExpression(Update Template\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Update Template...
+	 * 		.name : RegularExpression(Update Template\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_UpdateTemplate() 
@@ -1905,9 +1930,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * UpdateTemplate: with specific test context and state.
-	 *		.text : Update Template...
+	 *		.text : RegularExpression(Update Template\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Update Template...
+	 * 		.name : RegularExpression(Update Template\.\.\.)
 	 * 		.classIndex : 0
 	 */
 	protected GuiSubitemTestObject acl_UpdateTemplate(TestObject anchor, long flags) 
@@ -1918,9 +1943,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Variables: with default state.
-	 *		.text : Variables...
+	 *		.text : RegularExpression(Variables\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Variables...
+	 * 		.name : RegularExpression(Variables\.\.\.)
 	 * 		.classIndex : 7
 	 */
 	protected GuiSubitemTestObject acl_Variables() 
@@ -1930,9 +1955,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Variables: with specific test context and state.
-	 *		.text : Variables...
+	 *		.text : RegularExpression(Variables\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Variables...
+	 * 		.name : RegularExpression(Variables\.\.\.)
 	 * 		.classIndex : 7
 	 */
 	protected GuiSubitemTestObject acl_Variables(TestObject anchor, long flags) 
@@ -1943,9 +1968,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Verify: with default state.
-	 *		.text : Verify...
+	 *		.text : RegularExpression(Verify\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Verify...
+	 * 		.name : RegularExpression(Verify\.\.\.)
 	 * 		.classIndex : 9
 	 */
 	protected GuiSubitemTestObject acl_Verify() 
@@ -1955,9 +1980,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Verify: with specific test context and state.
-	 *		.text : Verify...
+	 *		.text : RegularExpression(Verify\.\.\.)
 	 * 		.class : .Menuitem
-	 * 		.name : Verify...
+	 * 		.name : RegularExpression(Verify\.\.\.)
 	 * 		.classIndex : 9
 	 */
 	protected GuiSubitemTestObject acl_Verify(TestObject anchor, long flags) 
@@ -1968,9 +1993,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	
 	/**
 	 * Window: with default state.
-	 *		.text : Window
+	 *		.text : RegularExpression(Window)
 	 * 		.class : .Menuitem
-	 * 		.name : Window
+	 * 		.name : RegularExpression(Window)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_Window() 
@@ -1980,9 +2005,9 @@ public abstract class getObjectsHelper extends lib.acl.helper.sup.ObjectHelper
 	}
 	/**
 	 * Window: with specific test context and state.
-	 *		.text : Window
+	 *		.text : RegularExpression(Window)
 	 * 		.class : .Menuitem
-	 * 		.name : Window
+	 * 		.name : RegularExpression(Window)
 	 * 		.classIndex : 8
 	 */
 	protected GuiSubitemTestObject acl_Window(TestObject anchor, long flags) 

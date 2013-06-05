@@ -79,6 +79,7 @@ public class InitializeTerminateHelper extends LoggerHelper {
 	public static String testCategory = "";
 	public static String sysPropPrefix = "AutoQA.";
 	
+	
 	// This two are  used for unicode support
 	protected String xlsName ="";
 	protected String poolFile="";
@@ -513,9 +514,9 @@ public class InitializeTerminateHelper extends LoggerHelper {
 
 			   if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){ // someone does not want to see this part in the report, so exclude it -- Steven
 				   summary = summary +"\n\n*\t <b>RESULTS:</b>";
-				   if(ProjectConf.appLocale.matches("(?i)Ko|Pl")){
-					   summary += "\t!!! No Korean|Polish aclse available, some tests skipped and tests may fail due to the failure of server connection!!!";
-				   }      
+//				   if(ProjectConf.appLocale.matches("(?i)Ko|Pl")){
+//					   summary += "\t!!! No Korean|Polish aclse available, some tests skipped and tests may fail due to the failure of server connection!!!";
+//				   }      
 				   summary = summary +"\n**\t Test Script start time: "+scriptStartTime;
 
 				   String targetT = "Keyword";

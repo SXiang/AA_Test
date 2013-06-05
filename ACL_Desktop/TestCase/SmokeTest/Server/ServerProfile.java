@@ -28,8 +28,8 @@ public class ServerProfile extends ServerProfileHelper
     
 	public void testMain(Object[] args) 
 	{
-		startFromLine = 18; 
-		endAtLine = 18 ;  
+		startFromLine = 2; 
+		endAtLine = 2 ;  
 	    exeTestCase(args);
 	}
 			

@@ -29,7 +29,7 @@ public class RelateTables extends RelateTablesHelper
 	public void testMain(Object[] args) 
 	{
 		startFromLine = 2; // 4-9
-		endAtLine = 2;     //
+		//endAtLine = 2;     //
 	    exeTestCase(args);
 	}
 			

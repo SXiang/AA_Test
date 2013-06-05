@@ -29,7 +29,7 @@ public class EvaluateError extends EvaluateErrorHelper
 	public void testMain(Object[] args) 
 	{
 		startFromLine = 2; // 
-		endAtLine = 3;     //
+		endAtLine = 2;     //
 	    exeTestCase(args);
 	}
 			
