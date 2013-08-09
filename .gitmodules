@@ -1,0 +1,3 @@
+[submodule "submodule"]
+	path = submodule
+	url = //nas2-dev/devroot/gitSubmodules/TestAutomation/framework.git
