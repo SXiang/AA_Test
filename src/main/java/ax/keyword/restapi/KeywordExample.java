@@ -2,9 +2,13 @@ package ax.keyword.restapi;
 
 import org.openqa.selenium.WebElement;
 
+<<<<<<< HEAD
 import ax.lib.KeywordTaskHelper;
 
 public class KeywordExample extends KeywordTaskHelper{
+=======
+public class KeywordExample extends YourKeywordHelper{
+>>>>>>> ba06f65b49a59b0afae594ff1e734ffa6397b2df
 		/**
 		 * Script Name   : <b>KeywordExample</b>
 		 * Generated     : <b>Mar 24, 2012 3:42:42 PM</b>
