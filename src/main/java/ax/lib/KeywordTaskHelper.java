@@ -1,5 +1,12 @@
 package ax.lib;
 
-public class KeywordTaskHelper extends KeywordHelper{
+import com.acl.qa.taf.helper.KeywordSuperHelper;
+
+public class KeywordTaskHelper extends KeywordSuperHelper{
+
+	public boolean dataInitialization() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
