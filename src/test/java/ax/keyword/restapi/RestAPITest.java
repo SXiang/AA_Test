@@ -35,6 +35,13 @@ public class RestAPITest  {
 	   String response = "No response?";
 	   String domain = "win2012-3.aclqa.local";
 	          //domain = "192.168.10.68";
+	   String[] scope = {
+			   "working",
+			   "library",
+			   "",
+			   "working",
+			   "library",
+	   };
 	   String[] url={"https://"+domain+":8443/aclax/api/projects",
 			         "https://"+domain+":8443/aclax/api/projects",
 			         "https://"+domain+":8443/aclax/api/projects",
@@ -43,8 +50,10 @@ public class RestAPITest  {
 	   
 	   int numTest=0;
 	   boolean casAuthenticated = false;
+	   
 	   while(numTest<url.length){
-		  
+		  if(scope.length>=url.length&&scope[numTest]!="")
+			  url[numTest] += "?scope="+scope[numTest];
 	      getPageWithCAS(driver,url[numTest],casAuthenticated);	
 	      System.out.println("中文显示：Get Rest API: "+url[numTest++]);
 	      
