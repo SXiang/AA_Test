@@ -1,4 +1,4 @@
-package com.acl.qa.ax.tasks.restapi;
+package ax.keyword.restapi;
 
 import java.io.IOException;
 

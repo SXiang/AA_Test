@@ -1,4 +1,4 @@
-package com.acl.qa.ax.tasks.restapi;
+package ax.keyword.restapi;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
@@ -18,9 +18,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.gargoylesoftware.htmlunit.*;
 
 
-public class RestAPITest  {
+public class Test{
     public static void main(String[] args) {
-        RestAPITest rait = new RestAPITest();
+        Test rait = new Test();
     	
         WebDriver driver;
          
