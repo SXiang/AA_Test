@@ -4,6 +4,13 @@ import pageObjects.LoginPage;
 import ax.lib.BrowserTaskHelper;
 
 public class Login extends BrowserTaskHelper{
+	/**
+	 * Script Name   : <b>Login</b>
+	 * Generated     : <b>Aug 13, 2013</b>
+	 * Description   : Login keyword
+	 * 
+	 * @author Ramneet Kaur
+	 */
 
 	//*********************** Shared Variables to be set in conf *******************
 	private String server = "win2012-3.aclqa.local";

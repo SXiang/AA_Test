@@ -6,9 +6,9 @@ import org.openqa.selenium.WebDriver;
 public class LoginPage{
 	
 	/**
-	 * Script Name   : <b>Login</b>
+	 * Script Name   : <b>LoginPage</b>
 	 * Generated     : <b>Aug 12, 2013</b>
-	 * Description   : Login to ACLAX
+	 * Description   : LoginPage
 	 * 
 	 * @since  Aug 12, 2013
 	 * @author Ramneet Kaur

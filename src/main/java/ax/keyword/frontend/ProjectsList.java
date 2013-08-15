@@ -5,7 +5,14 @@ import ax.lib.BrowserTaskHelper;
 
 public class ProjectsList extends BrowserTaskHelper{
 	
-
+	/**
+	 * Script Name   : <b>ProjectsList</b>
+	 * Generated     : <b>Aug 13, 2013</b>
+	 * Description   : ProjectsList keyword
+	 * 
+	 * @author Ramneet Kaur
+	 */
+	
 	public static void viewList() {
 		ProjectsListPage obj = new ProjectsListPage(driver);
 		obj.viewList();

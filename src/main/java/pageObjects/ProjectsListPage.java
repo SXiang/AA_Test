@@ -7,6 +7,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ProjectsListPage {
+	
+	/**
+	 * Script Name   : <b>ProjectsListPage</b>
+	 * Generated     : <b>Aug 14, 2013</b>
+	 * Description   : ProjectsListPage
+	 * 
+	 * @author Ramneet Kaur
+	 */
 
 	// Local variables
 	private final WebDriver driver;
@@ -20,6 +28,7 @@ public class ProjectsListPage {
 	static By listIconLocator = By.cssSelector("i.icon-reorder.view-toggle ");
 	static By cardIconLocator = By.xpath("//div/i");
 	static By projectNameLocator = By.linkText(dpProjectName);
+	static By allProjectsListLocator = By.className("projectTitle");
 	//end
    
 	
@@ -48,9 +57,12 @@ public class ProjectsListPage {
 	
 	public ProjectDetailsPage getAllProjects() {
 		
-        List<WebElement> allProjects = driver.findElements(By.className("projectTitle"));
+        List<WebElement> allProjects = driver.findElements(allProjectsListLocator);
+        System.out.println("\nProjectsize: "+allProjects.size()/2);
         for(int i = 0; i < allProjects.size(); i++) {
-            System.out.println("\nProject: "+allProjects.get(i));
+        	if(!"".equals(allProjects.get(i).getText())){
+        		System.out.println("\nProject: "+allProjects.get(i).getText());
+        	}
         }
         return new ProjectDetailsPage(driver);
 	}

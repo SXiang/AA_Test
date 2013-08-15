@@ -9,6 +9,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class BrowserTaskHelper {
+	
+	/**
+	 * Script Name   : <b>BrowserTaskHelper</b>
+	 * Generated     : <b>Aug 12, 2013</b>
+	 * Description   : BrowserTaskHelper
+	 * 
+	 * @since  Aug 12, 2013
+	 * @author Ramneet Kaur
+	 */
 
 	private static URL remoteURL;
 	protected static WebDriver driver;
