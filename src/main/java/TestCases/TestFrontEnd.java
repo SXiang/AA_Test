@@ -1,6 +1,7 @@
 package TestCases;
 
 import ax.keyword.frontend.Login;
+import ax.keyword.frontend.ProjectDetails;
 import ax.keyword.frontend.ProjectsList;
 
 public class TestFrontEnd {
@@ -14,13 +15,21 @@ public class TestFrontEnd {
 	 */
 	
 	public static void main(String[] args) {
-		
-		Login objLogin = new Login();
-		objLogin.testLogin();
-		ProjectsList.viewList();
-		ProjectsList.viewCards();
-		ProjectsList.getAllProjects();
+		//Login.allElementsPresent();
+		Login.testLogin();
+		//ProjectsList.allElementsPresent();
+		//ProjectsList.viewList();
+		//ProjectsList.viewCards();
+		//ProjectsList.getAllProjects();
 		ProjectsList.clickProjectName();
+		//ProjectDetails.allElementsPresent();
+		//ProjectDetails.getProjectName();
+		//ProjectDetails.getProjectDesc();
+		//ProjectDetails.getProjectCreatorName();
+		//ProjectDetails.getProjectCreatedDateTimeStamp();
+		//ProjectDetails.getProjectModifierName();
+		//ProjectDetails.getProjectModifiedDateTimeStamp();
+		//ProjectDetails.getProjectUsersList();
 		
 	}
 

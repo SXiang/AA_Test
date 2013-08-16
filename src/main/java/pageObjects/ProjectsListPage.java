@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import ax.lib.ReadDatapool;
+
 public class ProjectsListPage {
 	
 	/**
@@ -21,7 +23,7 @@ public class ProjectsListPage {
 	//end
 	
 	// BEGIN of datapool variables declaration   
-	private static String dpProjectName = "123456";	
+	private static String dpProjectName = ReadDatapool.getDpProjectName();	
 	 // END of datapool variables declaration	
 	
 	// locators of the web elements of login page
@@ -29,6 +31,9 @@ public class ProjectsListPage {
 	static By cardIconLocator = By.xpath("//div/i");
 	static By projectNameLocator = By.linkText(dpProjectName);
 	static By allProjectsListLocator = By.className("projectTitle");
+	static By projectHeaderLocator = By.className("project-header");
+	static By searchBoxLocator = By.className("search-query");
+	static By searchBoxIconLocator = By.className("icon-search");
 	//end
    
 	
@@ -56,14 +61,39 @@ public class ProjectsListPage {
 	}
 	
 	public ProjectDetailsPage getAllProjects() {
-		
         List<WebElement> allProjects = driver.findElements(allProjectsListLocator);
         System.out.println("\nProjectsize: "+allProjects.size()/2);
         for(int i = 0; i < allProjects.size(); i++) {
-        	if(!"".equals(allProjects.get(i).getText())){
+        	if(!"".equalsIgnoreCase(allProjects.get(i).getText())){
         		System.out.println("\nProject: "+allProjects.get(i).getText());
         	}
         }
         return new ProjectDetailsPage(driver);
 	}
+
+	public ProjectDetailsPage getProjectHeader() {
+		System.out.println("\nProject Header: "+driver.findElement(projectHeaderLocator).getText());
+        return new ProjectDetailsPage(driver);
+		
+	}	
+	
+	public boolean isListIconPresent() {
+        return driver.findElement(listIconLocator).isDisplayed(); 
+    }
+	public boolean isCardIconPresent() {
+        return driver.findElement(cardIconLocator).isDisplayed(); 
+    }
+	public boolean isProjectNamePresent() {
+        return driver.findElement(projectNameLocator).isDisplayed(); 
+    }
+	public boolean isProjectHeaderPresent() {
+        return driver.findElement(projectHeaderLocator).isDisplayed(); 
+    }
+	public boolean isSearchBoxPresent() {
+        return driver.findElement(searchBoxLocator).isEnabled(); 
+    }
+	public boolean isSearchBoxIconPresent() {
+        return driver.findElement(searchBoxIconLocator).isDisplayed(); 
+    }
+		
 }
