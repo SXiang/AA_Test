@@ -20,7 +20,7 @@ visuals/
 null/
 target/
 /U/
-resources/
+#resources/
 .gitmodules
 nexus/
 ACLProject/

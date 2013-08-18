@@ -6,6 +6,8 @@ public interface KeywordInterface {
 	// and invoked from testMain in keywordSuperHelper
 	
 	boolean dataInitialization(); 
+	public void onInitialize(Object[] args);
+	public void testMain(Object[] args);
 	//void exeCommands();
 	
 }

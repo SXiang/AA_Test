@@ -1,134 +1,129 @@
+/**
+ * 
+ */
 package ax.keyword.restapi;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+
+import com.acl.qa.taf.helper.Interface.KeywordInterface;
+import com.acl.qa.taf.util.UTF8Control;
+
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import ax.lib.KeywordTaskHelper;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class KeywordExample extends KeywordTaskHelper{
-		/**
-		 * Script Name   : <b>KeywordExample</b>
-		 * Generated     : <b>Mar 24, 2012 3:42:42 PM</b>
-		 * Description   : Functional Test Script
-		 * 
-		 * @since  2012/03/24
-		 * @author Steven_Xiang
-		 */
-	    //*********************** Shared Variables in KeywordHelper *******************
-		//***  dpOpenProject
-	    //***  dpEndWith
-	    //***  dpProjectName
-	    //***  dpUnicodeTest
-	    //
-	    
-	  //*********************** Shared Main test Variables  in YourKeywordHelper ***********
-	  //***  dpFields;  
-	  //***  dpExpression; 
-	  //***  dpIf;     
-	  //***  dpFileName; 
-	  //***  dpUseOutputTable; 
-	  //***  dpAppendToFile;
-	  //***  dpSaveLocalOrServer="TBD"; 
-      //***  ...
+import com.gargoylesoftware.htmlunit.*;
 
+import ax.lib.KeywordHelper;
 
-		// BEGIN of datapool variables declaration   	
-		protected String dpAgingPeriods; //@arg value for Aging Periods
-		                                  //@value = [num1 num2 num3...]
-		protected String dpOn;      //@arg field or expression for test
-		protected String dpCutoffDate; //@arg cutoff date
-		                                //@value dd-MMM-yyyy
+/**
+ * Script Name :KeywordExample.java Generated :3:10:31 PM Description : ACL Test
+ * Automation
+ * 
+ * @since Aug 16, 2013
+ * @author steven_xiang
+ * 
+ */
+public class KeywordExample extends KeywordHelper implements KeywordInterface {
 
-		protected String dpSuppressOthers; //@arg 'Yes' or 'No', default to 'No'
-		protected String dpBreak; //@arg field name to be broken
+	/**
+	 * @param args
+	 */
 
-		// END of datapool variables declaration
+	// BEGIN of datapool variables declaration
+	protected String dpURL; // @arg the url to be tested
+	protected String dpScope; // @arg scope of the project
+								// @value = working|libray, or empty
 
-		@Override
-		public boolean dataInitialization() {
-			boolean done= true;
-         
-		//*** Possible shared variables defined in YourKeywordHelper
-//			defaultMenu = "Analyze";
-//			command = "Age";
-//			winTitle = command;
-//			tabMainName = winTitle; //"_Main";
-//			fileExt = ".TXT";
-			
-		//*** Possible methods in YourKeywordHelper
-			//readSharedTestData();
-	       // readSharedMainTestData();        
-	       // readOutputTestData();
-	        
-	   //*** read in data     
-//	        dpCutoffDate = getDpString("CutoffDate");
-//	        dpAgingPeriods = getDpString("AgingPeriods");
-//	        dpOn = getACLFields("On");
-//	       
-//	        dpSuppressOthers = getDpString("SuppressOthers");
-//	        dpBreak = getDpString("Break");
-			return done;
-		}
+	// END of datapool variables declaration
 
-		public void testMain(Object[] args) 
-		{
-//			super.testMain(args);
-		//*** your test logic
-//			openTest();
-//			aclMainDialog();        
-//		    aclEndWith("fileAction");  
-//		    doVerification(dpTo); //"Log"
-//			aRou.exeACLCommands(dpPostCmd);	
-//			
-		}
+	public boolean dataInitialization() {
+		delFile = false;     // if we need to delete existing file before test
 		
-		public void aclMainDialog(){
-//			mainDialog = mainDialog();//new TopLevelSubitemTestObject(findTopLevelWindow(winTitle)) ;
-//			
-//			click(findPagetab(mainDialog, mainTab), mainTab);	
-//	    	tabMain = findSubWindow(mainDialog,true,tabMainName);
-//			thisMainTab(tabMain);
-//
-//			click(findPagetab(mainDialog, outputTab), outputTab);	
-//	    	tabOutput = findSubWindow(mainDialog,true,tabOutputName);    	
-//			thisOutputTab(tabOutput);
-//			
-//			click(findPagetab(mainDialog, moreTab), moreTab);
-//	    	tabMore = findSubWindow(mainDialog,true,tabMoreName);
-//			thisMoreTab(tabMore);
-//			
-		}
+		super.dataInitialization();
+				
+		dpURL = getDpString("URL");
+		dpScope = getDpString("Scope");
 		
-		public void thisMainTab(WebElement tabDialog){
-//			String keyToOnExp = winTitle+" On...";	
-//			String keyToExp = "Subtotal Fields...";
-//			
-//			// Work on tabDialog
-//			if(!dpOn.equals("")&&!selectedFromFields(tabDialog,keyToOnExp,dpOn)){
-//				actionOnSelect(findComboBox(tabDialog,true,0),keyToOnExp,dpOn,"New");
-//			}
-//			
-//			if(!dpFields.equals("")&&!selectedFromFields(tabDialog,keyToExp,dpFields)){
-//				selectSomeFields(findTable(tabDialog,true,0),dpFields);
-//			}
-//			
-//            .....
+		return true;
+	}
+
+	public void testMain(Object[] args){
+		super.testMain(args);
+		navigateToURL();
+		casLogon();
+		doVerification();
+		cleanUp(dpURL);
+	}
+	
+	public void navigateToURL(){
+		String url = dpURL;
+		if(!dpScope.equals("")){
+			url += "?scope="+dpScope;
 		}
+		driver.get(url);
+	}
+	
+	public void casLogon(){
+		if(casAuthenticated)
+			return;
 		
-	    public void thisMoreTab(WebElement tabDialog){   	
-//	    	// Work on tabDialog
-//	    	super.thisMoreTab(tabDialog);
-//	    	
-//	    	if(!dpSuppressOthers.equals("")){
-//				actionOnCheckbox(findCheckbutton(tabDialog,"Suppress Others"),
-//						"Suppress Others",
-//						dpSuppressOthers.equalsIgnoreCase("Yes")?true:false,"New");
-//				}
-//	    	
-//	    	if(!dpBreak.equals("")){
-//	  		  actionOnText(findEditbox(tabDialog,true,3),"Break",dpBreak,"New");	
-//	  		}
-//	    	
-	    }
-	    
+		try {
+			// WebElement form = driver.findElement(By.id("id1"));
+			WebElement username = driver.findElement(By.id("username"));
+			username.sendKeys(dpUserName);
+			WebElement password = driver.findElement(By.id("password"));
+			password.sendKeys(dpPassword);
 
-	 }
+			WebElement submit = driver.findElement(By
+					.xpath("//input[@name='submit']"));
 
+			submit.click();
+            casAuthenticated = true;
+            setSharedObj();
+		} catch (Exception e) {
+			logTAFError("No CAS login page found "+e.toString());
+		}
+	}
+	
+	
+	public void doVerification(){
+		setupTestFiles();  
+		String actualResult = UTF8Control.utf8decode(driver.getPageSource());		
+		compareTextResult(actualResult, "File");
+		
+	}
+    
+	
+	// **** Required for keyword **************
+	public void onInitialize(Object[] args) {	
+		if(args.length<3){
+			logTAFWarning("Failed to load test data?");
+			return;
+		}
+		dpw = (HSSFRow) args[2];
+		dph = (ArrayList<String>) args[1];
+		//datapool = (HSSFSheet) args[0];		
+		dataInitialization();
+		setScriptName(getClass().getName());
+		testMain(args);
+	}
+
+	public static void main(String[] args) {
+
+	}
+
+}
