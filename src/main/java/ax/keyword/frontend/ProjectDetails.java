@@ -20,6 +20,13 @@ public class ProjectDetails  extends BrowserTaskHelper{
 		return objPrjctDetailPage;
 	}
 
+	public static void getProjectHeader(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getProjectHeader();
+	}
+	
 	public static void getProjectName(){
 		if(objPrjctDetailPage == null){
 			prepPage();
@@ -34,6 +41,13 @@ public class ProjectDetails  extends BrowserTaskHelper{
 		objPrjctDetailPage.getProjectDesc();
 	}
 	
+	public static void getProjectDescLabel(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getProjectDescLabel();
+	}
+	
 	public static void getProjectsList(){
 		if(objPrjctDetailPage == null){
 			prepPage();
@@ -45,12 +59,22 @@ public class ProjectDetails  extends BrowserTaskHelper{
 		if(objPrjctDetailPage == null){
 			prepPage();
 		}
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		objPrjctDetailPage.getCreatedBy();
 	}
 	
 	public static void getProjectCreatedDateTimeStamp(){
 		if(objPrjctDetailPage == null){
 			prepPage();
+		}
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 		objPrjctDetailPage.getCreatedAt();
 	}
@@ -59,6 +83,11 @@ public class ProjectDetails  extends BrowserTaskHelper{
 		if(objPrjctDetailPage == null){
 			prepPage();
 		}
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		objPrjctDetailPage.getModifiedBy();
 	}
 	
@@ -66,11 +95,58 @@ public class ProjectDetails  extends BrowserTaskHelper{
 		if(objPrjctDetailPage == null){
 			prepPage();
 		}
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		objPrjctDetailPage.getModifiedAt();
 	}
 	
+	public static void getProjectCreatorNameLabel(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getCreatedByLabel();
+	}
+	
+	public static void getProjectCreatedDateTimeStampLabel(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getCreatedAtLabel();
+	}
+	
+	public static void getProjectModifierNameLabel(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getModifiedByLabel();
+	}
+	
+	public static void getProjectModifiedDateTimeStampLabel(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getModifiedAtLabel();
+	}
+	
+	public static void getInfoLabel(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getInfoLabel();
+	}
+	
+	public static void getUsersLabel(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getUsersLabel();
+	}
+	
 	public static void getProjectUsersList(){
-		/**
+
 		if(objPrjctDetailPage == null){
 			prepPage();
 		}
@@ -88,7 +164,50 @@ public class ProjectDetails  extends BrowserTaskHelper{
 		}
 		objPrjctDetailPage.getUsersList();
 		objPrjctDetailPage.closeUsersPopup();
-		*/
+	
+	}
+	
+	public static void getTestSetsList(){
+
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getTestSetsList();
+	}
+	
+	public static void filterTestSetsList(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.filterTestSetsList();
+	}
+	
+	public static void getSearchItemsList(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.getSearchItemsList();
+	}
+	
+	public static void clearFilter(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.clearFilter();
+	}
+	
+	public static void clickTestSetName(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.clickTestSetName();
+	}
+	
+	public static void closeProjectDetailsLayer(){
+		if(objPrjctDetailPage == null){
+			prepPage();
+		}
+		objPrjctDetailPage.closeProjectDetailsLayer();
 	}
 	
 	public static void allElementsPresent() {

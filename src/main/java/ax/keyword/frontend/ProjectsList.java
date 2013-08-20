@@ -47,8 +47,28 @@ public class ProjectsList extends BrowserTaskHelper{
 		if(objPrjctListPage == null){
 			prepPage();
 		}
-		objPrjctListPage.getAllProjects();
-			
+		objPrjctListPage.getAllProjects();	
+	}
+	
+	public static void filterTestSetsList(){
+		if(objPrjctListPage == null){
+			prepPage();
+		}
+		objPrjctListPage.filterTestSetsList();
+	}
+	
+	public static void getSearchItemsList(){
+		if(objPrjctListPage == null){
+			prepPage();
+		}
+		objPrjctListPage.getSearchItemsList();
+	}
+	
+	public static void clearFilter(){
+		if(objPrjctListPage == null){
+			prepPage();
+		}
+		objPrjctListPage.clearFilter();
 	}
 	
 	public static void getProjectHeader() {

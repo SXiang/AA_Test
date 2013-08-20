@@ -27,13 +27,10 @@ public class Login extends BrowserTaskHelper{
 			prepPage();
 		}
 		if(!"SSO".equalsIgnoreCase(casType)){
-			assert driver.getTitle().equalsIgnoreCase("ACL Analaytics Exchange Login");
 			objLoginPage.login();
 		}else{
 			objLoginPage.loginSSO();
 		}
-		assert driver.getTitle().contentEquals("ACL Analytics Exchange");
-		ProjectsList.verifyOnProjectsListPage();
 	}
 	
 	public static void allElementsPresent(){
