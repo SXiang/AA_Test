@@ -3,17 +3,9 @@ package com.acl.qa.taf.tool;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 // Run after ConvertScripts to generate new datapool based on new code template for datapool variables
 public class ConvertDatapool {

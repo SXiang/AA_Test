@@ -1,26 +1,8 @@
 package com.acl.qa.taf.helper.superhelper;
 
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Set;
-
-import com.acl.qa.taf.util.FileUtil;
-import com.acl.qa.taf.util.ImageCompare;
-import com.acl.qa.taf.util.NLSUtil;
 
 
 

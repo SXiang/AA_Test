@@ -2,8 +2,6 @@
 package com.acl.qa.taf.tool.wikiConvert;
 
 import java.io.*;
-import java.util.*;
-
 import com.acl.qa.taf.helper.superhelper.ACLQATestScript;
 import com.acl.qa.taf.util.FileUtil;
 import com.acl.qa.taf.util.UnicodeUtil;

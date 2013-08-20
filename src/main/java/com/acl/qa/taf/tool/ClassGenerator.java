@@ -1,7 +1,5 @@
 package com.acl.qa.taf.tool;
 
-import java.io.*;
-import java.util.Enumeration;
 import java.util.Vector;
 
 import com.acl.qa.taf.helper.superhelper.ACLQATestScript;

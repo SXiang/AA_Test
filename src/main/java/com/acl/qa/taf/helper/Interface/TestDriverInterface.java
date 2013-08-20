@@ -13,7 +13,5 @@ package com.acl.qa.taf.helper.Interface;
  */
 public interface TestDriverInterface {
 
-
-	public void onInitialize(Object[] args);
 	public void testMain(Object[] args);
 }

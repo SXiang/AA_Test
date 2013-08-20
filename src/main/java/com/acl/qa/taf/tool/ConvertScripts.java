@@ -1,7 +1,6 @@
 package com.acl.qa.taf.tool;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
@@ -561,6 +560,7 @@ class OnlyExt implements FilenameFilter {
 	public OnlyExt(String ext) {
 		this.ext = "." + ext;
 	}
+	@Override
 	public boolean accept(File dir, String name) {
 		return name.endsWith(ext);
 	}

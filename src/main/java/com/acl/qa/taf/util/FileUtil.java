@@ -1,5 +1,6 @@
 package com.acl.qa.taf.util;
 
+import ibm.loggers.control.IPackageLoggerConstants;
 import ibm.loggers.control.PackageLoggingController;
 
 import java.io.BufferedReader;
@@ -11,13 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import com.acl.qa.taf.helper.superhelper.ACLQATestScript;
 
 
 
@@ -36,12 +34,15 @@ public class FileUtil extends ibm.util.FileOps {
     	return exeComm(comm);
 	}
 	public static String updateDir(String source, String dest){
-		String comm = "XCOPY,\"" + getAbsDir(source) + "\\*\",\"" + getAbsDir(dest) + "\",/Y,/S,/D/R,/I";
+		String comm = "XCOPY,\"" + getAbsDir(source).replaceAll("[\\\\/]+$","") + "\\*\",\"" + getAbsDir(dest) + "\",/Y,/S,/D/R,/I";
 		//String comm = "XCOPY \"" + source + "\\*\" \"" + dest + "\" /Y /S /D /R /I";
     	return exeComm(comm);
 	}
     public static String copyDir(String source, String dest){	
-    	String comm = "XCOPY,\"" + getAbsDir(source) + "\",\"" + getAbsDir(dest) + "\",/S,/R,/Y,/I,/G,/H,/Z,/C";
+    	if(!new File(source).exists())
+    			return "No source found - '"+source+"'";
+    	//mkDirs(dest,true);
+    	String comm = "XCOPY,\"" + getAbsDir(source).replaceAll("[\\\\/]+$","") + "\",\"" + getAbsDir(dest) + "\",/S,/R,/Y,/I,/G,/H,/Z,/C";
     	//String comm = "XCOPY \"" + source + "\" \"" + dest + "\" /S /R /Y /I /G /H /Z /C";
     	return exeComm(comm);
     }
@@ -148,6 +149,10 @@ public class FileUtil extends ibm.util.FileOps {
     	String result = "Done";
     	ProcessBuilder processBuilder;
     	
+//    	command = command.replaceAll("/,", "\\");
+//    	command = command.replaceAll("\\/,", ",");
+//    	command = command.replaceAll("/,", "\\,");
+//    	command = command.replaceAll("/", "\\");
     	try {
     		if(usPB&&command.contains(",")){
     			ps = processComm(command.split(","));    			
@@ -206,7 +211,7 @@ public class FileUtil extends ibm.util.FileOps {
 			}
 			in.close();
 		} catch (IOException e) {
-			PackageLoggingController.logPackageError(PackageLoggingController.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#readFile: " + e.getMessage());
+			PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#readFile: " + e.getMessage());
 		}
 		return file;
 	}
@@ -240,16 +245,13 @@ public class FileUtil extends ibm.util.FileOps {
     		}else{
     			absDir = absURL.toString().replaceFirst("file:/", "");
     		}
-    		
-//    		absDir = (new File(root+inputDir)).getAbsolutePath();
-//    		System.out.println(inputDir+"-->"+root+inputDir +"---> "+absDir);
     		    		
     	}  
     	absDir.replaceAll("//", "/");
-		if(dirFile.isDirectory()){
-			if(!absDir.endsWith("/"))
+			if(!absDir.endsWith("/")&&!absDir.endsWith("\\"))
 				absDir += "/";
-		}
+			
+
     	return absDir;
     }
 
@@ -275,6 +277,9 @@ public class FileUtil extends ibm.util.FileOps {
     public static String readFile(String source,String del){
     	return readFile(source,del,Integer.MAX_VALUE, false);
     }
+    public static String readFile(String source,String del,int maxLines){
+    	return readFile(source,del, maxLines,false);
+    }
     public static String readFile(String source,int maxLines, boolean addLineFeed){
     	return readFile(source,maxLines,addLineFeed,encoding);
     }
@@ -288,7 +293,10 @@ public class FileUtil extends ibm.util.FileOps {
 		String file = "";
 		int maxLen=0,curLen=0 ;
 		String controls = "[\\p{Cc}\\p{Cntrl}]";
-
+		
+        String defaultDel = System.getProperty("line.separator");
+        if(del.equals(""))
+        	del = defaultDel;
 		if(!readable(source)){
 			return "Error, Can't read file -"+source;
 		}
@@ -304,18 +312,26 @@ public class FileUtil extends ibm.util.FileOps {
 				if(addLineFeed){
 					//line = ObjectHelper.getPrintableText(line);
 					//line = line.replaceAll(controls, "");
-					if(line.length()>1000){
+					if(line.length()>100){
 						//line = line.replaceAll("[\\x03\\x04]", "\n");
-						line = line.replaceAll("(.{500,600}"+controls+")", "$1"+del);
+						//line = line.replaceAll("(.{500,600}"+controls+")", "$1"+del);
+						
+						line = line.replaceAll("(.{100,100})", "$1"+del);
 						
 					}
-				}	
+					file = file + line + del;
+				}
+//				else{
+//					line = line.replaceAll("["+del+"]", defaultDel);
+//					file = file + line + defaultDel;
+//				}
 				file = file + line + del;
+				
 			}
 			in.close();
 			//System.out.println("File: '"+numLines+" lines - "+file);
 		} catch (IOException e) {
-			PackageLoggingController.logPackageError(PackageLoggingController.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#readFile: " + e.getMessage());           
+			PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#readFile: " + e.getMessage());           
 		}
 		return file;
 	}
@@ -355,7 +371,7 @@ public class FileUtil extends ibm.util.FileOps {
 			in.close();
 			return fileContentsString;
 		} catch (IOException e) {
-			PackageLoggingController.logPackageError(PackageLoggingController.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#getFileContents: " + e.getMessage());
+			PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#getFileContents: " + e.getMessage());
 			return "";
 		}
 	}
@@ -367,7 +383,7 @@ public class FileUtil extends ibm.util.FileOps {
 				out.flush();
 				
 			} catch (IOException e) {
-				PackageLoggingController.logPackageError(PackageLoggingController.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#appendStringToFile: " + e.getMessage());
+				PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#appendStringToFile: " + e.getMessage());
 			}
 		}
 	
@@ -466,23 +482,22 @@ public class FileUtil extends ibm.util.FileOps {
 		File file = new File(getAbsDir(path));
         if(delFile){
             delFile(path);
-//            try {
-//				Thread.sleep(2000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
         }
         if(!file.isDirectory()){
-        	path = file.getParent();
-        	file = new File(path);
+          if(!file.exists()){
+        	  if(path.endsWith("\\")||path.endsWith("/")){
+        		  
+        	  }else{
+        	   path = file.getParent();
+        	   file = new File(path);
+        	  }
+          }else{
+       	   path = file.getParent();
+       	   file = new File(path);
+          }
+          
         }
-// This delete all the files in the folder
-//        if(delFile)
-//            delFile(path);
-//        if(!path.contains("\"")){
-//    		path = "\""+path+"\"";
-//    	}
+
         try{
         	if(!file.mkdirs()){
         		exeComm("mkdir "+path,true);

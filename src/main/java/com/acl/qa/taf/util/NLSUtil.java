@@ -1,19 +1,12 @@
 package com.acl.qa.taf.util;
-//
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JOptionPane;
+
 
 //import ACL_Desktop.com.acl.qa.taf.conf.bean.ProjectConf;
 
@@ -23,8 +16,7 @@ import javax.swing.JOptionPane;
 
 import com.acl.qa.taf.helper.superhelper.LoggerHelper;
 import com.acl.qa.taf.helper.superhelper.ObjectHelper;
-import com.acl.qa.taf.helper.superhelper.RFTGuiFinderHelper;
-import com.acl.qa.taf.helper.superhelper.TAFLogger;
+import com.acl.qa.taf.helper.superhelper.GuiFinderHelper;
 
 
 public class NLSUtil {
@@ -95,7 +87,7 @@ public class NLSUtil {
         }
     	if(
     			(lstring.equals(myString)||
-    			     (RFTGuiFinderHelper.isValidPattern(myString)&&lstring.matches(myString)))){
+    			     (GuiFinderHelper.isValidPattern(myString)&&lstring.matches(myString)))){
     		
     	    String temp = "",temp1;
     	    
@@ -133,8 +125,8 @@ public class NLSUtil {
        	if(lstring.equals("")){ // In case
      	   lstring = myString;
      	}
-//       	if(RFTGuiFinderHelper.isPattern(myString))
-//       		lstring = RFTGuiFinderHelper._correctPattern(lstring);
+//       	if(GuiFinderHelper.isPattern(myString))
+//       		lstring = GuiFinderHelper._correctPattern(lstring);
        LoggerHelper.putToCache(LoggerHelper.cache_l10n,id,lstring);
        
        return lstring;
@@ -185,7 +177,7 @@ public class NLSUtil {
         
         }
     	if(lstring.equals(myString)||
-    			(RFTGuiFinderHelper.isValidPattern(myString)&&lstring.matches(myString))){
+    			(GuiFinderHelper.isValidPattern(myString)&&lstring.matches(myString))){
     	    String temp = "",temp1;
     		for(int i=0;i<splitPattern.length;i=i+2){
     			if(myString.contains(splitPattern[i])||myString.matches(".*"+splitPattern[i]+".*")){    	
@@ -217,8 +209,8 @@ public class NLSUtil {
        	if(lstring.equals("")){ // In case
       	   lstring = myString;
       	}  
-//		 if(RFTGuiFinderHelper.isPattern(myString)){
-//			 lstring = RFTGuiFinderHelper._correctPattern(lstring);
+//		 if(GuiFinderHelper.isPattern(myString)){
+//			 lstring = GuiFinderHelper._correctPattern(lstring);
 //		 }
        	
        	LoggerHelper.putToCache(LoggerHelper.cache_en,id,lstring);
@@ -253,10 +245,10 @@ public class NLSUtil {
 			for(String st:temp){
 			   if(truncate&&st.length()> 100){
 				    st = st.substring(0,100);
-					//st = RFTGuiFinderHelper.correctPattern(st);
+					//st = GuiFinderHelper.correctPattern(st);
 			   }
 			   
-			   st = RFTGuiFinderHelper.correctPattern(st);
+			   st = GuiFinderHelper.correctPattern(st);
 			   st = rep+st;
 			   if(lstring.equals(""))
 			      lstring = st;
@@ -276,9 +268,9 @@ public class NLSUtil {
     			for(String st:temp){
     				if(truncate&&st.length()> 100){
     					  st = st.substring(0,100);
-    	                  //st = RFTGuiFinderHelper.correctPattern(st.substring(0,100));
+    	                  //st = GuiFinderHelper.correctPattern(st.substring(0,100));
     				   }
-    				st = RFTGuiFinderHelper.correctPattern(st);
+    				st = GuiFinderHelper.correctPattern(st);
     			   st += rep;
     			   if(lstring.equals(""))
     			      lstring = st;
@@ -342,7 +334,7 @@ public class NLSUtil {
         	//conv = myString;
             conv = myString;
         
-        //   conv = RFTGuiFinderHelper.correctPattern(conv);
+        //   conv = GuiFinderHelper.correctPattern(conv);
         
         return conv;
 		//return conv.replaceAll("%s", ".+");
@@ -426,8 +418,8 @@ public class NLSUtil {
 					else
 					   convertedStr += pat1+convertedString;
 			     }
-//				 if(RFTGuiFinderHelper.isPattern(convertedStr)){
-//					 convertedStr = RFTGuiFinderHelper.correctPattern(convertedStr);
+//				 if(GuiFinderHelper.isPattern(convertedStr)){
+//					 convertedStr = GuiFinderHelper.correctPattern(convertedStr);
 //				 }
 			     LoggerHelper.logTAFDebug("i18nReplaceAll for '"+value+"': "+convertedStr);
 
@@ -447,7 +439,7 @@ public class NLSUtil {
 	}
 	public static String getPropID(String file,String sValue,String cName,boolean reverse){
 				
-		return getPropID(file,sValue,cName,reverse,RFTGuiFinderHelper.isPattern(sValue));
+		return getPropID(file,sValue,cName,reverse,GuiFinderHelper.isPattern(sValue));
 	}
 	public static String getPropID(String file,String sValue, boolean reverse,boolean isPattern){
 		return getPropID(file,sValue,"",reverse,isPattern);
@@ -530,7 +522,7 @@ public class NLSUtil {
 			sValueTemp = sValue;
 		}else{
 			//sValueTemp = sValue.replaceAll("([\\s]['\"]?)%[\\d]*[l]?[Icds](['\"]?)", "$1.*$2");
-			sValueTemp = RFTGuiFinderHelper.correctPattern(sValue);
+			sValueTemp = GuiFinderHelper.correctPattern(sValue);
 			//sValueTemp = sValueTemp.replaceAll("\\n|\\r","/");
 		}
 		
@@ -567,7 +559,7 @@ public class NLSUtil {
 			         return id;
 			}else{ // Pattern match
 				try{					
-					Pattern.compile(RFTGuiFinderHelper.correctPattern(sValue)+"|"+sValueTemp);
+					Pattern.compile(GuiFinderHelper.correctPattern(sValue)+"|"+sValueTemp);
 					isPattern = true;
 				}catch(Exception e){
 					//System.err.println(e.toString());
@@ -579,7 +571,7 @@ public class NLSUtil {
 								||temp.equalsIgnoreCase(sValueTemp+":")
 								||(temp+":").equalsIgnoreCase(sValue))
 						||(isPattern&&temp.replaceAll("\\n|\\r","/").matches(
-								RFTGuiFinderHelper.correctPattern(sValue)+"|"+sValueTemp))){
+								GuiFinderHelper.correctPattern(sValue)+"|"+sValueTemp))){
 					
             // *** Option 1, get shortest trans
 //					if(value.equals("")||temp.length()<value.length()){
@@ -666,7 +658,7 @@ public class NLSUtil {
 			isPattern = false;
 		}
 		try{
-			  Pattern.compile(sValuePattern=RFTGuiFinderHelper.correctPattern(sValue));
+			  Pattern.compile(sValuePattern=GuiFinderHelper.correctPattern(sValue));
 			  isValuePattern = true;
 		}catch(Exception e){
 			isValuePattern = false;
@@ -701,7 +693,7 @@ public class NLSUtil {
 			         return id;
 			}else{ // Pattern match
 				
-				String tempPattern = RFTGuiFinderHelper.correctPattern(temp);
+				String tempPattern = GuiFinderHelper.correctPattern(temp);
 				try{
 					Pattern.compile(tempPattern);
 					
@@ -835,14 +827,14 @@ public class NLSUtil {
 		//LoggerHelper.logTAFInfo(+idSet.size()+"props in '"+file+"' loaded");
 		
 		String sValueLine = sValue.replaceAll("\\n","/").replaceAll("\\r","/");
-		String sValuePattern = RFTGuiFinderHelper.correctPattern(sValueLine)+"[ ]?[:]?";
-		       sValuePattern = RFTGuiFinderHelper.trimExp(sValuePattern);
+		String sValuePattern = GuiFinderHelper.correctPattern(sValueLine)+"[ ]?[:]?";
+		       sValuePattern = GuiFinderHelper.trimExp(sValuePattern);
 		String tempLine;
 		String tempPattern;
 		//int numIds = idSet.size(),curNum=0;
 		try{	
 			if(isValuePattern){
-			  Pattern.compile(RFTGuiFinderHelper.correctPattern(sValuePattern));
+			  Pattern.compile(GuiFinderHelper.correctPattern(sValuePattern));
 			  isValuePattern = true;
 			}
 			
@@ -864,7 +856,7 @@ public class NLSUtil {
 			if(temp.equals(""))
 				continue;
 			tempLine = temp.replaceAll("\\\\n","/").replaceAll("\\\\r","/");
-			tempPattern = RFTGuiFinderHelper.correctPattern(tempLine)+"[ ]?[:]?";
+			tempPattern = GuiFinderHelper.correctPattern(tempLine)+"[ ]?[:]?";
 			
 			if(sValueLine.equals(sValueLine.toUpperCase())||
 			    tempLine.equals(tempLine.toUpperCase()))

@@ -7,9 +7,7 @@ public class TimerConf {
 	    //seconds  -
 	waitBetweenKeywords = 5,
 	maxPageLoadingTime = 120,
-	// m seconds
-	onTerminateSleep = 5000, 
-	waitTimeBetweenTestCases = 10000,
+
 	errDialogCloseWaitTime = 2,
 	itemPasteTime = 5,
 	expandWaitTime = 3,
@@ -17,7 +15,9 @@ public class TimerConf {
 	pageRefreshTime = 3,
 	dialogLoadTime = 3,
 	launchWaitTime = 15,
-
+			onTerminateSleep = 5, 
+			waitTimeBetweenTestCases = 10,
+			
 	// - General timer
 	maxWaitTime = 30,
 	waitBetweenRetry = 5,

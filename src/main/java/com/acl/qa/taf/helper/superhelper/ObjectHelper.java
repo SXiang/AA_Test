@@ -1,16 +1,9 @@
 package com.acl.qa.taf.helper.superhelper;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.io.BufferedWriter;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
@@ -24,12 +17,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import com.acl.qa.taf.util.FileUtil;
-import com.acl.qa.taf.util.ImageCompare;
-import com.acl.qa.taf.util.NLSUtil;
 import com.acl.qa.taf.util.UnicodeUtil;
 
 
-public class ObjectHelper extends RFTGuiFinderHelper {
+public class ObjectHelper extends GuiFinderHelper {
 
 	// objectHelper is shared by all test project in the framework,
 	// don't create methods for individual project here
@@ -294,7 +285,19 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 		return compareTextFile(fileMaster, fileActual, actualContents,
 				updateMasterFile, label, null, null, -1, -1);
 	}
-
+	public boolean compareTextFile(String fileMaster, String fileActual,
+			String actualContents, boolean updateMasterFile, String label,boolean exactMatch) {
+		return compareTextFile(false,fileMaster, fileActual, actualContents,
+				updateMasterFile, label, null, null, -1, -1,exactMatch);
+	}
+	
+	public boolean compareTextFile(String fileMaster, String fileActual,
+			String actualContents, boolean updateMasterFile, String label,boolean exactMatch,
+			String[] ignorePattern, String[] ignoreName,String delimiter) {
+		return compareTextFile(false,fileMaster, fileActual, actualContents,
+				updateMasterFile, label, null, null, -1, -1,exactMatch,
+				ignorePattern, ignoreName, delimiter);
+	}
 	public boolean compareTextFile(String fileMaster, String fileActual,
 			boolean updateMasterFile) {
 		return compareTextFile(fileMaster, fileActual, null, updateMasterFile,
@@ -318,24 +321,57 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 	// **** temp solution ***********
 	public String superMasterFile = "";
 	// **** 
+	
 	public boolean compareTextFile(boolean asciiOnly, String fileMaster,
 			String fileActual, String actualContents, boolean updateMasterFile,
 			String label, String fromKey, String endKey, int fromLine,
 			int endLine) {
+		return compareTextFile(asciiOnly, fileMaster,
+			fileActual, actualContents, updateMasterFile,
+			label, fromKey, endKey, fromLine,
+			endLine,false);
+	}
+	public boolean compareTextFile(boolean asciiOnly, String fileMaster,
+			String fileActual, String actualContents, boolean updateMasterFile,
+			String label, String fromKey, String endKey, int fromLine,
+			int endLine,boolean exactMatch) {
+		return compareTextFile(asciiOnly, fileMaster,
+				fileActual, actualContents,updateMasterFile,
+				label, fromKey, endKey, fromLine,
+				endLine,exactMatch,null,null,"");
+	}
+	public boolean compareTextFile(boolean asciiOnly, String fileMaster,
+			String fileActual, String actualContents, boolean updateMasterFile,
+			String label, String fromKey, String endKey, int fromLine,
+			int endLine,boolean exactMatch,String[] ignorePattern,String[] ignoreName,String delimiter) {
 		// String lineTerminator = "[\r\n\u0085\u2028\u2029]";
 		boolean success = true;
 		int numLineLimits = 20000;
 		int sizeLimits = 10000;
 		String[] textMaster, textActual;
 		String fileDescription = "[" + label + "]";
-
+        String _delimiter = "";
+        String[] _ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
+        String[] _ignoreName = {"$1u-u-i-d$2"};
+        
+       // {"id":"72f7481b-965a-46fc-8b31-e818e280eff5","name":
+        
+//        if(label.equalsIgnoreCase("JSON")){
+//            delimiter = "\\},\\{";
+//            
+//        }
 		if (!label.equalsIgnoreCase("File")) {
 			if (!fileMaster.endsWith(fileDescription))
 				fileMaster += "[" + label + "]";
 			if (!fileActual.endsWith(fileDescription))
 				fileActual += "[" + label + "]";
+			if (!superMasterFile.endsWith(fileDescription))
+				superMasterFile += "[" + label + "]";
 		}
+		
+		
 		if (actualContents != null) {// &&!actualContents.equals("")){
+			FileUtil.delFile(fileActual);
 			FileUtil.writeFileContents(fileActual, actualContents);
 		}
 		File temp = new File(FileUtil.getAbsDir(fileActual));
@@ -350,13 +386,22 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 					/ (1000 * 1000) + "MBytes)- '" + fileActual + "'");
 			return true;
 		}
-        if(!updateMasterFile){
-        	FileUtil.copyFile(superMasterFile, fileMaster);
-        }
-		if (updateMasterFile || !new File(FileUtil.getAbsDir(fileMaster)).exists()) {
-			logTAFInfo("Save/Update contents of master file '" + fileMaster
-					+ "'");
-			FileUtil.copyFile(fileActual, fileMaster);
+       // if(!updateMasterFile&&new File(superMasterFile).exists()){
+        if(new File(superMasterFile).exists()){
+        	logTAFInfo("Get user provided master file from - "+superMasterFile);
+        	FileUtil.delFile(fileMaster);
+        	FileUtil.writeFileContents(fileMaster, FileUtil.getFileContents(superMasterFile));
+        	//FileUtil.copyFile(superMasterFile, fileMaster);
+        }else if (updateMasterFile || !new File(fileMaster).exists()) {
+			logTAFInfo("Save/Update master file with current contents '" + fileMaster
+					+ "' ");
+			FileUtil.delFile(fileMaster);
+			if (actualContents != null) {// &&!actualContents.equals("")){
+				FileUtil.writeFileContents(fileMaster, actualContents);
+			}else{
+				FileUtil.writeFileContents(fileMaster, FileUtil.getFileContents(fileMaster));
+			}
+			
 			return true;
 		}
 
@@ -375,16 +420,22 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 		// logTAFStep("Comparing "+label+"(First "+numLineLimits+" lines): "+fileMaster
 		// +" and "+fileActual);
 
-		logTAFStep("Comparing " + label + ": " + fileMaster + " and "
+		logTAFStep("Comparing " + label + ": \n\t\t" + fileMaster + "\n\t and \n\t\t"
 				+ fileActual);
-
-		String tempMaster = FileUtil.readFile(fileMaster, numLineLimits, true);
-		String tempActual = FileUtil.readFile(fileActual, numLineLimits, true);
-
+        String tempMaster = "",tempActual="";
+        if(delimiter.equals("")){
+		       tempMaster = FileUtil.readFile(fileMaster, numLineLimits, true);
+		       tempActual = FileUtil.readFile(fileActual, numLineLimits, true);
+        }else{
+        	   tempMaster = FileUtil.readFile(fileMaster, numLineLimits, false);
+		       tempActual = FileUtil.readFile(fileActual, numLineLimits, false);
+//		       tempMaster = FileUtil.readFile(fileMaster, delimiter,numLineLimits);
+//		       tempActual = FileUtil.readFile(fileActual, delimiter,numLineLimits);
+        }
 		if (fromKey != null) {
 			int fromMaster = tempMaster.lastIndexOf(fromKey);
 			int fromActual = tempActual.lastIndexOf(fromKey);
-			if (fromMaster > -1) {
+			if (fromMaster > -1) {//Comparing sub contents
 				tempMaster = "[StartComparison]"
 						+ tempMaster.substring(fromMaster + fromKey.length());
 			}
@@ -411,22 +462,38 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 		// String lineDel = getPossibleLineDelimiter(tempMaster);
 		// textMaster = tempMaster.split(lineDel);
 		// textActual = tempActual.split(lineDel);
-
-		textMaster = tempMaster.split(getPossibleLineDelimiter(tempMaster));
-		textActual = tempActual.split(getPossibleLineDelimiter(tempActual));
+        if(delimiter.equals("")){
+        	delimiter = getPossibleLineDelimiter(tempMaster);
+        }
+        
+        if(ignorePattern!=null&&ignoreName!=null){
+        	for(int i=0;i<ignorePattern.length&&i<ignoreName.length;i++){
+        	tempMaster = tempMaster.replaceAll(ignorePattern[i], ignoreName[i]);
+        	tempActual = tempActual.replaceAll(ignorePattern[i], ignoreName[i]);
+        	}
+        }
+        textMaster = tempMaster.split(delimiter);
+		textActual = tempActual.split(delimiter);
+		
+//		textMaster = tempMaster.split(getPossibleLineDelimiter(tempMaster));
+//		textActual = tempActual.split(getPossibleLineDelimiter(tempActual));
+		
 		if (textActual.length > textMaster.length && textMaster.length < 3) {
 			// Master file corrupted possibly or source file changed?
 			// updateMaster file;
 			logTAFInfo("Save/Update contents of master file '" + fileMaster
 					+ "'");
-			FileUtil.copyFile(fileActual, fileMaster);
+			FileUtil.delFile(fileMaster);
+			FileUtil.writeFileContents(fileActual, FileUtil.getFileContents(fileMaster));
 			return true;
 		}
-		boolean compareNumLines = isCompareable(fileMaster)
-				&& isCompareable(fileActual);
+		boolean compareNumLines = exactMatch||(isCompareable(fileMaster)
+				&& isCompareable(fileActual));
+		
+
 		success = compareStringLines(compareNumLines,
-				removeEmptyLines(textMaster), removeEmptyLines(textActual),
-				fromLine, endLine, label);
+				textMaster, textActual,
+				fromLine, endLine, label,exactMatch);
 
 		return success;
 	}
@@ -438,7 +505,7 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 		return false;
 	}
 
-	public String[] removeEmptyLines(String[] text) {
+	public static String[] removeEmptyLines(String[] text) {
 		String result = "", del = "autoDelimiter";
 		for (int i = 0; i < text.length; i++) {
 			String temp = sanitizeText(text[i], true);
@@ -458,13 +525,13 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 		String[] lineUser, lineDfeed;
 
 		if (!lineDelimiter.equals("")) {
-			lineUser = text.split(lineDelimiter);
-			if (lineUser.length > 10) {
+			lineUser = text.split("["+lineDelimiter+"]");
+			if (lineUser.length > 1) {
 				return lineDelimiter;
 			}
 		} else {
 			lineDfeed = text.split(lineDelDfeed);
-			if (lineDfeed.length > 20) {
+			if (lineDfeed.length > 1) {
 				return lineDelDfeed;
 			}
 		}
@@ -476,11 +543,18 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 			String label) {
 		return compareStringLines(false, tm, ta, -1, -1, label);
 	}
-
 	public static boolean compareStringLines(boolean compareNumLines,
-			String[] tm, String[] ta, int fromLine, int endLine, String label) {
+			String[] tm, String[] ta, int fromLine, int endLine, String label){
+		return compareStringLines(compareNumLines,tm,ta,fromLine,endLine,label,false);
+	}
+	public static boolean compareStringLines(boolean compareNumLines,
+			String[] tm, String[] ta, int fromLine, int endLine, String label,boolean exactMatch) {
 		boolean success = true, isInfo = false, linediff = false;
 
+		if(!exactMatch){
+			tm = removeEmptyLines(tm);
+			ta = removeEmptyLines(ta);
+		}
 		String sm, sa, msg;
 
 		// logTAFStep("Comparing '"+label+"'");
@@ -520,36 +594,42 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 				&& i < endLine && !done && numError < maxError; i++) {
 			// tm[i] = sanitizeText(tm[i],true);
 			// ta[i] = sanitizeText(ta[i],true);
+			isInfo = false;
 			if (tm[i].trim().matches("[\\s]*")
 					&& ta[i].trim().matches("[\\s]*")) {
 				continue;
 			}
 			// logTAFInfo("^^^^^^ MasterLine: '"+tm[i]+"' ActualLine: '"+ta[i]+"'");
 			if (!tm[i].trim().equalsIgnoreCase(ta[i].trim())) {
-
-				sm = getPrintableText(tm[i]);
-				sa = getPrintableText(ta[i]);
 				msg = "Not match - Line " + (i + 1) + ": ";
-
+               if(!exactMatch){
+				sm = getPrintableText(tm[i]);
+				sa = getPrintableText(ta[i]);              
+				
+               }else{
+            	   sm = tm[i];
+            	   sa = ta[i];
+               }
 				// logTAFInfo("MasterLine: '"+tm[i]+"' ActualLine: '"+ta[i]+"'");
-				if (sm.trim().equals(sa.trim()) || ignoreable(sm + sa)) {
+				if (sm.trim().equals(sa.trim()) ||(!exactMatch&&ignoreable(sm + sa))) {
 					isInfo = true;
-					msg += "'"
+					msg += "\n\t\t'"
 							+ sm
 							+ "[WithLinkOrPathOrDynamicSymbolOrOtherNonPrintableChars!]' - May need to open the file with proper software for details";
 				} else {
-					msg += "'Expected, '" + sm + "" + "', Actual, '" + sa + "'";
-					if (linediff)
-						msg = autoIssue + msg;
+					msg += "Expected, -" + sm + "-Actual,   -" + sa + "-";
+//					if (linediff)
+//						msg = autoIssue + msg;
 				}
 				if (isInfo) {
 					// done = true;
 
-					logTAFDebug(msg);
+					logTAFWarning(msg);
 				} else {
 					numError++;
 					logTAFError(msg);
 					success = false;
+					//break;
 				}
 				isInfo = linediff;
 			}
@@ -636,7 +716,7 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 		boolean isValidExcel = true;
 		File fl = new File(FileUtil.getAbsDir(file));
 		try {
-			fls = (InputStream) new FileInputStream(fl);
+			fls = new FileInputStream(fl);
 			WorkbookFactory.create(fls);
 			fls.close();
 		} catch (Exception e) {
@@ -656,8 +736,8 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 			File master = new File(FileUtil.getAbsDir(masterFile));
 			File actual = new File(FileUtil.getAbsDir(actualFile));
 
-			InputStream isMaster = (InputStream) new FileInputStream(master);
-			InputStream isActual = (InputStream) new FileInputStream(actual);
+			InputStream isMaster = new FileInputStream(master);
+			InputStream isActual = new FileInputStream(actual);
 
 			try {// WorkbookFactory.create(in)
 				Workbook hwbMaster = WorkbookFactory.create(isMaster);
@@ -1463,7 +1543,7 @@ public class ObjectHelper extends RFTGuiFinderHelper {
 //				// msg_en = msgArray[msgArray.length-1]; // Debug...
 //				msg_en = msgArray[0];
 //				msg_en = removeLineFeed(msg_en);
-//				msg_en = RFTGuiFinderHelper.removePattern(msg_en);
+//				msg_en = GuiFinderHelper.removePattern(msg_en);
 //				if (!msg_en.equals("") && !msg.matches(msg_en))
 //					msg += "[Possible english:" + msg_en + "]";
 //			}

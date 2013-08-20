@@ -7,32 +7,29 @@ public class TestSuiteExample extends TestSuiteHelper implements TestSuiteInterf
 
 	/**
 	 * Script Name   : <b>TestSuiteExample</b>
-	 * Generated     : <b>Aug 24, 2013 10:34:01 AM</b>
+	 * Generated     : <b>Aug 10, 2013 10:34:01 AM</b>
 	 * Description   : ACL Test Automation
 	 * 
-	 * @since  2013/08/24
+	 * @since  2013/08/10
 	 * @author Steven_Xiang
 	 */
-	
-    
-	
+		
     public static void main(String[] args){
     	TestSuiteExample test = new TestSuiteExample();
     	test.setMainScript(true);
-    	test.onInitialize(args);
+    	test.testMain(args);
     }
     
+	@Override
 	public void testMain(Object[] args) 
 	{
 		//testCategory = "Daily";
 		//startFromLine = 37; // 4-9
 		//endAtLine =2;     //
-		exeBatchRun(args);
+		
+    	String poolFile = "testdata/ax/TestSuiteExample.xls";
+		exeBatchRun(onInitialize(poolFile, getClass().getName()));
 	}
 		
-	public void onInitialize(Object[] args) {
-		String batchRunDataFile = "testdata/ax/AutomationTestSuites_template.xls";
-		testMain(onInitialize(batchRunDataFile, getClass().getName()));
-	}
 	
 }

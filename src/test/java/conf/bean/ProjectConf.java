@@ -1,11 +1,7 @@
 package conf.bean;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.util.Locale;
-
 import net.sf.cache4j.CacheFactory;
 
 import com.acl.qa.taf.helper.superhelper.*;
@@ -97,16 +93,15 @@ public class ProjectConf {
 		this.aclProjectDir = FileUtil.getAbsDir(aclProjectDir);
 	}
 
-	public void setLogDirForPublic(String logDirForPublic) {
-		this.logDirForPublic = FileUtil.getAbsDir(logDirForPublic);
-	}
 
 	public void setBuildInfo(String buildInfo) {
 		this.buildInfo = buildInfo;
 	}
 
-	public void setBuildName(String buildName) {
-		this.buildName = buildName;
+
+
+	public void setTestProject(String testProject) {
+		this.testProject = testProject;
 	}
 
 	public void setTesterName(String testerName) {
@@ -178,6 +173,11 @@ public class ProjectConf {
 	}
 
 	public void setTempLocalDir(String tempLocalDir) {
+		if(isUnicodeTest()){
+			tempLocalDir = tempLocalDir+"Unicode/";
+		}else{
+			tempLocalDir = tempLocalDir+"NonUnicode/";
+		}
 		this.tempLocalDir = FileUtil.getAbsDir(tempLocalDir);
 	}
 
@@ -220,15 +220,15 @@ public class ProjectConf {
 	public String testDescApp = "\n\tDescription of the tested area goes here....";
 
 	public String projectName = "ACLQA_Automation";
-
+    public boolean emailReport;
 	public String locale = FileUtil.locale.toString();
 	public String aclProjectDir = "";
-	public String logDirForPublic = "//nas2-dev/DevRoot/QA/Projects/Galvatron/Automation/",
+    public String
 			//tempCsvFile = tempLocalDir+"automationTempData.csv",
             //tempCsvMainFile = tempLocalDir+"automationTempMainData.csv",
             tempCsvResult = tempLocalDir+"automationTempResult.csv",
 			buildInfo = "",
-			buildName = "",
+			testProject = "",
 			testerName = "Steven_Xiang",
 			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
 
@@ -243,7 +243,13 @@ public class ProjectConf {
 
 	public void setJenkinsReport(boolean jenkinsReport) {
 		this.jenkinsReport = jenkinsReport;
-		LoggerHelper.RFT_jenkinsReport = this.jenkinsReport;
+		LoggerHelper.TAF_jenkinsReport = this.jenkinsReport;
+	}
+    
+	
+	public void setEmailReport(boolean emailReport) {
+		this.emailReport = emailReport;
+		LoggerHelper.TAF_emailReport = this.emailReport;
 	}
 
 	public void setStopIfNumConsecutiveFailures(int stopIfNumConsecutiveFailures) {
@@ -265,8 +271,8 @@ public class ProjectConf {
 		} else {
 			this.jenkinsReport = false;
 		}
-		LoggerHelper.RFT_jenkinsReport = this.jenkinsReport;
-		LoggerHelper.RFT_jenkinsReportDir = this.jenkinsReportDir;
+		LoggerHelper.TAF_jenkinsReport = this.jenkinsReport;
+		LoggerHelper.TAF_jenkinsReportDir = this.jenkinsReportDir;
 	}
 
 	public void setImageName(String imageName) {
@@ -292,11 +298,12 @@ public class ProjectConf {
 				+ hostIP.replaceAll("192\\.168\\.", "").replaceAll("\\.", "_")
 				+ "";
 		ACLQATestScript.loggerConf.userUniqueID = winUser + "/" + winName + "/";
+		ACLQATestScript.loggerConf.logDirForPublic += ACLQATestScript.loggerConf.userUniqueID;
+		
 		tempServerNetDir = tempServerNetDir
 				+ ACLQATestScript.loggerConf.userUniqueID;
 		tempServerDir = serverPrefix + tempServerDir
 				+ ACLQATestScript.loggerConf.userUniqueID;
-		this.logDirForPublic += ACLQATestScript.loggerConf.userUniqueID;
 		
 		//tempCsvFile = tempLocalDir+"automationTempData.csv";
 	    //tempCsvMainFile = tempLocalDir+"automationTempMainData.csv";

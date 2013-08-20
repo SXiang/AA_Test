@@ -10,9 +10,9 @@ public class MemusageTracer extends Thread {
 	int curMemusage = 0;
 	int numKeyword =0;
 	
-	String csvPath = "C:\\Documents and Settings\\steven_xiang\\Desktop\\memusage_report.csv";
+	String csvPath = "C:\\Users\\steven_xiang\\Desktop\\memusage_report.csv";
 	//String csvPath = "";
-	String imageName = "wmiprvse.exe";
+	String imageName = "firefox.exe";
 	String pid = "";
 	String command ="cmd.exe,/c,tasklist,/fo,table,/nh,/fi";
 	String reportHeader = "Num Check,No.,Keyword,Running Time(S),Image Name,PID,Session Name, Session#,Mem Usage(K),NumTestObjects,Check Time";
@@ -78,6 +78,7 @@ public class MemusageTracer extends Thread {
 		}
 	}
 	
+	@Override
 	public void run(){
 		  startTracer();
 	}

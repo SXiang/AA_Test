@@ -6,9 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.acl.qa.taf.util.FileUtil;
 
 public class GenKeywordDoc {
 	private static int logLvl = 2;	// 1: info; 2: debug

@@ -1,15 +1,18 @@
 package com.acl.qa.taf.helper;
 
-import java.awt.Point;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-import com.acl.qa.taf.helper.Interface.KeywordInterface;
-import com.acl.qa.taf.helper.superhelper.ObjectHelper;
+import com.acl.qa.taf.helper.superhelper.InitializeTerminateHelper;
 import com.acl.qa.taf.util.FileUtil;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.thoughtworks.selenium.DefaultSelenium;
 
 /**
  * Description   : Super class for script helper
@@ -17,7 +20,7 @@ import com.acl.qa.taf.util.FileUtil;
  * @author Steven_Xiang
  * @since  January 05, 2012
  */
-public abstract class KeywordSuperHelper extends ObjectHelper
+public abstract class KeywordSuperHelper extends InitializeTerminateHelper 
 {
 
 	// BEGIN of datapool variables declaration
@@ -32,16 +35,19 @@ public abstract class KeywordSuperHelper extends ObjectHelper
     protected String 
             dpMasterFile,dpMasterFiles[] = new String[50],
 			dpActualFile,dpActualFiles[] = new String[50],
+			dpSuperMasterFile,
 			fileExt = ".vp",
 			outputFolder = "result";
     
-    protected boolean delFile = false;
+    protected int fileIndex = 0;
+    protected boolean delFile = true;
     
 	public void testMain(Object[] args) 
 	{
 
 		// Data-Driven Stub
 		dataInit(args); 
+		//testMain(args); - if there is one in the future;
 		//exeCommands();
 	}
 	private boolean dataInit(Object[] args){
@@ -62,10 +68,10 @@ public abstract class KeywordSuperHelper extends ObjectHelper
 	
 	//************ Setup file path for data verification ******************
 	public String setupTestFiles(){
-		return setupTestFiles(scriptName.replaceAll(".", "/"),"","No",fileExt);
+		return setupTestFiles(scriptName.replaceAll("\\.", "/"),"","No","");
 	}
 	public String setupTestFiles(String filename,String location){
-		return setupTestFiles(filename,location,"No",".txt");
+		return setupTestFiles(filename,location,"No","");
 	}
 	public String setupTestFiles(String filename,String location, String defaultFileExt){
 		return setupTestFiles(filename,location,"No",defaultFileExt);
@@ -76,10 +82,14 @@ public abstract class KeywordSuperHelper extends ObjectHelper
 	}
 	
 
-	public String setupTestFiles(String filename,String location, String append, 
+	public String setupTestFiles(String fName,String location, String append, 
 			String defaultFileExt,String mFile, int numFile){	
 		
-		String tempMasterFile = "",tempActualFile = "", fName = "";
+		String tempMasterFile = "",tempActualFile = "", filename = fName;
+		if(defaultFileExt.equals("")){
+			defaultFileExt = fileExt;
+		}
+		fileExt = defaultFileExt;
 		
         if(filename==null||filename.equals("")){
         	//logTAFWarning("Empty file name");
@@ -87,28 +97,39 @@ public abstract class KeywordSuperHelper extends ObjectHelper
         }
 
 		String localName = filename;
-		superMasterFile = FileUtil.getAbsDir(filename,projectConf.testDataDir);
-		superMasterFile = FileUtil.getFullNameWithExt(superMasterFile+"/master/TestCaseLine_"+(currentTestLine-1),defaultFileExt);
-        if(location.equalsIgnoreCase("Server")){
-        	localName = FileUtil.getAbsDir(filename,projectConf.tempServerNetDir);
-    		filename = FileUtil.getAbsDir(filename,projectConf.tempServerDir);
-        }else{
-    		filename = FileUtil.getAbsDir(filename,loggerConf.logRoot);	
-    		localName = filename;    
-    	    
-    	}
+		String[] fd = filename.split("/");
+		String fdName = fd[0];
+		filename = fd[fd.length-1];
+		for(int i=1;i<fd.length-1;i++){
+		 fdName +="/"+fd[i];
+		}
+		if(fd.length==1)
+			fdName = "";
+		
+	
+		String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
+		String subFilename = filename+"_Line_"+(currentTestLine);
+		dpSuperMasterFile = projectConf.testDataDir+fdName+superMDir+subFilename;
+logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
+		//        if(location.equalsIgnoreCase("Server")){
+//        	localName = projectConf.tempServerNetDir+fdName+expectedDir+subFilename;
+//    		fdName = projectConf.tempServerDir+expectedDir+subFilename;
+//        }else{
+//    		fdName = loggerConf.logRoot+fdName+subFilename;
+//    		localName = fdName;    
+//    	    
+//    	}
         
         
         //localName = FileUtil.getFullNameWithExt(localName,defaultFileExt);
-        tempActualFile = FileUtil.getFullNameWithExt(localName+"/actualdata/TestCaseLine_"+(currentTestLine-1),defaultFileExt);
-    	tempMasterFile = FileUtil.getFullNameWithExt(tempMasterFile+"/expecteddata/TestCaseLine_"+(currentTestLine-1),defaultFileExt);
-    	   
+        tempActualFile = loggerConf.logRoot+fdName+actualDir+subFilename;
+    	tempMasterFile = loggerConf.logRoot+fdName+expectedDir+subFilename;
 
     	logTAFDebug("DelFile is '"+delFile+"'");
     	FileUtil.mkDirs(tempMasterFile);
     	FileUtil.mkDirs(tempActualFile,delFile);  
  
-		if(numFile>-1){
+		if(numFile>-1){ // for old taf - will be removed soon - Steven
 			 dpMasterFiles[numFile]  = tempMasterFile;
 			 dpActualFiles[numFile]  = tempActualFile;
 		}else{
@@ -118,38 +139,56 @@ public abstract class KeywordSuperHelper extends ObjectHelper
 		
         thisMasterFiles = dpMasterFiles;
         thisActualFiles = dpActualFiles;
+        
+        
         thisMasterFile = dpMasterFile;
         thisActualFile = dpActualFile;
         
-    	return filename;
+    	return subFilename;
+	}
+	
+	// **** Required for keyword **************
+	public Object[] onInitialize(Object[] args,String testName) {	
+		if(args.length<3){
+			logTAFError("Failed to load test data?");
+			return args;
+		}
+		dpw = (HSSFRow) args[2];
+		dph = (ArrayList<String>) args[1];
+		//datapool = (HSSFSheet) args[0];		
+		setScriptName(testName);
+		return args;
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+// **************** Methods On Debugging ****************************************************	
+	public WebDriver startBrowser(String Browser) {
+        WebDriver driver = null;
+		if (Browser.equalsIgnoreCase("HtmlUnit")) {
+			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+		} else if (Browser.equalsIgnoreCase("FireFox")) {
+
+		} else if (Browser.equalsIgnoreCase("Chrome")) {
+
+		}else{
+			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+		}
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+	return driver;
+
+	}
+	public DefaultSelenium getSeleniumClient(String url) {
+		DefaultSelenium selenium = getSeleniumClient("dpURL");
+		selenium.start();
+//
+//		selenium.click("link=JVM");
+//		selenium.waitForPageToLoad("30000");
+		return selenium;
+	}
 	
 	// *************  Temp  *************************************
-	private void testAXRestAPI(WebDriver driver) {
+	protected void testAXRestAPI(WebDriver driver) {
 		// Curl command: curl -k -o c:\curl\getProjectsList.xml --user
 		// ACLQA\g1_admin:Password00
 		// https://WIN2012-3.ACLQA.local:8443/aclax/api/projects?scope=working
@@ -215,5 +254,5 @@ public abstract class KeywordSuperHelper extends ObjectHelper
 		}
 
 	}
-
+	
 }

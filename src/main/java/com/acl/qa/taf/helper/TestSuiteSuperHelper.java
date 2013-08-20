@@ -1,6 +1,5 @@
 package com.acl.qa.taf.helper;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -62,8 +61,8 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 			   
 			    currentLine++;
 			    numTestedKeywordInCase =0;
-			    buildName = getDpString("Build_Name");
-			    testCase = getDpString("Test_Case").replaceAll("[\\\\/]", ".");
+			    buildName = getDpString("Test_Project");
+			    testCase = getDpString("TestSuite_Driver").replaceAll("[\\\\/]", ".");
 			        
 			    runTest = getDpString("Run_Test");
 			    
@@ -112,7 +111,7 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 									new Object[] {projectName + DP_TABLE_FOLDER + testCase});
 						} else {
 							//callScript(pathToTestCaseScripts + testType +subpathToCase+ "." + testCase, args);
-							callScript(pathToTestCaseScripts + testCase, args);
+							callScript(testCase, args);
 						}
 											  
 					  LoggerHelper.updateTestInfo("", true);
@@ -211,7 +210,6 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 		String Output_Report = testSummary(testSuite);
 		
 		logTAFTestResult(Output_Report,true);
-		
 		//sendEmail(FileUtil.getAbsDir(TAFLogger.testResultTXT));
 		String emailSubject=System.getProperty(sysPropPrefix+"emailSubject");
 		String emailTitle=System.getProperty(sysPropPrefix+"emailTitle");
@@ -224,8 +222,8 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 		}	
 		
 		Output_Report = FormatHtmlReport.getHttpReportFromWiki(Output_Report,FileUtil.getAbsDir(TAFLogger.testResultHTML),emailTitle,emailSubject);
-        stopApp();
-        
+		stopApp();
+
         sendEmail(Output_Report);
 		numTCs=0;
 		numTCsFail=0;
@@ -233,7 +231,7 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 // Use these two lines if you want to see test results in data pools		
 //		DatapoolUtilities.storeCSV((IDatapool) poolArgs[0],poolCsvFile,",",true);   	
 //		DatapoolUtil.replaceData(poolCsvFile.getAbsolutePath(), "<NULL>", "",true);
-
+		onTerminate();
 	}
 	
 	public void sendEmail(String Output_Report){
@@ -263,9 +261,9 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 		
 		copyTestResults("QAServer");
 		
-		if(RFT_jenkinsReport){
+		if(TAF_jenkinsReport){
 			copyTestResults("Jenkins");	
-		}else if(RFT_emailReport){ // If runs from Jenkins, don't send email from RFT.				
+		}else if(TAF_emailReport){ // If runs from Jenkins, don't send email from RFT.				
 			String emailCmd=System.getProperty(sysPropPrefix+"emailCmd");
 			if(emailCmd==null){
 				if(toAddress.matches(emailPattern)){
@@ -315,7 +313,7 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 	   copyToJenkins(false);
 	}
 	public void copyToJenkins(boolean isfinal){
-		String reportDir = RFT_jenkinsReportDir;
+		String reportDir = TAF_jenkinsReportDir;
 
 		if(reportDir==null||reportDir==""){
 			logTAFWarning("Jenkins_home not found !!!");
@@ -332,22 +330,30 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 			//FileUtil.removeDir(reportDir+"\\FinishedTest\\");
 		}
 		
-		logTAFInfo("Copy test report to jenkins "+TAFLogger.testResultTXT+"\\..\\");
+		logTAFDebug("Copy test report to jenkins "+TAFLogger.testResultTXT+"\\..\\");
 		FileUtil.mkDirs(reportDir+"\\screenShots\\");		
-		FileUtil.copyDir(TAFLogger.screenShots, reportDir+"\\screenShots\\");		
+		FileUtil.copyDir(TAFLogger.screenShots, reportDir+"\\screenShots\\");	
+		
 		FileUtil.copyFile(TAFLogger.testResultTXT, reportDir+"\\test_details.log");
 		FileUtil.copyFile(TAFLogger.testResultXLS, reportDir+"\\test_matrix.xls");
 		FileUtil.copyFile(TAFLogger.testResultHTML, reportDir+"\\test_summary.html");
 		FileUtil.copyFile(TAFLogger.memusageCSV, reportDir+"\\test_memusage.csv");
 	}
 	public void copyToQAServer(){
-		logTAFInfo("Copy test report to QAServer from "+TAFLogger.testResultTXT+"\\..\\");
-		FileUtil.copyDir(TAFLogger.screenShots, screenShots_Server);
+		logTAFDebug("Copy test report to QAServer from "+TAFLogger.testResultTXT+"/../");
+		FileUtil.mkDirs(screenShots_Server+"\\");		
+		FileUtil.copyDir(TAFLogger.screenShots, screenShots_Server+"\\");	
+		
 		FileUtil.mkDirs(testResultTXT_Server);
-		FileUtil.copyDir(TAFLogger.testResultTXT, new File(testResultTXT_Server).getParent());
-		FileUtil.copyDir(TAFLogger.testResultXLS, new File(testResultXLS_Server).getParent());
-		FileUtil.copyDir(TAFLogger.testResultHTML, new File(testResultHTML_Server).getParent());
-		FileUtil.copyDir(TAFLogger.memusageCSV, new File(memusageCSV_Server).getParent());
+//		FileUtil.copyDir(TAFLogger.testResultTXT, new File(testResultTXT_Server).getParent());
+//		FileUtil.copyDir(TAFLogger.testResultXLS, new File(testResultXLS_Server).getParent());
+//		FileUtil.copyDir(TAFLogger.testResultHTML, new File(testResultHTML_Server).getParent());
+//		FileUtil.copyDir(TAFLogger.memusageCSV, new File(memusageCSV_Server).getParent());
+
+		FileUtil.copyFile(TAFLogger.testResultTXT, testResultTXT_Server);
+		FileUtil.copyFile(TAFLogger.testResultXLS, testResultXLS_Server);
+		FileUtil.copyFile(TAFLogger.testResultHTML, testResultHTML_Server);
+		FileUtil.copyFile(TAFLogger.memusageCSV, memusageCSV_Server);
 	}
 //*************************
 	

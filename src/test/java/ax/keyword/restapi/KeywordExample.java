@@ -3,29 +3,12 @@
  */
 package ax.keyword.restapi;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.UTF8Control;
 
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.gargoylesoftware.htmlunit.*;
 
 import ax.lib.KeywordHelper;
 
@@ -50,23 +33,28 @@ public class KeywordExample extends KeywordHelper implements KeywordInterface {
 
 	// END of datapool variables declaration
 
+	@Override
 	public boolean dataInitialization() {
-		delFile = false;     // if we need to delete existing file before test
-		
 		super.dataInitialization();
 				
 		dpURL = getDpString("URL");
-		dpScope = getDpString("Scope");
-		
+		dpScope = getDpString("Scope");		
 		return true;
 	}
 
-	public void testMain(Object[] args){
-		super.testMain(args);
+	@Override
+	public void testMain(Object[] args){			
+		super.testMain(onInitialize(args, getClass().getName()));
+		
+		//*** Test steps ****
 		navigateToURL();
 		casLogon();
 		doVerification();
 		cleanUp(dpURL);
+		
+		//*** End of test ***
+		
+		onTerminate();
 	}
 	
 	public void navigateToURL(){
@@ -74,56 +62,94 @@ public class KeywordExample extends KeywordHelper implements KeywordInterface {
 		if(!dpScope.equals("")){
 			url += "?scope="+dpScope;
 		}
+		logTAFStep("Navigate to url '"+url+"'");
 		driver.get(url);
 	}
 	
+	public boolean isUserLoggedon(){
+		boolean done = false;
+		if(driver!=null){
+			try{
+				driver.findElement(By.id("username"));
+			
+			    driver.findElement(By.id("password"));
+			    
+	            casAuthenticated = false;
+	            setSharedObj();
+			}catch(Exception e){
+				casAuthenticated = true;
+	            setSharedObj();
+				done = true;
+			}
+		}
+			
+		return done;
+	}
 	public void casLogon(){
-		if(casAuthenticated)
+		if(casAuthenticated){
+			if(!isUserLoggedon()){
+			  logTAFError(autoIssue+"User CAS session experied or server problem?");
+			}else{
+			  logTAFInfo("CAS authenticated session is still alive");
+			}
 			return;
-		
+		}
 		try {
 			// WebElement form = driver.findElement(By.id("id1"));
+			logTAFStep("Input username '"+dpUserName+"'");
 			WebElement username = driver.findElement(By.id("username"));
 			username.sendKeys(dpUserName);
+			logTAFStep("Input password '"+dpPassword+"'");
 			WebElement password = driver.findElement(By.id("password"));
 			password.sendKeys(dpPassword);
 
 			WebElement submit = driver.findElement(By
 					.xpath("//input[@name='submit']"));
-
+            logTAFStep("Submit user credential");
 			submit.click();
-            casAuthenticated = true;
-            setSharedObj();
+			// How to wait for page load?
+			sleep(2);
 		} catch (Exception e) {
-			logTAFError("No CAS login page found "+e.toString());
+			logTAFError("CAS login failed "+e.toString());
 		}
+		
+		if(isUserLoggedon()){
+			logTAFInfo("User CAS logon successed!");
+		}else{
+			logTAFError("Failed to logon - "+dpUserName+":"+dpPassword);
+		}
+
 	}
 	
 	
 	public void doVerification(){
 		setupTestFiles();  
-		String actualResult = UTF8Control.utf8decode(driver.getPageSource());		
-		compareTextResult(actualResult, "File");
+
+		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
+		if(casAuthenticated){
+			logTAFInfo("JSON data: '"+actualResult.substring(0,100)+"...");
+			// comparTextReult
+			// 1. contents - string
+			// 2. type - "File","JSON",
+			logTAFStep("Demo - first file verification");
+			compareJsonResult(actualResult);
+			// Do another for demo - multiple comparisons - Steven
+			logTAFStep("Demo - second file verification");
+			compareJsonResult(actualResult);
+		}else{
+			actualResult = (actualResult.substring(0,300))+"\n\t...";
+			
+			logTAFWarning("This should not be what we want '"+actualResult+"'"	);
+		}
+
 		
 	}
-    
-	
-	// **** Required for keyword **************
-	public void onInitialize(Object[] args) {	
-		if(args.length<3){
-			logTAFWarning("Failed to load test data?");
-			return;
-		}
-		dpw = (HSSFRow) args[2];
-		dph = (ArrayList<String>) args[1];
-		//datapool = (HSSFSheet) args[0];		
-		dataInitialization();
-		setScriptName(getClass().getName());
-		testMain(args);
+
+   // ************  Debugging ************************
+	public static void main(String args){
+		KeywordExample debug = new KeywordExample();
+		debug.startBrowser("HtmlUnit");
+		debug.testAXRestAPI(debug.driver);
 	}
-
-	public static void main(String[] args) {
-
-	}
-
 }
+

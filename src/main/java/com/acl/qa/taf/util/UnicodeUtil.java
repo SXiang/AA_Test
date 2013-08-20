@@ -5,9 +5,6 @@ import java.text.DateFormat;
 import java.util.*;
 
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.hssf.util.*;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 //import org.apache.poi.ss.usermodel.DataFormat;
@@ -75,14 +72,14 @@ public class UnicodeUtil extends ACLQATestScript
 		
 		 //File to store data in form of XLS
 	     File xf = new File(FileUtil.getAbsDir(xlsName));
-	     OutputStream os = (OutputStream)new FileOutputStream(xf);	      
+	     OutputStream os = new FileOutputStream(xf);	      
 	     
 	    //File to get data in form of CSV
 	    File cf = new File(FileUtil.getAbsDir(csvName));
 	    
 	    sheetName = xf.getName().replace(".xls","").replace(".XLS","");
 	    sheetName = sheetName.split("\\.")[sheetName.split("\\.").length-1];
-	    InputStream is = (InputStream)new FileInputStream(cf);	      
+	    InputStream is = new FileInputStream(cf);	      
 	    InputStreamReader osr = new InputStreamReader(is, encoding);
 	    BufferedReader br = new BufferedReader(osr);
 		int columns = -1;
@@ -110,7 +107,7 @@ public class UnicodeUtil extends ACLQATestScript
 			HSSFSheet sheet = hwb.createSheet(sheetName);
 			for(int k=0;k<arList.size();k++)
 			{
-				ArrayList<String> ardata = (ArrayList<String>)arList.get(k);
+				ArrayList<String> ardata = arList.get(k);
 //				System.out.println("ardata " + ardata.size());
 				HSSFRow row = sheet.createRow(0+k);
 				
@@ -144,13 +141,13 @@ public class UnicodeUtil extends ACLQATestScript
 	      //File to Get data in form of CSV
 		  csvName = FileUtil.getAbsDir(csvName.replaceAll(".csv", ++numCsv+".csv"));
 	      File cf = new File(csvName);
-	      OutputStream os = (OutputStream)new FileOutputStream(cf);	      
+	      OutputStream os = new FileOutputStream(cf);	      
 	      OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
 	      BufferedWriter bw = new BufferedWriter(osw);
 
 		  //File to store data in form of XLS
 		  File xf = new File(FileUtil.getAbsDir(xlsName));
-		  InputStream is = (InputStream)new FileInputStream(xf);	   
+		  InputStream is = new FileInputStream(xf);	   
 		  
 	      try{
 				HSSFWorkbook hwb = new HSSFWorkbook(is,true);

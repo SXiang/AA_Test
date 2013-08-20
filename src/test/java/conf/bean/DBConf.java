@@ -1,8 +1,5 @@
 package conf.bean;
 
-import java.io.IOException;
-import java.util.Properties;
-
 public class DBConf {
 	
 	public String url="",driver="",    					

@@ -1,5 +1,7 @@
 package com.acl.qa.taf.helper;
 
+import ibm.util.FileOps;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -28,6 +30,7 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 	public String linkToKeywordDescription = "";
 	public String runTest ="";
 	public String dpTestCategory ="";
+	public Object[] args = new Object[3];
 	public boolean unicodeOnly = false,
 	               nonunicodeOnly = false,
 	               skipTest=false; 
@@ -42,14 +45,14 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 	
 	
 	// exeTestCase for a single pool
-	public void exeTestCase(Object[] args){
-		if(args==null||args.length<3){
+	public void exeTestCase(Object[] uargs){
+		if(uargs==null||uargs.length<3){
 			logTAFWarning("Failed to load your test data?");
 			return;
 		}else{
-			datapool = (HSSFSheet) args[0];
-			dph = (ArrayList<String>) args[1];
-			dpi = (Iterator) args[2];
+			args[0] = datapool = (HSSFSheet) uargs[0];
+			args[1] = dph = (ArrayList<String>) uargs[1];
+			args[2] = dpi = (Iterator) uargs[2];
 			caseObj = this;
 		}
 		
@@ -86,7 +89,7 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 				!stopScript)
 		{
 			dpw = (HSSFRow)dpi.next();
-			args[3] = dpw;
+			args[2] = dpw;
 			
 			
 			skipTest = false;			
@@ -102,16 +105,16 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 			
 			//##D## new isUnicode variable added and assigned value
 			//isUnicode = getDpString("Is_Unicode");
-			keywordName = getDpString("Keyword").replaceAll("[\\\\/]",".");
-			    pathToKeywordScripts = originalPathToKeywordScripts;
-				temp = keywordName.split("[\\\\/\\.]");
+			String keywordFullName = getDpString("Keyword").replaceAll("[\\\\/]",".");
+			    pathToKeywordScripts = "";//originalPathToKeywordScripts;
+				temp = keywordFullName.split("[\\\\/\\.]");
 				for(int i=0;i<temp.length-1;i++){
 					pathToKeywordScripts +=temp[i]+".";
 				}
 				keywordName = temp[temp.length-1];
 
-			buildName = getDpString("Build_Name");	
-            knownBugs = getDpString("KnownBugs");
+			buildName = getDpString("Test_Project");	
+            knownBugs = getDpString("KnownBug");
             expectedErr = getDpString("ExpectedErr");
               String ut = getDpString("UnicodeTest");
             if(!isValidBuild(buildName)){
@@ -202,22 +205,12 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
                     currentkeyword = caseName+"(line "+ currentLine +")."+keywordName;
 				    currentTestLine = currentLine;
 				    
-					// support call keywords other than in current project also
-					if (keywordName.contains(".Tasks.")) { 
-						logTAFDebug("Call: "+ keywordName);
-						ksh = callScript(pathToKeywordScripts + keywordName, args);
-					} else {
-						//logTAFWarning("We don't currently support call keywords other than in current project - ");
-						logTAFDebug("Call: "+ keywordName);
+						logTAFDebug("Call: "+pathToKeywordScripts+ keywordName);
 						//stopScript = true;
-						ksh = callScript(pathToKeywordScripts + keywordName, args);
+						ksh = callScript(keywordFullName, args);
 						unregisterAllInAUT();
-					}
 					
 					
-//					if(!errorHandledInLine){//is not empty, it's setup/changed by the keyword
-//						   expectedErr = getDpString("ExpectedErr");
-//	                }
 					
 	                logTAFDebug("ExpectedErr ='"+expectedErr+"'");
 					if(!expectedErr.equals("")){						
@@ -339,7 +332,7 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 								(knownBugs.equals("")?"":"\n\t  [KNOWN BUGS:    "+knownBugs+"]"),
 								testResult=="Pass"?true:false);
 				
-				FileUtil.appendStringToFile(projectConf.tempCsvResult, testResultLine);
+				FileOps.appendStringToFile(projectConf.tempCsvResult, testResultLine);
 				sleep(timerConf.waitBetweenKeywords);
 
 			}
@@ -390,7 +383,7 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 
 		//logTAFDebug("<><><><><>\t"+appMemoryUsage());
 
-
+		onTerminate();
 	}
 	private boolean isNotInCategory(String cate){
 		boolean notInCate = false;
@@ -507,5 +500,6 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 		return skip;
 		
 	}
+	
 }
 	

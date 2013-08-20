@@ -1,7 +1,6 @@
 package com.acl.qa.taf.helper.superhelper;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Pattern;
 
 import com.acl.qa.taf.util.FileUtil;
@@ -16,7 +15,7 @@ import com.acl.qa.taf.util.FileUtil;
 // while((iw=getDialog(winTitle,className))!=null
 // &&numCheck++<maxCheck){
 // actualTitle = iw.getText();
-public abstract class RFTGuiFinderHelper extends WinTreeHelper {
+public abstract class GuiFinderHelper extends WinTreeHelper {
 	// public static int defaultMatchFlag //= Regex.MATCH_CASEINDEPENDENT;
 	// //= Regex.MATCH_MULTILINE;
 	// = Regex.MATCH_NORMAL;

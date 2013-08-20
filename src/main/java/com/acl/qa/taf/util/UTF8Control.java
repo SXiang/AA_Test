@@ -1,8 +1,6 @@
 package com.acl.qa.taf.util;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.*;
 import java.util.ResourceBundle.Control;
 
@@ -12,7 +10,8 @@ public class UTF8Control extends Control {
 	//   ResourceBundle.getBundle("com.example.i18n.text", new UTF8Control());
 
 	String encoding = "UTF-8";
-    public ResourceBundle newBundle
+    @Override
+	public ResourceBundle newBundle
         (String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
             throws IllegalAccessException, InstantiationException, IOException
     {

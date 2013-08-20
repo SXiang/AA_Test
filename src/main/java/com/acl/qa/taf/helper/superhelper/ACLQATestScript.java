@@ -6,6 +6,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,9 +20,11 @@ import javax.imageio.ImageIO;
 
 
 
+
+
+
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.openqa.selenium.WebDriver;
 
 import com.acl.qa.taf.helper.TestDriverSuperHelper;
 import com.acl.qa.taf.helper.TestSuiteSuperHelper;
@@ -42,6 +45,7 @@ public class ACLQATestScript {
 	public static LoggerConf loggerConf = new LoggerConf();
 	public static TestSuiteSuperHelper suiteObj;
 	public static TestDriverSuperHelper caseObj;
+	public static Object app;
 	
 	protected HSSFSheet datapool = null;
 	protected Iterator dpi = null;
@@ -51,7 +55,16 @@ public class ACLQATestScript {
 	protected static int getCurrentLogFilter() {
 		return currentLogFilter;
 	}
-
+    protected Object getTestApp(){
+    	
+    	if(suiteObj!=null){
+  		  app = suiteObj;
+          }else if(caseObj!=null){
+            app = caseObj;
+          }
+    	return app;
+    }
+    
 	protected static void setCurrentLogFilter(int currentLogFilter) {
 		ACLQATestScript.currentLogFilter = currentLogFilter;
 	}
@@ -75,7 +88,11 @@ public class ACLQATestScript {
 		   Rectangle screenRectangle = new Rectangle(screenSize);
 		   Robot robot = new Robot();
 		   BufferedImage image = robot.createScreenCapture(screenRectangle);
-		   ImageIO.write(image, "jpeg", new File(FileUtil.getAbsDir(fileName)));
+		   String absPath = FileUtil.getAbsDir(fileName);
+		   FileUtil.mkDirs(absPath);
+		   LoggerHelper.logTAFDebug("captured screen '"+absPath);
+		   ImageIO.write(image, "jpeg", new File(absPath));
+		   //LoggerHelper.logTAFDebug("captured screen '"+absPath);
 		 }catch(Exception e){
 			 
 		 }
@@ -86,22 +103,35 @@ public class ACLQATestScript {
 	}
 	
 	protected Object callScript(String scriptFullName,Object[] args){
-		String methodName = "onInitialize";
+		String methodName = "testMain";
 		Class[] paramObject = new Class[] {Object[].class};		
 		return callScript(scriptFullName, methodName, args, paramObject);
 	}
 	
 	
-    protected Object callScript(String scriptFullName,String methodName,Object[] args,Class[] paramString){
-    	Class cls =null;
+    protected Object callScript(String scriptFullName,String methodName,Object[] args,Class<?>[] paramString){
+    	Class<?> cls =null;
 		Object obj  =null;
+		Object[] oargs = {args};
+		
 		try{
 			cls = Class.forName(scriptFullName);
 			obj = cls.newInstance();			
-			Method method = cls.getDeclaredMethod(methodName,paramString);			
-			method.invoke(obj, args);
-		}catch(Exception e){
+			Method method = cls.getDeclaredMethod(methodName,paramString);	
 			
+			   method.invoke(obj, oargs);
+			   
+		}catch(InvocationTargetException ue){
+			UnhandledException aclqaautomation = 
+					new UnhandledException("ACLQA - UnhandledException: ",ue);
+			((InitializeTerminateHelper)this).onUnhandledException(aclqaautomation);
+//			String ueMethod = "onUnhandledException";
+//		    method = cls.getDeclaredMethod(ueMethod,ue.getClass());
+//		    method.invoke(obj,(Throwable)aclqaautomation);
+		}catch(Exception e){			
+			LoggerHelper.logTAFWarning("Failed to invok method '"
+		         +methodName+"' from instance of '"+scriptFullName+"'");
+			e.printStackTrace();
 		}
 		return obj;
 	}
@@ -130,6 +160,17 @@ public class ACLQATestScript {
     		
     	}
     }
+    
+	
+	class UnhandledException extends Exception {
+		public UnhandledException(String message) {
+	        super(message);
+	    }
+
+	    public UnhandledException(String message, Throwable throwable) {
+	        super(message, throwable);
+	    }
+	}
 	public boolean isMainScript() {
 		return mainScript;
 	}

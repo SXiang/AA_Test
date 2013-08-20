@@ -3,23 +3,12 @@ package com.acl.qa.taf.tool;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.acl.qa.taf.util.FileUtil;
-import com.acl.qa.taf.util.NLSUtil;
 
 // Run after ConvertScripts to generate new datapool based on new code template for datapool variables
 public class Convert2NewDpI {

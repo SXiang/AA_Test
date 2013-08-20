@@ -1,6 +1,5 @@
 package com.acl.qa.taf.helper.superhelper;
 
-import java.net.URL;
 import java.sql.*;
 import java.util.*;
 import java.io.*;

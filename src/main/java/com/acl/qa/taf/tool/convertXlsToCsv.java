@@ -15,7 +15,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.acl.qa.taf.util.FileUtil;
-import com.acl.qa.taf.util.UnicodeUtil;
 
 /**
  * Description : Functional Test Script
@@ -88,13 +87,13 @@ public class convertXlsToCsv {
 			// File to Get data in form of CSV
 			// csvName = csvName.replaceAll(".csv", "_ConvertTest"+".csv");
 			File cf = new File(FileUtil.getAbsDir(csvName));
-			OutputStream os = (OutputStream) new FileOutputStream(cf);
+			OutputStream os = new FileOutputStream(cf);
 			OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
 			BufferedWriter bw = new BufferedWriter(osw);
 
 			// File to store data in form of XLS
 			File xf = new File(FileUtil.getAbsDir(xlsName));
-			InputStream is = (InputStream) new FileInputStream(xf);
+			InputStream is = new FileInputStream(xf);
 
 			try {
 				HSSFWorkbook hwb = new HSSFWorkbook(is, true);

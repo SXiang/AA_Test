@@ -1,8 +1,11 @@
 package com.acl.qa.taf.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import info.bliki.wiki.model.WikiModel;
 
-import com.acl.qa.taf.helper.superhelper.InitializeTerminateHelper;
+import com.acl.qa.taf.helper.superhelper.ACLQATestScript;
 import com.acl.qa.taf.helper.superhelper.LoggerHelper;
 import com.acl.qa.taf.helper.superhelper.TAFLogger;
 
@@ -15,7 +18,11 @@ import com.acl.qa.taf.helper.superhelper.TAFLogger;
 public abstract class FormatHtmlReport
 {
 	//TODO Insert shared functionality here
-	
+	public static String txtHtmlHeader  = "<!DOCTYPE html>"+
+    "<html><body><pre>";
+	public static String txtHemlFooter ="</pre></body></html>";
+	public static String linkOpenTag ="<a target=\"_blank\""+
+			"";
 	public static String getHttpReportFromWiki(String wikiPage){
 		String outFile = FileUtil.getAbsDir(TAFLogger.testResultHTML);
 		return getHttpReportFromWiki(wikiPage,outFile);
@@ -26,6 +33,7 @@ public abstract class FormatHtmlReport
 	}
 	public static String getHttpReportFromWiki(String wikiPage,String outFile, String title,String subject){
 		    String ACLWiki = "http://godzilla.dev.acl.com/wiki/index.php?title=";
+		    ACLWiki = ACLQATestScript.projectConf.wikiLink + "?title=";
 		    wikiPage = sanitize(wikiPage);
 		    
 		    WikiModel wikiModel = 
@@ -34,11 +42,29 @@ public abstract class FormatHtmlReport
 		    
            String htmlStr = wikiModel.render(wikiPage);
            htmlStr = addReportHeader(htmlStr,title,subject);
-           
+           htmlStr = addReportFooter(htmlStr,"Test Report");
            FileUtil.writeFileContents(outFile, htmlStr);
            //System.out.print(htmlStr);
            
 		return outFile;
+	}
+	public static String addReportFooter(String footer){
+		return addReportFooter("</pre>",footer);
+	}
+	public static String addReportFooter(String htmlStr,String footer){
+		String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm").format(Calendar.getInstance().getTime());
+		htmlStr += "</td></tr>"+
+                "<tr bgcolor=\"#CCCCFF\"><td align=\"center\">"+
+				"<b><font color=\"#0000A0\">ACLQA Automation "+footer+" - "+
+				timeStamp+"</font></b></td></tr>"+
+                "</hr>"+
+                "</table>"+
+                "</body></html>";
+		return htmlStr;
+	}
+	
+	public static String addReportHeader(String title){
+		return addReportHeader("<pre>","ACLQA Automation "+title,"");
 	}
 	public static String addReportHeader(String body,String title,String subject){
 		int headerIndex = body.indexOf("<h3>");
@@ -50,11 +76,26 @@ public abstract class FormatHtmlReport
         	subjectC = "<tr style = \"color:#0B0B3B\"><td><div id=\"tocsubject\"><h5>\t\t - <u>"+subject+"</u></h5></div></td></tr>";
         }
         
-        String header = "<table id=\"toc\" class=\"toc\" summary=\"AutoRunReport\">"+
+        String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        		+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd>"+
+                          "<html xmlns=\"http‎://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">"+
+        		          "<head>"+
+                          "<meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\" />" +
+//        		          "<style>"+
+//                             "a:link {color:#FF0000;}    /* unvisited link */"+
+//                             "a:visited {color:#00FF00;} /* visited link */"+
+//                             "a:hover {color:#FF00FF;}   /* mouse over link */"+
+//                             "a:active {color:#0000FF;}  /* selected link */" +
+//                          "</style>"+
+                          "<body bgcolor=\"#FAFAFB\">"
+                          +
+        		 
+        		         "<table id=\"toc\" class=\"toc\" summary=\"AutoRunReport\">"+
                          "<tr style = \"color:#0B0B61\"><td><div id=\"toctitle\"><h2>"+title+"</h2></div>"+
                          "</td></tr>" +
                          subjectC+
-                         "</table>" +
+                        
+                         "<tr><td>" +
                          "";
         body = header+body;
         return body;

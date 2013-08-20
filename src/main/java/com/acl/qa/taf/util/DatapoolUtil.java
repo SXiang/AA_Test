@@ -36,9 +36,10 @@ public class DatapoolUtil {
 		
 		try{
 			xf = new File(FileUtil.getAbsDir(poolFile));
-			is = (InputStream)new FileInputStream(xf);	
+			is = new FileInputStream(xf);	
+			xf.delete();
 		}catch(Exception e){
-			System.out.println("Failed to loaded file "+poolFile+" !");
+			System.out.println("Failed to load file "+poolFile+" !");
 			return null;
 		}
 		

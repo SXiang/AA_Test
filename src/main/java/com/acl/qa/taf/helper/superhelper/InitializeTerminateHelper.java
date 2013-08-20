@@ -3,24 +3,18 @@ package com.acl.qa.taf.helper.superhelper;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.InetAddress;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Properties;
 
 import com.acl.qa.taf.util.DatapoolUtil;
 import com.acl.qa.taf.util.FileUtil;
+import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.MemusageTracer;
 import com.acl.qa.taf.util.PropertyUtil;
 import com.acl.qa.taf.util.UnicodeUtil;
 
-
-
-import conf.bean.*;
-
-public class InitializeTerminateHelper extends LoggerHelper {
+public class InitializeTerminateHelper extends ObjectHelper {
 	protected final String TEST_TYPE_REGRESSION_TEST = "RegressionTest";
 	protected final String TEST_TYPE_SMOKE_TEST = "SmokeTest";
 		
@@ -92,7 +86,7 @@ public class InitializeTerminateHelper extends LoggerHelper {
 		setScriptName(testName);
 		
 		if(isMainScript()){
-		   LoggerHelper.RFT_jenkinsReportDir = LoggerHelper.getSystemProperty(sysPropPrefix+"reportDir");		
+		   LoggerHelper.TAF_jenkinsReportDir = LoggerHelper.getSystemProperty(sysPropPrefix+"reportDir");		
 	       userTestFile = getSystemProperty(sysPropPrefix+"testDataFile");		
 	      
 		   if(userTestFile != null&&!userTestFile.equals("")){
@@ -142,11 +136,11 @@ public class InitializeTerminateHelper extends LoggerHelper {
 		
 		stopScript = false;		
 		screenResolution = getScreenResolution();
-		
+		poolFile = poolFileOri;
 		if (isMainScript()){
 			// *** Read to an csv - for the use of RFT
 			//poolFile = UnicodeUtil.XlsToCsv(poolFileOri, projectConf.tempCsvMainFile);
-			poolFile = poolFileOri;
+			
             logTAFDebug("poolFile:'"+poolFile+"'");
 
      		
@@ -217,16 +211,25 @@ public class InitializeTerminateHelper extends LoggerHelper {
 			DatabaseHelper.releaseDBResources(); // Disconnect possible DB connections and statements
 //			if(TAFLogger.configured) 
 //				DatapoolUtil.defaultLogProcess(this);
-			mt.stopTracing();
-
+			if(mt!=null)
+			   mt.stopTracing();
+			logInfo(FormatHtmlReport.addReportFooter("Test Log"));
+			if(loggerConf.isOpenLogFile()){
+	        	//FileUtil.exeComm("start,notepad++,"+TAFLogger.testResultTXT,false);
+	        	FileUtil.exeComm("start,chrome,"+TAFLogger.testResultTXT,false);
+	        }
+	        if(loggerConf.isOpenHtmlReport()){
+	        	FileUtil.exeComm("start,chrome,"+TAFLogger.testResultHTML,false);
+	        }
+            System.exit(0);
 		}else{
             
 
             if(!testCategory.matches("Daily")&&numTestedKeywordInCase!=0){
 		       stopApp(); 
-			   logTAFInfo("\n\tAutomation: " + (timerConf.waitTimeBetweenTestCases/1000) + " seconds break please ...\n");
+			   logTAFInfo("\n\tAutomation: " + (timerConf.waitTimeBetweenTestCases) + " seconds break please ...\n");
 				try {
-					Thread.sleep(timerConf.waitTimeBetweenTestCases);
+					Thread.sleep(timerConf.waitTimeBetweenTestCases*1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -353,11 +356,11 @@ public class InitializeTerminateHelper extends LoggerHelper {
 					 //
 				 }
 			 }
-			 if(numTCs > 2){
+			 if(numTCs > -1){// was > 2 to exclude AN batch test
 
 			   reportSubject = "AUT: "
 				 +(projectName.equalsIgnoreCase("ACL_Desktop")?"ACL Analytics":projectName)
-			     +"["+TAFLogger.locale+"]"+" - "+projectConf.buildName+
+			     +"["+TAFLogger.locale+"]"+" - "+projectConf.testProject+
 	            "["+projectConf.buildInfo+"]-"+		            
 	            (unicodeTest?"Unicode":"NonUnicode")+
 	            "(ACL "+projectConf.testType+" Project)";
@@ -366,11 +369,11 @@ public class InitializeTerminateHelper extends LoggerHelper {
 			 summary = summary + 
 			   "\n*\t <b>TEST ENVIRONMENT:</b>"+
 			   (reportSubject.equals("")?"":"\n**\t "+reportSubject)+
-		       "\n**\t- AUT: "+projName+" - "+projectConf.buildName+
+		       "\n**\t- AUT: "+projName+" - "+projectConf.testProject+
 		            "["+projectConf.buildInfo+"]-"+		            
 		            (projectConf.isUnicodeTest()?"Unicode":"NonUnicode")+
 		            "(ACL "+projectConf.testType+" Project)"+
-		       "\n**\t- JVM Locale (Client Machine): "+TAFLogger.locale+
+		       //"\n**\t- JVM Locale (Client Machine): "+TAFLogger.locale+
 		       "\n**\t- Tester: "+projectConf.testerName+
 		       "\n**\t- Name of Test Machine: "+hostName+ " IP Address: "+hostIP+
 	           "\n**\t- Operating System (Client): "+System.getProperty("os.name")+ ", "+System.getProperty("os.version")+
@@ -394,7 +397,7 @@ public class InitializeTerminateHelper extends LoggerHelper {
 			   memusageCSV_Server = processLink(TAFLogger.memusageCSV);
 			   screenShots_Server = processLink(TAFLogger.screenShots);
 
-			   if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){ // someone does not want to see this part in the report, so exclude it -- Steven
+			   if(numTCs > -1||!target.equalsIgnoreCase(testSuite)){ // 0){// was > 2 to exclude AN batch test,someone does not want to see this part in the report, so exclude it -- Steven
 				   summary = summary +"\n\n*\t <b>RESULTS:</b>";
 //				   if(projectConf.appLocale.matches("(?i)Ko|Pl")){
 //					   summary += "\t!!! No Korean|Polish aclse available, some tests skipped and tests may fail due to the failure of server connection!!!";
@@ -438,19 +441,19 @@ public class InitializeTerminateHelper extends LoggerHelper {
 					   "\n*\t <b>LINKS:</b>"+
 
 					   "\n**\tTest Log: "+ getFileLink(testResultTXT_Server)+
-					   "\n**\tTest Matrix: "+ getFileLink(testResultXLS_Server)+
+					  // "\n**\tTest Matrix: "+ getFileLink(testResultXLS_Server)+
 					   "";
 					   if(projectConf.traceMemusage){
 						   summary = summary + "\n**\tMemory Trace: "+ getFileLink(memusageCSV_Server);
 					   }
-					   if(RFT_emailReport){
-						   summary = summary + "\n**\tHtml Report: "+ getFileLink(testResultHTML_Server);
-					   }
+					   //if(TAF_emailReport){
+						   summary = summary + "\n**\tTest Report: "+ getFileLink(testResultHTML_Server);
+					   //}
 					   if(projectArchived){
 						   summary = summary + "\n**\tProject Archived In: "+getFileLink(workingDir_Server);
 					   }
 					   
-					   summary = summary +"\n**\tAbout: [[Desktop_Continues_Testing]], [[Desktop_Automation_Guide]]";
+					   //summary = summary +"\n**\tAbout: [[Desktop_Continues_Testing]], [[Desktop_Automation_Guide]]";
 					   summary = summary + "\n"+_closeTag;
 					   //***************************************
 				   }
@@ -470,7 +473,7 @@ public class InitializeTerminateHelper extends LoggerHelper {
 				   
 				   String guiTestCoveredBugs = FileUtil.getFileContents("\\\\192.168.10.129\\Automation\\AN_Automation\\userContent\\buglist\\guiTestCoveredBugs.html");
 				   String batchTestCoveredBugs = FileUtil.getFileContents("\\\\192.168.10.129\\Automation\\AN_Automation\\userContent\\buglist\\batchTestCoveredBugs.html");
-				   if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){						   
+				   if(numTCs > -1||!target.equalsIgnoreCase(testSuite)){						   
 				         if(bugNumN+bugNumA>0&&guiTestCoveredBugs!=null&&guiTestCoveredBugs.length()>100){
 				        	 summary = summary+wikiTitleSubPre+colorDiv+"Recent Bugs"+_closeTag+wikiTitleSubSuf;
 				        	 summary = summary + "\n"+guiTestCoveredBugs.replaceAll("\r\n","")+"\n";
@@ -483,7 +486,7 @@ public class InitializeTerminateHelper extends LoggerHelper {
 				   }
 			   }
 		    	  //^^^^^^^^^^^^ Start of Error Details ^^^^^^^^^^^^
-		    	  if(numTCs > 2||!target.equalsIgnoreCase(testSuite)){ // Contains passed tests 
+		    	  if(numTCs > -1||!target.equalsIgnoreCase(testSuite)){ // Contains passed tests, was > 2 to exclude AN batch test 
 		    		  summary = summary+wikiTitleSubPre+colorDiv+"Test Details"+_closeTag+wikiTitleSubSuf;
 		    		  //summary = summary +"<pre>\n";
 
@@ -567,12 +570,12 @@ public class InitializeTerminateHelper extends LoggerHelper {
 	    outPutLink = oriLink;//processLink(oriLink);
 	    if(label.equals(""))
 	    	label = FileUtil.getFullName(outPutLink);
-	    outPutLink = "<a href=\"file:///"+outPutLink+"\">"+label+"</a>";
+	    outPutLink = FormatHtmlReport.linkOpenTag+" href=\"file:///"+outPutLink+"\">"+label+"</a>";
 	    return outPutLink;
 	}
 	public static String processLink(String oriLink){
 		String outPutLink;		
-		outPutLink = projectConf.logDirForPublic+oriLink;
+		outPutLink = oriLink.replaceFirst(FileUtil.userWorkingDir+"/",loggerConf.logDirForPublic);
 	    outPutLink = outPutLink.replace('/', '\\');
 	  
 	    return outPutLink;
@@ -626,4 +629,5 @@ public class InitializeTerminateHelper extends LoggerHelper {
 //	if (FileUtil.readFile(tmpMessageFile).startsWith("SUCCESS:")) {
 //		logTAFWarning("Current '" + projectConf.applicationName + "' instance exceed maximum automation memory usage threshold [" + maxMemUsage + "], is forcely killed!");
 //	}
+	
 }

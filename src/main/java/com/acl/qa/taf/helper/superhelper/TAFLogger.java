@@ -3,10 +3,11 @@ package com.acl.qa.taf.helper.superhelper;
 import ibm.loggers.control.PackageLoggingController;
 import ibm.loggers.targets.ConsoleTarget;
 import ibm.loggers.targets.FileTarget;
+
 import java.util.Calendar;
-import java.util.Locale;
 
 import com.acl.qa.taf.util.FileUtil;
+import com.acl.qa.taf.util.FormatHtmlReport;
 
 
 public class TAFLogger extends ibm.loggers.TargettedLogger {
@@ -23,7 +24,8 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 	                  path, 
 	                  name, time, 
 	                  file,
-	                  filePre, locale,screenShots;
+	                  filePre, locale,
+	                  screenShots;
 	public static int year, month, day;
 	public static String timeOfTest;
 	public static String testResultXLS,
@@ -42,8 +44,8 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 		file = getFileFullName(name);
 		screenShots = file+"/ScreenShots";
 		testResultXLS = path + tafFolder + name + time + ".xls";
-		testResultTXT = path + tafFolder + name + time + ".txt";
-		testResultHTML = path + tafFolder + name + time + ".html";
+		testResultTXT = path + tafFolder + name + time + "[Log]"+".html";
+		testResultHTML = path + tafFolder + name + time + "[Report]"+".html";
 		testResultTempTXT = path + tafFolder + name + time + "_tempSummary.txt";
 		memusageCSV = path + tafFolder + name + time + "_memusage.csv";
 		//memusageCSV = path + tafFolder + time + "_memusage.csv";
@@ -62,9 +64,10 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 	}
 	
 	public static TAFLogger getLogger(){
-		if(tLog == null)
+		if(tLog == null){
 			tLog = new TAFLogger();
-		
+		    tLog.logScriptInfo(FormatHtmlReport.addReportHeader("Test Log"));
+		}
 		return tLog;
 	}
 	public static TAFLogger updateLogger(){

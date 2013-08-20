@@ -2,13 +2,6 @@ package com.acl.qa.taf.helper.superhelper;
 
 import ibm.util.NLSHlpr;
 
-import java.awt.Point;
-import java.io.FileInputStream;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Properties;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -310,7 +303,7 @@ public abstract class UnicodeHelper extends DatabaseHelper
 		}
 		logTAFDebug("LocaleValuesConvert: "+name+
 				" = '"+value+"'");
-		return RFTGuiFinderHelper.trimExp(value);
+		return GuiFinderHelper.trimExp(value);
 	}	
 	public static String getLocValue(String name){
 		return getLocValue(name,true);
@@ -319,10 +312,10 @@ public abstract class UnicodeHelper extends DatabaseHelper
 		return getLocValue(name,"",truncate);
 	}
 	public static String getLocValue(String name,String className){
-		return RFTGuiFinderHelper.trimExp(getLocValue(name,className,true));
+		return GuiFinderHelper.trimExp(getLocValue(name,className,true));
 	}
 	public static String getLocValue(String name,String className,boolean truncate){
-		if(RFTGuiFinderHelper.isPattern(name)){
+		if(GuiFinderHelper.isPattern(name)){
 			return getLocExp(name,className,truncate);
 		}else{		
 			//return getLocExp(name,className,truncate);
@@ -336,7 +329,7 @@ public abstract class UnicodeHelper extends DatabaseHelper
 		String value = NLSUtil._convert2Locale(pre+name,className,truncate);
 		logTAFDebug("LocaleValueConvert: "+name+
 				" = '"+value+"'");
-		return RFTGuiFinderHelper.trimExp(value);
+		return GuiFinderHelper.trimExp(value);
 	}
 	public static String getEngValues(String name){
 		return getEngValues(name,"");
@@ -348,7 +341,7 @@ public abstract class UnicodeHelper extends DatabaseHelper
 		}
 		logTAFDebug("EnglishValuesConvert: "+name+
 				" = '"+value+"'");
-		return RFTGuiFinderHelper.trimExp(value);
+		return GuiFinderHelper.trimExp(value);
 	}	
 	public String getEngValue(String name){
 		return getEngValue(name,"");
@@ -359,10 +352,10 @@ public abstract class UnicodeHelper extends DatabaseHelper
 		String value = NLSUtil._convert2English(pre+name,className);
 		logTAFDebug("EnglishValueConvert: "+name+
 				" = '"+value+"'");
-		value = RFTGuiFinderHelper.trimExp(value);
-		if(RFTGuiFinderHelper.isPattern(name)){
+		value = GuiFinderHelper.trimExp(value);
+		if(GuiFinderHelper.isPattern(name)){
 			return value;
-			//return RFTGuiFinderHelper.correctPattern(value);
+			//return GuiFinderHelper.correctPattern(value);
 		}else{		
 		  //return value;
           return value.split("\\|")[0];

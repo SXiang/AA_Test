@@ -1,25 +1,18 @@
 package com.acl.qa.taf.helper.superhelper;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
+import java.sql.SQLException;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.apache.xalan.xsltc.trax.Util;
 import org.openqa.selenium.WebDriver;
+import org.xml.sax.SAXException;
 
 import net.sf.cache4j.Cache;
-import net.sf.cache4j.CacheException;
 
 import com.acl.qa.taf.util.FileUtil;
+import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.MemusageTracer;
 import com.acl.qa.taf.util.NLSUtil;
-import com.acl.qa.taf.util.UnicodeUtil;
 
 
 public class LoggerHelper extends ACLQATestScript {
@@ -52,7 +45,8 @@ public class LoggerHelper extends ACLQATestScript {
 	public static boolean stopScript = false, stopTest = false,
 			batchRun = false, isWeb = false,
 
-			localOnlyTest = false, RFT_emailReport = false;
+			localOnlyTest = false,
+			TAF_emailReport = false;
 
 	public static String stopMessage = "", expectedErr = "", menuItem = "";
 	public static String colorFail = "<font color=\"#B40404\">",
@@ -141,8 +135,8 @@ public class LoggerHelper extends ACLQATestScript {
 	public static boolean projectArchived = false;
 	public static boolean individualTest = false;
 	public static String logItem = "";
-	public static boolean RFT_jenkinsReport = false;
-	public static String RFT_jenkinsReportDir = "";
+	public static boolean TAF_jenkinsReport = false;
+	public static String TAF_jenkinsReportDir = "";
 	public static Cache cache_l10n, cache_en;
 	public String thisMasterFile, thisMasterFiles[] = new String[50],
 			thisActualFile, thisActualFiles[] = new String[50],
@@ -154,7 +148,7 @@ public class LoggerHelper extends ACLQATestScript {
 		// msg = message
 		// + (link.equals("")? "" : "\n\t\t***Snapshot: " + link);
 		msg = (link.equals("") ? ""
-				: "<a style=\"background-color:#D2691E\" href=\"file:///"
+				: FormatHtmlReport.linkOpenTag +" href=\"file:///"
 						+ link + "\">" + "[Snapshot]</a>")
 				+ message;
 		return msg;
@@ -197,18 +191,22 @@ public class LoggerHelper extends ACLQATestScript {
 
 	public static void logTAFException(java.lang.Throwable e) {
 
-		snapshotLink = updateTestInfo(e.toString(), false);
+		snapshotLink = updateTestInfo(e.getMessage(), false);
+		logTAFError(formatSnapshot(e.getMessage(), snapshotLink));
 		if (loggerConf.filterLevel >= 1) {
-			if (loggerConf.filterLevel > 6)
+			if (loggerConf.filterLevel > 5){
 				e.printStackTrace();
-			else {
-				// To Do ...
-				logTAFError(formatSnapshot(e.toString(), snapshotLink));
+			}else if (loggerConf.filterLevel > 4){
+				unwindException(e).printStackTrace();
+			}else {
+				
 			}
 		}
 
 	}
-
+    public static void logInfo(String info){
+    	TAFLogger.getLogger().logScriptInfo(info);
+    }
 	public static void logTAFInfo(String note)
 	// Logs an informational message.
 	{
@@ -372,17 +370,18 @@ public class LoggerHelper extends ACLQATestScript {
 
 		String savedSnapshot = TAFLogger.file + "/ScreenShots/errorSnapshot_"
 				+ ++numSnapshots + ".jpeg";
-        savedSnapshot = "C:\\Users\\steven_xiang\\Desktop"+"/ScreenShots/errorSnapshot_"
-				+ ++numSnapshots + ".jpeg";
-		WebDriver driver = RootTestObject.getDriver();
-		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		// Now you can do whatever you need to do with it, for example copy somewhere
-		try {
-			FileUtils.copyFile(scrFile, new File(savedSnapshot));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//        savedSnapshot = "C:\\Users\\steven_xiang\\Desktop"+"/ScreenShots/errorSnapshot_"
+//				+ ++numSnapshots + ".jpeg";
+//		WebDriver driver = RootTestObject.getDriver();
+//		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		captureScreen(savedSnapshot);
+//		// Now you can do whatever you need to do with it, for example copy somewhere
+//		try {
+//			FileUtils.copyFile(scrFile, new File(savedSnapshot));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		savedSnapshot = InitializeTerminateHelper.processLink(savedSnapshot);
 		// projectConf.logDirForPublic+savedSnapshot.replaceAll("Zipped_ACLQA_Automation_logs/",
 		// "");
@@ -472,27 +471,6 @@ public class LoggerHelper extends ACLQATestScript {
 		return value;
 	}
 
-	// In case we remove GWPSuperHelper from this project
-	// protected static boolean expectedErr(String dpExpectedErr){
-	// return expectedErr(dpExpectedErr,"");
-	// }
-	// protected static boolean expectedErr(String dpExpectedErr,String
-	// dpExpectedErrMsg){
-	// boolean exErr;
-	// exErr = (isEmpty(dpExpectedErr)
-	// || "NO".equalsIgnoreCase(dpExpectedErr))? false : true;
-	// if(exErr){
-	// expectedErr = dpExpectedErrMsg;
-	// if(expectedErr.equals("")){
-	// if(!dpExpectedErr.equalsIgnoreCase("Yes"))
-	// expectedErr = dpExpectedErr;
-	// else
-	// expectedErr = "Any error message";
-	//
-	// }
-	// }
-	// return exErr;
-	// }
 
 
 	public static void stopApp() {
@@ -500,40 +478,26 @@ public class LoggerHelper extends ACLQATestScript {
 	}
 
 	public static void stopApp(boolean killProcess) {
-
-//		if (app != null && app.isAlive()) {
-//			try {
-//				((ITopWindow) app.getTopParent()).close();
-//			} catch (Exception e) {
-//				// getScreen().getActiveWindow().close();
-//				// logTAFDebug(e.toString() +
-//				// ", Try to close an Active window instead.");
-//			}
-//
-//		}
-		if (killProcess) {
-			killProcess();
+        boolean stoped = false;
+		if (app != null ) {
+          if(app instanceof WebDriver){
+        	  
+        	  ((WebDriver) app).quit();
+        	  suiteObj = null;
+        	  caseObj = null;
+        	  stoped = true;
+        	  logTAFInfo("WebDriver has been closed");
+          }
 
 		}
-//		unregisterAll();
-//		app = null;
+//		if (!stoped&&killProcess) {
+//			killProcess();
+//
+//		}
+
 	}
 
 	public static void killProcess() {
-//		if (app != null && app.isAlive()) {
-//			try {
-//				if (app.isAlive()) {
-//					logTAFInfo("Kill '" + app.getDescriptiveName()
-//							+ " with 'app.kill() method");
-//					app.kill(); // This is good as it close the application
-//								// normally
-//				}
-//			} catch (Exception e) {
-//				logTAFDebug(e.toString());
-//			}
-//			sleep(1);
-//		}
-
 		try {
 			// In case of the app could not be closed normally, we force to kill
 			// the process form OS
@@ -564,54 +528,54 @@ public class LoggerHelper extends ACLQATestScript {
 	}
 
 	public boolean isAutomationIssue(String msg) {
-		String nonErrors = "All previously saved.*"
-				+ "|.*Do you want to save the changes.*"
-				+ "|.*Namespace Tree Control.*"
-				+ "|.*will attempt to harmonize these fields.*"
-				+ "|.*Do you wish to continue.*"
-				+ "|.*Do you want to proceed.*"
-				+ "|.*Do you want to continue.*"
-				+ "|.*Do you still want to use.*"
-				+ "|.*is from a previous version.*"
-				+ "|.*Options file missing.*" + "|.*Are you sure you want to.*"
-				+ "|.*ACL preferences file.*" +
+		String nonErrors = //"All previously saved.*"
+				// ".*Do you want to save the changes.*" +
+				//+ "|.*Namespace Tree Control.*"
+				//+ "|.*will attempt to harmonize these fields.*"
+				//+ "|.*Do you wish to continue.*"
+				//+ "|.*Do you want to proceed.*"
+				//+ "|.*Do you want to continue.*"
+				//+ "|.*Do you still want to use.*"
+				//+ "|.*is from a previous version.*"
+				//+ "|.*Options file missing.*" + "|.*Are you sure you want to.*"
+				//+ "|.*ACL preferences file.*" +
 				// "|.*This may take some time.*"+
 				// "|.*Delete.*"+
 				"";
-		String nonErrors_cons = "Automatic Updates" + "|Edit";
+		String nonErrors_cons = "";//"Automatic Updates" + "|Edit";
 		String[] autoPattern = {
 				"UnhandledException",
-				"java.",
+				//"java.",
 				"noplausiblecandidate",
 				"ObjectNotFoundException",
 				"ApplicationNotResponding",
-				"Unable to open",
-				"The above file name is invalid",
-				"You cannot open a",
-				"This project is from.*edition of",
-				"Correct the problem and try again",
-				"Window is disabled",
-				"Failed to connect to server",
-				"server connection",
-				"Server Activity",
-				"Project name", // In case of invalid name used somehow
-				"Invalid field data",
-				"null window",
-				"Not found",
-				"Expected error",
+				//"Unable to open",
+				//"The above file name is invalid",
+				//"You cannot open a",
+				//"This project is from.*edition of",
+				//"Correct the problem and try again",
+				//"Window is disabled",
+				//"Failed to connect to server",
+				//"server connection",
+				//"Server Activity",
+				//"Project name", // In case of invalid name used somehow
+				//"Invalid field data",
+				//"null window",
+				//"Not found",
+				//"Expected error",
 				autoIssue,
 
 				// these are mainly for l10n testing,preventing wrong alert --
 				// Steven
 
-				"All previously saved", "Do you want to save the changes",
-				"Namespace Tree Control",
-				"will attempt to harmonize these fields",
-				"Do you wish to continue", "Do you want to proceed",
-				"Do you want to continue", "Do you still want to use",
-				"is from a previous version", "Options file missing",
-				"Are you sure you want to", "ACL preferences file",
-				"Automatic Updates", "Edit"
+				//"All previously saved", "Do you want to save the changes",
+				//"Namespace Tree Control",
+				//"will attempt to harmonize these fields",
+				//"Do you wish to continue", "Do you want to proceed",
+				//"Do you want to continue", "Do you still want to use",
+				//"is from a previous version", "Options file missing",
+				//"Are you sure you want to", "ACL preferences file",
+				//"Automatic Updates", "Edit"
 
 		};
 		boolean isauto = false;
@@ -758,7 +722,7 @@ public class LoggerHelper extends ACLQATestScript {
 		boolean isValidBuild = false;
 		boolean isValidLocale = false;
 		boolean isValid = false;
-		String curBuild = projectConf.buildName.trim();
+		String curBuild = projectConf.testProject.trim();
 		String curLocale = projectConf.appLocale;
 		String builds[] = buildInfo.split(",");
 		if (buildInfo.trim().equals(""))
@@ -815,7 +779,7 @@ public class LoggerHelper extends ACLQATestScript {
 	public boolean onUnhandledException(java.lang.Throwable e) {
 		errorHandledInLine = false;
 
-		logTAFError("UnhandledException occur: " + e.toString());
+		logTAFException(e);
 //		if (e instanceof com.rational.test.ft.sys.ApplicationNotRespondingException) {
 //			sysExceptionCaught = true;
 //			stopApp();
@@ -864,6 +828,32 @@ public class LoggerHelper extends ACLQATestScript {
 		return value;
 	}
 
+
+		  /**
+		   * Looks up and returns the root cause of an exception. If none is found, returns
+		   * supplied Throwable object unchanged. If root is found, recursively "unwraps" it,
+		   * and returns the result to the user.
+		   */
+		  public static Throwable unwindException(Throwable th) {
+		      if (th instanceof SAXException) {
+		          SAXException sax = (SAXException) th;
+		          if (sax.getException() != null) {
+		              return unwindException(sax.getException());
+		          }
+		      }
+		      else if (th instanceof SQLException) {
+		          SQLException sql = (SQLException) th;
+		          if (sql.getNextException() != null) {
+		              return unwindException(sql.getNextException());
+		          }
+		      }
+		      else if (th.getCause() != null) {
+		          return unwindException(th.getCause());
+		      }
+
+		      return th;
+		  }
+		
 	public LoggerHelper() {
 		if (sysLineSep == null)
 			sysLineSep = "\\n\\r";
