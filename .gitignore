@@ -1,15 +1,10 @@
 # Lines that begin with #, like this one, are ignored.
 /*.*
 !/*.bat
-*.rftv*
-*.db
-Thumbs.*
-visuals/
 .*
 !.gitignore
 *.[oa]
 *~
-*/core
 *.class
 *.html
 *.htm
@@ -19,33 +14,11 @@ visuals/
 # Floder and Files
 null/
 target/
-/U/
-resources/
 .gitmodules
-nexus/
-ACLProject/
-ExpectedData/
-KeywordTable/
-TempData/
-keywordTable/
-/.*Cache/
+submodule_taf
 /output/
 /bin/
-/doc/*/
-/doc/
-/lib/acl/resource/
-/lib/commons*/
-/lib/jawin*/
-/lib/*.*/
-
-/templates/
-/Zipped_ACLQA_Automation_logs/
-*/WikiPages/
-# Files
-*.keep[1-9]?
-*.testsuite
 /garbage
 *.xls
 *.xlsx
-*.csv 
-*.bak[1-9]*
+*.bak[0-9]*
