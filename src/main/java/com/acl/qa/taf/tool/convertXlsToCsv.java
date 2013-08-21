@@ -59,7 +59,7 @@ public class convertXlsToCsv {
 			System.out.println("Processing files in Folder: '" + xlsFileOrDir
 					+ "'");
 			for (String xlsFileName : xlsFile
-					.list(new com.acl.qa.taf.tool.wikiConvert.FileFilter("xls"))) {
+					.list(new com.acl.qa.taf.tool.FileFilter("xls"))) {
 				xlsName = xlsFileOrDir + "/" + xlsFileName;
 				csvName = xlsName.replace(".xls", ".csv");
 				try {

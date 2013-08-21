@@ -1,4 +1,4 @@
-package com.acl.qa.taf.tool.wikiConvert;
+package taf.tool.wikiConvert;
 
 import java.io.File;
 import java.io.FileReader;
@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.acl.qa.taf.tool.FileFilter;
 import com.acl.qa.taf.util.FileUtil;
 
 
@@ -50,62 +51,55 @@ public class GenkeywordDefinitions{
 	private static final String START_OF_CLASS = "public class ";
 	private static final String START_OF_MAIN = "public void testMain(";
 
-	private static  String KEYWORD_DIR = "/AX_GatewayPro/Tasks";
-	private static  String KEYWORD_DOC_FILE = "C:/temp/keyword_doc/AX_GatewayPro.txt";
+	private static  String KEYWORD_DIR = "";
+	private static  String KEYWORD_DOC_FILE = "";
 	
-    private static String project="GatewayPro";
-    private static String backToMain = "[[QA Test Automation|Back To Main - QA Test Automation]]";
+    private static String project="";
+    //private static String backToMain = "[[QA Test Automation|Back To Main - QA Test Automation]]";
     private static String toContents = "";
     private static String thisHeader = "Keywords and Value options";
     
-	public void testMain(Object[] args) 
+	public static void main(String[] args) 
 	{
 		// TODO Insert code here
-	        String projectPrefix = "AX_";
-//			project = "Exception";
-//			project = "Gateway";
-//			project = "Addins";
-//			project = "Soundwave";
-		    project = "Desktop";
-			projectPrefix = "ACL_";
+	        String projectPrefix = "";
+	        String wikiDir = "";
+		    project = "AX5";
+			projectPrefix = "testdata/";
 			
-			toContents = "[[#"+project+" "+thisHeader+"|Top]]";
-			KEYWORD_DIR =  //"/"+projectPrefix+project+"/Tasks/Tools";
-			               //"/"+projectPrefix+project+"/Tasks";
-			               //"/"+projectPrefix+project+"/Tasks/Analyze";
-			               //"/"+projectPrefix+project+"/Tasks/Data";
-			               //"/"+projectPrefix+project+"/Tasks/Edit";
-			               //"/"+projectPrefix+project+"/Tasks/Sampling";
-			               "/"+projectPrefix+project+"/AppObject";
+			toContents = "#"+project+" "+thisHeader;
+			KEYWORD_DIR = "ax/keyword/restapi";
 
 			               
-			KEYWORD_DOC_FILE = FileUtil.userWorkingDir+"/doc/"+project+"/"+projectPrefix+project+".txt";
-			           //FileUtil.userWorkingDir+"/doc"+KEYWORD_DIR+"/"+projectPrefix+project+".txt";
+			wikiDir = FileUtil.getAbsDir("%user.dir%/"+"output/wiki/"+projectPrefix+"ax");//
+			KEYWORD_DOC_FILE = wikiDir+"keywordDefinition.txt";
+			FileUtil.mkDirs(wikiDir);
 			
 			StringBuffer contentsBuffer = new StringBuffer(2048);
-			contentsBuffer.append(backToMain+"\n\n");	// for wiki
+			contentsBuffer.append("{anchor:"+project+" "+thisHeader+"}\n\n");	// for wiki
 			
 
 			contentsBuffer.append("-----------------------------------------------------\n");
-			contentsBuffer.append("==== Common Arguments ====\n");
+			contentsBuffer.append("h2. Common Arguments \n");
 			
-			contentsBuffer.append("<pre>\n");
-			contentsBuffer.append(String.format("\t%1$18s : %2$s ","Run_Test","is an Option you can choose'T' for true or'F' for false to include/exclude Keywords")+"\n");
+			contentsBuffer.append("{noformat}");
+			contentsBuffer.append(String.format("\t%1$18s : %2$s ","Run_Test","is an option you can choose'T' for true or'F' for false to include/exclude Keywords")+"\n");
 			contentsBuffer.append(String.format("\t%1$18s : %2$s ","Test_Category","Daily, Smoke or Regression")+"\n");
-			contentsBuffer.append(String.format("\t%1$18s : %2$s ","Test_Scenario","Optional value which  describes  a new test scenario")+"\n");
+			contentsBuffer.append(String.format("\t%1$18s : %2$s ","Test_Scenario","Optional value which  describes  the test scenario")+"\n");
+			contentsBuffer.append(String.format("\t%1$18s : %2$s ","Test_Project","Specify Dev projects for this tesing,'Name1,Name2...|All',default to 'All'")+"\n");
 			contentsBuffer.append(String.format("\t%1$18s : %2$s ","Keyword","is the name of the keyword")+"\n");
 			contentsBuffer.append(String.format("\t%1$18s : %2$s ","KnownBugs","list of known bugs with brief description for each bug")+"\n");
-			contentsBuffer.append(String.format("\t%1$18s : %2$s ","ExpectedErr","is a message which indicates It's a negative test with  expected  errors")+" \n");
-			contentsBuffer.append(String.format("\t%1$18s : %2$s ","ProjectName","'Name|Name.ACL|Absolute path to project|Relative path to project'"+"\n"+
-                                                "\t\t\t    If empty, current running project will be used for testing")+" \n");
+			contentsBuffer.append(String.format("\t%1$18s : %2$s ","ExpectedErr","is a message which indicates a negative test with expected  errors"));
+			//contentsBuffer.append(String.format("\t%1$18s : %2$s ","ProjectName","'Name|Name.ACL|Absolute path to project|Relative path to project'"+"\n"+
+            //                                    "\t\t\t    If empty, current running project will be used for testing")+" \n");
 			//contentsBuffer.append(String.format("\t%1$18s : %2$s ","MenuItem","[menu->menuitem]|[menuitem], a default path may be provided by each keyword")+"\n");
-			contentsBuffer.append("</pre>\n");
+			contentsBuffer.append("{noformat}");
 			contentsBuffer.append("-----------------------------------------------------\n");
 			
-			contentsBuffer.append("=== "+project+" "+thisHeader+" ===\n");	// for wiki
+			contentsBuffer.append("h2. "+project+" "+thisHeader+"\n");	// for wiki
 			//contentsBuffer.append("-----------------------------------------------------\n");
 			
-			String keywordFolderFullPath = FileUtil.userWorkingDir + KEYWORD_DIR;
+			String keywordFolderFullPath = FileUtil.getAbsDir("%user.dir%/"+"src/test/java/"+ KEYWORD_DIR);
 
 			String curKeyword;
 			
@@ -115,16 +109,16 @@ public class GenkeywordDefinitions{
 				if (!curKeyword.startsWith("_")&& ! curKeyword.startsWith("KeywordUtil")) { // ignore internal scripts
 					logInfo("Working on keyword [" + curKeyword + "] ...");
 
-					contentsBuffer.append("==== " + curKeyword + " ====" + "\n\n");
-					contentsBuffer.append("<pre>\n");	// for wiki format
-					contentsBuffer.append(getKeywordDocInfo(keywordFolderFullPath + "/" + curKeywordFile));
-					contentsBuffer.append("</pre>\n");	// for wiki format
+					contentsBuffer.append("h4. " + curKeyword +"\n\n");
+					contentsBuffer.append("{noformat}");	// for wiki format
+					contentsBuffer.append(getKeywordDocInfo(keywordFolderFullPath + curKeywordFile));
+					contentsBuffer.append("{noformat}");	// for wiki format
 					contentsBuffer.append(toContents+"\n");	// back to contents
 					contentsBuffer.append("-----------------------------------------------------\n");
 				}
 			}
 			
-			contentsBuffer.append(backToMain+"\n\n");	// for wiki
+			//contentsBuffer.append(backToMain+"\n\n");	// for wiki
 
 			logInfo("\n=== Write keywords documents to file [" + KEYWORD_DOC_FILE + "] ...");
 			writeToNewFile(KEYWORD_DOC_FILE, contentsBuffer);

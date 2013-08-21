@@ -12,6 +12,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import com.acl.qa.taf.helper.superhelper.InitializeTerminateHelper;
 import com.acl.qa.taf.helper.superhelper.LoggerHelper;
 import com.acl.qa.taf.helper.superhelper.TAFLogger;
+import com.acl.qa.taf.util.DatapoolUtil;
 import com.acl.qa.taf.util.FileUtil;
 
 
@@ -58,15 +59,17 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 		
 		
 		int numConsecutiveFails = 0;
-		if(testResultHeader==""){
-			if(batchRun){
-				testResultHeader="Test_No.,Test_Name,Keyword_No.,Keyword_Name,Test_Result,Test_Message";
-			}else{
-				testResultHeader = "Keyword_No.,Keyword_Name,Test_Result,Test_Message";
-			}
-
-			FileUtil.writeFileContents(projectConf.tempCsvResult, testResultHeader);
-		}
+		
+		// Uncomment this section and line 336 to enable test matrix 
+//		if(testResultHeader==""){
+//			if(batchRun){
+//				testResultHeader="Test_No.,Test_Name,Keyword_No.,Keyword_Name,Test_Result,Test_Message";
+//			}else{
+//				testResultHeader = "Keyword_No.,Keyword_Name,Test_Result,Test_Message";
+//			}
+//
+//			FileUtil.writeFileContents(projectConf.tempCsvResult, testResultHeader);
+//		}
 
 		if(scriptStartTime == null){
 			if(isMainScript)
@@ -257,8 +260,7 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 				}
 				checkMemory();
 
-				linkToKeywordDescription =projectName.replaceAll("^AX_|^ACL_", "")+"_Keyword_Definition#"+
-                keywordName + "|" +keywordName;
+				linkToKeywordDescription = keywordName;// + "|" +keywordName;
 				
 				if(testResult=="Pass"){
 					numConsecutiveFails = 0;
@@ -277,8 +279,8 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 						msgTag = "\n***\t  [KNOWN ISSUE:    "+knownBugs+"]";
 					}
 					keywordErrors = keywordErrors + 
-					//"\n**\t\t[["+linkToKeywordDescription+" "+numKWs + ")]] " + 
-					"\n**\t\t[["+linkToKeywordDescription+" - "+"line "+ currentLine +")]] " + 
+					//"\n**\t\t"+linkToKeywordDescription+" "+numKWs + ") " + 
+					"\n**\t\t"+linkToKeywordDescription+" - "+"line "+ currentLine +") " + 
 					
 					((prtFailScenarioTitle)? ("Scenario - '" + curTestScenario+"' ") : "") + message +msgTag;
 					//(knownBugs.equals("")?"\n***\t  [NEW ISSUE?]":"\n***\t  [KNOWN ISSUE:    "+knownBugs+"]");
@@ -305,21 +307,21 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 				if(!knownBugs.equals("")){
 					if(testResult.equals("Pass")){
 						kPrefix = ">>-"; // Pass: Fixed issue
-						fixedBugs += "\n***\t[["+linkToKeywordDescription+ "]] "+knownBugs;
+						fixedBugs += "\n***\t"+linkToKeywordDescription+ " "+knownBugs;
 						numFBugs++;
 					}else {
 						kPrefix = ">>!"; // Warning : Known(old) issue
-						remainingBugs += "\n***\t[["+linkToKeywordDescription+ "]] "+knownBugs;
+						remainingBugs += "\n***\t"+linkToKeywordDescription+ " "+knownBugs;
 						numRBugs++;
 					}
 				}else if(!testResult.equals("Pass")){
 					if(isAutomationIssue(unKnownBugs)){
 						kPrefix = ">!!";  // Fail: Automation issue
-						automationBugs += "\n***\t[["+linkToKeywordDescription+ "]] "+unKnownBugs;
+						automationBugs += "\n***\t"+linkToKeywordDescription+ " "+unKnownBugs;
 						numABugs++;
 					}else{
 						kPrefix = "!!!";  // Fail: New issue
-					    newBugs += "\n***\t[["+linkToKeywordDescription+ "]] "+unKnownBugs;
+					    newBugs += "\n***\t"+linkToKeywordDescription+ " "+unKnownBugs;
 					    numNBugs++;
 					}
 				}
@@ -332,7 +334,9 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 								(knownBugs.equals("")?"":"\n\t  [KNOWN BUGS:    "+knownBugs+"]"),
 								testResult=="Pass"?true:false);
 				
-				FileOps.appendStringToFile(projectConf.tempCsvResult, testResultLine);
+				
+				// **** Enable this to Create test matrices  ******
+				//  FileOps.appendStringToFile(projectConf.tempCsvResult, testResultLine);
 				sleep(timerConf.waitBetweenKeywords);
 
 			}
@@ -376,14 +380,22 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 		
 		
 		numTestedKeywordInCase = numKWs;
-    	logTAFTestResult(testSummary(testKeyword),true);
+		String Output_Report = testSummary(testKeyword);
+    	logTAFTestResult(Output_Report,true);
+
 		numKWs=0;
 		numKWsFail=0;
 		scriptStartTime = null;
-
+        
 		//logTAFDebug("<><><><><>\t"+appMemoryUsage());
 
-		onTerminate();
+		Output_Report = onTerminate(Output_Report);
+		
+		//logTAFDebug("<><><><><>\t"+appMemoryUsage());
+		// Use these two lines if you want to see test results in data pools		
+		//DatapoolUtil.storeCSV((IDatapool) poolArgs[0], poolCsvFile, ",", true);
+		//DatapoolUtil.replaceData(poolCsvFile.getAbsolutePath(), "<NULL>", "",true);
+
 	}
 	private boolean isNotInCategory(String cate){
 		boolean notInCate = false;

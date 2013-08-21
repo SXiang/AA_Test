@@ -196,8 +196,10 @@ public class InitializeTerminateHelper extends ObjectHelper {
         
         return new DatapoolUtil().setDefaultDataPool(this, poolFile);
 	}
-    
-	public void onTerminate() {
+    public void onTerminate(){
+    	onTerminate("");
+    }
+	public String onTerminate(String Output_Report) {
 		boolean appClosed = true;
         // if single test, don't logout, you can verify the contents then
 		// if batch run, logout and kill the app as next run needs a fresh running app
@@ -214,12 +216,20 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			if(mt!=null)
 			   mt.stopTracing();
 			logInfo(FormatHtmlReport.addReportFooter("Test Log"));
+			
+
+	        if(batchRun){
+	            if(Output_Report!=""){
+	                Output_Report = createHtmlReport(Output_Report);	                
+	              }
+	    		sendEmail(Output_Report);
+	    	   if(loggerConf.isOpenHtmlReport()){
+	        	 FileUtil.exeComm("start,chrome,"+TAFLogger.testResultHTML,false);
+	    	   }
+	        }
 			if(loggerConf.isOpenLogFile()){
 	        	//FileUtil.exeComm("start,notepad++,"+TAFLogger.testResultTXT,false);
 	        	FileUtil.exeComm("start,chrome,"+TAFLogger.testResultTXT,false);
-	        }
-	        if(loggerConf.isOpenHtmlReport()){
-	        	FileUtil.exeComm("start,chrome,"+TAFLogger.testResultHTML,false);
 	        }
             System.exit(0);
 		}else{
@@ -237,7 +247,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
             }
 
 		}
-		
+		return Output_Report;
 	}
 
 	  
@@ -314,7 +324,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
 
 	
 	public String testSummary(String target){
-		 String linkToWikiAuto = "[[QA Test Automation|Back To Main - QA Test Automation]]";
+		 String linkToWikiAuto = "[[Analytics+Continuous+Delivery|Analytics+Continuous+Delivery]]";
 		 String wikiTitlePre = "\n===   ", wikiTitleSuf = "    ===\n----\n";
 		 String wikiTitleSubPre = "\n====   ", wikiTitleSubSuf = "    ====\n----\n";
 		 String caption = "Test Summary",
@@ -446,9 +456,9 @@ public class InitializeTerminateHelper extends ObjectHelper {
 					   if(projectConf.traceMemusage){
 						   summary = summary + "\n**\tMemory Trace: "+ getFileLink(memusageCSV_Server);
 					   }
-					   //if(TAF_emailReport){
+					   if(batchRun){//TAF_emailReport){
 						   summary = summary + "\n**\tTest Report: "+ getFileLink(testResultHTML_Server);
-					   //}
+					   }
 					   if(projectArchived){
 						   summary = summary + "\n**\tProject Archived In: "+getFileLink(workingDir_Server);
 					   }
@@ -471,17 +481,18 @@ public class InitializeTerminateHelper extends ObjectHelper {
 				  
 				   summary = summary +"\n"+resultAnalysis+"\n";
 				   
-				   String guiTestCoveredBugs = FileUtil.getFileContents("\\\\192.168.10.129\\Automation\\AN_Automation\\userContent\\buglist\\guiTestCoveredBugs.html");
-				   String batchTestCoveredBugs = FileUtil.getFileContents("\\\\192.168.10.129\\Automation\\AN_Automation\\userContent\\buglist\\batchTestCoveredBugs.html");
+				   String recentbugList = FileUtil.getFileContents(loggerConf.logDirForPublic+"RecentBugs\\recentBugList.html");
+				   String anotherBugList = FileUtil.getFileContents(loggerConf.logDirForPublic+"RecentBugs\\recentBugList_1.html");
+
 				   if(numTCs > -1||!target.equalsIgnoreCase(testSuite)){						   
-				         if(bugNumN+bugNumA>0&&guiTestCoveredBugs!=null&&guiTestCoveredBugs.length()>100){
+				         if(bugNumN+bugNumA>0&&recentbugList!=null&&recentbugList.length()>100){
 				        	 summary = summary+wikiTitleSubPre+colorDiv+"Recent Bugs"+_closeTag+wikiTitleSubSuf;
-				        	 summary = summary + "\n"+guiTestCoveredBugs.replaceAll("\r\n","")+"\n";
+				        	 summary = summary + "\n"+recentbugList.replaceAll("\r\n","")+"\n";
 				         }
 				   }else{
-				         if(bugNumN+bugNumA>0&&batchTestCoveredBugs!=null&&batchTestCoveredBugs.length()>100){
+				         if(bugNumN+bugNumA>0&&anotherBugList!=null&&anotherBugList.length()>100){
 				        	 summary = summary+wikiTitleSubPre+colorDiv+"Recent Bugs"+_closeTag+wikiTitleSubSuf;
-				        	 summary = summary + "\n"+batchTestCoveredBugs.replaceAll("\r\n","")+"\n";
+				        	 summary = summary + "\n"+anotherBugList.replaceAll("\r\n","")+"\n";
 				         }				         
 				   }
 			   }
@@ -567,9 +578,11 @@ public class InitializeTerminateHelper extends ObjectHelper {
 	}	
 	public static String getFileLink(String label,String oriLink){
 		String outPutLink;		
-	    outPutLink = oriLink;//processLink(oriLink);
+	    outPutLink = oriLink;
+	    //processLink(oriLink);
 	    if(label.equals(""))
 	    	label = FileUtil.getFullName(outPutLink);
+	    
 	    outPutLink = FormatHtmlReport.linkOpenTag+" href=\"file:///"+outPutLink+"\">"+label+"</a>";
 	    return outPutLink;
 	}
@@ -630,4 +643,140 @@ public class InitializeTerminateHelper extends ObjectHelper {
 //		logTAFWarning("Current '" + projectConf.applicationName + "' instance exceed maximum automation memory usage threshold [" + maxMemUsage + "], is forcely killed!");
 //	}
 	
+	public String createHtmlReport(String Output_Report){
+		String emailSubject=System.getProperty(sysPropPrefix+"emailSubject");
+		String emailTitle=System.getProperty(sysPropPrefix+"emailTitle");
+		
+		if(emailSubject==null||emailSubject.equals("")){
+			emailSubject=reportSubject;
+		}
+		if(emailTitle==null||emailTitle.equals("")){
+			emailTitle="Automation Test Report";
+		}	
+		
+		Output_Report = FormatHtmlReport.getHttpReportFromWiki(Output_Report,FileUtil.getAbsDir(TAFLogger.testResultHTML),emailTitle,emailSubject);
+		
+        return Output_Report;
+	}
+	public void sendEmail(String Output_Report){
+		String exeDir = FileUtil.getAbsDir("tool");
+		String exeFile = "CDOMessage.exe";
+		String subject = "Automation Test Report - "+projectConf.projectName;//"Files";
+		
+		String smtpServer = "xchg-cas-array.acl.com";
+		String fromAddress = "QAMail@ACL.COM";
+		String fromName = projectConf.testerName;
+		String toAddress = projectConf.toAddress;//ProjectConf.ebasecamp;
+		String body = "Output_Report";
+		String attachFiles = "";//testResultHTML_Server;
+		String ccAddress = projectConf.ccAddress;
+		String bccAddress = projectConf.bccAddress;
+		String importance = "Normal";
+		String userName = "ACL\\QAMail";
+		String password = "Password00";
+		String ipPort = "25";
+		String ssl = "1";
+		
+		String s = " ";
+		String d = ",";
+	
+		String eCommands[] = null;
+		String emailPattern = "(?i)^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
+		
+		copyTestResults("QAServer");
+		
+		if(TAF_jenkinsReport){
+			copyTestResults("Jenkins");	
+		}else if(TAF_emailReport){ // If runs from Jenkins, don't send email from RFT.				
+			String emailCmd=System.getProperty(sysPropPrefix+"emailCmd");
+			if(emailCmd==null){
+				if(toAddress.matches(emailPattern)){
+					emailCmd = exeDir+s+exeFile+s+subject+d+smtpServer+d+fromName+d+fromAddress+d+toAddress+d+
+					           body+d+attachFiles+d+ccAddress+d+bccAddress+d+importance+d+userName+d+password+d+
+					           ipPort+d+ssl;
+				}else{
+				     logTAFWarning("Email Report option is only available with continues testing!");
+				     return;
+				}
+			}else{
+				eCommands = emailCmd.split(",");
+				fromAddress = eCommands[2];
+				toAddress = eCommands[4];
+				ccAddress = eCommands[7];
+				bccAddress = eCommands[8];
+			}
+			
+			if(bugNumA>3){ // Return it to tester due to automation problems... Steven.
+				if(toAddress.matches(emailPattern))
+					emailCmd.replace(toAddress, fromAddress);
+				if(ccAddress.matches(emailPattern))
+					emailCmd.replace(ccAddress, "");
+				if(bccAddress.matches(emailPattern))
+					emailCmd.replace(bccAddress, "");
+			}
+			// As in the 'doTest.bat', "OOOOO...OOOOO" is used to flag the email command Steven
+			emailCmd = "START \"Send Email report...\" /D"+emailCmd.replaceAll("OOOOO", "");
+			//logTAFWarning("emailCmd = '"+emailCmd+"'");
+			FileUtil.exeComm(false,emailCmd.replace("Output_Report",Output_Report ));
+			
+		}
+	}
+	
+	public void copyTestResults(){
+		copyTestResults("QAServer");
+	}
+	public void copyTestResults(String to){	
+		if(to.equalsIgnoreCase("QAServer")){
+			copyToQAServer();
+		}else if(to.equalsIgnoreCase("Jenkins")){
+			copyToJenkins(true);
+		}
+		
+	}
+	public void copyToJenkins(){
+	   copyToJenkins(false);
+	}
+	public void copyToJenkins(boolean isfinal){
+		String reportDir = TAF_jenkinsReportDir;
+
+		if(reportDir==null||reportDir==""){
+			logTAFWarning("Jenkins_home not found !!!");
+			return;
+			//reportDir = "D:\\ACL\\JENKINS_HOME\\jobs\\TestReport";
+		}
+		FileUtil.removeDir(reportDir+"\\FinishedTest\\");
+		if(isfinal){
+			FileUtil.mkDirs(reportDir+"\\FinishedTest\\file");
+			if(testInterrupted){
+				FileUtil.mkDirs(reportDir+"\\Interrupted\\file");
+			}
+		}else{
+			//FileUtil.removeDir(reportDir+"\\FinishedTest\\");
+		}
+		
+		logTAFDebug("Copy test report to jenkins "+TAFLogger.testResultTXT+"\\..\\");
+		FileUtil.mkDirs(reportDir+"\\screenShots\\");		
+		FileUtil.copyDir(TAFLogger.screenShots, reportDir+"\\screenShots\\");	
+		
+		FileUtil.copyFile(TAFLogger.testResultTXT, reportDir+"\\test_details.log");
+		FileUtil.copyFile(TAFLogger.testResultXLS, reportDir+"\\test_matrix.xls");
+		FileUtil.copyFile(TAFLogger.testResultHTML, reportDir+"\\test_summary.html");
+		FileUtil.copyFile(TAFLogger.memusageCSV, reportDir+"\\test_memusage.csv");
+	}
+	public void copyToQAServer(){
+		logTAFDebug("Copy test report to QAServer from "+TAFLogger.testResultTXT+"/../");
+		FileUtil.mkDirs(screenShots_Server+"\\");		
+		FileUtil.copyDir(TAFLogger.screenShots, screenShots_Server+"\\");	
+		
+		FileUtil.mkDirs(testResultTXT_Server);
+//		FileUtil.copyDir(TAFLogger.testResultTXT, new File(testResultTXT_Server).getParent());
+//		FileUtil.copyDir(TAFLogger.testResultXLS, new File(testResultXLS_Server).getParent());
+//		FileUtil.copyDir(TAFLogger.testResultHTML, new File(testResultHTML_Server).getParent());
+//		FileUtil.copyDir(TAFLogger.memusageCSV, new File(memusageCSV_Server).getParent());
+
+		FileUtil.copyFile(TAFLogger.testResultTXT, testResultTXT_Server);
+		FileUtil.copyFile(TAFLogger.testResultXLS, testResultXLS_Server);
+		FileUtil.copyFile(TAFLogger.testResultHTML, testResultHTML_Server);
+		FileUtil.copyFile(TAFLogger.memusageCSV, memusageCSV_Server);
+	}
 }

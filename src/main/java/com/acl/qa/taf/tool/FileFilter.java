@@ -1,4 +1,4 @@
-package com.acl.qa.taf.tool.wikiConvert;
+package com.acl.qa.taf.tool;
 
 import java.io.File;
 import java.io.FilenameFilter;

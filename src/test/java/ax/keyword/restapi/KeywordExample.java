@@ -4,6 +4,7 @@
 package ax.keyword.restapi;
 
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
+import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
 
 import org.openqa.selenium.By;
@@ -12,12 +13,14 @@ import org.openqa.selenium.WebElement;
 
 import ax.lib.KeywordHelper;
 
+  //Script Name is required for generating keyword doc
 /**
- * Script Name :KeywordExample.java Generated :3:10:31 PM Description : ACL Test
- * Automation
+ * Script Name   : <b>KeywordExample</b>
+ * Generated     : <b>2013-08-16 12:07:24 PM</b> 
+ * Description   : <b>ACL Test Automation</b>
  * 
- * @since Aug 16, 2013
- * @author steven_xiang
+ * @since  2013/08/16
+ * @author Steven_Xiang
  * 
  */
 public class KeywordExample extends KeywordHelper implements KeywordInterface {
@@ -26,11 +29,22 @@ public class KeywordExample extends KeywordHelper implements KeywordInterface {
 	 * @param args
 	 */
 
+	//***************  Part 1  *******************
+	// ******* Declaration of variables **********
+	// *******************************************
+	
+	         // Comments in section 'BEGIN' TO 'END' are used for generating keyword docs
 	// BEGIN of datapool variables declaration
-	protected String dpURL; // @arg the url to be tested
-	protected String dpScope; // @arg scope of the project
-								// @value = working|libray, or empty
+	protected String dpWebDriver; //@arg Selenium webdriver type
+	//@value = HtmlUnit|Firefox|...
 
+protected String dpUserName; //@arg username for login
+protected String dpPassword; //@arg password for login
+protected String dpEndWith; //@arg actions after test
+//@value = logout|quit|kill, or empty
+	protected String dpURL; //@arg the url to be tested
+	protected String dpScope; //@arg scope of the project
+							  //@value = working|library, or empty
 	// END of datapool variables declaration
 
 	@Override
@@ -38,114 +52,77 @@ public class KeywordExample extends KeywordHelper implements KeywordInterface {
 		super.dataInitialization();
 				
 		dpURL = getDpString("URL");
-		dpScope = getDpString("Scope");		
+		dpScope = getDpString("Scope");	
+		if(!dpScope.equals("")){
+			dpURL += "?scope="+dpScope;
+		}
 		return true;
 	}
 
+	
+	//***************  Part 2  *******************
+	// *********** Test logic ********************
+	// *******************************************
+	
+	//Comments - 'Steps' in this part are used to generate keyword docs
 	@Override
 	public void testMain(Object[] args){			
 		super.testMain(onInitialize(args, getClass().getName()));
 		
-		//*** Test steps ****
-		navigateToURL();
-		casLogon();
+		//Steps:
+		//@Step Start or activate AUT - Browser based on the value of 'WebDriver'
+		//@Step Handled browser security warning if there is one
+		//@Step Check user CAS session, report info or error accordingly.
+		//@Step If login required, submit username and password to CAS
+		//@@Step Fill in 'username' and 'password'
+		//@@Step Submit
+		//@@Step Verify page status and report accordingly
+		//@Step Get page contents for verification
+		//@@Step Compare actual contents with expected data - pre saved data or prepared master data
+		//@@Step Report errors by indicating the actual line number and the contents
+		//@@Step Take a screenshot if anything wrong (it happens whenever there is a warring or error reported)
+		//@Step Execute the command specified in 'EndWith' such as 'Kill','Close' or 'Logout' 
+		
+		casLogin(dpURL);
 		doVerification();
 		cleanUp(dpURL);
 		
-		//*** End of test ***
-		
+	  //*** cleanup by framework ***		
 		onTerminate();
 	}
 	
-	public void navigateToURL(){
-		String url = dpURL;
-		if(!dpScope.equals("")){
-			url += "?scope="+dpScope;
-		}
-		logTAFStep("Navigate to url '"+url+"'");
-		driver.get(url);
-	}
-	
-	public boolean isUserLoggedon(){
-		boolean done = false;
-		if(driver!=null){
-			try{
-				driver.findElement(By.id("username"));
-			
-			    driver.findElement(By.id("password"));
-			    
-	            casAuthenticated = false;
-	            setSharedObj();
-			}catch(Exception e){
-				casAuthenticated = true;
-	            setSharedObj();
-				done = true;
-			}
-		}
-			
-		return done;
-	}
-	public void casLogon(){
-		if(casAuthenticated){
-			if(!isUserLoggedon()){
-			  logTAFError(autoIssue+"User CAS session experied or server problem?");
-			}else{
-			  logTAFInfo("CAS authenticated session is still alive");
-			}
-			return;
-		}
-		try {
-			// WebElement form = driver.findElement(By.id("id1"));
-			logTAFStep("Input username '"+dpUserName+"'");
-			WebElement username = driver.findElement(By.id("username"));
-			username.sendKeys(dpUserName);
-			logTAFStep("Input password '"+dpPassword+"'");
-			WebElement password = driver.findElement(By.id("password"));
-			password.sendKeys(dpPassword);
-
-			WebElement submit = driver.findElement(By
-					.xpath("//input[@name='submit']"));
-            logTAFStep("Submit user credential");
-			submit.click();
-			// How to wait for page load?
-			sleep(2);
-		} catch (Exception e) {
-			logTAFError("CAS login failed "+e.toString());
-		}
+	//***************  Part 3  *******************
+	// *** Implementation of test functions ******
+	// *******************************************
 		
-		if(isUserLoggedon()){
-			logTAFInfo("User CAS logon successed!");
-		}else{
-			logTAFError("Failed to logon - "+dpUserName+":"+dpPassword);
-		}
-
-	}
-	
-	
 	public void doVerification(){
+		
+		// Set file name and path for verification
+		// they will be extended with [number] suffix at each comparison.
+		
 		setupTestFiles();  
 
 		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
 		if(casAuthenticated){
-			logTAFInfo("JSON data: '"+actualResult.substring(0,100)+"...");
-			// comparTextReult
-			// 1. contents - string
-			// 2. type - "File","JSON",
+			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
+			// compare Json Result - exact master and actual files are handled by framework.
 			logTAFStep("Demo - first file verification");
-			compareJsonResult(actualResult);
+			    compareJsonResult(actualResult);
 			// Do another for demo - multiple comparisons - Steven
 			logTAFStep("Demo - second file verification");
-			compareJsonResult(actualResult);
-		}else{
-			actualResult = (actualResult.substring(0,300))+"\n\t...";
-			
-			logTAFWarning("This should not be what we want '"+actualResult+"'"	);
+			    // get another actual contents for real testing
+			    compareJsonResult(actualResult);
+		}else{							
+			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
 		}
 
 		
 	}
 
-   // ************  Debugging ************************
+	//*************** Optional  ******************
+	// ******* main method for quick debugging ***
+	// *******************************************
+	
 	public static void main(String args){
 		KeywordExample debug = new KeywordExample();
 		debug.startBrowser("HtmlUnit");

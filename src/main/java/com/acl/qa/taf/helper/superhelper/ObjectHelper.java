@@ -467,10 +467,9 @@ public class ObjectHelper extends GuiFinderHelper {
         }
         
         if(ignorePattern!=null&&ignoreName!=null){
-        	for(int i=0;i<ignorePattern.length&&i<ignoreName.length;i++){
-        	tempMaster = tempMaster.replaceAll(ignorePattern[i], ignoreName[i]);
-        	tempActual = tempActual.replaceAll(ignorePattern[i], ignoreName[i]);
-        	}
+        	tempMaster = stringReplaceAll(tempMaster,ignorePattern,ignoreName);
+        	tempActual = stringReplaceAll(tempActual,ignorePattern,ignoreName);
+
         }
         textMaster = tempMaster.split(delimiter);
 		textActual = tempActual.split(delimiter);

@@ -216,10 +216,10 @@ public class ProjectConf {
 	public int maxMemUsage = Integer.MAX_VALUE;
 	public int stopIfNumConsecutiveFailures = Integer.MAX_VALUE;
 
-	public String wikiLink = "http://godzilla.dev.acl.com/wiki/index.php";
+	public String wikiLink = "";
 	public String testDescApp = "\n\tDescription of the tested area goes here....";
 
-	public String projectName = "ACLQA_Automation";
+	public String projectName = "";
     public boolean emailReport;
 	public String locale = FileUtil.locale.toString();
 	public String aclProjectDir = "";
@@ -287,7 +287,9 @@ public class ProjectConf {
 	// ***************************************************************************************
 
 	public void setFinalization(boolean finalization) {
-
+        if(projectName.trim()==""){
+        	projectName = testProject;
+        }
 		if (!finalization || projconfigured)
 			return;
 
@@ -370,7 +372,5 @@ public class ProjectConf {
 	}
 	
 	// ************ Not used, will be moved later - steven
-	public String serverName = "", 
-            tempCsvFile = ""
-            ;
+	public String serverName = "";
 }

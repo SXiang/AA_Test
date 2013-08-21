@@ -1,8 +1,10 @@
 
-package com.acl.qa.taf.tool.wikiConvert;
+package taf.tool.wikiConvert;
 
 import java.io.*;
+
 import com.acl.qa.taf.helper.superhelper.ACLQATestScript;
+import com.acl.qa.taf.tool.FileFilter;
 import com.acl.qa.taf.util.FileUtil;
 import com.acl.qa.taf.util.UnicodeUtil;
 
@@ -12,13 +14,13 @@ public class GenTestCasesWiki
 
 
 	private static String KEYWORD_PAGE = "";
-	private static String HEADER_OF_CSV = "Keyword[][STRING]";
+	private static String HEADER_OF_CSV = "Run_Test";
 	private static  String TESTCASE_DIR = "/KeywordTable/SmokeTest";
 
     private static String project="GatewayPro";
-    private static String backToMain = "[[QA Test Automation|Back To Main - QA Test Automation]]";
+    //private static String backToMain = "[[QA Test Automation|Back To Main - Test Automation - AX]]";
     private static String thisHeader = "";
-    private static String wikiDir = "/doc/WikiPages";
+    private static String wikiDir = "";
     
     private static int border = 1,tbwidth = 1200;
     private static String borderColor="#ffffff",borderStyle="solid",borderWidth="1px",
@@ -32,18 +34,13 @@ public class GenTestCasesWiki
 
     private static boolean rowColor = false;
 
-	public void testMain(Object[] args) 
+	public static void main(String[] args) 
 	{
-		String projectPrefix = "AX_";
-//		TESTCASE_DIR = "/KeywordTable/RegressionTest";
-//		TESTCASE_DIR = "/DATA/KeywordTable/Tools";
-		TESTCASE_DIR = "/DATA/KeywordTable/SmokeTest/DDW";
-//		project = "GatewayPro";		
-//		project = "Exception";
-//		project = "GatewayPro";
-//    	project = "Soundwave";
-		projectPrefix = "ACL_";
-		project = "Desktop";
+		String projectPrefix = "testdata/";
+
+//		TESTCASE_DIR = "/testdriver/restapi";
+		TESTCASE_DIR = "";
+		project = "ax";
         rowColor = true;
   
         tableStyle = "border-color:"+ borderColor+";"+
@@ -66,69 +63,48 @@ public class GenTestCasesWiki
 		//KEYWORD_PAGE = "QA Automation "+project+" Keywords Manual";
 		//wikiDir = wikiDir+ "/"+projectPrefix+project+"/TestCase/"+TESTCASE_DIR.replaceAll("/KeywordTable", "");
 		
-		TESTCASE_DIR = "/"+projectPrefix+project+TESTCASE_DIR;
-		wikiDir = TESTCASE_DIR;
+		TESTCASE_DIR = ""+projectPrefix+project+TESTCASE_DIR;
+		wikiDir = FileUtil.getAbsDir("%user.dir%/"+"output/wiki/"+TESTCASE_DIR);
+		FileUtil.mkDirs(wikiDir);
 		
-		
-		String testcaseFolderFullPath = FileUtil.userWorkingDir + TESTCASE_DIR;
+		String testcaseFolderFullPath = FileUtil.getAbsDir(TESTCASE_DIR);
 		StringBuffer indexPage = new StringBuffer(2048);
 		String curFile;
 		
-		indexPage.append(backToMain+"\n\n");	
+//		indexPage.append(backToMain+"\n\n");	
 		indexPage.append("== "+project +" automation Test Cases ==\n");
 		indexPage.append("<br />\n----\n");
 		
-		for (String curTestCaseFile : new File(testcaseFolderFullPath).list(new FileFilter("csv"))) {
-			curFile = curTestCaseFile.split("\\.")[0];
-			thisHeader =  curFile;
-			if (! curFile.startsWith("_")) { // ignore internal scripts
-				logInfo("Working on testcase file  [" + curFile + ".csv] ...");
-				StringBuffer contentsBuffer = new StringBuffer(2048);
-				indexPage.append("*[["+curFile+"]]\n");
-				contentsBuffer.append(backToMain+"\n\n");	// for wiki
-				contentsBuffer.append("<br />\n");//-----------------------------------------------------\n");
-				contentsBuffer.append("=== "+project+" - "+curFile+" ===\n\n");	// for wiki
-				contentsBuffer.append("<br />\n");//-----------------------------------------------------\n");
-				contentsBuffer.append(tableOt);	// for wiki format
-				contentsBuffer.append(getTestCaseInfo(testcaseFolderFullPath + "/" + curFile+".csv"));
-				contentsBuffer.append(tableCt);	// for wiki format
-
-				contentsBuffer.append("<br />\n");//-----------------------------------------------------\n");
-				contentsBuffer.append(backToMain+"\n\n");	// for wiki
-				logInfo("\n=== Write test case doc to file [" + curFile + ".txt] ...");
-				writeToNewFile(FileUtil.userWorkingDir+wikiDir+"/"+curFile + ".txt", contentsBuffer);
-			}
-			//break;
-		}
 		//Handle xls 
 		for (String curTestCaseFile : new File(testcaseFolderFullPath).list(new FileFilter("xls"))) {
-			logInfo("File found: "+testcaseFolderFullPath + "/"+curTestCaseFile);
-			curFile = new File(curTestCaseFile).getName().split("\\.")[0];
+			logInfo("File found: "+testcaseFolderFullPath +curTestCaseFile);
+			curFile =curTestCaseFile.split("\\.")[0];
 		
 			thisHeader =  curFile;
 			if (! curFile.startsWith("_")) { // ignore internal scripts
 				logInfo("Working on testcase file  [" + curFile + ".xls] ...");
 				StringBuffer contentsBuffer = new StringBuffer(2048);
-				indexPage.append("*[["+curFile+"]]\n");
-				contentsBuffer.append(backToMain+"\n\n");	// for wiki
+				indexPage.append("* [["+curFile+"]]\n");
+//				contentsBuffer.append(backToMain+"\n\n");	// for wiki
 				contentsBuffer.append("<br />\n");//-----------------------------------------------------\n");
-				contentsBuffer.append("=== "+project+" - "+curFile+" ===\n\n");	// for wiki
+				contentsBuffer.append("=== "+project.toUpperCase()+" - "+curFile+" ===\n\n");	// for wiki
 				contentsBuffer.append("<br />\n");//-----------------------------------------------------\n");
 				contentsBuffer.append(tableOt);	// for wiki format
-				contentsBuffer.append(getTestCaseInfo(UnicodeUtil.XlsToCsv(testcaseFolderFullPath + "/"+curTestCaseFile, ACLQATestScript.projectConf.tempCsvFile)));
+				contentsBuffer.append(getTestCaseInfo(UnicodeUtil.XlsToCsv(testcaseFolderFullPath +curTestCaseFile,
+						wikiDir+"temp.csv")));
 				contentsBuffer.append(tableCt);	// for wiki format
 
 				contentsBuffer.append("<br />\n");//-----------------------------------------------------\n");
-				contentsBuffer.append(backToMain+"\n\n");	// for wiki
+//				contentsBuffer.append(backToMain+"\n\n");	// for wiki
 		
 				logInfo("\n=== Write test case doc to file [" + curFile + ".txt] ...");
-				writeToNewFile(FileUtil.userWorkingDir+wikiDir+"/"+curFile + ".txt", contentsBuffer);
+				writeToNewFile(wikiDir+curFile + ".txt", contentsBuffer);
 			}
 			//break;
 		}
 		indexPage.append("<br />\n----\n");
-		indexPage.append(backToMain+"\n\n");	
-		writeToNewFile(FileUtil.userWorkingDir+wikiDir+"/"+project +" automation Test Cases" + ".txt", indexPage);
+//		indexPage.append(backToMain+"\n\n");	
+		writeToNewFile(wikiDir+project +" automation Test Cases" + ".txt", indexPage);
 			
 		
 
@@ -175,7 +151,7 @@ public class GenTestCasesWiki
 							comm = "";
 						}
 						if(i==keyIndex){
-							contentsBuffer.append("\t\t<TD>[["+KEYWORD_PAGE+"#"+values[i].trim()+
+							contentsBuffer.append("\t\t<TD>[["+KEYWORD_PAGE+"# "+values[i].trim()+
 									"|"+value+									
 									"]]</TD>\n");  
 						}else{
