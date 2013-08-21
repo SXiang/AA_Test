@@ -31,11 +31,31 @@ public abstract class FormatHtmlReport
 		String outFile = FileUtil.getAbsDir(TAFLogger.testResultHTML);
 	              return getHttpReportFromWiki(wikiPage, outFile, title,"");
 	}
+	
+public static String getHtmlPrintable(String htmlStr){
+	    if(htmlStr==null)
+	    	return htmlStr;
+		return getHtmlPrintable(htmlStr,htmlStr.length());
+	}
+public static String getHtmlPrintable(String htmlStr,int length){
+	return getHtmlPrintable(htmlStr,0,length);
+}
+	public static String getHtmlPrintable(String htmlStr,int from,int length){
+		String[] pattern ={"<",">"};
+		String[] replacement ={"&lt","&gt"};
+		try{
+		  htmlStr = htmlStr.substring(from,from+length-1);
+		  htmlStr = ACLQATestScript.stringReplaceAll(htmlStr,pattern,replacement);
+		}catch(Exception e){
+			LoggerHelper.logTAFException(e);
+		}
+		return htmlStr;
+	}
 	public static String getHttpReportFromWiki(String wikiPage,String outFile, String title,String subject){
-		    String ACLWiki = "http://godzilla.dev.acl.com/wiki/index.php?title=";
-		    ACLWiki = ACLQATestScript.projectConf.wikiLink + "?title=";
-		    wikiPage = sanitize(wikiPage);
+		    String ACLWiki = "";//"http://godzilla.dev.acl.com/wiki/index.php?title=";
 		    
+		    ACLWiki = ACLQATestScript.projectConf.wikiLink;
+		    wikiPage = sanitize(wikiPage);		    
 		    WikiModel wikiModel = 
             new WikiModel(ACLWiki+"${image}", 
                           ACLWiki+"${title}");

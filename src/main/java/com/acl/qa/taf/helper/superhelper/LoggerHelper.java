@@ -496,8 +496,10 @@ public class LoggerHelper extends ACLQATestScript {
 //		}
 
 	}
-
 	public static void killProcess() {
+	   killProcess(imageName);
+	}
+	public static void killProcess(String imageName) {
 		try {
 			// In case of the app could not be closed normally, we force to kill
 			// the process form OS

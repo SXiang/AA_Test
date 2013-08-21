@@ -210,151 +210,133 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 		String Output_Report = testSummary(testSuite);
 		
 		logTAFTestResult(Output_Report,true);
-		//sendEmail(FileUtil.getAbsDir(TAFLogger.testResultTXT));
-		String emailSubject=System.getProperty(sysPropPrefix+"emailSubject");
-		String emailTitle=System.getProperty(sysPropPrefix+"emailTitle");
-		
-		if(emailSubject==null||emailSubject.equals("")){
-			emailSubject=reportSubject;
-		}
-		if(emailTitle==null||emailTitle.equals("")){
-			emailTitle="Automation Test Report";
-		}	
-		
-		Output_Report = FormatHtmlReport.getHttpReportFromWiki(Output_Report,FileUtil.getAbsDir(TAFLogger.testResultHTML),emailTitle,emailSubject);
-		stopApp();
-
-        sendEmail(Output_Report);
 		numTCs=0;
 		numTCsFail=0;
-		
-// Use these two lines if you want to see test results in data pools		
-//		DatapoolUtilities.storeCSV((IDatapool) poolArgs[0],poolCsvFile,",",true);   	
-//		DatapoolUtil.replaceData(poolCsvFile.getAbsolutePath(), "<NULL>", "",true);
-		onTerminate();
+		Output_Report = onTerminate(Output_Report);
+		//sendEmail(Output_Report);
 	}
 	
-	public void sendEmail(String Output_Report){
-		String exeDir = FileUtil.getAbsDir("tool");
-		String exeFile = "CDOMessage.exe";
-		String subject = "Automation Test Report - "+projectConf.projectName;//"Files";
-		
-		String smtpServer = "xchg-cas-array.acl.com";
-		String fromAddress = "QAMail@ACL.COM";
-		String fromName = projectConf.testerName;
-		String toAddress = projectConf.toAddress;//ProjectConf.ebasecamp;
-		String body = "Output_Report";
-		String attachFiles = "";//testResultHTML_Server;
-		String ccAddress = projectConf.ccAddress;
-		String bccAddress = projectConf.bccAddress;
-		String importance = "Normal";
-		String userName = "ACL\\QAMail";
-		String password = "Password00";
-		String ipPort = "25";
-		String ssl = "1";
-		
-		String s = " ";
-		String d = ",";
-	
-		String eCommands[] = null;
-		String emailPattern = "(?i)^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
-		
-		copyTestResults("QAServer");
-		
-		if(TAF_jenkinsReport){
-			copyTestResults("Jenkins");	
-		}else if(TAF_emailReport){ // If runs from Jenkins, don't send email from RFT.				
-			String emailCmd=System.getProperty(sysPropPrefix+"emailCmd");
-			if(emailCmd==null){
-				if(toAddress.matches(emailPattern)){
-					emailCmd = exeDir+s+exeFile+s+subject+d+smtpServer+d+fromName+d+fromAddress+d+toAddress+d+
-					           body+d+attachFiles+d+ccAddress+d+bccAddress+d+importance+d+userName+d+password+d+
-					           ipPort+d+ssl;
-				}else{
-				     logTAFWarning("Email Report option is only available with continues testing!");
-				     return;
-				}
-			}else{
-				eCommands = emailCmd.split(",");
-				fromAddress = eCommands[2];
-				toAddress = eCommands[4];
-				ccAddress = eCommands[7];
-				bccAddress = eCommands[8];
-			}
-			
-			if(bugNumA>3){ // Return it to tester due to automation problems... Steven.
-				if(toAddress.matches(emailPattern))
-					emailCmd.replace(toAddress, fromAddress);
-				if(ccAddress.matches(emailPattern))
-					emailCmd.replace(ccAddress, "");
-				if(bccAddress.matches(emailPattern))
-					emailCmd.replace(bccAddress, "");
-			}
-			// As in the 'doTest.bat', "OOOOO...OOOOO" is used to flag the email command Steven
-			emailCmd = "START \"Send Email report...\" /D"+emailCmd.replaceAll("OOOOO", "");
-			//logTAFWarning("emailCmd = '"+emailCmd+"'");
-			FileUtil.exeComm(false,emailCmd.replace("Output_Report",Output_Report ));
-			
-		}
-	}
-	
-	public void copyTestResults(){
-		copyTestResults("QAServer");
-	}
-	public void copyTestResults(String to){	
-		if(to.equalsIgnoreCase("QAServer")){
-			copyToQAServer();
-		}else if(to.equalsIgnoreCase("Jenkins")){
-			copyToJenkins(true);
-		}
-		
-	}
-	public void copyToJenkins(){
-	   copyToJenkins(false);
-	}
-	public void copyToJenkins(boolean isfinal){
-		String reportDir = TAF_jenkinsReportDir;
-
-		if(reportDir==null||reportDir==""){
-			logTAFWarning("Jenkins_home not found !!!");
-			return;
-			//reportDir = "D:\\ACL\\JENKINS_HOME\\jobs\\TestReport";
-		}
-		FileUtil.removeDir(reportDir+"\\FinishedTest\\");
-		if(isfinal){
-			FileUtil.mkDirs(reportDir+"\\FinishedTest\\file");
-			if(testInterrupted){
-				FileUtil.mkDirs(reportDir+"\\Interrupted\\file");
-			}
-		}else{
-			//FileUtil.removeDir(reportDir+"\\FinishedTest\\");
-		}
-		
-		logTAFDebug("Copy test report to jenkins "+TAFLogger.testResultTXT+"\\..\\");
-		FileUtil.mkDirs(reportDir+"\\screenShots\\");		
-		FileUtil.copyDir(TAFLogger.screenShots, reportDir+"\\screenShots\\");	
-		
-		FileUtil.copyFile(TAFLogger.testResultTXT, reportDir+"\\test_details.log");
-		FileUtil.copyFile(TAFLogger.testResultXLS, reportDir+"\\test_matrix.xls");
-		FileUtil.copyFile(TAFLogger.testResultHTML, reportDir+"\\test_summary.html");
-		FileUtil.copyFile(TAFLogger.memusageCSV, reportDir+"\\test_memusage.csv");
-	}
-	public void copyToQAServer(){
-		logTAFDebug("Copy test report to QAServer from "+TAFLogger.testResultTXT+"/../");
-		FileUtil.mkDirs(screenShots_Server+"\\");		
-		FileUtil.copyDir(TAFLogger.screenShots, screenShots_Server+"\\");	
-		
-		FileUtil.mkDirs(testResultTXT_Server);
-//		FileUtil.copyDir(TAFLogger.testResultTXT, new File(testResultTXT_Server).getParent());
-//		FileUtil.copyDir(TAFLogger.testResultXLS, new File(testResultXLS_Server).getParent());
-//		FileUtil.copyDir(TAFLogger.testResultHTML, new File(testResultHTML_Server).getParent());
-//		FileUtil.copyDir(TAFLogger.memusageCSV, new File(memusageCSV_Server).getParent());
-
-		FileUtil.copyFile(TAFLogger.testResultTXT, testResultTXT_Server);
-		FileUtil.copyFile(TAFLogger.testResultXLS, testResultXLS_Server);
-		FileUtil.copyFile(TAFLogger.testResultHTML, testResultHTML_Server);
-		FileUtil.copyFile(TAFLogger.memusageCSV, memusageCSV_Server);
-	}
+//	public void sendEmail(String Output_Report){
+//		String exeDir = FileUtil.getAbsDir("tool");
+//		String exeFile = "CDOMessage.exe";
+//		String subject = "Automation Test Report - "+projectConf.projectName;//"Files";
+//		
+//		String smtpServer = "xchg-cas-array.acl.com";
+//		String fromAddress = "QAMail@ACL.COM";
+//		String fromName = projectConf.testerName;
+//		String toAddress = projectConf.toAddress;//ProjectConf.ebasecamp;
+//		String body = "Output_Report";
+//		String attachFiles = "";//testResultHTML_Server;
+//		String ccAddress = projectConf.ccAddress;
+//		String bccAddress = projectConf.bccAddress;
+//		String importance = "Normal";
+//		String userName = "ACL\\QAMail";
+//		String password = "Password00";
+//		String ipPort = "25";
+//		String ssl = "1";
+//		
+//		String s = " ";
+//		String d = ",";
+//	
+//		String eCommands[] = null;
+//		String emailPattern = "(?i)^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
+//		
+//		copyTestResults("QAServer");
+//		
+//		if(TAF_jenkinsReport){
+//			copyTestResults("Jenkins");	
+//		}else if(TAF_emailReport){ // If runs from Jenkins, don't send email from RFT.				
+//			String emailCmd=System.getProperty(sysPropPrefix+"emailCmd");
+//			if(emailCmd==null){
+//				if(toAddress.matches(emailPattern)){
+//					emailCmd = exeDir+s+exeFile+s+subject+d+smtpServer+d+fromName+d+fromAddress+d+toAddress+d+
+//					           body+d+attachFiles+d+ccAddress+d+bccAddress+d+importance+d+userName+d+password+d+
+//					           ipPort+d+ssl;
+//				}else{
+//				     logTAFWarning("Email Report option is only available with continues testing!");
+//				     return;
+//				}
+//			}else{
+//				eCommands = emailCmd.split(",");
+//				fromAddress = eCommands[2];
+//				toAddress = eCommands[4];
+//				ccAddress = eCommands[7];
+//				bccAddress = eCommands[8];
+//			}
+//			
+//			if(bugNumA>3){ // Return it to tester due to automation problems... Steven.
+//				if(toAddress.matches(emailPattern))
+//					emailCmd.replace(toAddress, fromAddress);
+//				if(ccAddress.matches(emailPattern))
+//					emailCmd.replace(ccAddress, "");
+//				if(bccAddress.matches(emailPattern))
+//					emailCmd.replace(bccAddress, "");
+//			}
+//			// As in the 'doTest.bat', "OOOOO...OOOOO" is used to flag the email command Steven
+//			emailCmd = "START \"Send Email report...\" /D"+emailCmd.replaceAll("OOOOO", "");
+//			//logTAFWarning("emailCmd = '"+emailCmd+"'");
+//			FileUtil.exeComm(false,emailCmd.replace("Output_Report",Output_Report ));
+//			
+//		}
+//	}
+//	
+//	public void copyTestResults(){
+//		copyTestResults("QAServer");
+//	}
+//	public void copyTestResults(String to){	
+//		if(to.equalsIgnoreCase("QAServer")){
+//			copyToQAServer();
+//		}else if(to.equalsIgnoreCase("Jenkins")){
+//			copyToJenkins(true);
+//		}
+//		
+//	}
+//	public void copyToJenkins(){
+//	   copyToJenkins(false);
+//	}
+//	public void copyToJenkins(boolean isfinal){
+//		String reportDir = TAF_jenkinsReportDir;
+//
+//		if(reportDir==null||reportDir==""){
+//			logTAFWarning("Jenkins_home not found !!!");
+//			return;
+//			//reportDir = "D:\\ACL\\JENKINS_HOME\\jobs\\TestReport";
+//		}
+//		FileUtil.removeDir(reportDir+"\\FinishedTest\\");
+//		if(isfinal){
+//			FileUtil.mkDirs(reportDir+"\\FinishedTest\\file");
+//			if(testInterrupted){
+//				FileUtil.mkDirs(reportDir+"\\Interrupted\\file");
+//			}
+//		}else{
+//			//FileUtil.removeDir(reportDir+"\\FinishedTest\\");
+//		}
+//		
+//		logTAFDebug("Copy test report to jenkins "+TAFLogger.testResultTXT+"\\..\\");
+//		FileUtil.mkDirs(reportDir+"\\screenShots\\");		
+//		FileUtil.copyDir(TAFLogger.screenShots, reportDir+"\\screenShots\\");	
+//		
+//		FileUtil.copyFile(TAFLogger.testResultTXT, reportDir+"\\test_details.log");
+//		FileUtil.copyFile(TAFLogger.testResultXLS, reportDir+"\\test_matrix.xls");
+//		FileUtil.copyFile(TAFLogger.testResultHTML, reportDir+"\\test_summary.html");
+//		FileUtil.copyFile(TAFLogger.memusageCSV, reportDir+"\\test_memusage.csv");
+//	}
+//	public void copyToQAServer(){
+//		logTAFDebug("Copy test report to QAServer from "+TAFLogger.testResultTXT+"/../");
+//		FileUtil.mkDirs(screenShots_Server+"\\");		
+//		FileUtil.copyDir(TAFLogger.screenShots, screenShots_Server+"\\");	
+//		
+//		FileUtil.mkDirs(testResultTXT_Server);
+////		FileUtil.copyDir(TAFLogger.testResultTXT, new File(testResultTXT_Server).getParent());
+////		FileUtil.copyDir(TAFLogger.testResultXLS, new File(testResultXLS_Server).getParent());
+////		FileUtil.copyDir(TAFLogger.testResultHTML, new File(testResultHTML_Server).getParent());
+////		FileUtil.copyDir(TAFLogger.memusageCSV, new File(memusageCSV_Server).getParent());
+//
+//		FileUtil.copyFile(TAFLogger.testResultTXT, testResultTXT_Server);
+//		FileUtil.copyFile(TAFLogger.testResultXLS, testResultXLS_Server);
+//		FileUtil.copyFile(TAFLogger.testResultHTML, testResultHTML_Server);
+//		FileUtil.copyFile(TAFLogger.memusageCSV, memusageCSV_Server);
+//	}
 //*************************
 	
 }

@@ -54,7 +54,7 @@ public class convertCsvToXls
 			}
 		}else{ // All files in the folder
 			System.out.println("Processing files in Folder: '"+csvFileOrDir+"'");
-			for (String csvFileName: csvFile.list(new com.acl.qa.taf.tool.wikiConvert.FileFilter("csv"))) {				
+			for (String csvFileName: csvFile.list(new com.acl.qa.taf.tool.FileFilter("csv"))) {				
 			    csvName = csvFileOrDir + "/" + csvFileName;
 				xlsName = csvName.replace(".csv", ".xls");
 				try {
