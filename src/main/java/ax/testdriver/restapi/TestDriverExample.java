@@ -1,7 +1,31 @@
 package ax.testdriver.restapi;
 
-import com.acl.qa.taf.helper.TestDriverHelper;
+import ax.lib.TestDriverHelper;
 
-public class TestDriverExample extends TestDriverHelper{
+import com.acl.qa.taf.helper.Interface.TestDriverInterface;
 
+
+
+public class TestDriverExample  extends TestDriverHelper implements TestDriverInterface{
+	
+	
+    public static void main(String[] args){
+    	TestDriverExample test = new TestDriverExample();
+    	test.setMainScript(true);
+    	test.testMain(args);
+    }
+    
+    
+	@Override
+	public void testMain(Object[] args) 
+	{		
+		//startFromLine = 2; // 4-9
+		//endAtLine =3;     //
+			
+		String poolFile = "testdata/ax/testdriver/restapi/TestDriverExample.xls";
+		exeTestCase(onInitialize(poolFile,getClass().getName()));
+		
+	}
+	
 }
+

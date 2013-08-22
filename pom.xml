@@ -1,0 +1,120 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ACLQA</groupId>
+  <artifactId>AX_TestAutomation</artifactId>
+  <version>10.0</version>
+  <name>AX Test Automation - Selenium</name>
+ <pluginRepositories>
+ <pluginRepository>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>http://repo.maven.apache.org/maven2</url>
+    </pluginRepository>
+    <pluginRepository>
+    <id>Nexus</id>
+	<name>Nexus Release Repository</name>
+	<url>http://192.168.10.129:8081/nexus/content/repositories/releases</url>
+	<releases>
+              <enabled>true</enabled>
+              <updatePolicy>always</updatePolicy>
+         </releases>
+    <snapshots>
+        <enabled>true</enabled> 
+        <updatePolicy>always</updatePolicy>
+    </snapshots> 
+    </pluginRepository> 
+
+   </pluginRepositories> 
+   <repositories>
+      <repository>
+        <snapshots>
+          <enabled>false</enabled>
+        </snapshots>
+        <id>central</id>
+        <name>Central Repository</name>
+        <url>http://repo.maven.apache.org/maven2</url>
+       </repository>
+       <repository>
+         <id>Nexus</id>
+	     <name>Nexus Release Repository</name>
+	     <url>http://192.168.10.129:8081/nexus/content/repositories/releases</url>
+         <releases>
+              <enabled>true</enabled>
+              <updatePolicy>never</updatePolicy>
+         </releases>
+         <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+         </snapshots>
+       </repository>
+
+    </repositories>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <configuration>
+          <show>private</show>
+          <nohelp>true</nohelp>
+        </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-shade-plugin</artifactId>
+		  <version>2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<finalName>dependencies-${project.version}</finalName>
+				</configuration>
+	   </plugin>
+    </plugins>
+  </build>
+   <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <configuration>
+          <show>public</show>
+          <nohelp>true</nohelp>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+  <organization>
+  	<name>ACLQA Automation</name>
+  	<url>https://aclgrc.atlassian.net/wiki/display/ACD/Analytics+Continuous+Delivery</url>
+  </organization>
+  <ciManagement>
+  	<system>Jenkins</system>
+  	<url>http://biollante02:8080/view/TestUtilities/</url>
+  </ciManagement>
+  <issueManagement>
+  	<system>JIRA</system>
+  	<url>https://aclgrc.atlassian.net/</url>
+  </issueManagement>
+  <dependencies>
+  	<dependency>
+  		<groupId>ACLQA</groupId>
+  		<artifactId>TAFDependencies</artifactId>
+  		<version>10.0</version>
+  	</dependency>
+  </dependencies>
+</project>
