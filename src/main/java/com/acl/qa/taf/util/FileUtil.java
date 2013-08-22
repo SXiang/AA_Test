@@ -224,11 +224,19 @@ public class FileUtil extends ibm.util.FileOps {
     	String absDir = inputDir;
     	String userDir = "%user.dir%";
     	URL absURL;
+    	boolean isDir = false;
+    	
     	
     	absDir = absDir.replaceAll(userDir, userWorkingDir);
     	File dirFile = new File(absDir);
     	
-    	
+    	if(dirFile.isDirectory()){
+    		isDir = true;
+    	}else {
+    		if(inputDir.endsWith("/")||inputDir.endsWith("\\")){
+    			isDir = true;
+    		}
+    	}
     	if(dirFile.isAbsolute()){
     		absDir = absDir.replaceAll("/$|\\|$", "");
     	}else{
@@ -248,7 +256,9 @@ public class FileUtil extends ibm.util.FileOps {
     		    		
     	}  
     	absDir.replaceAll("//", "/");
-			if(!absDir.endsWith("/")&&!absDir.endsWith("\\"))
+
+			if(!absDir.endsWith("/")&&!absDir.endsWith("\\")
+					&&isDir)
 				absDir += "/";
 			
 

@@ -17,7 +17,7 @@ target/
 .gitmodules
 /output/
 /bin/
-/garbage
+/garbage/
 *.xls
 !*Example.xls
 *.xlsx

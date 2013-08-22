@@ -18,15 +18,20 @@ public class ProjectConf {
 			localizationDir = "", tempLocalDir = "", tempServerNetDir = "",
 			tempServerDir = "", serverInputDataDir = "",
 			localInputDataDir = "",
-			testDataDir = "";
+			testDataDir = "",
+			toolDir = "";
 
 	// ********************************************************
 
-	// ********** Setters - Auto generated ***********************************
+	// ********** Setters - Auto generated and dir addressed *****************
 
 	
 	public void setTempTestSummary(boolean tempTestSummary) {
 		this.tempTestSummary = tempTestSummary;
+	}
+
+	public void setToolDir(String toolDir) {
+		this.toolDir = FileUtil.getAbsDir(toolDir);
 	}
 
 	public void setTestDataDir(String testDataDir) {
@@ -354,6 +359,19 @@ public class ProjectConf {
     public String ccAddress = "";
     public String bccAddress = "";
     
+    
+	public void setToAddress(String toAddress) {
+		this.toAddress = toAddress;
+	}
+
+	public void setCcAddress(String ccAddress) {
+		this.ccAddress = ccAddress;
+	}
+
+	public void setBccAddress(String bccAddress) {
+		this.bccAddress = bccAddress;
+	}
+
 	public void setTestType(String testType) {
 		if (testType.equalsIgnoreCase("LOCALONLY")) {
 			LoggerHelper.localOnlyTest = true;
