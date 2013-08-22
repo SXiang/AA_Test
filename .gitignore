@@ -23,5 +23,7 @@ submodule_taf
 /bin/
 /garbage
 *.xls
+!*Example.xls
 *.xlsx
+!*Example.xlsx
 *.bak[0-9]*
