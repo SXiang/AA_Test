@@ -360,14 +360,14 @@ public class ObjectHelper extends GuiFinderHelper {
 //            delimiter = "\\},\\{";
 //            
 //        }
-		if (!label.equalsIgnoreCase("File")) {
-			if (!fileMaster.endsWith(fileDescription))
-				fileMaster += "[" + label + "]";
-			if (!fileActual.endsWith(fileDescription))
-				fileActual += "[" + label + "]";
-			if (!superMasterFile.endsWith(fileDescription))
-				superMasterFile += "[" + label + "]";
-		}
+//		if (!label.equalsIgnoreCase("File")) {
+//			if (!fileMaster.endsWith(fileDescription))
+//				fileMaster += "[" + label + "]";
+//			if (!fileActual.endsWith(fileDescription))
+//				fileActual += "[" + label + "]";
+//			if (!superMasterFile.endsWith(fileDescription))
+//				superMasterFile += "[" + label + "]";
+//		}
 		
 		
 		if (actualContents != null) {// &&!actualContents.equals("")){

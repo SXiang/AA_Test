@@ -208,29 +208,22 @@ public class KeywordHelper extends KeywordSuperHelper {
 		compareTextFile(result,verifyType,true);
 	}
 	
-	public void compareJsonResult(String result) {
-		if (result == null) {
-			return;
-		}
-		
+	public boolean compareJsonResult(String result) {
+		  fileExt += "[JSON]";  
+          return compareJsonResult(result,"");
+	}
+	
+	public boolean compareJsonResult(String result,String master)	{
+				
         String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
         String[] ignoreName = {"$1u-u-i-d$2"};
-        String verifyType = "JSON";
         String delimiterPattern = "\\},\\{";
         
-		++fileIndex;
-		if(!dpMasterFile.endsWith(fileExt)){
-			thisMasterFile = dpMasterFile.trim()+"["+fileIndex+"]"+fileExt;
-			superMasterFile = dpSuperMasterFile.trim()+"["+fileIndex+"]"+fileExt;
-		}
+        return compareResult(master,result,
+   			 true,
+   			ignorePattern,ignoreName,
+   			delimiterPattern);
 		
-		if(!dpActualFile.endsWith(fileExt)){
-           thisActualFile  = dpActualFile.trim()+"["+fileIndex+"]"+fileExt;
-		}
-		
-		compareTextFile(thisMasterFile, thisActualFile, result,
-				projectConf.updateMasterFile, verifyType,true,
-				ignorePattern,ignoreName,delimiterPattern);
 	}
 	
 	//***************  Part 5  *******************

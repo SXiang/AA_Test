@@ -47,6 +47,11 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 
 		// Data-Driven Stub
 		dataInit(args); 
+		// Set file name and path for verification
+		// they will be extended with [number] suffix at each comparison.
+		
+		setupVPFolder();  
+
 		//testMain(args); - if there is one in the future;
 		//exeCommands();
 	}
@@ -65,9 +70,42 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 	return itemName;
 	}
 	
+	public boolean compareResult(String masterFile,  String result,
+			 boolean exactMatch,
+			String ignorePattern[],String[] ignoreName,String delimiterPattern){
+		if (result == null) {
+			return true;
+		}
+		
+		return compareTextFile(setupMasterFile(masterFile), thisActualFile, result,
+		projectConf.updateMasterFile, "File",true,
+		ignorePattern,ignoreName,delimiterPattern);
+	}
 	
+	public String setupMasterFile(String masterFile){
+		
+		if(masterFile==null || masterFile.equals("")){
+        ++fileIndex;
+		if(!dpMasterFile.endsWith(fileExt)){
+			thisMasterFile = dpMasterFile.trim()+"["+fileIndex+"]"+fileExt;
+			superMasterFile = dpSuperMasterFile.trim()+"["+fileIndex+"]"+fileExt;
+		}
+		
+		if(!dpActualFile.endsWith(fileExt)){
+           thisActualFile  = dpActualFile.trim()+"["+fileIndex+"]"+fileExt;
+		}
+		}else{
+		    superMasterFile = FileUtil.getAbsDir(masterFile).replaceFirst("/$", "");
+		    String name = FileUtil.getFullName(superMasterFile);
+		    
+		    thisMasterFile = dpMasterFile.trim()+name;
+		    thisActualFile  = dpActualFile.trim()+name;
+		}
+		
+		return thisMasterFile;
+	}
 	//************ Setup file path for data verification ******************
-	public String setupTestFiles(){
+	public String setupVPFolder(){
 		return setupTestFiles(scriptName.replaceAll("\\.", "/"),"","No","");
 	}
 	public String setupTestFiles(String filename,String location){

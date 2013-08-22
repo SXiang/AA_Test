@@ -29,5 +29,13 @@ public class TestDriverHelper extends TestDriverSuperHelper {
 	public TestDriverHelper() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	/**
+	 * @param args
+	 */
+	public void testMain(Object[] args) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
