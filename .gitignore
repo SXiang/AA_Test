@@ -19,5 +19,6 @@ target/
 /bin/
 /garbage
 *.xls
+!*Example.xls
 *.xlsx
-*.bak[0-9]*
+!*Example.xlsx
