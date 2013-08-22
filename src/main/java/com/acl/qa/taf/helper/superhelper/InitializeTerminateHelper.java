@@ -369,20 +369,21 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			 if(numTCs > -1){// was > 2 to exclude AN batch test
 
 			   reportSubject = "AUT: "
-				 +(projectName.equalsIgnoreCase("ACL_Desktop")?"ACL Analytics":projectName)
+				 //+(projectName.equalsIgnoreCase("ACL_Desktop")?"ACL Analytics":projectName)
 			     +"["+TAFLogger.locale+"]"+" - "+projectConf.testProject+
 	            "["+projectConf.buildInfo+"]-"+		            
-	            (unicodeTest?"Unicode":"NonUnicode")+
-	            "(ACL "+projectConf.testType+" Project)";
+	            //(unicodeTest?"Unicode":"NonUnicode")+
+	            //"(ACL "+projectConf.testType+" Project)"+
+	            "";
 			 }
 			 summary = "\n"+line0+linkToWikiAuto+colorDiv+line1;
 			 summary = summary + 
 			   "\n*\t <b>TEST ENVIRONMENT:</b>"+
 			   (reportSubject.equals("")?"":"\n**\t "+reportSubject)+
-		       "\n**\t- AUT: "+projName+" - "+projectConf.testProject+
-		            "["+projectConf.buildInfo+"]-"+		            
-		            (projectConf.isUnicodeTest()?"Unicode":"NonUnicode")+
-		            "(ACL "+projectConf.testType+" Project)"+
+//		       "\n**\t- AUT: "+projName+" - "+projectConf.testProject+
+//		            "["+projectConf.buildInfo+"]-"+		            
+//		            (projectConf.isUnicodeTest()?"Unicode":"NonUnicode")+
+//		            "(ACL "+projectConf.testType+" Project)"+
 		       //"\n**\t- JVM Locale (Client Machine): "+TAFLogger.locale+
 		       "\n**\t- Tester: "+projectConf.testerName+
 		       "\n**\t- Name of Test Machine: "+hostName+ " IP Address: "+hostIP+
@@ -659,13 +660,13 @@ public class InitializeTerminateHelper extends ObjectHelper {
         return Output_Report;
 	}
 	public void sendEmail(String Output_Report){
-		String exeDir = FileUtil.getAbsDir("tool");
+		String exeDir = projectConf.toolDir;
 		String exeFile = "CDOMessage.exe";
 		String subject = "Automation Test Report - "+projectConf.projectName;//"Files";
 		
 		String smtpServer = "xchg-cas-array.acl.com";
 		String fromAddress = "QAMail@ACL.COM";
-		String fromName = projectConf.testerName;
+		String fromName = "QAMail";
 		String toAddress = projectConf.toAddress;//ProjectConf.ebasecamp;
 		String body = "Output_Report";
 		String attachFiles = "";//testResultHTML_Server;
@@ -691,9 +692,14 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			String emailCmd=System.getProperty(sysPropPrefix+"emailCmd");
 			if(emailCmd==null){
 				if(toAddress.matches(emailPattern)){
+					try{
+					exeDir = exeDir.replaceAll("\\/", "\\\\");
 					emailCmd = exeDir+s+exeFile+s+subject+d+smtpServer+d+fromName+d+fromAddress+d+toAddress+d+
 					           body+d+attachFiles+d+ccAddress+d+bccAddress+d+importance+d+userName+d+password+d+
 					           ipPort+d+ssl;
+					}catch(Exception e){
+						logTAFException(e);
+					}
 				}else{
 				     logTAFWarning("Email Report option is only available with continues testing!");
 				     return;
@@ -716,9 +722,10 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			}
 			// As in the 'doTest.bat', "OOOOO...OOOOO" is used to flag the email command Steven
 			emailCmd = "START \"Send Email report...\" /D"+emailCmd.replaceAll("OOOOO", "");
-			//logTAFWarning("emailCmd = '"+emailCmd+"'");
-			FileUtil.exeComm(false,emailCmd.replace("Output_Report",Output_Report ));
-			
+			logTAFInfo("emailCmd = '"+emailCmd+"'");
+			//FileUtil.exeComm(false,emailCmd.replace("Output_Report",Output_Report.replaceFirst("[\\/\\\\]$", "") ));
+			FileUtil.exeComm(false,emailCmd.replace("Output_Report",Output_Report));
+			sleep(0);
 		}
 	}
 	

@@ -33,14 +33,17 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
                                 //@VALUE = 'Finish' or 'Cancel', default to Finish
    // END of datapool variables declaration
     protected String 
-            dpMasterFile,dpMasterFiles[] = new String[50],
-			dpActualFile,dpActualFiles[] = new String[50],
+            dpMasterFile,dpMasterFiles[],
+			dpActualFile,dpActualFiles[],
+			result[],
 			dpSuperMasterFile,
 			fileExt = ".vp",
 			outputFolder = "result";
     
     protected int fileIndex = 0;
-    protected boolean delFile = true;
+          // in the case of that the existences of files will prevent App functioning properly
+          // enable delFile by setting it as 'true'
+    protected boolean delFile = false;
     
 	public void testMain(Object[] args) 
 	{
@@ -57,7 +60,9 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 	}
 	private boolean dataInit(Object[] args){
 		boolean done= true;
-		//
+		dpMasterFiles = getDpString("MasterFiles").split("\\|");
+		result = new String[dpMasterFiles.length];
+		dpActualFiles = new String[dpMasterFiles.length];
 		return done;
 	}
 	
@@ -77,35 +82,57 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 			return true;
 		}
 		
-		return compareTextFile(setupMasterFile(masterFile), thisActualFile, result,
-		projectConf.updateMasterFile, "File",true,
-		ignorePattern,ignoreName,delimiterPattern);
+		return compareTextFile(
+				setupMasterFile(masterFile), 
+				thisActualFile,
+				result,
+		        projectConf.updateMasterFile, "File",
+		        true,
+		        ignorePattern,ignoreName,
+		        delimiterPattern
+		        );
 	}
 	
-	public String setupMasterFile(String masterFile){
-		
-		if(masterFile==null || masterFile.equals("")){
-        ++fileIndex;
-		if(!dpMasterFile.endsWith(fileExt)){
-			thisMasterFile = dpMasterFile.trim()+"["+fileIndex+"]"+fileExt;
-			superMasterFile = dpSuperMasterFile.trim()+"["+fileIndex+"]"+fileExt;
+	public String setupMasterFile(String masterFile) {
+
+		if (masterFile == null || masterFile.equals("")) {
+			return "";
 		}
-		
-		if(!dpActualFile.endsWith(fileExt)){
-           thisActualFile  = dpActualFile.trim()+"["+fileIndex+"]"+fileExt;
-		}
-		}else{
-		    superMasterFile = FileUtil.getAbsDir(masterFile).replaceFirst("/$", "");
-		    String name = FileUtil.getFullName(superMasterFile);
-		    
-		    thisMasterFile = dpMasterFile.trim()+name;
-		    thisActualFile  = dpActualFile.trim()+name;
-		}
-		
+//			++fileIndex;
+//			if (!dpMasterFile.endsWith(fileExt)) {
+//				thisMasterFile = dpMasterFile.trim() + "[" + fileIndex + "]"
+//						+ fileExt;
+//				superMasterFile = dpSuperMasterFile.trim() + "[" + fileIndex
+//						+ "]" + fileExt;
+//			}
+//
+//			if (!dpActualFile.endsWith(fileExt)) {
+//				thisActualFile = dpActualFile.trim() + "[" + fileIndex + "]"
+//						+ fileExt;
+//			}
+		   String name = "";
+		   
+		   if(!masterFile.contains("/")&&!masterFile.contains("\\")){
+			 name = masterFile;  
+			 superMasterFile = dpSuperMasterFile.trim() + name;
+		   }else{
+			 name = FileUtil.getFullName(masterFile);
+			 masterFile = FileUtil.getAbsDir(masterFile+"/../").replaceFirst("/$","");  
+			 superMasterFile = masterFile + name;
+		   }
+		   
+		   
+			thisMasterFile = dpMasterFile.trim() + name;
+			thisActualFile = dpActualFile.trim() + name;
+            if(delFile){  // in the case the existences of files will prevent App functioning properly
+            	FileUtil.delFile(thisActualFile);  
+            }
+
 		return thisMasterFile;
 	}
 	//************ Setup file path for data verification ******************
 	public String setupVPFolder(){
+		
 		return setupTestFiles(scriptName.replaceAll("\\.", "/"),"","No","");
 	}
 	public String setupTestFiles(String filename,String location){
@@ -146,7 +173,7 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 		
 	
 		String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
-		String subFilename = filename+"_Line_"+(currentTestLine);
+		String subFilename = "";//filename+"_Line_"+(currentTestLine);
 		dpSuperMasterFile = projectConf.testDataDir+fdName+superMDir+subFilename;
 logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
 		//        if(location.equalsIgnoreCase("Server")){
@@ -165,7 +192,7 @@ logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
 
     	logTAFDebug("DelFile is '"+delFile+"'");
     	FileUtil.mkDirs(tempMasterFile);
-    	FileUtil.mkDirs(tempActualFile,delFile);  
+    	FileUtil.mkDirs(tempActualFile);  
  
 		if(numFile>-1){ // for old taf - will be removed soon - Steven
 			 dpMasterFiles[numFile]  = tempMasterFile;

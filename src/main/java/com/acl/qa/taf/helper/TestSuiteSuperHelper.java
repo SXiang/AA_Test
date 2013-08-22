@@ -141,7 +141,7 @@ public class TestSuiteSuperHelper extends InitializeTerminateHelper{
 					}
 					logTAFInfo(" "+testSuite+" end time: "+scriptEndTime);
 					//logTAFTestResult(tPrefix+" "+testSuite+": " + testCase+ " [" + testType + "] "+
-					logTAFTestResult(tPrefix+" "+testSuite+": " + testCase+
+					logTAFTestResult(tPrefix+" "+testSuite+": " + testCase+" "+
 							(testCaseResult=="Pass"? 
 									testCaseResult+"ed ":testCaseResult+"ed: "+
 							failMessage),

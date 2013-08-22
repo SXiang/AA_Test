@@ -219,10 +219,11 @@ public class KeywordHelper extends KeywordSuperHelper {
         String[] ignoreName = {"$1u-u-i-d$2"};
         String delimiterPattern = "\\},\\{";
         
-        return compareResult(master,result,
-   			 true,
-   			ignorePattern,ignoreName,
-   			delimiterPattern);
+        return compareResult(
+        	master,result,
+   			true,          //Exact Match
+   			ignorePattern,ignoreName,  //Replacement
+   			delimiterPattern);  // used to split
 		
 	}
 	
