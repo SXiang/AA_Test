@@ -3,12 +3,14 @@ package pageObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import ax.lib.ReadDatapool;
+
 public class LoginPage{
 	
 	/**
-	 * Script Name   : <b>Login</b>
+	 * Script Name   : <b>LoginPage</b>
 	 * Generated     : <b>Aug 12, 2013</b>
-	 * Description   : Login to ACLAX
+	 * Description   : LoginPage
 	 * 
 	 * @since  Aug 12, 2013
 	 * @author Ramneet Kaur
@@ -25,8 +27,8 @@ public class LoginPage{
 	//end
 	
 	// BEGIN of datapool variables declaration   
-	private static String dpUsername = "g1_admin";	
-	private static String dpPassword = "Password00";	
+	private static String dpUsername = ReadDatapool.getDpUsername();	
+	private static String dpPassword = ReadDatapool.getDpPassword();	
 	 // END of datapool variables declaration	
 	
 	public LoginPage(WebDriver driver) {
@@ -35,8 +37,21 @@ public class LoginPage{
 
 	public LoginPage enterCredentials(String username, String password) {
         driver.findElement(usernameLocator).sendKeys(username);
+        driver.findElement(passwordLocator).click();
         driver.findElement(passwordLocator).sendKeys(password);
         return this;    
+    }
+	
+	public boolean isUsernamePresent() {
+        return driver.findElement(usernameLocator).isEnabled(); 
+    }
+	
+	public boolean isPasswordPresent() {
+        return driver.findElement(passwordLocator).isEnabled();    
+    }
+	
+	public boolean isLoginBtnPresent() {
+        return driver.findElement(loginButtonLocator).isEnabled();   
     }
 
 	public ProjectsListPage submitLogin() {
@@ -48,6 +63,14 @@ public class LoginPage{
 		enterCredentials(dpUsername, dpPassword);
         return submitLogin();
     }
+
+	public ProjectsListPage loginSSO() {
+        return new ProjectsListPage(driver);
+    }
 	
+	public LoginPage passCertWarning() {
+		driver.get("javascript:document.getElementById('overridelink').click();");
+		return this;
+	}
 	
 }
