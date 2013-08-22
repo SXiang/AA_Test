@@ -97,10 +97,6 @@ protected String dpEndWith; //@arg actions after test
 		
 	public void doVerification(){
 		
-		// Set file name and path for verification
-		// they will be extended with [number] suffix at each comparison.
-		
-		setupTestFiles();  
 
 		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
 		if(casAuthenticated){
