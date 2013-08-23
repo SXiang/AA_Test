@@ -99,15 +99,15 @@ protected String dpEndWith; //@arg actions after test
 		
 
 		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
+		
 		if(casAuthenticated){
 			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
 			// compare Json Result - exact master and actual files are handled by framework.
-			logTAFStep("Demo - first file verification");
-			    compareJsonResult(actualResult);
-			// Do another for demo - multiple comparisons - Steven
-			logTAFStep("Demo - second file verification");
-			    // get another actual contents for real testing
-			    compareJsonResult(actualResult);
+			for(int i=0;i<dpMasterFiles.length;i++){
+			    logTAFStep("Demo - file verification - "+dpMasterFiles[i]);
+			    result[i] = actualResult;                 // You need to get actual result for each comparison
+			    compareJsonResult(result[i],dpMasterFiles[i]);
+			}
 		}else{							
 			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
 		}

@@ -19,7 +19,7 @@
     <pluginRepository>
     <id>Nexus</id>
 	<name>Nexus Release Repository</name>
-	<url>http://192.168.10.129:8081/nexus/content/repositories/releases</url>
+	<url>http://192.168.10.129:8081/nexus/content/groups/public</url>
 	<releases>
               <enabled>true</enabled>
               <updatePolicy>always</updatePolicy>
@@ -43,14 +43,14 @@
        <repository>
          <id>Nexus</id>
 	     <name>Nexus Release Repository</name>
-	     <url>http://192.168.10.129:8081/nexus/content/repositories/releases</url>
+	     <url>http://192.168.10.129:8081/nexus/content/groups/public</url>
          <releases>
               <enabled>true</enabled>
-              <updatePolicy>never</updatePolicy>
+              <updatePolicy>always</updatePolicy>
          </releases>
          <snapshots>
                 <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
+                <updatePolicy>always</updatePolicy>
          </snapshots>
        </repository>
 
@@ -114,7 +114,7 @@
   	<dependency>
   		<groupId>ACLQA</groupId>
   		<artifactId>TAFDependencies</artifactId>
-  		<version>10.0</version>
+  		<version>10.0.1</version>
   	</dependency>
   </dependencies>
 </project>
