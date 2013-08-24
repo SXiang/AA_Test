@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ACLQA</groupId>
   <artifactId>AX_TestAutomation</artifactId>
-  <version>10.0</version>
+  <version>10.0-SNAPSHOT</version>
   <name>AX Test Automation - Selenium</name>
   
   <distributionManagement>
@@ -113,10 +113,16 @@
 		     <includeSources>true</includeSources>
 		     <outputDirectory>${project.basedir}/output/deployment</outputDirectory>
 		     <shadeSourcesContent>true</shadeSourcesContent>
-		     <shadedArtifactId>TAFDependencies</shadedArtifactId>
+		     <!-- shadedArtifactId>TAFDependencies</shadedArtifactId-->
 		     <!-- createSourcesJar>true</createSourcesJar-->
-		     <!-- minimizeJar>true</minimizeJar-->
-			 <filters>
+		     <minimizeJar>true</minimizeJar>
+		     <artifactSet>
+                 <excludes>
+                    <exclude>*:maven-core</exclude>
+                    <exclude>ACLQA:TAFDependencies</exclude>
+                 </excludes>
+             </artifactSet>
+             <filters>
                       <filter>
                          <artifact>*:*</artifact>
                          <includes>
