@@ -30,6 +30,7 @@ public class ACLQATestScript {
 	protected static int currentLogFilter = 5;
 
 	public static TimerConf timerConf = new TimerConf();
+	public static EmailConf emailConf = new EmailConf();
 	public static ProjectConf projectConf = new ProjectConf();
 	public static DBConf dbConf = new DBConf();
 	public static LoggerConf loggerConf = new LoggerConf();

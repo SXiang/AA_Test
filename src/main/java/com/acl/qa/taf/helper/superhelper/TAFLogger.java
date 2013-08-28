@@ -52,10 +52,13 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 		testResultRFT = file + "/rational_ft_log.html";
 		clearAllTargets();
 		appendTargetToAll(new FileTarget(testResultTXT));
+		
 		appendTargetToAll(new ConsoleTarget());
 		
 		PackageLoggingController.setLogger(this);
 		
+		//System.out.println("Logger Created for '"+testResultTXT+"'");
+	    this.logScriptInfo(FormatHtmlReport.addReportHeader("Test Log"));
 		//configured = true;
 	}
 	
@@ -66,7 +69,6 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 	public static TAFLogger getLogger(){
 		if(tLog == null){
 			tLog = new TAFLogger();
-		    tLog.logScriptInfo(FormatHtmlReport.addReportHeader("Test Log"));
 		}
 		return tLog;
 	}

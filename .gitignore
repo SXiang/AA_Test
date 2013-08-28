@@ -14,6 +14,7 @@
 # Floder and Files
 null/
 target/
+djnativeswing/
 .gitmodules
 /output/
 /bin/

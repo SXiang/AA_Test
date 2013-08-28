@@ -22,8 +22,8 @@ import com.acl.qa.taf.helper.superhelper.GuiFinderHelper;
 public class NLSUtil {
     public static Locale appLocale = null;
 	// *** Get Property ID ***
-	private static String baseName = com.acl.qa.taf.helper.superhelper.LoggerHelper.localizationDir+
-	                                 com.acl.qa.taf.helper.superhelper.LoggerHelper.projectName;
+	private static String  baseName = com.acl.qa.taf.helper.superhelper.ACLQATestScript.projectConf.localizationDir+ 
+			com.acl.qa.taf.helper.superhelper.ACLQATestScript.projectConf.l10nPropertiesPrefix;
 	
 	private static ResourceBundle resBundle = null,resBundleEn=null;
 
@@ -69,11 +69,19 @@ public class NLSUtil {
     	String lstring = LoggerHelper.getFromCache(LoggerHelper.cache_l10n,id);
         if(lstring != null)
         	return lstring;
-    	enFile = baseName+"_en.properties";
-    	if(resBundle==null){
+        baseName = com.acl.qa.taf.helper.superhelper.ACLQATestScript.projectConf.localizationDir+ 
+    			com.acl.qa.taf.helper.superhelper.ACLQATestScript.projectConf.l10nPropertiesPrefix;
+    	enFile = NLSUtil.baseName+"_en.properties";
+//        System.out.println(enFile +" = NLSUtil.baseName+_en.properties" );
+//        System.out.println("LoggerHelper.localizationDir = '"+LoggerHelper.localizationDir+"'");
+//        System.out.println("Test Project = '"+LoggerHelper.projectName);
+//        baseName = com.acl.qa.taf.helper.superhelper.LoggerHelper.localizationDir+ 
+//    			com.acl.qa.taf.helper.superhelper.LoggerHelper.projectName;
+//        enFile = NLSUtil.baseName+"_en.properties";
+//        System.out.println(enFile +" = NLSUtil.baseName+_en.properties" );
 			resBundle = getUTF8Bundle(baseName,appLocale);
 			//resBundle = getUTF8Bundle(enFile,appLocale);
-		}
+		
     	
     	//String lstring = _convert2Locale(resBundle,getPropID(enFile,pre+myString,className));
     	lstring = _convert2Locale(resBundle,getPropID(enFile,pre+myString,className));
