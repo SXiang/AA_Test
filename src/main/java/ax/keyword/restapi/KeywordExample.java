@@ -3,6 +3,8 @@
  */
 package ax.keyword.restapi;
 
+import java.sql.Statement;
+
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
@@ -12,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import ax.lib.KeywordHelper;
+import ax.lib.db.SQLQuery;
 
   //Script Name is required for generating keyword doc
 /**
@@ -96,8 +99,9 @@ protected String dpEndWith; //@arg actions after test
 	// *******************************************
 		
 	public void doVerification(){
-		
-
+		if(getDpString("DAODemo").equalsIgnoreCase("Yes")){
+		     databaseAccessDemo();
+		}
 		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
 		
 		if(casAuthenticated){
@@ -121,8 +125,8 @@ protected String dpEndWith; //@arg actions after test
 	
 	public static void main(String args){
 		KeywordExample debug = new KeywordExample();
-		debug.startBrowser("HtmlUnit");
-		debug.testAXRestAPI(debug.driver);
+//		debug.startBrowser("HtmlUnit");
+//		debug.testAXRestAPI(debug.driver);
 	}
 }
 
