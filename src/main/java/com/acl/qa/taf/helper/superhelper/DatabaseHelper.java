@@ -9,10 +9,15 @@ import com.acl.qa.taf.util.FileUtil;
 
 public class DatabaseHelper extends LoggerHelper {
 
-		private static Connection axCoreDBConn = null,
-		                          exceptionDBConn = null;
-		private static Statement axCoreDBStmt = null,
-		                         exceptionDBStmt = null;
+	   // Main properties
+		private static Connection dbConn = null,
+		                          newDBConn = null;
+		private static Statement dbStmt = null,
+		                         newDBStmt = null;
+		
+		
+		// Optional properties
+		public static String newDBType = null;
 		
 		private static Properties sidprop = null;
 		private static String userSIDProperties = "conf/userSID.properties";
@@ -26,11 +31,14 @@ public class DatabaseHelper extends LoggerHelper {
 	    public static String currentItemDBPath =""; // 
 	    
 		// Main APIs
-		public ResultSet queryAXCoreDB(String sql){
-			return executeSQL(getAXCoreDBStatement(), sql);
+		public ResultSet queryDB(String sql){
+			return executeSQL(getDBStatement(), sql);
 		}
 
-		
+		public ResultSet queryNewDB(String sql){
+			
+			return executeSQL(newDBStmt, sql);
+		}		
 		public static String getUserSID(String username){
 			String searchName=username.replace("\\", "/");
 			if(username.equals(thisUserName)){
@@ -70,65 +78,104 @@ public class DatabaseHelper extends LoggerHelper {
 			return rs;
 		}
 
-	    protected  Statement getAXCoreDBStatement() 
+	    protected  Statement getDBStatement() 
 	    {
-	    	if(!validDBStmt(axCoreDBStmt)){
-	    		axCoreDBStmt = getStatement(getAXCoreDBConnection());
+	    	if(!validDBStmt(dbStmt)){
+	    		dbStmt = getStatement(getDBConnection());
 	    	}
-	        return axCoreDBStmt;
+	        return dbStmt;
 	    }
-	    
+
 	    
 	    // Singleton DB Connections
-	    protected  Connection getAXCoreDBConnection() 
+	    protected  Connection getDBConnection() 
 	    {
-	    	if(!validDBConn(axCoreDBConn)){
-	    		axCoreDBConn = newAXCoreDBConnection();
+	    	if(!validDBConn(dbConn)){
+	    		dbConn = setDBConnection();
 
 	    	}
-	        return axCoreDBConn;
+	        return dbConn;
 	    }
-	    
+    
 	    // New DB Connections
-	    protected  Connection newAXCoreDBConnection() 
+	    protected  Connection setDBConnection() 
 	    {
-	    		axCoreDBConn = newConnection(dbConf.driver,dbConf.url, 
+	    		newDBConn = setNewDBConnection(dbConf.dbtype, dbConf.driver,dbConf.url, 
 	    				dbConf.userid, dbConf.passwd);
-	        return axCoreDBConn;
+	        return newDBConn;
 	    }  
 	    
 	    // New connection with user defined parameters
-	    protected static Connection newConnection(String driver, String url,String userid, String passwd) 
-	    {
-	    	DatabaseMetaData dma = null;
+	    protected  Statement getNewDBStatement(String dbtype, String serverip, String port,String dbname,String userid, String passwd){
 	    	
-	        Connection conn=null;
-	        try {
-	         Class.forName(driver);
-	         conn = DriverManager.getConnection(url, userid, passwd);	         
-	        }catch(Exception e){
-	        	  logTAFDebug(e.toString());
-	        	  logTAFWarning("Failed to get DB connection through:"+
-	        			  "\n\t\t driver='"+driver+"'"+
-	        			  "\n\t\t url='"+url+"'"+
-	        			  "\n\t\t userid='"+userid+"', passwd='"+passwd+"'");
-	        	  return null;
-	        }
-	        try{
-	        	checkForWarning(conn.getWarnings());
-	        	dma = conn.getMetaData();
-	        	logTAFInfo("\n\tConnected to .. " + dma.getURL());
-	        	logTAFInfo("Driver ........ " + dma.getDriverName());
-	        	logTAFInfo("Version ....... " + dma.getDriverVersion());			
-	        	dma = null;
-	        }catch(Exception e){
-	        	logTAFDebug(e.toString());
-	        }
+	    	if(newDBStmt!=null){
+	    		try{
+	    			newDBStmt.close();
+	    		}catch(Exception e){
+	    			//
+	    		}
+	    	}
+	    	newDBStmt = getStatement(setNewDBConnection(dbtype, serverip,port,dbname,userid, passwd));
+	    	return newDBStmt;
+	    }
+	    
+	    protected Connection setNewDBConnection(String dbtype, String serverip,String port, String dbname, String userid, String passwd){
+	    	dbConf.setJDBCParameters(dbtype,serverip,port,dbname);
+	    	return setNewDBConnection(dbtype, dbConf.newDriver,dbConf.newUrl, 
+    				userid, passwd);
+	    }
+	    
+	    protected Connection setNewDBConnection(String dbtype, String driver,String url, String userid, String passwd) 
+	    {
+	    	
+	    	
+	    	if(newDBConn!=null){
+	    		try{
+	    			newDBConn.close();
+	    		}catch(Exception e){
+	    			//
+	    		}
+	    	}
+	        Connection conn=setDBConnection(dbtype,driver,url,userid,passwd);
 			
+	        newDBType = dbtype;
+	        newDBConn = conn;
+//	        newDriver = driver;
+//	        newUrl = url;
+//	        newUserID = userid;
+//	        newPassword = passwd;
+	        newDBStmt = getStatement(conn);	
 	        return conn;
 	    } 
 	    
 	    
+	    protected Connection setDBConnection(String dbtype, String driver,String url, String userid, String passwd){
+	    	Connection conn;
+	    	DatabaseMetaData dma = null;
+	        try {
+		         Class.forName(driver);
+		         conn = DriverManager.getConnection(url, userid, passwd);	         
+		        }catch(Exception e){
+		        	  logTAFDebug(e.toString());
+		        	  logTAFWarning("Failed to get DB connection through:"+
+		        			  "\n\t\t driver='"+driver+"'"+
+		        			  "\n\t\t url='"+url+"'"+
+		        			  "\n\t\t userid='"+userid+"', passwd='"+passwd+"'");
+		        	  return null;
+		        }
+		        try{
+		        	checkForWarning(conn.getWarnings());
+		        	dma = conn.getMetaData();
+		        	logTAFInfo("\n\tConnected to .. " + dma.getURL());
+		        	logTAFInfo("Driver ........ " + dma.getDriverName());
+		        	logTAFInfo("Version ....... " + dma.getDriverVersion());			
+		        	dma = null;
+		        }catch(Exception e){
+		        	logTAFDebug(e.toString());
+		        }
+		        
+		        return conn;
+	    }
 	    protected Statement getStatement(Connection conn)
 	    {
 	      Statement statement = null;
@@ -174,27 +221,27 @@ public class DatabaseHelper extends LoggerHelper {
 		public static void releaseDBResources(){
 			//Close SQL Statements
 			try{
-				if(axCoreDBStmt!=null)
-				     axCoreDBStmt.close();
+				if(dbStmt!=null)
+				     dbStmt.close();
 			}catch(Exception e){
 				logTAFDebug(e.toString());
 			}
 			try{
-				if(exceptionDBStmt!=null)
-				     exceptionDBStmt.close();
+				if(newDBStmt!=null)
+				    newDBStmt.close();
 			}catch(Exception e){
 				logTAFDebug(e.toString());
 			}
 			//Close SQL Connections
 			try{
-				if(axCoreDBConn!=null)
-				     axCoreDBConn.close();
+				if(dbConn!=null)
+				     dbConn.close();
 			}catch(Exception e){
 				logTAFDebug(e.toString());
 			}
 			try{
-				if(exceptionDBConn!=null)
-				     exceptionDBConn.close();
+				if(newDBConn!=null)
+				     newDBConn.close();
 			}catch(Exception e){
 				logTAFDebug(e.toString());
 			}

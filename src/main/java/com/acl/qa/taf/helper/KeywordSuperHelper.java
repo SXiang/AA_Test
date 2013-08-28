@@ -1,6 +1,9 @@
 package com.acl.qa.taf.helper;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -8,6 +11,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
+import ax.lib.db.SQLQuery;
 
 import com.acl.qa.taf.helper.superhelper.InitializeTerminateHelper;
 import com.acl.qa.taf.util.FileUtil;
@@ -225,99 +230,172 @@ logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
 		return args;
 	}
 	
-	
-// **************** Methods On Debugging ****************************************************	
-	public WebDriver startBrowser(String Browser) {
-        WebDriver driver = null;
-		if (Browser.equalsIgnoreCase("HtmlUnit")) {
-			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
-		} else if (Browser.equalsIgnoreCase("FireFox")) {
 
-		} else if (Browser.equalsIgnoreCase("Chrome")) {
 
-		}else{
-			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
-		}
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+// **************** Methods for Demo *************************************
+	public void nlsDemo(){
+		String l10n[] = {"en","de","es","fr","ja","ko","pl","zh"};
+		String user = "",pass = "",msg1,msg2;
 
-	return driver;
-
-	}
-	public DefaultSelenium getSeleniumClient(String url) {
-		DefaultSelenium selenium = getSeleniumClient("dpURL");
-		selenium.start();
-//
-//		selenium.click("link=JVM");
-//		selenium.waitForPageToLoad("30000");
-		return selenium;
-	}
-	
-	// *************  Temp  *************************************
-	protected void testAXRestAPI(WebDriver driver) {
-		// Curl command: curl -k -o c:\curl\getProjectsList.xml --user
-		// ACLQA\g1_admin:Password00
-		// https://WIN2012-3.ACLQA.local:8443/aclax/api/projects?scope=working
-		String response = "No response?";
-		String domain = "win2012-3.aclqa.local";
-		// domain = "192.168.10.68";
-		String[] scope = { "working", "library", "", "working", "library", };
-		String[] url = { "https://" + domain + ":8443/aclax/api/projects",
-				"https://" + domain + ":8443/aclax/api/projects",
-				"https://" + domain + ":8443/aclax/api/projects",
-				"https://" + domain + ":8443/aclax/api/projects",
-				"https://" + domain + ":8443/aclax/api/projects" };
-
-		int numTest = 0;
-		boolean casAuthenticated = false;
-
-		while (numTest < url.length) {
-			if (scope.length >= url.length && scope[numTest] != "")
-				url[numTest] += "?scope=" + scope[numTest];
-			getPageWithCAS(driver, url[numTest], casAuthenticated);
-			System.out.println("中文显示：Get Rest API: " + url[numTest++]);
-
-			response = getPageSource(driver, "UTF-8");
-			System.out.println("\t" + response);
-			casAuthenticated = true;
-		}
-		driver.quit();
-	}
-
-	private String getPageSource(WebDriver driver, String encode) {
-		String response = driver.getPageSource();
-		// WebClient wc = driver.getWeb
-		return response;
-	}
-
-	private void getPageWithCAS(WebDriver driver, String url,
-			boolean casAuthenticated) {
-		//
-		String user = "ACLQA\\g1_admin";
-		String pass = "Password00";
-		driver.get(url);
-		if (!casAuthenticated) {
-			cas_sso(driver, user, pass);
-		}
-	}
-
-	private void cas_sso(WebDriver driver, String user, String pass) {
-		try {
 			// WebElement form = driver.findElement(By.id("id1"));
-			WebElement username = driver.findElement(By.id("username"));
-			username.sendKeys(user);
-			WebElement password = driver.findElement(By.id("password"));
-			password.sendKeys(pass);
 
-			WebElement submit = driver.findElement(By
-					.xpath("//input[@name='submit']"));
-
-			submit.click();
-
-		} catch (Exception e) {
-			System.out.println("No CAS login page found");
-			e.printStackTrace();
-		}
+		
+			logTAFInfo("\n\t**************** Start of L10n Demo ***************");	
+			logTAFInfo("\n\t*** Demo l10n I- English to L10N value (Based on the language of AUT: '"+projectConf.appLocale+"')");
+			logTAFInfo("\t1). by id: 'getLocValue(\"lv_USER_ID...\") = "+(user = getLocValue("lv_ACLTXTG_RH_GX_247_ID")));
+		    logTAFInfo("\t1). by id: 'getLocValue(\"lv_USER_PASSWORD...\") = "+(pass = getLocValue("lv_ACLTXTG_RH_GXT_1199_ID")));
+		    
+			logTAFInfo("\n\t*** Demo l10n II- English to L10N value (For messages and text contains variable value, no guarantee!");		    
+			logTAFInfo("\t2). by text/regExp: 'getLocValue(\"Valid .* Types\") = "+(msg1 = getLocValue("Valid .* Types")));			
+			logTAFInfo("\t2). by text/regExp: 'getLocValues(\"Valid .* Types\") = "+(msg2 = getLocValues("Valid .* Types")));
+			
+			
+			logTAFInfo("\n\t*** Demo l10n III- L10N value to English (Based on the language of AUT: '"+projectConf.appLocale+"')");
+			logTAFInfo("\t1). by text/regExp: 'getEngValue(\""+msg1+"\") = "+getEngValue(msg1));
+			logTAFInfo("\t2). by text/regExp: 'getEngValues(\""+msg2+"\") = "+getEngValues(msg2));
+            logTAFInfo("*************** End of L10n Demo **************\n");	
+        
 
 	}
-	
+	public void databaseAccessDemo(){
+	logTAFInfo("\n**************** Start of Database DAO Demo ***************");	
+
+    int rowlimit = 2;
+    Statement stat;
+    String query;
+    Vector<Vector<String>> rsv;
+    ResultSet rs;
+    String[] dbType = {"Default","SQLServer","DB2","PostgreSQL","Oracle"};
+    String[] serverip = {"","192.168.10.70","192.168.10.70","192.168.10.68","192.168.10.70"};
+    String[] port = {"","1433","50000","5432","1521"};
+    String[] dbname = {"","Automation_ACLSE","auto","AclAuditExchangeDB","XE"};
+    String[] userid = {"","Automation_ACLSE","Automation_ACLSE","AclAuditExchangeRole","Automation_ACLSE"};
+    String[] passwd = {"","Password00","Password00","Password00","Password00"};
+    String[] tableName = {"Inventory","Payroll","Inventory","audititems","inventory"};
+    
+    for(int i=0;i<dbType.length;i++){
+    	logTAFInfo("\n\t*** Demo DB_DAO "+(i+1)+" - '"+dbType[i]+"' DB Access");
+        if(dbType[i].equals("")||dbType[i].equals("Default")){
+        	logTAFInfo("\t^^ Use default("+dbConf.dbtype+") db connection specified in dbConf.properties");
+        	logTAFInfo("\t2) Get/Form your SQL statement: String query = SQLQuery.getTableContentsQueryDemo(tableName);\n\t\t\t"+
+        			(query = SQLQuery.getTableContentsQueryDemo(tableName[i])));
+        	logTAFInfo("\t3) Get ResultSet: ResultSet rs = queryDB(query))");
+        	rs = queryDB(query);
+        	logTAFInfo("\t4) Dump to a container(Optional): Vector rsv = getResultVector(rs)");
+        	rsv = getResultVector(rs);
+        	logTAFInfo("\t5) Do your test/verification...");
+        	logTAFInfo("\t6) Print out contents(Optional) of "+tableName[i]+": displayResultSet(rsv);");
+        	displayResultSet(rsv);
+        }else{
+        	logTAFInfo("\t2) Set an new db connection for '"+dbType[i]+"':  setNewDBConnection(dbType,serverip,port,dbname,userid,passwd);");
+        	   setNewDBConnection(dbType[i],serverip[i],port[i],dbname[i],userid[i],passwd[i]);
+           	logTAFInfo("\t3) Get/Form your SQL statement: String query = SQLQuery.getTableContentsQueryDemo(dbtype,tableName,rowlimit);\n\t\t\t"+
+        			(query = SQLQuery.getTableContentsQueryDemo(dbType[i],tableName[i],rowlimit+i)));
+        	logTAFInfo("\t4) Get ResultSet: ResultSet rs = queryDB(query))");
+        	rs = queryNewDB(query);
+        	logTAFInfo("\t5) Dump to a container(Optional): Vectory rsv = getResultVectory(rs)");
+        	rsv = getResultVector(rs);
+        	logTAFInfo("\t6) Do your test/verification...");
+        	logTAFInfo("\t7) Print out contents(Optional) of "+tableName[i]+": displayResultSet(rsv);");
+        	displayResultSet(rsv);
+        }
+
+    }
+
+    logTAFInfo("*************** End of Database DAO Demo **************\n");			
+}	
+//// **************** Methods On Debugging ****************************************************	
+//	public WebDriver startBrowser(String Browser) {
+//        WebDriver driver = null;
+//		if (Browser.equalsIgnoreCase("HtmlUnit")) {
+//			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+//		} else if (Browser.equalsIgnoreCase("FireFox")) {
+//
+//		} else if (Browser.equalsIgnoreCase("Chrome")) {
+//
+//		}else{
+//			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+//		}
+//		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+//
+//	return driver;
+//
+//	}
+//	public DefaultSelenium getSeleniumClient(String url) {
+//		DefaultSelenium selenium = getSeleniumClient("dpURL");
+//		selenium.start();
+////
+////		selenium.click("link=JVM");
+////		selenium.waitForPageToLoad("30000");
+//		return selenium;
+//	}
+//	
+//	// *************  Temp  *************************************
+//	protected void testAXRestAPI(WebDriver driver) {
+//		// Curl command: curl -k -o c:\curl\getProjectsList.xml --user
+//		// ACLQA\g1_admin:Password00
+//		// https://WIN2012-3.ACLQA.local:8443/aclax/api/projects?scope=working
+//		String response = "No response?";
+//		String domain = "win2012-3.aclqa.local";
+//		// domain = "192.168.10.68";
+//		String[] scope = { "working", "library", "", "working", "library", };
+//		String[] url = { "https://" + domain + ":8443/aclax/api/projects",
+//				"https://" + domain + ":8443/aclax/api/projects",
+//				"https://" + domain + ":8443/aclax/api/projects",
+//				"https://" + domain + ":8443/aclax/api/projects",
+//				"https://" + domain + ":8443/aclax/api/projects" };
+//
+//		int numTest = 0;
+//		boolean casAuthenticated = false;
+//
+//		while (numTest < url.length) {
+//			if (scope.length >= url.length && scope[numTest] != "")
+//				url[numTest] += "?scope=" + scope[numTest];
+//			getPageWithCAS(driver, url[numTest], casAuthenticated);
+//			System.out.println("中文显示：Get Rest API: " + url[numTest++]);
+//
+//			response = getPageSource(driver, "UTF-8");
+//			System.out.println("\t" + response);
+//			casAuthenticated = true;
+//		}
+//		driver.quit();
+//	}
+//
+//	private String getPageSource(WebDriver driver, String encode) {
+//		String response = driver.getPageSource();
+//		// WebClient wc = driver.getWeb
+//		return response;
+//	}
+//
+//	private void getPageWithCAS(WebDriver driver, String url,
+//			boolean casAuthenticated) {
+//		//
+//		String user = "ACLQA\\g1_admin";
+//		String pass = "Password00";
+//		driver.get(url);
+//		if (!casAuthenticated) {
+//			cas_sso(driver, user, pass);
+//		}
+//	}
+//
+//	private void cas_sso(WebDriver driver, String user, String pass) {
+//		try {
+//			// WebElement form = driver.findElement(By.id("id1"));
+//			WebElement username = driver.findElement(By.id("username"));
+//			username.sendKeys(user);
+//			WebElement password = driver.findElement(By.id("password"));
+//			password.sendKeys(pass);
+//
+//			WebElement submit = driver.findElement(By
+//					.xpath("//input[@name='submit']"));
+//
+//			submit.click();
+//
+//		} catch (Exception e) {
+//			System.out.println("No CAS login page found");
+//			e.printStackTrace();
+//		}
+//
+//	}
+//	
 }

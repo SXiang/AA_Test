@@ -33,7 +33,9 @@ public class PropertyUtil {
 				fiv = value;
 			}
 		}
-		if(!fi.equals("")&&setProperty(target, fi, fiv)){ //Finalisation
+
+		if(!fi.equals("")){
+			setProperty(target, fi, fiv); //Finalisation
 			//System.out.println("Server environment has been set");
 		}
 	}
@@ -67,7 +69,7 @@ public class PropertyUtil {
                 try{
             	     setter.invoke(target, new Object[]{value});
                 }catch(Exception e){
-                	e.printStackTrace();
+                	//e.printStackTrace();
                 }
             } else {
                 // We need to convert it

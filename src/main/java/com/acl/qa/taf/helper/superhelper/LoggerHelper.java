@@ -116,7 +116,7 @@ public class LoggerHelper extends ACLQATestScript {
 	public static String pathToKeywordScripts = "";
 	public static String originalPathToKeywordScripts = "";
 	public static String projectName = "";
-	public static String localizationDir = "ACLQA_Automation\\ACL_Desktop\\DATA\\LocalizationProperty\\";
+	public static String localizationDir = "";
 	// public boolean isDailyTest = false;
 	public static int currentTestLine = 1;
 	public static int dailyTestStart = 2;

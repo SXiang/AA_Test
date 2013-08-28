@@ -224,12 +224,12 @@ public class InitializeTerminateHelper extends ObjectHelper {
 	              }
 	    		sendEmail(Output_Report);
 	    	   if(loggerConf.isOpenHtmlReport()){
-	        	 FileUtil.exeComm("start,chrome,"+TAFLogger.testResultHTML,false);
+	        	 FileUtil.exeComm("start,"+loggerConf.openByApp+","+TAFLogger.testResultHTML,false);
 	    	   }
 	        }
 			if(loggerConf.isOpenLogFile()){
 	        	//FileUtil.exeComm("start,notepad++,"+TAFLogger.testResultTXT,false);
-	        	FileUtil.exeComm("start,chrome,"+TAFLogger.testResultTXT,false);
+	        	FileUtil.exeComm("start,"+loggerConf.openByApp+","+TAFLogger.testResultTXT,false);
 	        }
             System.exit(0);
 		}else{
@@ -299,6 +299,10 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			PropertyUtil.setProperties(dbConf, projProp);
 			dbConf.setJDBCParameters();
 			
+			// loading email props
+						projProp = new Properties();
+						projProp.load(this.getClass().getResourceAsStream(projPath + "email.properties"));			
+						PropertyUtil.setProperties(emailConf, projProp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -359,8 +363,12 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			 if(!projectConf.appLocale.equalsIgnoreCase("En")){
 				 try{
 					 System.out.println("\n\t ************** L10N Cache Hits & Misses ***************");
-					 logTAFInfo("Cache_l18n contains '"+LoggerHelper.cache_l10n.size()+"' items\n\t\t"+LoggerHelper.cache_l10n.getCacheInfo());
-					 logTAFInfo("Cache_en contains '"+LoggerHelper.cache_en.size()+"' items\n\t\t"+LoggerHelper.cache_en.getCacheInfo());
+					 logTAFInfo("Cache_l18n contains '"+LoggerHelper.cache_l10n.size()+"' items\n\t\t"+
+					      //LoggerHelper.cache_l10n.getCacheInfo()+
+							 "");
+					 logTAFInfo("Cache_en contains '"+LoggerHelper.cache_en.size()+"' items\n\t\t"+
+							 //LoggerHelper.cache_en.getCacheInfo()+
+							 "");
 					 System.out.println("\t *******************************************************\n");
 				 }catch(Exception e){
 					 //
@@ -482,8 +490,8 @@ public class InitializeTerminateHelper extends ObjectHelper {
 				  
 				   summary = summary +"\n"+resultAnalysis+"\n";
 				   
-				   String recentbugList = FileUtil.getFileContents(loggerConf.logDirForPublic+"RecentBugs\\recentBugList.html");
-				   String anotherBugList = FileUtil.getFileContents(loggerConf.logDirForPublic+"RecentBugs\\recentBugList_1.html");
+				   String recentbugList = FileUtil.getFileContents(loggerConf.recentBugList);
+				   String anotherBugList = FileUtil.getFileContents(loggerConf.recentBugList_temp);
 
 				   if(numTCs > -1||!target.equalsIgnoreCase(testSuite)){						   
 				         if(bugNumN+bugNumA>0&&recentbugList!=null&&recentbugList.length()>100){
@@ -662,21 +670,21 @@ public class InitializeTerminateHelper extends ObjectHelper {
 	public void sendEmail(String Output_Report){
 		String exeDir = projectConf.toolDir;
 		String exeFile = "CDOMessage.exe";
-		String subject = "Automation Test Report - "+projectConf.projectName;//"Files";
+		String subject = emailConf.subject;
 		
-		String smtpServer = "xchg-cas-array.acl.com";
-		String fromAddress = "QAMail@ACL.COM";
-		String fromName = "QAMail";
-		String toAddress = projectConf.toAddress;//ProjectConf.ebasecamp;
+		String smtpServer = emailConf.smtpServer;
+		String fromAddress = emailConf.fromAddress;
+		String fromName = emailConf.fromName;
+		String toAddress = emailConf.toAddress;
 		String body = "Output_Report";
-		String attachFiles = "";//testResultHTML_Server;
-		String ccAddress = projectConf.ccAddress;
-		String bccAddress = projectConf.bccAddress;
-		String importance = "Normal";
-		String userName = "ACL\\QAMail";
-		String password = "Password00";
-		String ipPort = "25";
-		String ssl = "1";
+		String attachFiles = emailConf.attachFiles;
+		String ccAddress = emailConf.ccAddress;
+		String bccAddress = emailConf.bccAddress;
+		String importance = emailConf.importance;
+		String userName = emailConf.userName;
+		String password = emailConf.password;
+		String ipPort = emailConf.ipPort;
+		String ssl = emailConf.ssl;
 		
 		String s = " ";
 		String d = ",";

@@ -12,8 +12,21 @@ public class LoggerConf {
 	public String logRoot = "";
 	public String userUniqueID = "";
 	public String logDirForPublic = "//nas2-dev/DevRoot/QA/Projects/Galvatron/Automation/";
+    public String recentBugList = "";
+	public String recentBugList_temp = "";
+	public String openByApp = "";
 
 	
+	public void setOpenByApp(String openByApp) {
+		this.openByApp = openByApp;
+	}
+	public void setRecentBugList_temp(String recentBugList_temp) {
+		this.recentBugList_temp = recentBugList_temp;
+	}
+	public void setRecentBugList(String recentBugList) {
+		this.recentBugList = recentBugList;
+	}
+
 	public boolean isOpenHtmlReport() {
 		return openHtmlReport;
 	}
