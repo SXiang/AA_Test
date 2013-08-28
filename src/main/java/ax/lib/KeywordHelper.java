@@ -143,9 +143,11 @@ public class KeywordHelper extends KeywordSuperHelper {
 	}
 	
 	public void submitCredential(){
-		try {
-			// WebElement form = driver.findElement(By.id("id1"));
-
+		if(getDpString("L10NDemo").equalsIgnoreCase("Yes")){
+            nlsDemo();
+		}
+            
+        try{
 			WebElement username = driver.findElement(By.id("username"));
 			logTAFStep("Input username '"+dpUserName+"'");
 			username.sendKeys(dpUserName);
