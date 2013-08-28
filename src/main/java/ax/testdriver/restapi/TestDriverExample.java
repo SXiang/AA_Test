@@ -19,8 +19,9 @@ public class TestDriverExample  extends TestDriverHelper implements TestDriverIn
 	@Override
 	public void testMain(Object[] args) 
 	{		
-		//startFromLine = 5; // 4-9
-		//endAtLine =5;     //
+
+		startFromLine = 2; // 4-9
+		//endAtLine =2;     //
 			
 		String poolFile = "testdata/ax/testdriver/restapi/TestDriverExample.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
