@@ -13,8 +13,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import ax.lib.KeywordHelper;
-import ax.lib.db.SQLQuery;
+import ax.lib.restapi.KeywordExampleHelper;
+import ax.lib.restapi.db.SQLQuery;
 
   //Script Name is required for generating keyword doc
 /**
@@ -26,7 +26,7 @@ import ax.lib.db.SQLQuery;
  * @author Steven_Xiang
  * 
  */
-public class KeywordExample extends KeywordHelper implements KeywordInterface {
+public class KeywordExample extends KeywordExampleHelper implements KeywordInterface {
 
 	/**
 	 * @param args

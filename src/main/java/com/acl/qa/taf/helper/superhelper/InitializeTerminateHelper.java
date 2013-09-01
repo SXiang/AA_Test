@@ -3,6 +3,7 @@ package com.acl.qa.taf.helper.superhelper;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileInputStream;
 import java.net.InetAddress;
 import java.util.Calendar;
 import java.util.Properties;
@@ -86,8 +87,8 @@ public class InitializeTerminateHelper extends ObjectHelper {
 		setScriptName(testName);
 		
 		if(isMainScript()){
-		   LoggerHelper.TAF_jenkinsReportDir = LoggerHelper.getSystemProperty(sysPropPrefix+"reportDir");		
-	       userTestFile = getSystemProperty(sysPropPrefix+"testDataFile");		
+		   LoggerHelper.TAF_jenkinsReportDir = LoggerHelper.getSystemProperty(sysPropPrefix+"reportDir",LoggerHelper.TAF_jenkinsReportDir);		
+	       userTestFile = getSystemProperty(sysPropPrefix+"testDataFile","");		
 	      
 		   if(userTestFile != null&&!userTestFile.equals("")){
 			    startFromLine = 2;
@@ -95,11 +96,11 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			    poolFileOri = userTestFile;
 		   }
 		   
-		   autoRunTestCategory = getSystemProperty(sysPropPrefix+"testCategory");
+		   autoRunTestCategory = getSystemProperty(sysPropPrefix+"testCategory",testCategory);
 	       if(autoRunTestCategory!=null&&autoRunTestCategory!=""){
 				testCategory = autoRunTestCategory;
 			}
-	       tcExclusive = getSystemProperty(sysPropPrefix+"testCaseExclusive");
+	       tcExclusive = getSystemProperty(sysPropPrefix+"testCaseExclusive","");
 	       if(tcExclusive!=null&&tcExclusive!=""){
 	    	   if(tcExclusive.equalsIgnoreCase("True"))
 	    	      testCaseExclusive = true;
@@ -253,7 +254,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
 	  
 	protected boolean lineInRange(int currentLine){
 		if(!lineRangeDefined){
-		     String  userTestFile = getSystemProperty(sysPropPrefix+"testDataFile");		
+		     String  userTestFile = getSystemProperty(sysPropPrefix+"testDataFile","");		
 			   if(userTestFile != null&&!userTestFile.equals("")){
 				    startFromLine = 2;
 					endAtLine = Integer.MAX_VALUE;
@@ -274,34 +275,44 @@ public class InitializeTerminateHelper extends ObjectHelper {
 		projName = scriptName.split("\\.")[0];
 		testDescription = "Test description should be defined in your project conf class";		
 		TAFLogger.testName = projName;
-		projPath="/conf/";
+		projPath=FileUtil.getAbsDir("conf/");
 		
 		try {	
 			// ************************************  Config this project ***************************
 			// loading logging props
 			projProp = new Properties();
-			projProp.load(this.getClass().getResourceAsStream(projPath+"logger.properties"));
+			//projProp.load(this.getClass().getResourceAsStream(projPath+"logger.properties"));
+			//projProp.load(ClassLoader.getSystemResourceAsStream(projPath+"logger.properties"));
+			projProp.load(new FileInputStream(projPath+"logger.properties"));
 			PropertyUtil.setProperties(loggerConf, projProp);
 
 			// loading project props
 			projProp = new Properties();
-			projProp.load(this.getClass().getResourceAsStream(projPath + "project.properties"));
+			//projProp.load(this.getClass().getResourceAsStream(projPath + "project.properties"));
+			//projProp.load(ClassLoader.getSystemResourceAsStream(projPath+"project.properties"));
+			projProp.load(new FileInputStream(projPath+"project.properties"));
 			PropertyUtil.setProperties(projectConf, projProp);
 
 			// loading project timer props
 			projProp = new Properties();
-			projProp.load(this.getClass().getResourceAsStream(projPath + "timer.properties"));			
+			//projProp.load(this.getClass().getResourceAsStream(projPath + "timer.properties"));
+			//projProp.load(ClassLoader.getSystemResourceAsStream(projPath+"timer.properties"));
+			projProp.load(new FileInputStream(projPath+"timer.properties"));
 			PropertyUtil.setProperties(timerConf, projProp);
 
 			// loading AXCore DB props
 			projProp = new Properties();
-			projProp.load(this.getClass().getResourceAsStream(projPath + "dbConf.properties"));
+			//projProp.load(this.getClass().getResourceAsStream(projPath + "dbConf.properties"));
+			//projProp.load(ClassLoader.getSystemResourceAsStream(projPath+"dbConf.properties"));
+			projProp.load(new FileInputStream(projPath+"dbConf.properties"));
 			PropertyUtil.setProperties(dbConf, projProp);
 			dbConf.setJDBCParameters();
 			
 			// loading email props
 						projProp = new Properties();
-						projProp.load(this.getClass().getResourceAsStream(projPath + "email.properties"));			
+						//projProp.load(this.getClass().getResourceAsStream(projPath + "email.properties"));	
+						//projProp.load(ClassLoader.getSystemResourceAsStream(projPath+"email.properties"));
+						projProp.load(new FileInputStream(projPath+"email.properties"));
 						PropertyUtil.setProperties(emailConf, projProp);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -653,8 +664,8 @@ public class InitializeTerminateHelper extends ObjectHelper {
 //	}
 	
 	public String createHtmlReport(String Output_Report){
-		String emailSubject=System.getProperty(sysPropPrefix+"emailSubject");
-		String emailTitle=System.getProperty(sysPropPrefix+"emailTitle");
+		String emailSubject=getSystemProperty(sysPropPrefix+"emailSubject","");
+		String emailTitle=getSystemProperty(sysPropPrefix+"emailTitle","");
 		
 		if(emailSubject==null||emailSubject.equals("")){
 			emailSubject=reportSubject;
@@ -697,7 +708,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
 		if(TAF_jenkinsReport){
 			copyTestResults("Jenkins");	
 		}else if(TAF_emailReport){ // If runs from Jenkins, don't send email from RFT.				
-			String emailCmd=System.getProperty(sysPropPrefix+"emailCmd");
+			String emailCmd=getSystemProperty(sysPropPrefix+"emailCmd","");
 			if(emailCmd==null){
 				if(toAddress.matches(emailPattern)){
 					try{

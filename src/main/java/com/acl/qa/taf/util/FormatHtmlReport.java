@@ -56,11 +56,17 @@ public static String getHtmlPrintable(String htmlStr,int length){
 		    
 		    ACLWiki = ACLQATestScript.projectConf.wikiLink;
 		    wikiPage = sanitize(wikiPage);		    
-		    WikiModel wikiModel = 
-            new WikiModel(ACLWiki+"${image}", 
-                          ACLWiki+"${title}");
-		    
-           String htmlStr = wikiModel.render(wikiPage);
+		    WikiModel wikiModel; 
+          		    
+           String htmlStr = wikiPage;
+           try{
+        	   wikiModel = 
+        	            new WikiModel(ACLWiki+"${image}", 
+        	                          ACLWiki+"${title}");
+               htmlStr = wikiModel.render(wikiPage);
+           }catch(Exception e){
+        	   System.out.println(e.toString())  ;
+           }
            htmlStr = addReportHeader(htmlStr,title,subject);
            htmlStr = addReportFooter(htmlStr,"Test Report");
            FileUtil.writeFileContents(outFile, htmlStr);

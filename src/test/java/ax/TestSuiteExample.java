@@ -1,9 +1,9 @@
 package ax;
 import com.acl.qa.taf.helper.Interface.TestSuiteInterface;
 
-import ax.lib.TestSuiteHelper;
+import ax.lib.restapi.TestSuiteExampleHelper;
 
-public class TestSuiteExample extends TestSuiteHelper implements TestSuiteInterface {
+public class TestSuiteExample extends TestSuiteExampleHelper implements TestSuiteInterface {
 
 	/**
 	 * Script Name   : <b>TestSuiteExample</b>

@@ -44,15 +44,19 @@ public class PropertyUtil {
     	
     	//**** Get value from System Property
     	String sysPropValue = "";
+    	if(value==null){
+    		value = "";
+    	}
     	try{
-    		sysPropValue = LoggerHelper.getSystemProperty(InitializeTerminateHelper.sysPropPrefix+name);
+    		sysPropValue = LoggerHelper.getSystemProperty(InitializeTerminateHelper.sysPropPrefix+name,value.toString().trim());
     	    // sysPropValue = System.getProperty(InitializeTerminateHelper.sysPropPrefix+name);
+    		//System.out.println(InitializeTerminateHelper.sysPropPrefix+name+" = '"+sysPropValue+"'");
     	}catch(Exception e){
     		
     	}   	
-    	if(sysPropValue!=null&&!sysPropValue.equals("")){
-    		value = sysPropValue;
-    	}
+//    	if(sysPropValue!=null&&!sysPropValue.equals("")){
+//    		value = sysPropValue;
+//    	}
     	
     	//**** Start to set value 
         try {

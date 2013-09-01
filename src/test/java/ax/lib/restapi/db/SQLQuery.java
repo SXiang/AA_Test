@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ax.lib.db;
+package ax.lib.restapi.db;
 
 import java.sql.Timestamp;
 

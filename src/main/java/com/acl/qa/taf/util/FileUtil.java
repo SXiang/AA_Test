@@ -211,7 +211,7 @@ public class FileUtil extends ibm.util.FileOps {
 			}
 			in.close();
 		} catch (IOException e) {
-			PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#readFile: " + e.getMessage());
+			//PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#readFile: " + e.getMessage());
 		}
 		return file;
 	}
@@ -248,8 +248,8 @@ public class FileUtil extends ibm.util.FileOps {
 			   absURL = ClassLoader.getSystemResource(absDir);
     		
     		if(absURL==null){
-    			System.out.println("Dir: '"+inputDir+"' is not a valid java resources?");
-    			absDir = inputDir;
+    			//System.out.println("Dir: '"+inputDir+"' is not a valid java resources?");
+    			absDir = userWorkingDir+"/"+inputDir;
     		}else{
     			absDir = absURL.toString().replaceFirst("file:/", "");
     		}
@@ -341,7 +341,7 @@ public class FileUtil extends ibm.util.FileOps {
 			in.close();
 			//System.out.println("File: '"+numLines+" lines - "+file);
 		} catch (IOException e) {
-			PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#readFile: " + e.getMessage());           
+			//PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#readFile: " + e.getMessage());           
 		}
 		return file;
 	}
@@ -381,7 +381,7 @@ public class FileUtil extends ibm.util.FileOps {
 			in.close();
 			return fileContentsString;
 		} catch (IOException e) {
-			PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#getFileContents: " + e.getMessage());
+			//PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#getFileContents: " + e.getMessage());
 			return "";
 		}
 	}
@@ -393,7 +393,7 @@ public class FileUtil extends ibm.util.FileOps {
 				out.flush();
 				
 			} catch (IOException e) {
-				PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#appendStringToFile: " + e.getMessage());
+				//PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#appendStringToFile: " + e.getMessage());
 			}
 		}
 	
