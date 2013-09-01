@@ -17,7 +17,10 @@ import com.acl.qa.taf.util.UTF8Control;
 
 
 public class LoggerHelper extends ACLQATestScript {
-
+    
+	public static String logLF = "<LF>";
+	public static String logLFIndent = "\n\t\t";
+	public static String htmlLFIndent = "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	public static String testResult = "None"; // keyword test result
 	public static String message = ""; // keyword test message
 	public static String testCaseResult = "None"; // test case result

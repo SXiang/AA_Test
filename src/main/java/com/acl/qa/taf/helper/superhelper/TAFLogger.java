@@ -134,4 +134,11 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 
 		
 	}
+	protected String formatMessage(String sMessage)
+	{
+		if(sMessage!=null){
+			sMessage = sMessage.replaceAll(LoggerHelper.logLF, LoggerHelper.logLFIndent);
+		}
+		return sMessage;
+	}	
 }

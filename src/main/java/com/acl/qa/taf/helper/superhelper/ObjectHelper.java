@@ -568,7 +568,7 @@ public class ObjectHelper extends GuiFinderHelper {
 			linediff = true;
 			if (!compareNumLines) {// diffLines<=3){
 				logTAFWarning("Not exactly match, there might be some dynamic data in the file which made it incompatiable"
-						+ "\t\tExpected "
+						+ logLF+"Expected "
 						+ tm.length
 						+ " lines, but actual "
 						+ ta.length + " lines found");
@@ -579,7 +579,7 @@ public class ObjectHelper extends GuiFinderHelper {
 				isInfo = false;
 			} else {
 				logTAFWarning("Not exactly match, impacted by System locale? different encoding? or different OS platform?"
-						+ "\t\tExpected "
+						+ logLF+"Expected "
 						+ tm.length
 						+ " lines, but actual "
 						+ ta.length + " lines found");
@@ -616,7 +616,7 @@ public class ObjectHelper extends GuiFinderHelper {
 							+ sm
 							+ "[WithLinkOrPathOrDynamicSymbolOrOtherNonPrintableChars!]' - May need to open the file with proper software for details";
 				} else {
-					msg += "Expected, -" + sm + "-Actual,   -" + sa + "-";
+					msg += logLF+"Expected, -" + sm + logLF+"Actual,   -" + sa;
 //					if (linediff)
 //						msg = autoIssue + msg;
 				}

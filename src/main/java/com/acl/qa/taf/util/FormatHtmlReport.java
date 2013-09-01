@@ -69,6 +69,8 @@ public static String getHtmlPrintable(String htmlStr,int length){
            }
            htmlStr = addReportHeader(htmlStr,title,subject);
            htmlStr = addReportFooter(htmlStr,"Test Report");
+           
+
            FileUtil.writeFileContents(outFile, htmlStr);
            //System.out.print(htmlStr);
            
@@ -133,7 +135,7 @@ public static String getHtmlPrintable(String htmlStr,int length){
 		String replaceWord = "(\\[NEW ISSUE\\?\\]|New\\sIssues\\?)";
 		String htmlHints = "<div title=\""+LoggerHelper.getNewIssueTips()+"\">";
 		input = input.replaceAll(removePattern,"");
-		
+		input = input.replaceAll(LoggerHelper.logLF, LoggerHelper.htmlLFIndent);	
 		//input = input.replaceAll(replaceWord,htmlHints+"$1"+"</div>");
 		return input;
 	}
