@@ -54,9 +54,9 @@ public class PropertyUtil {
     	}catch(Exception e){
     		
     	}   	
-    	if(sysPropValue!=null&&!sysPropValue.equals("")){
-    		value = sysPropValue;
-    	}
+//    	if(sysPropValue!=null&&!sysPropValue.equals("")){
+//    		value = sysPropValue;
+//    	}
     	
     	//**** Start to set value 
         try {
