@@ -1,12 +1,12 @@
 package ax.testdriver.restapi;
 
-import ax.lib.TestDriverHelper;
+import ax.lib.restapi.TestDriverExampleHelper;
 
 import com.acl.qa.taf.helper.Interface.TestDriverInterface;
 
 
 
-public class TestDriverExample  extends TestDriverHelper implements TestDriverInterface{
+public class TestDriverExample  extends TestDriverExampleHelper implements TestDriverInterface{
 	
 	
     public static void main(String[] args){

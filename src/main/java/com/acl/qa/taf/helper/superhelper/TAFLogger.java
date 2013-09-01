@@ -4,10 +4,15 @@ import ibm.loggers.control.PackageLoggingController;
 import ibm.loggers.targets.ConsoleTarget;
 import ibm.loggers.targets.FileTarget;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 import com.acl.qa.taf.util.FileUtil;
 import com.acl.qa.taf.util.FormatHtmlReport;
+import com.acl.qa.taf.util.MultiOutputStream;
 
 
 public class TAFLogger extends ibm.loggers.TargettedLogger {
@@ -36,7 +41,7 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 	                     memusageCSV;
 
 	 // name must be set / changed before getlogger();
-	private TAFLogger() {	 
+	private TAFLogger() {			
 		super(ACLQATestScript.loggerConf.iLogLevel);
 		
 		locale = FileUtil.locale.toString();
@@ -50,8 +55,10 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 		memusageCSV = path + tafFolder + name + time + "_memusage.csv";
 		//memusageCSV = path + tafFolder + time + "_memusage.csv";
 		testResultRFT = file + "/rational_ft_log.html";
+		FileUtil.mkDirs(path+tafFolder);
+		redirectSystemOutput(testResultTXT);
 		clearAllTargets();
-		appendTargetToAll(new FileTarget(testResultTXT));
+		//appendTargetToAll(new FileTarget(testResultTXT));
 		
 		appendTargetToAll(new ConsoleTarget());
 		
@@ -68,13 +75,13 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 	
 	public static TAFLogger getLogger(){
 		if(tLog == null){
-			tLog = new TAFLogger();
+			tLog = new TAFLogger("");
 		}
 		return tLog;
 	}
 	public static TAFLogger updateLogger(){
 		if(!configured||tLog==null){
-			tLog = new TAFLogger();		
+			tLog = new TAFLogger("");		
 			configured = true;
 		}
 		return tLog;
@@ -102,5 +109,29 @@ public class TAFLogger extends ibm.loggers.TargettedLogger {
 		filePre = path + name;
 		
 		return filePre + time;
+	}
+	
+	private void redirectSystemOutput(String outputfile){
+		
+		try
+		{
+			FileOutputStream fout= new FileOutputStream(outputfile);
+			//FileOutputStream ferr= new FileOutputStream(outputfile);
+			
+			MultiOutputStream multiOut= new MultiOutputStream(System.out, fout);
+			MultiOutputStream multiErr= new MultiOutputStream(System.err, fout);
+			
+			PrintStream stdout= new PrintStream(multiOut,true,"UTF-8");
+			PrintStream stderr= new PrintStream(multiErr,true,"UTF-8");
+			
+			System.setOut(stdout);
+			System.setErr(stderr);
+		}
+		catch (Exception ex)
+		{
+			//Could not create/open the file
+		}
+
+		
 	}
 }

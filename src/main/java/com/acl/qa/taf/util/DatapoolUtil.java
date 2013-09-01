@@ -67,6 +67,7 @@ public class DatapoolUtil {
 			        }
 			      }catch(Exception e){
 			        	System.out.println("Failed to read the hader from your datapool, check the format and try again");
+			        	System.out.println("Is this correct: '"+poolFile+"'?");
 			        	return null;
         }
 		

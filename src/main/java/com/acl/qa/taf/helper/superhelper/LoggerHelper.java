@@ -13,6 +13,7 @@ import com.acl.qa.taf.util.FileUtil;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.MemusageTracer;
 import com.acl.qa.taf.util.NLSUtil;
+import com.acl.qa.taf.util.UTF8Control;
 
 
 public class LoggerHelper extends ACLQATestScript {
@@ -605,7 +606,7 @@ public class LoggerHelper extends ACLQATestScript {
 		}
 	}
 
-	public static String getSystemProperty(String key) {
+	public static String getSystemProperty(String key,String defaultValue) {
 		String value = "";
 		try {
 			value = System.getProperty(key);
@@ -618,6 +619,12 @@ public class LoggerHelper extends ACLQATestScript {
 		} else {
 			value = value.replaceAll("\"", "");
 		}
+		//System.out.println(key+" - conf:cmd = '"+defaultValue+"':'"+value+"'");
+		if(value.trim()==""){
+			value = defaultValue;
+		}
+		
+		//System.out.println(key+" = '"+value+"'");
 		return value.trim();
 	}
 

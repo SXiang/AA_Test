@@ -56,11 +56,17 @@ public static String getHtmlPrintable(String htmlStr,int length){
 		    
 		    ACLWiki = ACLQATestScript.projectConf.wikiLink;
 		    wikiPage = sanitize(wikiPage);		    
-		    WikiModel wikiModel = 
-            new WikiModel(ACLWiki+"${image}", 
-                          ACLWiki+"${title}");
-		    
-           String htmlStr = wikiModel.render(wikiPage);
+		    WikiModel wikiModel; 
+          		    
+           String htmlStr = wikiPage;
+           try{
+        	   wikiModel = 
+        	            new WikiModel(ACLWiki+"${image}", 
+        	                          ACLWiki+"${title}");
+               htmlStr = wikiModel.render(wikiPage);
+           }catch(Exception e){
+        	   System.out.println(e.toString())  ;
+           }
            htmlStr = addReportHeader(htmlStr,title,subject);
            htmlStr = addReportFooter(htmlStr,"Test Report");
            FileUtil.writeFileContents(outFile, htmlStr);
@@ -74,7 +80,7 @@ public static String getHtmlPrintable(String htmlStr,int length){
 	public static String addReportFooter(String htmlStr,String footer){
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd_HH.mm").format(Calendar.getInstance().getTime());
 		htmlStr += "</td></tr>"+
-                "<tr bgcolor=\"#CCCCFF\"><td align=\"center\">"+
+                "<tr bgcolor=\"#CCCCFF\"><td align=\"left\">"+
 				"<b><font color=\"#0000A0\">ACLQA Automation "+footer+" - "+
 				timeStamp+"</font></b></td></tr>"+
                 "</hr>"+
@@ -100,6 +106,7 @@ public static String getHtmlPrintable(String htmlStr,int length){
         		+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd>"+
                           "<html xmlns=\"http‎://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">"+
         		          "<head>"+
+                          "<style>table{max-width:800px;}</style>"+
                           "<meta http-equiv=\"Content-type\" content=\"text/html;charset=UTF-8\" />" +
 //        		          "<style>"+
 //                             "a:link {color:#FF0000;}    /* unvisited link */"+

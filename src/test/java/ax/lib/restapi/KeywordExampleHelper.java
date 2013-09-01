@@ -1,4 +1,4 @@
-package ax.lib;
+package ax.lib.restapi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -10,11 +10,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
+import ax.lib.restapi.TestDriverExampleHelper;
+import ax.lib.restapi.TestSuiteExampleHelper;
+
 import com.acl.qa.taf.helper.KeywordSuperHelper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.thoughtworks.selenium.DefaultSelenium;
 
-public class KeywordHelper extends KeywordSuperHelper {
+public class KeywordExampleHelper extends KeywordSuperHelper {
 
 	//***************  Part 1  *******************
 	// ******* Declaration of shared variables ***
@@ -293,21 +296,21 @@ public class KeywordHelper extends KeywordSuperHelper {
 	
 	public void getSharedObj() {
 		if (suiteObj != null) {
-			driver = ((TestSuiteHelper) suiteObj).currentDriver;
-			casAuthenticated = ((TestSuiteHelper) suiteObj).casAuthenticated;
+			driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
+			casAuthenticated = ((TestSuiteExampleHelper) suiteObj).casAuthenticated;
 		} else if (caseObj != null) {
-			driver = ((TestDriverHelper) caseObj).currentDriver;
-			casAuthenticated = ((TestDriverHelper) caseObj).casAuthenticated;
+			driver = ((TestDriverExampleHelper) caseObj).currentDriver;
+			casAuthenticated = ((TestDriverExampleHelper) caseObj).casAuthenticated;
 		}
 	}
 
 	public void setSharedObj() {
 		if (suiteObj != null) {
-			((TestSuiteHelper) suiteObj).currentDriver = driver;
-			((TestSuiteHelper) suiteObj).casAuthenticated = casAuthenticated;
+			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
+			((TestSuiteExampleHelper) suiteObj).casAuthenticated = casAuthenticated;
 		} else if (caseObj != null) {
-			((TestDriverHelper) caseObj).currentDriver = driver;
-			((TestDriverHelper) caseObj).casAuthenticated = casAuthenticated;
+			((TestDriverExampleHelper) caseObj).currentDriver = driver;
+			((TestDriverExampleHelper) caseObj).casAuthenticated = casAuthenticated;
 		}
 	}
 

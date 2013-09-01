@@ -12,7 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-import ax.lib.db.SQLQuery;
+import ax.lib.restapi.db.SQLQuery;
 
 import com.acl.qa.taf.helper.superhelper.InitializeTerminateHelper;
 import com.acl.qa.taf.util.FileUtil;
@@ -80,6 +80,13 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 	return itemName;
 	}
 	
+	public boolean compareResult(String masterFile,  String result,
+			String ignorePattern[],String[] ignoreName,String delimiterPattern){
+	
+		return compareResult(masterFile,result,true,
+   			ignorePattern,ignoreName,  //Replacement
+   			delimiterPattern);
+	}
 	public boolean compareResult(String masterFile,  String result,
 			 boolean exactMatch,
 			String ignorePattern[],String[] ignoreName,String delimiterPattern){
@@ -291,7 +298,7 @@ logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
         	   setNewDBConnection(dbType[i],serverip[i],port[i],dbname[i],userid[i],passwd[i]);
            	logTAFInfo("\t3) Get/Form your SQL statement: String query = SQLQuery.getTableContentsQueryDemo(dbtype,tableName,rowlimit);\n\t\t\t"+
         			(query = SQLQuery.getTableContentsQueryDemo(dbType[i],tableName[i],rowlimit+i)));
-        	logTAFInfo("\t4) Get ResultSet: ResultSet rs = queryDB(query))");
+        	logTAFInfo("\t4) Get ResultSet: ResultSet rs = queryNewDB(query))");
         	rs = queryNewDB(query);
         	logTAFInfo("\t5) Dump to a container(Optional): Vectory rsv = getResultVectory(rs)");
         	rsv = getResultVector(rs);
