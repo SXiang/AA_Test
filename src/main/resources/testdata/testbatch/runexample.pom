@@ -118,6 +118,7 @@
                        <systemProperty><key>${sysPropPrefix}openHtmlReport</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}openLogFile</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}openByApp</key><value>iexplore</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}filterLevel</key><value>5</value></systemProperty>
                        
                        <systemProperty><key>${sysPropPrefix}emailReport</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}subject</key><value>Automation Test Report(Example) - AX5</value></systemProperty>
