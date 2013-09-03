@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ax.lib;
+package ax.lib.restapi;
 
 import org.openqa.selenium.WebDriver;
 
@@ -15,7 +15,7 @@ import com.acl.qa.taf.helper.TestSuiteSuperHelper;
  * @author steven_xiang
  *
  */
-public class TestSuiteHelper extends TestSuiteSuperHelper {
+public class TestSuiteExampleHelper extends TestSuiteSuperHelper {
 
 	/**
 	 * 
@@ -25,9 +25,10 @@ public class TestSuiteHelper extends TestSuiteSuperHelper {
 	public WebDriver currentDriver = null;
 	public boolean casAuthenticated = false;
 	// ***********************************************
-	public TestSuiteHelper() {
+	public TestSuiteExampleHelper() {
 		// TODO Auto-generated constructor stub
 	}
+	
 	/**
 	 * @param args
 	 */

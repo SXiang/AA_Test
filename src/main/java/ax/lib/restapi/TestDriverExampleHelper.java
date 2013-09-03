@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ax.lib;
+package ax.lib.restapi;
 
 import org.openqa.selenium.WebDriver;
 
@@ -15,7 +15,7 @@ import com.acl.qa.taf.helper.TestDriverSuperHelper;
  * @author steven_xiang
  *
  */
-public class TestDriverHelper extends TestDriverSuperHelper {
+public class TestDriverExampleHelper extends TestDriverSuperHelper {
 
 	/**
 	 * 
@@ -26,10 +26,10 @@ public class TestDriverHelper extends TestDriverSuperHelper {
 	public boolean casAuthenticated = false;
 	
 	// ***********************************************
-	public TestDriverHelper() {
+	public TestDriverExampleHelper() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	/**
 	 * @param args
 	 */

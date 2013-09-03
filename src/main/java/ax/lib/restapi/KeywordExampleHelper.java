@@ -1,4 +1,4 @@
-package ax.lib;
+package ax.lib.restapi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -10,11 +10,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
+import ax.lib.restapi.TestDriverExampleHelper;
+import ax.lib.restapi.TestSuiteExampleHelper;
+
 import com.acl.qa.taf.helper.KeywordSuperHelper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.thoughtworks.selenium.DefaultSelenium;
 
-public class KeywordHelper extends KeywordSuperHelper {
+public class KeywordExampleHelper extends KeywordSuperHelper {
 
 	//***************  Part 1  *******************
 	// ******* Declaration of shared variables ***
@@ -143,9 +146,11 @@ public class KeywordHelper extends KeywordSuperHelper {
 	}
 	
 	public void submitCredential(){
-		try {
-			// WebElement form = driver.findElement(By.id("id1"));
-
+		if(getDpString("L10NDemo").equalsIgnoreCase("Yes")){
+            nlsDemo();
+		}
+            
+        try{
 			WebElement username = driver.findElement(By.id("username"));
 			logTAFStep("Input username '"+dpUserName+"'");
 			username.sendKeys(dpUserName);
@@ -219,10 +224,11 @@ public class KeywordHelper extends KeywordSuperHelper {
         String[] ignoreName = {"$1u-u-i-d$2"};
         String delimiterPattern = "\\},\\{";
         
-        return compareResult(master,result,
-   			 true,
-   			ignorePattern,ignoreName,
-   			delimiterPattern);
+        return compareResult(
+        	master,result,
+   			true,          //Exact Match
+   			ignorePattern,ignoreName,  //Replacement
+   			delimiterPattern);  // used to split
 		
 	}
 	
@@ -290,21 +296,21 @@ public class KeywordHelper extends KeywordSuperHelper {
 	
 	public void getSharedObj() {
 		if (suiteObj != null) {
-			driver = ((TestSuiteHelper) suiteObj).currentDriver;
-			casAuthenticated = ((TestSuiteHelper) suiteObj).casAuthenticated;
+			driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
+			casAuthenticated = ((TestSuiteExampleHelper) suiteObj).casAuthenticated;
 		} else if (caseObj != null) {
-			driver = ((TestDriverHelper) caseObj).currentDriver;
-			casAuthenticated = ((TestDriverHelper) caseObj).casAuthenticated;
+			driver = ((TestDriverExampleHelper) caseObj).currentDriver;
+			casAuthenticated = ((TestDriverExampleHelper) caseObj).casAuthenticated;
 		}
 	}
 
 	public void setSharedObj() {
 		if (suiteObj != null) {
-			((TestSuiteHelper) suiteObj).currentDriver = driver;
-			((TestSuiteHelper) suiteObj).casAuthenticated = casAuthenticated;
+			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
+			((TestSuiteExampleHelper) suiteObj).casAuthenticated = casAuthenticated;
 		} else if (caseObj != null) {
-			((TestDriverHelper) caseObj).currentDriver = driver;
-			((TestDriverHelper) caseObj).casAuthenticated = casAuthenticated;
+			((TestDriverExampleHelper) caseObj).currentDriver = driver;
+			((TestDriverExampleHelper) caseObj).casAuthenticated = casAuthenticated;
 		}
 	}
 

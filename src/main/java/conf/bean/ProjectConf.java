@@ -2,6 +2,8 @@ package conf.bean;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Locale;
+
 import net.sf.cache4j.CacheFactory;
 
 import com.acl.qa.taf.helper.superhelper.*;
@@ -15,18 +17,27 @@ public class ProjectConf {
 			serverPrefix = "C:/ACL/Automation/RFT_DATA/",
 			serverNetDir = ":/ACL/Automation/",
 			serverNetUser = "Administrator", serverNetPassword = "Password00",
-			localizationDir = "", tempLocalDir = "", tempServerNetDir = "",
+			localizationDir = "", l10nPropertiesPrefix = "",tempLocalDir = "", tempServerNetDir = "",
 			tempServerDir = "", serverInputDataDir = "",
 			localInputDataDir = "",
-			testDataDir = "";
+			testDataDir = "",
+			toolDir = "";
 
 	// ********************************************************
 
-	// ********** Setters - Auto generated ***********************************
+	// ********** Setters - Auto generated and dir addressed *****************
 
 	
 	public void setTempTestSummary(boolean tempTestSummary) {
 		this.tempTestSummary = tempTestSummary;
+	}
+
+	public void setL10nPropertiesPrefix(String l10nPropertiesPrefix) {
+		this.l10nPropertiesPrefix = l10nPropertiesPrefix;
+	}
+
+	public void setToolDir(String toolDir) {
+		this.toolDir = FileUtil.getAbsDir(toolDir);
 	}
 
 	public void setTestDataDir(String testDataDir) {
@@ -232,7 +243,7 @@ public class ProjectConf {
 			testerName = "Steven_Xiang",
 			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
 
-	public String AUT, appLocale = "", startComm, imageName;
+	public String AUT="", appLocale = "", startComm, imageName;
 
 	// Getter & Setter
 
@@ -313,7 +324,7 @@ public class ProjectConf {
 	    
 		serverInputDataDir = serverPrefix + serverInputDataDir;
 
-		if (AUT != "") {
+		if (AUT!=null&&AUT != "") {
 			this.startComm = "Start \"" + imageName + "\" /D\""
 					+ FileUtil.getAbsDir(AUT)
 					+ "\\\" /MAX /B /WAIT /SEPARATE \"" + AUT + imageName
@@ -323,10 +334,38 @@ public class ProjectConf {
 		}
 
 		// FileUtil.mapDrive(curLabel,serverNetDir,serverNetUser,serverNetPassword);
+		setL10NEnv();
 		initCache();
 		return;
 	}
+	public void setL10NEnv(){
+		
+		String prefix = FileUtil.locale.getLanguage();
+		if("".equals(this.appLocale)){
+			this.appLocale = prefix;	
+			//changeMap = false;
+			//NLSUtil.appLocale = new Locale(ProjectConf.appLocale);
+		}else if("en".equalsIgnoreCase(this.appLocale)){
+			//changeMap = false;
+		}else if(!this.appLocale.equalsIgnoreCase(prefix)){           
 
+				 FileUtil.locale = new Locale(this.appLocale);
+				 TAFLogger.updateLogger(); 
+                 LoggerHelper.logTAFInfo("Are you testing application ("+
+							this.appLocale+")"+ " with system locale - '"+prefix+"'?");
+
+		}
+		
+// for locale change - temp (Steven)
+		
+		prefix = this.appLocale;			
+		NLSUtil.appLocale = FileUtil.locale;
+	
+		this.locale = appLocale;
+		LoggerHelper.localizationDir = localizationDir;
+		//LoggerHelper.logTAFInfo("Map updated for - Locale "+prefix);
+		return;
+	}
 	public void initCache() {
 		String cacheConfig = localizationDir + "cache4j_config.xml";
 
@@ -354,6 +393,19 @@ public class ProjectConf {
     public String ccAddress = "";
     public String bccAddress = "";
     
+    
+	public void setToAddress(String toAddress) {
+		this.toAddress = toAddress;
+	}
+
+	public void setCcAddress(String ccAddress) {
+		this.ccAddress = ccAddress;
+	}
+
+	public void setBccAddress(String bccAddress) {
+		this.bccAddress = bccAddress;
+	}
+
 	public void setTestType(String testType) {
 		if (testType.equalsIgnoreCase("LOCALONLY")) {
 			LoggerHelper.localOnlyTest = true;

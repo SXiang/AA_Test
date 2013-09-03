@@ -3,6 +3,7 @@
 !/*.bat
 .*
 !.gitignore
+!testdata/.gitignore
 #!.project
 #!.classpath
 !pom.xml
@@ -17,6 +18,7 @@
 # Floder and Files
 null/
 target/
+deployment/
 .gitmodules
 submodule_taf
 /output/
