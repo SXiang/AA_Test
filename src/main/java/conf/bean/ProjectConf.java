@@ -231,7 +231,7 @@ public class ProjectConf {
 	public String testDescApp = "\n\tDescription of the tested area goes here....";
 
 	public String projectName = "";
-    public boolean emailReport;
+    public String traceImageName = "";
 	public String locale = FileUtil.locale.toString();
 	public String aclProjectDir = "";
     public String
@@ -240,7 +240,7 @@ public class ProjectConf {
             tempCsvResult = tempLocalDir+"automationTempResult.csv",
 			buildInfo = "",
 			testProject = "",
-			testerName = "Steven_Xiang",
+			testerName = "Automation Demo Tester",
 			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
 
 	public String AUT="", appLocale = "", startComm, imageName;
@@ -252,16 +252,16 @@ public class ProjectConf {
 			"user.name").replaceAll("[/\\\\:*?,|\\-\\s]", "_"), winName = "",
 			hostIP = "";
 
+	
+	public void setTraceImageName(String traceImageName) {
+		this.traceImageName = traceImageName;
+	}
+
 	public void setJenkinsReport(boolean jenkinsReport) {
 		this.jenkinsReport = jenkinsReport;
-		LoggerHelper.TAF_jenkinsReport = this.jenkinsReport;
 	}
     
 	
-	public void setEmailReport(boolean emailReport) {
-		this.emailReport = emailReport;
-		LoggerHelper.TAF_emailReport = this.emailReport;
-	}
 
 	public void setStopIfNumConsecutiveFailures(int stopIfNumConsecutiveFailures) {
 		if (stopIfNumConsecutiveFailures <= 0)
@@ -282,8 +282,6 @@ public class ProjectConf {
 		} else {
 			this.jenkinsReport = false;
 		}
-		LoggerHelper.TAF_jenkinsReport = this.jenkinsReport;
-		LoggerHelper.TAF_jenkinsReportDir = this.jenkinsReportDir;
 	}
 
 	public void setImageName(String imageName) {

@@ -114,14 +114,21 @@
                        <systemProperty><key>${sysPropPrefix}testProject</key><value>AX5</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}buildInfo</key><value>BuildSample</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}jenkinsReport</key><value>false</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}traceMemusage</key><value>true</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}traceImageName</key><value>services.exe</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}testerName</key><value>Automation_V10_Demo</value></systemProperty>
+                       
                        
                        <systemProperty><key>${sysPropPrefix}openHtmlReport</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}openLogFile</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}openByApp</key><value>iexplore</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}filterLevel</key><value>5</value></systemProperty>
                        
                        <systemProperty><key>${sysPropPrefix}emailReport</key><value>true</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}subject</key><value>Automation Test Report(Example) - AX5</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}subject</key><value>Automation Test Report(Demo_Example) - AX5</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}toAddress</key><value>Steven_Xiang@acl.com</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}ccAddress</key><value>ramneet_kaur@ACL.com</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}bccAddress</key><value>Karen_Zou@acl.com</value></systemProperty>
                        
                        <systemProperty><key>${sysPropPrefix}dbtype</key><value>Oracle</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}serverip</key><value>192.168.10.70</value></systemProperty>
