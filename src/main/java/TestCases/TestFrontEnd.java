@@ -3,6 +3,7 @@ package TestCases;
 import ax.keyword.frontend.Login;
 import ax.keyword.frontend.ProjectDetails;
 import ax.keyword.frontend.ProjectsList;
+import ax.keyword.frontend.TestDetails;
 import ax.keyword.frontend.TestSetDetails;
 
 public class TestFrontEnd {
@@ -28,7 +29,7 @@ public class TestFrontEnd {
 		//ProjectsList.clearFilter();
 		//ProjectsList.viewList();
 		//ProjectsList.getAllProjects();
-		
+		//ProjectsList.findViewType();
 		ProjectsList.clickProjectName();
 		
 		//ProjectDetails.allElementsPresent();
@@ -82,6 +83,31 @@ public class TestFrontEnd {
 		//TestSetDetails.filterTestsList();
 		//TestSetDetails.getSearchItemsList();
 		//TestSetDetails.clearFilter();
+		
+		TestSetDetails.clickTestName();
+		
+		//TestDetails.getProjectHeader();
+		//TestDetails.getProjectName();
+		//TestDetails.getProjectsList();
+		//TestDetails.getTestSetName();
+		//TestDetails.getTestSetsList();
+		//TestDetails.getAnalyticsHeaderList();
+		//TestDetails.getAnalyticsList();
+		//TestDetails.getTestDescLabel();
+		//TestDetails.getTestDesc();
+		//TestDetails.getInfoLabel();
+		//TestDetails.getTestCreatorNameLabel();
+		//TestDetails.getTestCreatorName();
+		//TestDetails.getTestCreatedDateTimeStampLabel();
+		//TestDetails.getTestCreatedDateTimeStamp();
+		//TestDetails.getTestModifierNameLabel();
+		//TestDetails.getTestModifierName();
+		//TestDetails.getTestModifiedDateTimeStampLabel();
+		//TestDetails.getTestModifiedDateTimeStamp();
+		TestDetails.getAnalyticsList();
+		TestDetails.getAnalyticJobsList();
+		//TestDetails.getAnalyticsList();
+		//TestDetails.closeTestDetailsLayer();
 		
 	}
 

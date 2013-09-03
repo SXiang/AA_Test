@@ -4,7 +4,7 @@ public class ReadProperties {
 
 	private static String server = "win2012-3.aclqa.local";
 	private static String port = "8443";
-	private static String browserType = "ie";
+	private static String browserType = "chrome";
 	private static String casType = "nonSSO";
 	private static String driverPath = "C:\\Selenium\\";
 	private static String nodeName = "ramneet-win7-32.acl.com";

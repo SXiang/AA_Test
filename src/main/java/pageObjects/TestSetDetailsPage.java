@@ -45,7 +45,7 @@ public class TestSetDetailsPage {
 		static By testSetDropDownLocator = By.cssSelector("div.title-row > div.dropdown > a");
 		static By testSetDropDownMenuItemsLocator = By.cssSelector("div.title-row > div.dropdown > ul.dropdown-menu > li.ng-scope");
 		static By testsHeaderLocator = By.cssSelector("div.test-subtitle > span");
-		static By testsNameLocator = By.cssSelector("div.test-row > div.row-fluid > div");
+		static By testsNameLocator = By.cssSelector("div.test-row > div.row-fluid > div.ng-binding");
 		static By searchBoxLocator = By.cssSelector("div.multi-name-search > input.search-query.search-input");
 		static By searchBoxIconLocator = By.cssSelector("div.multi-name-search > div.icon-search");
 		static By searchItemLocator = By.cssSelector("li.search-item-row > button.search-item");
@@ -208,16 +208,13 @@ public class TestSetDetailsPage {
 		public TestDetailsPage clickTestName(){
 			tests = driver.findElements(testsNameLocator);
 			for(int i=0; i<tests.size();i++){
-				if(tests.indexOf(dpTestName)>=0){
-					index = tests.indexOf(dpTestName);
+				if(tests.get(i).getText().equalsIgnoreCase(dpTestName)){
+					tests.get(i).click();
+					return new TestDetailsPage(driver);
 				}
 			}
-			if(index <0){
-				System.out.println("Test: "+dpTestName+" not found!!");
-				return null;
-			}
-			tests.get(index).click();
-			return new TestDetailsPage(driver);
+			System.out.println("Test: "+dpTestName+" not found!!");
+			return null;
 		}
 		
 		public TestSetDetailsPage filterTestsList(){
