@@ -709,7 +709,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			copyTestResults("Jenkins");	
 		}else if(TAF_emailReport){ // If runs from Jenkins, don't send email from RFT.				
 			String emailCmd=getSystemProperty(sysPropPrefix+"emailCmd","");
-			if(emailCmd==null){
+			if(emailCmd==null||emailCmd==""){
 				if(toAddress.matches(emailPattern)){
 					try{
 					exeDir = exeDir.replaceAll("\\/", "\\\\");
