@@ -15,6 +15,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import ax.lib.restapi.db.SQLQuery;
 
 import com.acl.qa.taf.helper.superhelper.InitializeTerminateHelper;
+import com.acl.qa.taf.helper.superhelper.TAFLogger;
 import com.acl.qa.taf.util.FileUtil;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.thoughtworks.selenium.DefaultSelenium;
@@ -234,10 +235,16 @@ logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
 		dph = (ArrayList<String>) args[1];
 		//datapool = (HSSFSheet) args[0];		
 		setScriptName(testName);
+		setupMemusage();
 		return args;
 	}
 	
-
+	public void setupMemusage(){
+	
+		if(mt!=null){
+			mt.setup(currentkeyword,imageName, ""+projectConf.traceImageName, TAFLogger.memusageCSV, projectConf.timeIntervalForMemusage);
+		}
+	}
 
 // **************** Methods for Demo *************************************
 	public void nlsDemo(){

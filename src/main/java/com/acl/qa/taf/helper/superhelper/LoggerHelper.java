@@ -49,8 +49,7 @@ public class LoggerHelper extends ACLQATestScript {
 	public static boolean stopScript = false, stopTest = false,
 			batchRun = false, isWeb = false,
 
-			localOnlyTest = false,
-			TAF_emailReport = false;
+			localOnlyTest = false;
 
 	public static String stopMessage = "", expectedErr = "", menuItem = "";
 	public static String colorFail = "<font color=\"#B40404\">",
@@ -139,8 +138,8 @@ public class LoggerHelper extends ACLQATestScript {
 	public static boolean projectArchived = false;
 	public static boolean individualTest = false;
 	public static String logItem = "";
-	public static boolean TAF_jenkinsReport = false;
-	public static String TAF_jenkinsReportDir = "";
+
+
 	public static Cache cache_l10n, cache_en;
 	public String thisMasterFile, thisMasterFiles[] = new String[50],
 			thisActualFile, thisActualFiles[] = new String[50],

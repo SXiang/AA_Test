@@ -15,7 +15,7 @@ public class MemusageTracer extends Thread {
 	String imageName = "firefox.exe";
 	String pid = "";
 	String command ="cmd.exe,/c,tasklist,/fo,table,/nh,/fi";
-	String reportHeader = "Num Check,No.,Keyword,Running Time(S),Image Name,PID,Session Name, Session#,Mem Usage(K),NumTestObjects,Check Time";
+	String reportHeader = "Num Check,No.,Keyword,Running Time(S),Image Name,PID,Session Name, Session#,Mem Usage(K),Check Time";
 	String currentRecord = "";
 	String checkTime="";
 	String keyword = "";
@@ -27,7 +27,7 @@ public class MemusageTracer extends Thread {
     public boolean ready = false;
 	
 	public MemusageTracer(){
-       // setCommand();
+        //setCommand();
 	}
 	
 	public void setup(String keyword,String imageName, String pid, String csvPath, int intervalSeconds){
@@ -161,13 +161,13 @@ public class MemusageTracer extends Thread {
         	}
              this.currentRecord = numCheck+","+numKeyword+","+curKeyword+","+(numCheck-1)*intervalSeconds+","+
                              line.replaceAll("\"[1-9]?[0-9,]+ K\"",temp)+
-                             ","+//ACLQATestScript.getRegisteredTestObjects().length+
+                             //","+//ACLQATestScript.getRegisteredTestObjects().length+
                              ","+checkTime;
     	}else{
     		//this.currentRecord = "";
     		this.currentRecord = numCheck+","+numKeyword+","+curKeyword+","+(numCheck-1)*intervalSeconds+","+
             ",,,,"+//getCurrentMemusage()+
-            ","+//ACLQATestScript.getRegisteredTestObjects().length+
+            //","+//ACLQATestScript.getRegisteredTestObjects().length+
             ","+checkTime;
     	}
         if(ACLQATestScript.loggerConf.filterLevel>5)

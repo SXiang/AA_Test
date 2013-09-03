@@ -87,7 +87,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
 		setScriptName(testName);
 		
 		if(isMainScript()){
-		   LoggerHelper.TAF_jenkinsReportDir = LoggerHelper.getSystemProperty(sysPropPrefix+"reportDir",LoggerHelper.TAF_jenkinsReportDir);		
+		   //LoggerHelper.TAF_jenkinsReportDir = LoggerHelper.getSystemProperty(sysPropPrefix+"reportDir",LoggerHelper.TAF_jenkinsReportDir);		
 	       userTestFile = getSystemProperty(sysPropPrefix+"testDataFile","");		
 	      
 		   if(userTestFile != null&&!userTestFile.equals("")){
@@ -375,10 +375,10 @@ public class InitializeTerminateHelper extends ObjectHelper {
 				 try{
 					 System.out.println("\n\t ************** L10N Cache Hits & Misses ***************");
 					 logTAFInfo("Cache_l18n contains '"+LoggerHelper.cache_l10n.size()+"' items\n\t\t"+
-					      //LoggerHelper.cache_l10n.getCacheInfo()+
+					      LoggerHelper.cache_l10n.getCacheInfo()+
 							 "");
 					 logTAFInfo("Cache_en contains '"+LoggerHelper.cache_en.size()+"' items\n\t\t"+
-							 //LoggerHelper.cache_en.getCacheInfo()+
+							 LoggerHelper.cache_en.getCacheInfo()+
 							 "");
 					 System.out.println("\t *******************************************************\n");
 				 }catch(Exception e){
@@ -705,11 +705,12 @@ public class InitializeTerminateHelper extends ObjectHelper {
 		
 		copyTestResults("QAServer");
 		
-		if(TAF_jenkinsReport){
+		if(projectConf.jenkinsReport){
+			logTAFInfo("Get test report for Jenkins");
 			copyTestResults("Jenkins");	
-		}else if(TAF_emailReport){ // If runs from Jenkins, don't send email from RFT.				
+		}else if(emailConf.emailReport){ // If runs from Jenkins, don't send email from RFT.				
 			String emailCmd=getSystemProperty(sysPropPrefix+"emailCmd","");
-			if(emailCmd==null){
+			if(emailCmd==null||emailCmd==""){
 				if(toAddress.matches(emailPattern)){
 					try{
 					exeDir = exeDir.replaceAll("\\/", "\\\\");
@@ -763,7 +764,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
 	   copyToJenkins(false);
 	}
 	public void copyToJenkins(boolean isfinal){
-		String reportDir = TAF_jenkinsReportDir;
+		String reportDir = projectConf.jenkinsReportDir;
 
 		if(reportDir==null||reportDir==""){
 			logTAFWarning("Jenkins_home not found !!!");
