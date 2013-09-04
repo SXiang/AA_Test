@@ -3,11 +3,10 @@ package pageObjects;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import ax.lib.ReadDatapool;
+import ax.lib.frontend.ReadDatapool;
 
 public class ProjectsListPage {
 	
@@ -33,8 +32,6 @@ public class ProjectsListPage {
 	// locators of the web elements of login page
 	static By listIconLocator = By.cssSelector("i.icon-reorder");
 	static By cardIconLocator = By.cssSelector("i.icon-th-large");
-	static By cardIconSelectedLocator = By.cssSelector("i.icon-th-large.active");
-	static By listIconSelectedLocator = By.cssSelector("i.icon-reorder.active");
 	static By projectNameInCardTypeLocator = By.cssSelector("div.projectTitle > a > strong.ng-binding");
 	static By projectNameInListTypeLocator = By.cssSelector("div.projectTitle > strong.ng-binding");
 	static By projectHeaderLocator = By.className("project-header");
@@ -63,12 +60,10 @@ public class ProjectsListPage {
 	}
 	
 	public String findViewType(){
-		try {
-	        driver.findElement(cardIconSelectedLocator);
-	    } catch (NoSuchElementException e) {
-	        return "list";
-	    }
-	    return "card";
+		if(driver.findElement(cardIconLocator).getAttribute("class").contains("active")){
+			return "card";
+		}
+	    return "list"; 
 	}
 	
 	public ProjectsListPage getAllProjects() {

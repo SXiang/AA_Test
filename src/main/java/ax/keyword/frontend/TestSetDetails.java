@@ -1,9 +1,9 @@
 package ax.keyword.frontend;
 
-import ax.lib.BrowserTaskHelper;
+import ax.lib.frontend.LoginHelper;
 import pageObjects.TestSetDetailsPage;
 
-public class TestSetDetails  extends BrowserTaskHelper{
+public class TestSetDetails  extends LoginHelper{
 	
 	private static TestSetDetailsPage objTestSetDetailPage = null;
 	
@@ -89,28 +89,28 @@ public class TestSetDetails  extends BrowserTaskHelper{
 		objTestSetDetailPage.getModifiedAt();
 	}
 	
-	public static void getProjectCreatorNameLabel(){
+	public static void getTestSetCreatorNameLabel(){
 		if(objTestSetDetailPage == null){
 			prepPage();
 		}
 		objTestSetDetailPage.getCreatedByLabel();
 	}
 	
-	public static void getProjectCreatedDateTimeStampLabel(){
+	public static void getTestSetCreatedDateTimeStampLabel(){
 		if(objTestSetDetailPage == null){
 			prepPage();
 		}
 		objTestSetDetailPage.getCreatedAtLabel();
 	}
 	
-	public static void getProjectModifierNameLabel(){
+	public static void getTestSetModifierNameLabel(){
 		if(objTestSetDetailPage == null){
 			prepPage();
 		}
 		objTestSetDetailPage.getModifiedByLabel();
 	}
 	
-	public static void getProjectModifiedDateTimeStampLabel(){
+	public static void getTestSetModifiedDateTimeStampLabel(){
 		if(objTestSetDetailPage == null){
 			prepPage();
 		}
@@ -201,6 +201,13 @@ public class TestSetDetails  extends BrowserTaskHelper{
 			prepPage();
 		}
 		objTestSetDetailPage.closeTestSetDetailsLayer();
+	}
+	
+	public static void clickTestName(){
+		if(objTestSetDetailPage == null){
+			prepPage();
+		}
+		objTestSetDetailPage.clickTestName();
 	}
 	
 	public static void allElementsPresent() {

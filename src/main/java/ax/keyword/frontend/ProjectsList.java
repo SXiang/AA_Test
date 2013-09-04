@@ -1,9 +1,9 @@
 package ax.keyword.frontend;
 
 import pageObjects.ProjectsListPage;
-import ax.lib.BrowserTaskHelper;
+import ax.lib.frontend.LoginHelper;
 
-public class ProjectsList extends BrowserTaskHelper{
+public class ProjectsList extends LoginHelper{
 	
 	/**
 	 * Script Name   : <b>ProjectsList</b>
@@ -85,6 +85,14 @@ public class ProjectsList extends BrowserTaskHelper{
 		objPrjctListPage.getProjectHeader();		
 	}
 	
+	public static void findViewType() {
+		if(objPrjctListPage == null){
+			prepPage();
+		}
+		objPrjctListPage.findViewType();
+		
+	}
+	
 	public static void allElementsPresent(){
 		if(objPrjctListPage == null){
 			prepPage();
@@ -115,5 +123,7 @@ public class ProjectsList extends BrowserTaskHelper{
 			System.out.println("Search box icon present!!!");
 		}
 	}
+
+	
 	
 }

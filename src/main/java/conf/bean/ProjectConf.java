@@ -348,7 +348,7 @@ public class ProjectConf {
 			actualDir += uniFolder;
 		}
 		
-		if(!(appLocale.equalsIgnoreCase("")&&appLocale.equalsIgnoreCase("En"))){
+		if(!(appLocale.equalsIgnoreCase("")||appLocale.equalsIgnoreCase("En"))){
 			superMDir += appLocale.toLowerCase()+"/";
 			expectedDir += appLocale.toLowerCase()+"/";
 			actualDir += appLocale.toLowerCase()+"/";
@@ -386,12 +386,12 @@ public class ProjectConf {
 		String cacheConfig = localizationDir + "cache4j_config.xml";
 
 		try {
-			CacheFactory сacheFactory = CacheFactory.getInstance();
+			CacheFactory cacheFactory = CacheFactory.getInstance();
 			InputStream in = new FileInputStream(cacheConfig);
-			сacheFactory.loadConfig(in);
-			LoggerHelper.cache_l10n = сacheFactory.getCache("cache_l10n");
+			cacheFactory.loadConfig(in);
+			LoggerHelper.cache_l10n = cacheFactory.getCache("cache_l10n");
 			LoggerHelper.cache_l10n.clear();
-			LoggerHelper.cache_en = сacheFactory.getCache("cache_en");
+			LoggerHelper.cache_en = cacheFactory.getCache("cache_en");
 			LoggerHelper.cache_en.clear();
 			// LoggerHelper.logTAFWarning(LoggerHelper.cache_l10n.getCacheInfo().toString());
 			// LoggerHelper.logTAFWarning(LoggerHelper.cache_en.getCacheInfo().toString());
