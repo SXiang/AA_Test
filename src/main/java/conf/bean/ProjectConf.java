@@ -24,8 +24,10 @@ public class ProjectConf {
 			toolDir = "";
 
 	// ********************************************************
-
+	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
 	// ********** Setters - Auto generated and dir addressed *****************
+
+
 
 	
 	public void setTempTestSummary(boolean tempTestSummary) {
@@ -333,8 +335,24 @@ public class ProjectConf {
 
 		// FileUtil.mapDrive(curLabel,serverNetDir,serverNetUser,serverNetPassword);
 		setL10NEnv();
+		setVPPath();
 		initCache();
 		return;
+	}
+	
+	public void setVPPath(){
+		String uniFolder = "Unicode/";
+		if(isUnicodeTest()){
+			superMDir += uniFolder;
+			expectedDir += uniFolder;
+			actualDir += uniFolder;
+		}
+		
+		if(!(appLocale.equalsIgnoreCase("")&&appLocale.equalsIgnoreCase("En"))){
+			superMDir += appLocale.toLowerCase()+"/";
+			expectedDir += appLocale.toLowerCase()+"/";
+			actualDir += appLocale.toLowerCase()+"/";
+		}
 	}
 	public void setL10NEnv(){
 		
