@@ -226,7 +226,6 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
         
         return compareResult(
         	master,result,
-   			true,          //Exact Match
    			ignorePattern,ignoreName,  //Replacement
    			delimiterPattern);  // used to split
 		

@@ -43,9 +43,6 @@ public class LoggerConf {
 		this.openLogFile = openLogFile;
 	}
 
-	public int getBatchRunfilterLevel() {
-		return batchRunfilterLevel;
-	}
 
 	public void setLogDirForPublic(String logDirForPublic) {
 		this.logDirForPublic = FileUtil.getAbsDir(logDirForPublic);
@@ -76,8 +73,10 @@ public class LoggerConf {
 	}
 
 	public void setFilterLevel(int filterLevel) {
-		if (!doneTest)
+		if (!doneTest){
 			this.filterLevel = filterLevel;
+		    batchRunfilterLevel = this.filterLevel; // this filter will be removed from this conf later - Steven
+		}
 		doneTest = true;
 	}
 }
