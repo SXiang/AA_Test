@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
 
 import com.acl.qa.taf.helper.TestDriverSuperHelper;
 import com.acl.qa.taf.helper.TestSuiteSuperHelper;
@@ -130,13 +131,52 @@ public class ACLQATestScript {
 
 	protected String dpString(String fieldName) {
 		String value = "";
+		int cellType = 0;
+		Cell thisCell;
 		int index = dph.indexOf(fieldName);
 
 		if (index < 0) {
 			return value;
 		}
+//		  CELL_TYPE_NUMERIC, 
+//		  CELL_TYPE_STRING, 
+//		  CELL_TYPE_FORMULA, 
+//		  CELL_TYPE_BLANK, 
+//		  CELL_TYPE_BOOLEAN, 
+//		  CELL_TYPE_ERROR
+
 		try {
-			value = dpw.getCell(index).getStringCellValue();
+			thisCell = dpw.getCell(index);
+			cellType = thisCell.getCellType();
+			
+			switch(cellType){
+			   case Cell.CELL_TYPE_NUMERIC:
+				   double thisDouble = thisCell.getNumericCellValue();
+				   if(thisDouble == (int) thisDouble){
+					   value = String.format("%d", (int)thisDouble);
+				   }else{
+					   value = String.format("%s", thisDouble);
+				   }
+				   break;
+			   
+			   case Cell.CELL_TYPE_STRING:
+				   value = thisCell.getStringCellValue();
+				   break;
+			   case Cell.CELL_TYPE_BOOLEAN:
+				   value = thisCell.getBooleanCellValue()+"";
+				   break;
+			   case Cell.CELL_TYPE_FORMULA:
+				   value = thisCell.getCellFormula();
+				   break;
+			   case Cell.CELL_TYPE_BLANK:
+				   value = "";
+				   break;
+			   case Cell.CELL_TYPE_ERROR:
+				   value = "";
+				   break;
+			   default:value = thisCell.getDateCellValue().toString();
+			           break;
+			}
 		} catch (Exception e) {
 
 		}
