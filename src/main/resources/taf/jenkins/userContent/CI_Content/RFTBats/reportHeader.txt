@@ -1,0 +1,26 @@
+﻿<html>
+<head>
+<meta name="Steven X" content="text/html;charset=UTF-8">
+<title>ACLQA - Jenkins Automation Test</title>
+<style type="text/css">
+table.bottomBorder { border-collapse:collapse; }
+table.bottomBorder td, table.bottomBorder th { border-bottom:1px dotted black;padding:5px; }
+</style>
+</head>
+<body style="font-family:sans-serif">
+<br />
+<h3><a href="http://biollante02:8080/view/Test/">ACLQA - Jenkins Automation Test</a></h3>
+<br /><hr />
+<table class="bottomBorder">
+	<tbody>
+	<tr style="color:#000080; background-color:#B0C4DE">
+	    <td><b>OSType</b></td>
+		<td><b>Language</b></td>
+		<td><b>Charset</b></td>
+		<td><b>TableType</b></td>
+		<td><b>TestLink</b></td>
+		<td><b>TestType</b></td>
+		<td><b>TestSuite</b></td>
+		<td><b>TestSummary</b></td>
+		<td><b>Status</b></td>
+	</tr>

@@ -1,0 +1,31 @@
+# Lines that begin with #, like this one, are ignored.
+/*.*
+!/*.bat
+.*
+!.gitignore
+!testdata/.gitignore
+#!.project
+#!.classpath
+!pom.xml
+*.[oa]
+*~
+#*.class
+*.html
+*.htm
+*.jar
+*.zip
+*.dmp
+# Floder and Files
+null/
+target/
+deployment/
+.gitmodules
+submodule_taf
+/output/
+/bin/
+/garbage
+*.xls
+!*Example.xls
+*.xlsx
+!*Example.xlsx
+*.bak[0-9]*

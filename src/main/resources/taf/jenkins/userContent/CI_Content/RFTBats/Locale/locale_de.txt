@@ -1,0 +1,3 @@
+[RegionalSettings]
+Language=0407
+SystemLocale=0407

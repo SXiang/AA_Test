@@ -1,0 +1,16 @@
+﻿</tbody></table>
+<div style="font-size:12px; color: #B0C4DE">
+ <ul>
+  <li>If Status is '*Pass' in YELLOW, it passed with warnning(s), possibly net/server/console connection problem(s), or automation/translation issue(s)</li>
+</ul>
+<h5>*Follows are not included in L10N tests:</h5>
+<ol>
+  <li>ACL Scripts including Oldbats, localized scripts for these languages are not ready for testing.</li>
+  <li>Recorded scripts, including DDW tests for 'PDF', 'Print Image', 'SAP' and 'XBRL'.</li>
+  <li>Data verification is disabled for L10N testing, master files must be manually validated for these languanges before we enable it.</li>
+</ol>
+</div>
+<hr />
+
+</body>
+</html>
