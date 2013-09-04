@@ -31,8 +31,15 @@ public class EmailConf {
 	public String password = "Password00";
 	public String ipPort = "25";
 	public String ssl = "1";
+	public boolean emailReport;
 	
 	
+	
+	public void setEmailReport(boolean emailReport) {
+		this.emailReport = emailReport;
+	}
+
+
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}

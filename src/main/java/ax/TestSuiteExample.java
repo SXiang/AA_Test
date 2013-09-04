@@ -1,9 +1,9 @@
 package ax;
 import com.acl.qa.taf.helper.Interface.TestSuiteInterface;
 
-import ax.lib.TestSuiteHelper;
+import ax.lib.restapi.TestSuiteExampleHelper;
 
-public class TestSuiteExample extends TestSuiteHelper implements TestSuiteInterface {
+public class TestSuiteExample extends TestSuiteExampleHelper implements TestSuiteInterface {
 
 	/**
 	 * Script Name   : <b>TestSuiteExample</b>
@@ -26,7 +26,7 @@ public class TestSuiteExample extends TestSuiteHelper implements TestSuiteInterf
 		//testCategory = "Daily";
 		//startFromLine = 37; // 4-9
 		//endAtLine =2;     //
-		
+		//logTAFInfo(System.getProperty("user.dir"));
     	String poolFile = "testdata/ax/TestSuiteExample.xls";
 		exeBatchRun(onInitialize(poolFile, getClass().getName()));
 	}
