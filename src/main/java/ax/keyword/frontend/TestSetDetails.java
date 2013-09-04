@@ -1,9 +1,9 @@
 package ax.keyword.frontend;
 
-import ax.lib.BrowserTaskHelper;
+import ax.lib.frontend.LoginHelper;
 import pageObjects.TestSetDetailsPage;
 
-public class TestSetDetails  extends BrowserTaskHelper{
+public class TestSetDetails  extends LoginHelper{
 	
 	private static TestSetDetailsPage objTestSetDetailPage = null;
 	

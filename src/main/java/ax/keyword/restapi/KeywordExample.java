@@ -31,12 +31,7 @@ public class KeywordExample extends KeywordExampleHelper implements
 
 	// Comments in section 'BEGIN' TO 'END' are used for generating keyword docs
 	// BEGIN of datapool variables declaration
-	protected String dpWebDriver; // @arg Selenium webdriver type
-	// @value = HtmlUnit|Firefox|...
 
-	protected String dpUserName; // @arg username for login
-	protected String dpPassword; // @arg password for login
-	protected String dpEndWith; // @arg actions after test
 	// @value = logout|quit|kill, or empty
 	protected String dpURL; // @arg the url to be tested
 	protected String dpScope; // @arg scope of the project

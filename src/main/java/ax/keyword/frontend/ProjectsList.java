@@ -1,9 +1,9 @@
 package ax.keyword.frontend;
 
 import pageObjects.ProjectsListPage;
-import ax.lib.BrowserTaskHelper;
+import ax.lib.frontend.LoginHelper;
 
-public class ProjectsList extends BrowserTaskHelper{
+public class ProjectsList extends LoginHelper{
 	
 	/**
 	 * Script Name   : <b>ProjectsList</b>
