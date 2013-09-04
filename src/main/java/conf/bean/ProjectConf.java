@@ -348,7 +348,7 @@ public class ProjectConf {
 			actualDir += uniFolder;
 		}
 		
-		if(!(appLocale.equalsIgnoreCase("")&&appLocale.equalsIgnoreCase("En"))){
+		if(!(appLocale.equalsIgnoreCase("")||appLocale.equalsIgnoreCase("En"))){
 			superMDir += appLocale.toLowerCase()+"/";
 			expectedDir += appLocale.toLowerCase()+"/";
 			actualDir += appLocale.toLowerCase()+"/";
