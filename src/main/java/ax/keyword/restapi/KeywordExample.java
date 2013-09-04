@@ -31,8 +31,7 @@ public class KeywordExample extends KeywordExampleHelper implements
 
 	// Comments in section 'BEGIN' TO 'END' are used for generating keyword docs
 	// BEGIN of datapool variables declaration
-
-	// @value = logout|quit|kill, or empty
+	
 	protected String dpURL; // @arg the url to be tested
 	protected String dpScope; // @arg scope of the project
 								// @value = working|library, or empty
