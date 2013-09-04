@@ -10,12 +10,14 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
 
 import com.acl.qa.taf.helper.TestDriverSuperHelper;
 import com.acl.qa.taf.helper.TestSuiteSuperHelper;
@@ -128,18 +130,116 @@ public class ACLQATestScript {
 		return obj;
 	}
 
+	protected Boolean getDpBoolean(String fieldName){
+		Boolean value = false;
+		int index = dph.indexOf(fieldName);
+        Cell thisCell;
+		if (index < 0) {
+			return value;
+		}
+
+		try {
+			thisCell = dpw.getCell(index);
+			value = thisCell.getBooleanCellValue();
+		}catch(Exception e){
+			
+		}
+		if(value==null)
+			value = false;
+		return value;
+	}
+	
+	protected double getDpDouble(String fieldName){
+		double value = 0.0;
+		int index = dph.indexOf(fieldName);
+        Cell thisCell;
+		if (index < 0) {
+			return value;
+		}
+
+		try {
+			thisCell = dpw.getCell(index);
+			value = thisCell.getNumericCellValue();
+		}catch(Exception e){
+			
+		}
+		return value;
+	}
+	protected int dpInteger(String fieldName){
+	   return (int)getDpDouble(fieldName);
+	}
+	
+	protected Date getDpDate(String fieldName){
+		Date value = new Date();
+		int index = dph.indexOf(fieldName);
+        Cell thisCell;
+		if (index < 0) {
+			return value;
+		}
+
+		try {
+			thisCell = dpw.getCell(index);
+			value = thisCell.getDateCellValue();
+		}catch(Exception e){
+			
+		}
+		if(value==null)
+			value = new Date();
+		return value;
+	}
 	protected String dpString(String fieldName) {
 		String value = "";
+		int cellType = 0;
+		Cell thisCell;
 		int index = dph.indexOf(fieldName);
 
 		if (index < 0) {
 			return value;
 		}
+//		  CELL_TYPE_NUMERIC, 
+//		  CELL_TYPE_STRING, 
+//		  CELL_TYPE_FORMULA, 
+//		  CELL_TYPE_BLANK, 
+//		  CELL_TYPE_BOOLEAN, 
+//		  CELL_TYPE_ERROR
+
 		try {
-			value = dpw.getCell(index).getStringCellValue();
+			thisCell = dpw.getCell(index);
+			cellType = thisCell.getCellType();
+			
+			switch(cellType){
+			   case Cell.CELL_TYPE_NUMERIC:
+				   double thisDouble = thisCell.getNumericCellValue();
+				   if(thisDouble == (int) thisDouble){
+					   value = String.format("%d", (int)thisDouble);
+				   }else{
+					   value = String.format("%s", thisDouble);
+				   }
+				   break;
+			   
+			   case Cell.CELL_TYPE_STRING:
+				   value = thisCell.getStringCellValue();
+				   break;
+			   case Cell.CELL_TYPE_BOOLEAN:
+				   value = thisCell.getBooleanCellValue()+"";
+				   break;
+			   case Cell.CELL_TYPE_FORMULA:
+				   value = thisCell.getCellFormula();
+				   break;
+			   case Cell.CELL_TYPE_BLANK:
+				   value = "";
+				   break;
+			   case Cell.CELL_TYPE_ERROR:
+				   value = "";
+				   break;
+			   default:value = thisCell.getDateCellValue().toString();
+			           break;
+			}
 		} catch (Exception e) {
 
 		}
+		if(value==null)
+			value = "";
 		return value;
 
 	}
