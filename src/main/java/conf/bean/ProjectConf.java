@@ -386,12 +386,12 @@ public class ProjectConf {
 		String cacheConfig = localizationDir + "cache4j_config.xml";
 
 		try {
-			CacheFactory сacheFactory = CacheFactory.getInstance();
+			CacheFactory cacheFactory = CacheFactory.getInstance();
 			InputStream in = new FileInputStream(cacheConfig);
-			сacheFactory.loadConfig(in);
-			LoggerHelper.cache_l10n = сacheFactory.getCache("cache_l10n");
+			cacheFactory.loadConfig(in);
+			LoggerHelper.cache_l10n = cacheFactory.getCache("cache_l10n");
 			LoggerHelper.cache_l10n.clear();
-			LoggerHelper.cache_en = сacheFactory.getCache("cache_en");
+			LoggerHelper.cache_en = cacheFactory.getCache("cache_en");
 			LoggerHelper.cache_en.clear();
 			// LoggerHelper.logTAFWarning(LoggerHelper.cache_l10n.getCacheInfo().toString());
 			// LoggerHelper.logTAFWarning(LoggerHelper.cache_en.getCacheInfo().toString());
@@ -439,6 +439,20 @@ public class ProjectConf {
 		}
 	}
 	
-	// ************ Not used, will be moved later - steven
-	public String serverName = "";
+	// Configurations for RestAPI 
+	public String serverName = "win2012-3.aclqa.local",
+	              port = "8443",
+	              apiPrefix = "/aclax/api/";
+	
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
+	}
+	
+	public void setPort(String port) {
+		this.port = port;
+	}
+
+	public void setApiPrefix(String apiPrefix) {
+		this.apiPrefix = apiPrefix;
+	}
 }

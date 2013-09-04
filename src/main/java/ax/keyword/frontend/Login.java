@@ -1,67 +1,66 @@
 package ax.keyword.frontend;
 
-import pageObjects.LoginPage;
-import ax.lib.BrowserTaskHelper;
-import ax.lib.ReadProperties;
+import ax.lib.frontend.LoginHelper;
 
-public class Login extends BrowserTaskHelper{
+public class Login extends LoginHelper{
 	/**
 	 * Script Name   : <b>Login</b>
-	 * Generated     : <b>Aug 13, 2013</b>
+	 * Generated     : <b>Sep 4, 2013</b>
 	 * Description   : Login keyword
 	 * 
 	 * @author Ramneet Kaur
 	 */
-
-	private static LoginPage objLoginPage = null;
 	
-	//*********************** Shared Variables to be set in conf *******************
-	private static String server = ReadProperties.getServer();
-	private static String port = ReadProperties.getPort();
-	private static String browserType = ReadProperties.getBrowserType();
-	private static String casType = ReadProperties.getCasType();
-	//end		
-
-	public static void testLogin(){
-		if(objLoginPage == null){
-			prepPage();
-		}
-		if(!"SSO".equalsIgnoreCase(casType)){
-			objLoginPage.login();
-		}else{
-			objLoginPage.loginSSO();
-		}
+	// *************** Part 1 *******************
+	// ******* Declaration of variables **********
+	// *******************************************
+	// BEGIN of datapool variables declaration
+	protected String dpCasType; //@arg SSO or nonSSO
+	                            // @value = SSO|nonSSO
+	protected String dpUserName; //@arg username for login
+	protected String dpPassword; //@arg password for login
+	// END of datapool variables declaration
+	
+	@Override
+	public boolean dataInitialization() {
+		super.dataInitialization();
+		// BEGIN read datapool
+		dpCasType = getDpString("CasType");
+		dpUserName = getDpString("UserName");
+		dpPassword = getDpString("Password");
+		//END
+		return true;
+	}	
+	
+	// *************** Part 2 *******************
+	// *********** Test logic ********************
+	// *******************************************
+	
+	@Override
+	public void testMain(Object[] args) {
+		super.testMain(onInitialize(args, getClass().getName()));
+		login();
+		cleanUp();
+	
+		// *** cleanup by framework ***
+		onTerminate();
 	}
 	
-	public static void allElementsPresent(){
-		if(objLoginPage == null){
-			prepPage();
-		}
-		if(!objLoginPage.isUsernamePresent()){
-			System.out.println("Username textBox NOT present!!!");
-		}else{
-			System.out.println("Username textBox present!!!");
-		}
-		if(!objLoginPage.isPasswordPresent()){
-			System.out.println("Password textBox NOT present!!!");
-		}else{
-			System.out.println("Password textBox present!!!");
-		}
-		if(!objLoginPage.isLoginBtnPresent()){
-			System.out.println("Login Button NOT present!!!");
-		}else{
-			System.out.println("Login Button present!!!");
-		}
+	// *************** Part 3 *******************
+	// *** Implementation of test functions ******
+	// *******************************************
+	
+	public void login(){
+		launchBrowser();
+		login(dpUserName,dpPassword,dpCasType);
 	}
 	
-	private static LoginPage prepPage(){
-		BrowserTaskHelper.launchBrowser(browserType);
-		objLoginPage = new LoginPage(driver);
-		String url = "https://"+server+":"+port+"/aclax";
-		driver.get(url);
-		if(driver.getTitle().startsWith("Certificate Error")){
-			objLoginPage.passCertWarning();
-		}
-		return objLoginPage;
+	// *************** Optional ******************
+	// ******* main method for quick debugging ***
+	// *******************************************
+	
+	public static void main(String args) {
+		//Login debug = new Login();
+		//debug.login();
 	}
 }

@@ -3,7 +3,7 @@ package pageObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import ax.lib.ReadDatapool;
+import ax.lib.frontend.ReadDatapool;
 
 public class LoginPage{
 	
@@ -25,11 +25,6 @@ public class LoginPage{
     static By passwordLocator = By.id("password");
     static By loginButtonLocator = By.name("submit");
 	//end
-	
-	// BEGIN of datapool variables declaration   
-	private static String dpUsername = ReadDatapool.getDpUsername();	
-	private static String dpPassword = ReadDatapool.getDpPassword();	
-	 // END of datapool variables declaration	
 	
 	public LoginPage(WebDriver driver) {
         this.driver = driver;

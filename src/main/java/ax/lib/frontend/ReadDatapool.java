@@ -1,14 +1,15 @@
-package ax.lib;
+package ax.lib.frontend;
 
 public class ReadDatapool {
 
 	private static String dpUsername = "g1_admin";	
 	private static String dpPassword = "Password00";
 	private static String dpProjectName = "123456";
-	private static String dpTestSetName = "æÆôöòûùÿÖÜáíóúñÑº¿°";
-	private static String dpTestName = "Metaphor_Employee_Data.ACL";
+	private static String dpTestSetName = "Ã¦Ã†Ã´Ã¶Ã²Ã»Ã¹Ã¿Ã–ÃœÃ¡Ã­Ã³ÃºÃ±Ã‘ÂºÂ¿Â°";
+	private static String dpTestName = "Analytic_1234NU v9.ACL";
 	private static String[] dpSearchItems = {"123","with"};
-	
+	private static String dpAnalyticName = "An11_2";
+	private static int dpJobNumber = 2;
 	
 	public static String getDpUsername() {
 		return dpUsername;
@@ -36,6 +37,12 @@ public class ReadDatapool {
 	}
 	public static String[] getDpSearchItems() {
 		return dpSearchItems;
+	}
+	public static String getDpAnalyticName() {
+		return dpAnalyticName;
+	}
+	public static int getDpJobNumber() {
+		return dpJobNumber;
 	}
 	
 }
