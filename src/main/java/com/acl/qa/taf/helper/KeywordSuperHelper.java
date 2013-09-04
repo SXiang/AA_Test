@@ -185,9 +185,9 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 			fdName = "";
 		
 	
-		String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
+		
 		String subFilename = "";//filename+"_Line_"+(currentTestLine);
-		dpSuperMasterFile = projectConf.testDataDir+fdName+superMDir+subFilename;
+		dpSuperMasterFile = projectConf.testDataDir+fdName+projectConf.superMDir+subFilename;
 logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
 		//        if(location.equalsIgnoreCase("Server")){
 //        	localName = projectConf.tempServerNetDir+fdName+expectedDir+subFilename;
@@ -200,8 +200,8 @@ logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
         
         
         //localName = FileUtil.getFullNameWithExt(localName,defaultFileExt);
-        tempActualFile = loggerConf.logRoot+fdName+actualDir+subFilename;
-    	tempMasterFile = loggerConf.logRoot+fdName+expectedDir+subFilename;
+        tempActualFile = loggerConf.logRoot+fdName+projectConf.actualDir+subFilename;
+    	tempMasterFile = loggerConf.logRoot+fdName+projectConf.expectedDir+subFilename;
 
     	logTAFDebug("DelFile is '"+delFile+"'");
     	FileUtil.mkDirs(tempMasterFile);
