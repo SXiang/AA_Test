@@ -52,7 +52,7 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 		dpPassword = getDpString("Password");
 		dpWebDriver = getDpString("WebDriver");
 		dpEndWith = getDpString("EndWith");
-
+		String dpNumber = getDpString("Number");
 		return true;
 	}
 
