@@ -127,8 +127,8 @@
                        <systemProperty><key>${sysPropPrefix}emailReport</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}subject</key><value>Automation Test Report(Demo_Example) - AX5</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}toAddress</key><value>Steven_Xiang@acl.com</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}ccAddress</key><value>ramneet_kaur@ACL.com</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}bccAddress</key><value>Karen_Zou@acl.com</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}ccAddress</key><value></value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}bccAddress</key><value></value></systemProperty>
                        
                        <systemProperty><key>${sysPropPrefix}dbtype</key><value>Oracle</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}serverip</key><value>192.168.10.70</value></systemProperty>

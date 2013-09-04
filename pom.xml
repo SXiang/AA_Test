@@ -110,7 +110,7 @@
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <phase>validate</phase>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
