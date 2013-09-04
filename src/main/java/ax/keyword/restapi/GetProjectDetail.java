@@ -9,7 +9,7 @@ import com.acl.qa.taf.util.UTF8Control;
 import ax.lib.restapi.RestapiHelper;
 import ax.lib.restapi.db.SQLConf;
 
-public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
+public class GetProjectDetail extends RestapiHelper implements KeywordInterface {
 	/**
 	 * Script Name   : <b>GetProjectList</b>
 	 * Generated     : <b>Aug. 19, 2013 4:20:42 PM</b>
@@ -20,9 +20,18 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 	 */
 
 	// BEGIN of datapool variables declaration
+	protected String dpWebDriver; 		//@arg Selenium webdriver type
+											//@value = HtmlUnit|Firefox|...
+
+	protected String dpUserName;    	//@arg username for login
+	protected String dpPassword;   	 	//@arg password for login
+	protected String dpEndWith;     	//@arg actions after test
+										//@value = logout|close|quit|kill, or empty
+
 	protected String dpScope;          	//@arg value for Scope
                                     	//@value = working/library/""
 	protected String dpProjectName;   	//@arg value for Project Name
+	protected String dpMasterFile;      //@arg value for master file
 
 	// END of datapool variables declaration
 	private String url = "";
@@ -35,10 +44,11 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
+		dpMasterFile = getDpString("MasterFile");
 		
 		uuid = queryProjectID(dpScope,dpProjectName);
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix+"projects/"+uuid+"/testsets";
+			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects/"+uuid;
 		else System.out.println("Error:" + "Can not find the uuid for the specific project");
 
 		return true;
@@ -85,8 +95,8 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 		if(casAuthenticated){
 			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
 			// compare Json Result - exact master and actual files are handled by framework.
-		    logTAFStep("File verification - "+dpMasterFiles[0]);
-		    compareJsonResult(actualResult,dpMasterFiles[0]);
+		    logTAFStep("File verification - "+dpMasterFile);
+		    compareJsonResult(actualResult,dpMasterFile);
 		}else{							
 			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
 		}
@@ -97,7 +107,6 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
     	String id = "";
     	String sql = SQLConf.getProjectID(scope, projectname);
     	
-    	System.out.println("sql:"+sql);
     	ResultSet rs = queryDB(sql);
     	try {
     		rs.next();
