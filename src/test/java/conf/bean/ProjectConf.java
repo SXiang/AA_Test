@@ -240,7 +240,7 @@ public class ProjectConf {
             tempCsvResult = tempLocalDir+"automationTempResult.csv",
 			buildInfo = "",
 			testProject = "",
-			testerName = "Steven_Xiang",
+			testerName = "Automation Demo Tester",
 			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
 
 	public String AUT="", appLocale = "", startComm, imageName;
