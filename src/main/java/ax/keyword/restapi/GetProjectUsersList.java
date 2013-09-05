@@ -6,13 +6,13 @@ import com.acl.qa.taf.util.UTF8Control;
 
 import ax.lib.restapi.RestapiHelper;
 
-public class GetProjectDetail extends RestapiHelper implements KeywordInterface {
+public class GetProjectUsersList extends RestapiHelper implements KeywordInterface {
 	/**
 	 * Script Name   : <b>GetProjectList</b>
 	 * Generated     : <b>Aug. 19, 2013 4:20:42 PM</b>
 	 * Description   : Functional Test Script
 	 * 
-	 * @since  2013/08/19
+	 * @since  2013/09/04
 	 * @author Karen_Zou
 	 */
 
@@ -35,7 +35,7 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 		
 		uuid = queryProjectID(dpScope,dpProjectName);
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects/"+uuid;
+			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects/"+uuid+"/users";
 		else System.out.println("Error:" + "Can not find the uuid for the specific project");
 
 		return true;

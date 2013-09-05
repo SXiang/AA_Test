@@ -6,13 +6,13 @@ import com.acl.qa.taf.util.UTF8Control;
 
 import ax.lib.restapi.RestapiHelper;
 
-public class GetProjectDetail extends RestapiHelper implements KeywordInterface {
+public class GetTestSetDetail extends RestapiHelper implements KeywordInterface {
 	/**
 	 * Script Name   : <b>GetProjectList</b>
 	 * Generated     : <b>Aug. 19, 2013 4:20:42 PM</b>
 	 * Description   : Functional Test Script
 	 * 
-	 * @since  2013/08/19
+	 * @since  2013/09/05
 	 * @author Karen_Zou
 	 */
 
@@ -20,6 +20,7 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 	protected String dpScope;          	//@arg value for Scope
                                     	//@value = working/library/""
 	protected String dpProjectName;   	//@arg value for Project Name
+	protected String dpTestSetName;   	//@arg value for Test Set Name
 
 	// END of datapool variables declaration
 	private String url = "";
@@ -32,11 +33,12 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
+		dpTestSetName = getDpString("TestSetName");
 		
-		uuid = queryProjectID(dpScope,dpProjectName);
+		uuid = queryTestSetID(dpScope,dpProjectName,dpTestSetName);
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects/"+uuid;
-		else System.out.println("Error:" + "Can not find the uuid for the specific project");
+			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix+"testsets/"+uuid+"/tests";
+		else System.out.println("Error:" + "Can not find the uuid for the specific test set");
 
 		return true;
 	}
@@ -89,5 +91,5 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 		}
 	
 	}
-    
+  
 }

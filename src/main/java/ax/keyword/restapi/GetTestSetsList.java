@@ -1,13 +1,10 @@
 package ax.keyword.restapi;
 
-import java.sql.*;
-
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
 
 import ax.lib.restapi.RestapiHelper;
-import ax.lib.restapi.db.SQLConf;
 
 public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 	/**
@@ -92,21 +89,5 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 		}
 	
 	}
-
-    public String queryProjectID(String scope, String projectname){
-    	String id = "";
-    	String sql = SQLConf.getProjectID(scope, projectname);
-    	
-    	System.out.println("sql:"+sql);
-    	ResultSet rs = queryDB(sql);
-    	try {
-    		rs.next();
-    		id = rs.getString("id");
-    	} catch (SQLException e) {
-			logTAFError("Cannot find the project uuid for specified project - Please check your data. "+e.toString());
-    	}
-    	 
-	    return id;
-   }
-    
+  
 }
