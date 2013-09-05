@@ -71,9 +71,11 @@ public class LoginHelper extends KeywordSuperHelper{
 		dpWebDriver = getDpString("WebDriver");
 		dpDriverPath = getDpString("DriverPath");
 		dpNodeName = getDpString("NodeName");
+		//dpNodePort = "5555"; 
 		dpNodePort = getDpString("NodePort");
 		dpExecutionType = getDpString("ExecutionType");
 		dpAXServerName = getDpString("AXServerName");
+		//dpAXServerPort = "8443";
 		dpAXServerPort = getDpString("AXServerPort");
 		dpEndWith = getDpString("EndWith");
 		return true;
@@ -172,6 +174,7 @@ public class LoginHelper extends KeywordSuperHelper{
 			driver.findElement(usernameLocator).sendKeys(username);
 	        driver.findElement(passwordLocator).click();
 	        driver.findElement(passwordLocator).sendKeys(password);
+	        driver.findElement(loginButtonLocator).click();
 		}
 		isUserLoggedIn();
     }
@@ -184,31 +187,20 @@ public class LoginHelper extends KeywordSuperHelper{
 		boolean done = false;
 		try{
 			done = driver.findElement(locator).isEnabled();
+			logTAFStep("Successfully found '"+locator+"'");
 		}catch(Exception e){
 			logTAFError("Failed to find '"+locator+"' !!!");
 		}
-		logTAFStep("Successfully found '"+locator+"'");
         return done;
     }
 	
 	public boolean isUserLoggedIn() {
-		String actualMsg = "";
+		sleep(3);
+		boolean done = false;
 		if(!driver.getTitle().contentEquals("ACL Analytics Exchange")){
-			try{
-				actualMsg = driver.findElement(loginErrorMsgLocator).getText();
-			}catch(Exception e){
-				if(dpExpectedErr.isEmpty())
-				logTAFError("Failed to Login Successfully. Error message received - '"+actualMsg+"'");
-				else if(dpExpectedErr.equalsIgnoreCase(actualMsg)){
-					logTAFInfo("Expected and Actual Error message match successfully: "+actualMsg);
-				}else{
-					logTAFWarning("Expected and Actual Error messages are different. /nExpected Message = "+dpExpectedErr+"/nActual Message = "+actualMsg);
-				}
-			}
-			logTAFError("Incorrect web page title wth no error messages");
-			return false;
+			logTAFError(dpExpectedErr);
 		}
-        return true;   
+        return done;   
     }
 	
 	//***************  Part 5  *******************
