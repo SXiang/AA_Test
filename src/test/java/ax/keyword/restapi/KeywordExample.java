@@ -20,7 +20,6 @@ import com.acl.qa.taf.util.UTF8Control;
  */
 public class KeywordExample extends KeywordExampleHelper implements
 		KeywordInterface {
-
 	/**
 	 * @param args
 	 */

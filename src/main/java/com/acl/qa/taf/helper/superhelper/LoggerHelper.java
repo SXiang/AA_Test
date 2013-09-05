@@ -180,7 +180,7 @@ public class LoggerHelper extends ACLQATestScript {
 			if (note.contains(expectedErr)) {
 				logTAFInfo("Expected err Matched - '" + _note + "'");
 			} else {
-				logTAFWarning("Actual err - '" + _note + "', Expected err - '"
+				logTAFWarning("Actual err - '" + _note + "'"+logLF+"Expected err - '"
 						+ expectedErr + "'");
 			}
 			errorHandledInLine = true;

@@ -165,7 +165,7 @@ public class ACLQATestScript {
 		}
 		return value;
 	}
-	protected int dpInteger(String fieldName){
+	protected int getDpInteger(String fieldName){
 	   return (int)getDpDouble(fieldName);
 	}
 	
