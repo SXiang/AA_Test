@@ -19,9 +19,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.gargoylesoftware.htmlunit.*;
 
-
-
-
 public class RestAPITest  {
     public static void main(String[] args) {
         RestAPITest rait = new RestAPITest();

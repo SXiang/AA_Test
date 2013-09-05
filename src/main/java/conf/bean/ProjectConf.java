@@ -439,6 +439,20 @@ public class ProjectConf {
 		}
 	}
 	
-	// ************ Not used, will be moved later - steven
-	public String serverName = "";
+	// Configurations for RestAPI 
+	public String serverName = "win2012-3.aclqa.local",
+	              port = "8443",
+	              apiPrefix = "/aclax/api/";
+	
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
+	}
+	
+	public void setPort(String port) {
+		this.port = port;
+	}
+
+	public void setApiPrefix(String apiPrefix) {
+		this.apiPrefix = apiPrefix;
+	}
 }

@@ -10,35 +10,27 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
-import ax.lib.restapi.TestDriverExampleHelper;
-import ax.lib.restapi.TestSuiteExampleHelper;
-
 import com.acl.qa.taf.helper.KeywordSuperHelper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.thoughtworks.selenium.DefaultSelenium;
 
-public class KeywordExampleHelper extends KeywordSuperHelper {
-
+public class RestapiHelper extends KeywordSuperHelper {
+	
 	//***************  Part 1  *******************
 	// ******* Declaration of shared variables ***
 	// *******************************************
 	// BEGIN of datapool variables declaration
-	protected String dpExpectedErr; //@arg error message for negative test
-	protected String dpKnownBugs; //@arg infomation for known bugs (won't be
-									//fixed in this relase)
 	protected String dpWebDriver; //@arg Selenium webdriver type
 									//@value = HtmlUnit|Firefox|...
 
-	protected String dpUserName; //@arg username for login
-	protected String dpPassword; //@arg password for login
-	protected String dpEndWith; //@arg actions after test
-								//@value = logout|quit|kill, or empty
+	protected String dpUserName;  //@arg username for login
+	protected String dpPassword;  //@arg password for login
+	protected String dpEndWith;   //@arg actions after test
+								  //@value = logout|quit|kill, or empty
 	// END of datapool variables declaration
 
 	protected WebDriver driver;
 	protected boolean casAuthenticated;
 
-	
 	//***************  Part 2  *******************
 	// ******* Methods on initialization *********
 	// *******************************************
@@ -52,7 +44,7 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 		dpPassword = getDpString("Password");
 		dpWebDriver = getDpString("WebDriver");
 		dpEndWith = getDpString("EndWith");
-		String dpNumber = getDpString("Number");
+
 		return true;
 	}
 
@@ -64,22 +56,19 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 		activateBrowser();
 	}
 	
-
 	public void activateBrowser() {
 		if (dpWebDriver.equals("")) {
 
 		} else {
 			setupNewDriver(dpWebDriver);
-
 		}
-
 	}
 	
 	public void setupNewDriver(String Browser) {
         String imageName = "";
 		logTAFStep("Start a new browser for testing - " + Browser);
 		if (Browser.equalsIgnoreCase("HtmlUnit")) {
-			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+			driver = setupHtmlUnitDriver();
 			imageName = "";
 		} else if (Browser.equalsIgnoreCase("FireFox")) {
 			driver = new FirefoxDriver();
@@ -91,7 +80,7 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 			driver = new InternetExplorerDriver();
 			imageName = "iexploere.exe";
 		} else {
-			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+			driver = setupHtmlUnitDriver();
 			imageName = "";
 		}
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -102,6 +91,18 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 
 	}
 
+	public WebDriver setupHtmlUnitDriver() {
+		int versionNumber = 9; 
+		return (new HtmlUnitDriver(initIEBrowser(versionNumber)));
+	}
+
+	private BrowserVersion initIEBrowser(int versionNumber) {
+	      String applicationName = "Microsoft Internet Explorer";
+	      String applicationVersion = "5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E; InfoPath.3)";
+	      String userAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E; InfoPath.3)";
+
+	      return (new BrowserVersion(applicationName,applicationVersion,userAgent,versionNumber));
+ 	}
 
 
 	//***************  Part 3  *******************
@@ -226,6 +227,7 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
         
         return compareResult(
         	master,result,
+   			true,          //Exact Match
    			ignorePattern,ignoreName,  //Replacement
    			delimiterPattern);  // used to split
 		
@@ -312,5 +314,6 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 			((TestDriverExampleHelper) caseObj).casAuthenticated = casAuthenticated;
 		}
 	}
+
 
 }
