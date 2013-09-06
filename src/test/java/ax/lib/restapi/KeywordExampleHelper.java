@@ -1,14 +1,18 @@
 package ax.lib.restapi;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import ax.lib.restapi.TestDriverExampleHelper;
 import ax.lib.restapi.TestSuiteExampleHelper;
@@ -37,7 +41,8 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 
 	protected WebDriver driver;
 	protected boolean casAuthenticated;
-
+    protected ChromeDriverService driverService;
+    //protected InternetExplorerDriverService ieDriverService;
 	
 	//***************  Part 2  *******************
 	// ******* Methods on initialization *********
@@ -76,6 +81,7 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 	}
 	
 	public void setupNewDriver(String Browser) {
+		//Browser = "Chrome";
         String imageName = "";
 		logTAFStep("Start a new browser for testing - " + Browser);
 		if (Browser.equalsIgnoreCase("HtmlUnit")) {
@@ -84,8 +90,9 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 		} else if (Browser.equalsIgnoreCase("FireFox")) {
 			driver = new FirefoxDriver();
 			imageName = "firefox.exe";
-		} else if (Browser.equalsIgnoreCase("Chrome")) {
-			driver = new ChromeDriver();
+		} else if (Browser.equalsIgnoreCase("Chrome")) { 
+			 System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
+			 driver = new ChromeDriver();
 			imageName = "chrome.exe";
 		} else if (Browser.equalsIgnoreCase("InternetExplorer")) {
 			driver = new InternetExplorerDriver();
@@ -312,5 +319,6 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 			((TestDriverExampleHelper) caseObj).casAuthenticated = casAuthenticated;
 		}
 	}
+
 
 }

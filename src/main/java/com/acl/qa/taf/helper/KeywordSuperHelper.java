@@ -280,16 +280,21 @@ logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
     Vector<Vector<String>> rsv;
     ResultSet rs;
     String[] dbType = {"Default","SQLServer","DB2","PostgreSQL","Oracle"};
-    String[] serverip = {"","192.168.10.70","192.168.10.70","192.168.10.68","192.168.10.70"};
+    String[] serverip = {"","192.168.10.70","192.168.10.70","192.168.10.75","192.168.10.70"};
     String[] port = {"","1433","50000","5432","1521"};
     String[] dbname = {"","Automation_ACLSE","auto","AclAuditExchangeDB","XE"};
     String[] userid = {"","Automation_ACLSE","Automation_ACLSE","AclAuditExchangeRole","Automation_ACLSE"};
     String[] passwd = {"","Password00","Password00","Password00","Password00"};
-    String[] tableName = {"Inventory","Payroll","Inventory","audititems","inventory"};
+    String[] tableName = {"audititems","Payroll","Inventory","audititems","inventory"};
     
     for(int i=0;i<dbType.length;i++){
     	logTAFInfo("\n\t*** Demo DB_DAO "+(i+1)+" - '"+dbType[i]+"' DB Access");
         if(dbType[i].equals("")||dbType[i].equals("Default")){
+        	if(dbConf.dbtype.equalsIgnoreCase("PostgreSQL")){
+        		tableName[i] = "audititems";
+        	}else{
+        		tableName[i] = "Inventory";
+        	}
         	logTAFInfo("\t^^ Use default("+dbConf.dbtype+") db connection specified in dbConf.properties");
         	logTAFInfo("\t2) Get/Form your SQL statement: String query = SQLQuery.getTableContentsQueryDemo(tableName);\n\t\t\t"+
         			(query = SQLQuery.getTableContentsQueryDemo(tableName[i])));

@@ -1,7 +1,5 @@
 package com.acl.qa.taf.util;
 
-import ibm.loggers.control.IPackageLoggerConstants;
-import ibm.loggers.control.PackageLoggingController;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,6 +20,7 @@ import java.util.Map;
 public class FileUtil extends ibm.util.FileOps {
 	
 	public static String encoding = "UTF-8";	
+	public static String UTF8_BOM = "\uFEFF";
 	public static Locale javalocale = Locale.getDefault();	
 	public static Locale locale = javalocale;
 	public static String userWorkingDir = System.getProperty("user.dir").replaceAll("\\\\","/");
@@ -317,8 +316,12 @@ public class FileUtil extends ibm.util.FileOps {
 				new BufferedReader(new InputStreamReader(fstream,encoding));
 			String line = "";
 			int numLines = 0;
-            
+            boolean firstLine = true;
 			while (((line = in.readLine()) != null)&&(numLines++<maxLines)) {
+				if(firstLine){
+					line = removeUTF8BOM(line,encoding);
+					firstLine = false;
+				}
 				if(addLineFeed){
 					//line = ObjectHelper.getPrintableText(line);
 					//line = line.replaceAll(controls, "");
@@ -344,6 +347,19 @@ public class FileUtil extends ibm.util.FileOps {
 			//PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#readFile: " + e.getMessage());           
 		}
 		return file;
+	}
+	
+	public static String removeUTF8BOM(String s){
+		return removeUTF8BOM(s,encoding);
+	}
+	
+	public static String removeUTF8BOM(String s,String encoding){
+		if(!encoding.equalsIgnoreCase("UTF-8"))
+			return s;
+		if(s.startsWith(UTF8_BOM)){
+			s = s.substring(1);
+		}
+		return s;
 	}
     public static boolean readable(String source){
     	boolean readable=false;
@@ -379,7 +395,8 @@ public class FileUtil extends ibm.util.FileOps {
 			in.read(c);
 			String fileContentsString = new String(c);
 			in.close();
-			return fileContentsString;
+			
+			return removeUTF8BOM(fileContentsString);
 		} catch (IOException e) {
 			//PackageLoggingController.logPackageError(IPackageLoggerConstants.PACKAGELOGLEVEL_ERRORS_ONLY, "Error in FileOps#getFileContents: " + e.getMessage());
 			return "";

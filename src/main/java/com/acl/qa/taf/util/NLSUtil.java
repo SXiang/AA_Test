@@ -72,13 +72,14 @@ public class NLSUtil {
         baseName = com.acl.qa.taf.helper.superhelper.ACLQATestScript.projectConf.localizationDir+ 
     			com.acl.qa.taf.helper.superhelper.ACLQATestScript.projectConf.l10nPropertiesPrefix;
     	enFile = NLSUtil.baseName+"_en.properties";
-//        System.out.println(enFile +" = NLSUtil.baseName+_en.properties" );
-//        System.out.println("LoggerHelper.localizationDir = '"+LoggerHelper.localizationDir+"'");
-//        System.out.println("Test Project = '"+LoggerHelper.projectName);
-//        baseName = com.acl.qa.taf.helper.superhelper.LoggerHelper.localizationDir+ 
-//    			com.acl.qa.taf.helper.superhelper.LoggerHelper.projectName;
-//        enFile = NLSUtil.baseName+"_en.properties";
-//        System.out.println(enFile +" = NLSUtil.baseName+_en.properties" );
+    	
+        System.out.println(enFile +" = NLSUtil.baseName+_en.properties" );
+        System.out.println("LoggerHelper.localizationDir = '"+LoggerHelper.localizationDir+"'");
+        System.out.println("Test Project = '"+LoggerHelper.projectName);
+        baseName = com.acl.qa.taf.helper.superhelper.LoggerHelper.localizationDir+ 
+    			com.acl.qa.taf.helper.superhelper.LoggerHelper.projectName;
+        enFile = NLSUtil.baseName+"_en.properties";
+        System.out.println(enFile +" = NLSUtil.baseName+_en.properties" );
 			resBundle = getUTF8Bundle(baseName,appLocale);
 			//resBundle = getUTF8Bundle(enFile,appLocale);
 		
