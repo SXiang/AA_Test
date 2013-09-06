@@ -6,7 +6,7 @@ import com.acl.qa.taf.util.UTF8Control;
 
 import ax.lib.restapi.RestapiHelper;
 
-public class GetProjectDetail extends RestapiHelper implements KeywordInterface {
+public class GetTestSetUsersList extends RestapiHelper implements KeywordInterface {
 	/**
 	 * Script Name   : <b>GetProjectList</b>
 	 * Generated     : <b>Aug. 19, 2013 4:20:42 PM</b>
@@ -17,26 +17,22 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 	 */
 
 	// BEGIN of datapool variables declaration
-	protected String dpScope;          	//@arg value for Scope
+	protected String dpScope;          //@arg value for Scope
                                     	//@value = working/library/""
-	protected String dpProjectName;   	//@arg value for Project Name
-
 	// END of datapool variables declaration
-	private String url = "";
-	private String uuid="";
-	
+    
+    private String url = "";
+    
 	@Override
 	public boolean dataInitialization() {
 		super.dataInitialization();
      
-		//*** read in data from datapool     
+		//*** read in data from datapool
 		dpScope = getDpString("Scope");
-		dpProjectName = getDpString("ProjectName");
-		
-		uuid = queryProjectID(dpScope,dpProjectName);
-		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects/"+uuid;
-		else System.out.println("Error:" + "Can not find the uuid for the specific project");
+
+		if ((dpScope != null) && (dpScope != ""))
+			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects?scope="+dpScope;
+		else url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects";
 
 		return true;
 	}
@@ -77,8 +73,9 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 	// *******************************************
 		
 	public void doVerification(){
-
+		
 		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
+		
 		if(casAuthenticated){
 			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
 			// compare Json Result - exact master and actual files are handled by framework.
@@ -87,7 +84,6 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 		}else{							
 			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
 		}
-	
 	}
-    
-}
+
+ }

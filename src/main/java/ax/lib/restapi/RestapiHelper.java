@@ -1,5 +1,7 @@
 package ax.lib.restapi;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -9,6 +11,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+
+import ax.lib.restapi.db.SQLConf;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -315,5 +319,34 @@ public class RestapiHelper extends KeywordSuperHelper {
 		}
 	}
 
+    public String queryProjectID(String scope, String projectname){
+    	String id = "";
+    	String sql = SQLConf.getProjectID(scope, projectname);
+    	
+    	ResultSet rs = queryDB(sql);
+    	try {
+    		rs.next();
+    		id = rs.getString("id");
+    	} catch (SQLException e) {
+			logTAFError("Cannot find the project uuid for specified project - Please check your data. "+e.toString());
+    	}
+    	 
+	    return id;
+    }
+
+    public String queryTestSetID(String scope, String projectname, String testsetname){
+    	String id = "";
+    	String sql = SQLConf.geTestSetID(scope, projectname, testsetname);
+    	
+    	ResultSet rs = queryDB(sql);
+    	try {
+    		rs.next();
+    		id = rs.getString("id");
+    	} catch (SQLException e) {
+			logTAFError("Cannot find the testset uuid for specified testset - Please check your data. "+e.toString());
+    	}
+    	 
+	    return id;
+   }
 
 }

@@ -17,17 +17,8 @@ public class GetProjectsList extends RestapiHelper implements KeywordInterface {
 	 */
 
 	// BEGIN of datapool variables declaration
-	protected String dpWebDriver; //@arg Selenium webdriver type
-	//@value = HtmlUnit|Firefox|...
-
-	protected String dpUserName;    //@arg username for login
-	protected String dpPassword;    //@arg password for login
-	protected String dpEndWith;     //@arg actions after test
-										//@value = logout|close|quit|kill, or empty
-
 	protected String dpScope;          //@arg value for Scope
                                     	//@value = working/library/""
-	protected String dpMasterFile;     //@arg value for master file
 	// END of datapool variables declaration
     
     private String url = "";
@@ -36,9 +27,8 @@ public class GetProjectsList extends RestapiHelper implements KeywordInterface {
 	public boolean dataInitialization() {
 		super.dataInitialization();
      
-		//*** read in data from datapool     
+		//*** read in data from datapool
 		dpScope = getDpString("Scope");
-		dpMasterFile = getDpString("MasterFile");
 
 		if ((dpScope != null) && (dpScope != ""))
 			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects?scope="+dpScope;
@@ -89,8 +79,8 @@ public class GetProjectsList extends RestapiHelper implements KeywordInterface {
 		if(casAuthenticated){
 			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
 			// compare Json Result - exact master and actual files are handled by framework.
-		    logTAFStep("File verification - "+dpMasterFile);
-		    compareJsonResult(actualResult,dpMasterFile);
+		    logTAFStep("File verification - "+dpMasterFiles[0]);
+		    compareJsonResult(actualResult,dpMasterFiles[0]);
 		}else{							
 			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
 		}
