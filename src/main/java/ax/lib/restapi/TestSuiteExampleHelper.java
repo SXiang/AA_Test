@@ -23,6 +23,7 @@ public class TestSuiteExampleHelper extends TestSuiteSuperHelper {
 	
 	// Variables shared among tests
 	public WebDriver currentDriver = null;
+	public String currentImageName = "";
 	public boolean casAuthenticated = false;
 	// ***********************************************
 	public TestSuiteExampleHelper() {

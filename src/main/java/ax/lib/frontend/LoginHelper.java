@@ -4,15 +4,12 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import ax.lib.restapi.TestSuiteExampleHelper;
-import com.acl.qa.taf.helper.KeywordSuperHelper;
 
-public class LoginHelper extends KeywordSuperHelper{
+public class LoginHelper extends FrontendCommonHelper{
 	
 	/**
 	 * Script Name   : <b>LoginHelper</b>
@@ -28,9 +25,6 @@ public class LoginHelper extends KeywordSuperHelper{
 	// *******************************************
 	
 	// BEGIN of datapool variables declaration
-	protected String dpExpectedErr; //@arg error message for negative test
-	protected String dpKnownBugs; //@arg infomation for known bugs (won't be
-									//fixed in this relase)
 	protected String dpWebDriver; //@arg Selenium webdriver type
 	                              //@value = HtmlUnit|Firefox|IE|Chrome
 	protected String dpDriverPath; //@arg Absolute path to Selenium IE/Chrome driver executable
@@ -41,19 +35,15 @@ public class LoginHelper extends KeywordSuperHelper{
                                 //@value = node|local
 	protected String dpAXServerName; //@arg AX Server name or IP address
 	protected String dpAXServerPort; //@arg AX Server port
-	protected String dpEndWith; //@arg actions after test
-                                //@value = logout|quit|kill, or empty
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of login page
 	By usernameLocator = By.id("username");
     By passwordLocator = By.id("password");
     By loginButtonLocator = By.name("submit");
-    By loginErrorMsgLocator = By.className("errors");
 	//END
     
     // BEGIN of other local variables declaration
-	protected WebDriver driver;
 	private URL remoteURL;
 	private DesiredCapabilities capability;
 	private String nodeUrl;
@@ -65,26 +55,21 @@ public class LoginHelper extends KeywordSuperHelper{
 	
 	public boolean dataInitialization() {
 		getSharedObj();
-
-		dpExpectedErr = getDpString("ExpectedErr");
-		dpKnownBugs = getDpString("KnownBug");
+		super.dataInitialization();
 		dpWebDriver = getDpString("WebDriver");
 		dpDriverPath = getDpString("DriverPath");
 		dpNodeName = getDpString("NodeName");
-		//dpNodePort = "5555"; 
 		dpNodePort = getDpString("NodePort");
 		dpExecutionType = getDpString("ExecutionType");
 		dpAXServerName = getDpString("AXServerName");
-		//dpAXServerPort = "8443";
 		dpAXServerPort = getDpString("AXServerPort");
-		dpEndWith = getDpString("EndWith");
 		return true;
 	}
 	
 	@Override
 	public void testMain(Object[] args) {
 		dataInitialization();
-		super.testMain(args);
+		super.testMain(onInitialize(args, getClass().getName()));
 		launchBrowser();
 	}
 	
@@ -202,77 +187,5 @@ public class LoginHelper extends KeywordSuperHelper{
 		}
         return done;   
     }
-	
-	//***************  Part 5  *******************
-	// ******* Methods on terminate **************
-	// *******************************************
-	
-	public void cleanUp() {
 
-		if (dpEndWith.equals("close")) {
-           closeBrowser();
-		}else if (dpEndWith.equals("kill")) { // if image name is available
-          killBrowser(projectConf.imageName);
-		} else if (dpEndWith.equals("logout")) {	
-			//casLogout(url);						
-		} else {
-			return;
-		}		
-	}
-
-	public void closeBrowser(){
-		driver.close();
-		driver = null;
-		logTAFStep("Close test browser");
-		setSharedObj();
-	}
-	
-	public void killBrowser(){
-		killBrowser(imageName);
-	}
-	
-	public void killBrowser(String imageName){
-		logTAFStep("Kill browser '" + imageName + "'");
-		killProcess(imageName);
-		driver = null;
-		setSharedObj();
-	}
-	
-	public boolean casLogout(String url){
-		/**
-		String infoText = "You have successfully logged out";
-		
-		String logoutUrl = url.substring(0,url.indexOf("/aclax/")) + "/cas/logout";// "/cas/login"
-		
-		logTAFStep("Logout user - '"+logoutUrl+"'");
-		driver.get(logoutUrl);
-		try{
-		   logTAFStep("Logout user sucessfully - '"+logoutUrl+"'");
-		}catch(Exception e){
-			logTAFError("Failed to logout url - '"+logoutUrl+"'");
-			return false;
-		}
-		setSharedObj();
-		**/
-		return true;
-	}
-	//***************  Part 6  *******************
-	// ******* Methods on Objects sharing ********
-	// *******************************************
-	
-	public void getSharedObj() {
-		if (suiteObj != null) {
-			driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
-		} else if (caseObj != null) {
-			driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
-		}
-	}
-
-	public void setSharedObj() {
-		if (suiteObj != null) {
-			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
-		} else if (caseObj != null) {
-			((FrontendTestDriverHelper) caseObj).currentDriver = driver;
-		}
-	}
 }
