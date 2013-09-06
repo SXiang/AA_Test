@@ -51,7 +51,6 @@ public class Login extends LoginHelper{
 	// *******************************************
 	
 	public void login(){
-		launchBrowser();
 		login(dpUserName,dpPassword,dpCasType);
 	}
 	

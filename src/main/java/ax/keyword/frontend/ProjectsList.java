@@ -1,129 +1,115 @@
 package ax.keyword.frontend;
 
-import pageObjects.ProjectsListPage;
-import ax.lib.frontend.LoginHelper;
+import ax.lib.frontend.ProjectsListHelper;
 
-public class ProjectsList extends LoginHelper{
+public class ProjectsList extends ProjectsListHelper{
 	
 	/**
 	 * Script Name   : <b>ProjectsList</b>
-	 * Generated     : <b>Aug 13, 2013</b>
+	 * Generated     : <b>Sep 5, 2013</b>
 	 * Description   : ProjectsList keyword
 	 * 
 	 * @author Ramneet Kaur
 	 */
-	
-	private static ProjectsListPage objPrjctListPage=null;
-	
-	private static ProjectsListPage prepPage(){
-		objPrjctListPage = new ProjectsListPage(driver);
-		return objPrjctListPage;
-	}
-	
-	public static void viewList() {
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.viewList();
-	}
-		
-	public static void viewCards() {
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.viewCards();
-			
-	}
-	
-	public static void clickProjectName() {
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.clickProjectName();
-			
-	}
-	
-	public static void getAllProjects() {
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.getAllProjects();	
-	}
-	
-	public static void filterTestSetsList(){
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.filterTestSetsList();
-	}
-	
-	public static void getSearchItemsList(){
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.getSearchItemsList();
-	}
-	
-	public static void clearFilter(){
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.clearFilter();
-	}
-	
-	public static void getProjectHeader() {
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.getProjectHeader();		
-	}
-	
-	public static void verifyOnProjectsListPage() {
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.getProjectHeader();		
-	}
-	
-	public static void findViewType() {
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		objPrjctListPage.findViewType();
-		
-	}
-	
-	public static void allElementsPresent(){
-		if(objPrjctListPage == null){
-			prepPage();
-		}
-		if(!objPrjctListPage.isProjectHeaderPresent()){
-			System.out.println("Projects List header NOT present!!!");
-		}else{
-			System.out.println("Projects List header present!!!");
-		}
-		if(!objPrjctListPage.isCardIconPresent()){
-			System.out.println("Card View icon NOT present!!!");
-		}else{
-			System.out.println("Card View icon present!!!");
-		}
-		if(!objPrjctListPage.isListIconPresent()){
-			System.out.println("List View icon NOT present!!!");
-		}else{
-			System.out.println("List View icon present!!!");
-		}
-		if(!objPrjctListPage.isSearchBoxPresent()){
-			System.out.println("Search Box NOT present!!!");
-		}else{
-			System.out.println("Search Box present!!!");
-		}
-		if(!objPrjctListPage.isSearchBoxIconPresent()){
-			System.out.println("Search Box icon NOT present!!!");
-		}else{
-			System.out.println("Search box icon present!!!");
-		}
-	}
 
+	// *************** Part 1 *******************
+	// ******* Declaration of variables **********
+	// *******************************************
+	// BEGIN of datapool variables declaration
+	protected String dpProjectName; //@arg ProjectName whose link to be clicked for details
+	protected String dpViewType; //@arg Type of view in which want to see the list of projects:
+	                             //@value = card|list
+	// END of datapool variables declaration
 	
+	@Override
+	public boolean dataInitialization() {
+		super.dataInitialization();
+		// BEGIN read datapool
+		dpProjectName = getDpString("ProjectName");
+		dpViewType = getDpString("ViewType");
+		//END
+		return true;
+	}	
 	
+	// *************** Part 2 *******************
+	// *********** Test logic ********************
+	// *******************************************
+	
+	@Override
+	public void testMain(Object[] args) {
+		super.testMain(onInitialize(args, getClass().getName()));
+		verifyAllProjectsList();
+		verifyMiscElements();
+		if(!dpProjectName.isEmpty()){
+			openProjectDetails();
+		}
+		cleanUp();
+	
+		// *** cleanup by framework ***
+		onTerminate();
+	}
+	
+	// *************** Part 3 *******************
+	// *** Implementation of test functions ******
+	// *******************************************
+	
+	public void verifyAllProjectsList(){
+		String viewType = findViewType();
+		if(!dpViewType.isEmpty() && !viewType.equalsIgnoreCase(dpViewType)){
+			if(dpViewType.equalsIgnoreCase("card")){
+				viewCards();
+				viewType = "card";
+			}else if(dpViewType.equalsIgnoreCase("list")){
+				viewList();
+				viewType = "list";
+			}
+		}
+		String allProjects = getAllProjects(viewType);
+		if(allProjects.isEmpty()){
+			logTAFError("No Project Found!!");
+		}else{
+			logTAFStep("Verify list of Projects - " + dpMasterFiles[0]);
+			result[0] = allProjects; // You need to get actual result for
+											// each comparison
+			compareTxtResult(result[0], dpMasterFiles[0]);
+		}
+	}
+	
+	public void verifyMiscElements(){
+		String header = getProjectHeader();
+		String footer = getFooter();
+		logTAFStep("Verify Project Header - " + dpMasterFiles[1]);
+		result[0] = header; // You need to get actual result for
+											// each comparison
+		compareTxtResult(result[0], dpMasterFiles[1]);
+		logTAFStep("Verify Page Footer - " + dpMasterFiles[2]);
+		result[1] = footer; // You need to get actual result for
+											// each comparison
+		compareTxtResult(result[1], dpMasterFiles[2]);
+	}
+	
+	public void openProjectDetails(){
+		String viewType = findViewType();
+		if(!dpViewType.isEmpty() && !viewType.equalsIgnoreCase(dpViewType)){
+			if(dpViewType.equalsIgnoreCase("card")){
+				viewCards();
+				viewType = "card";
+			}else if(dpViewType.equalsIgnoreCase("list")){
+				viewList();
+				viewType = "list";
+			}
+		}
+		clickProjectName(viewType, dpProjectName);
+	}
+	
+	// *************** Optional ******************
+	// ******* main method for quick debugging ***
+	// *******************************************
+	
+	public static void main(String args) {
+		//ProjectsList debug = new ProjectsList();
+		//debug.verifyAllProjectsList();.
+		//debug.verifyMiscElements();
+		//debug.openProjectDetails();
+	}
 }
