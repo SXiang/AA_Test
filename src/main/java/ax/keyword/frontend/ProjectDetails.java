@@ -39,7 +39,8 @@ public class ProjectDetails  extends ProjectDetailsHelper{
 		verifyProjectsDropDownList();
 		verifyDescriptionPanelContents();
 		verifyInfoPanelContents();
-		verifyHeaderFooter();		
+		verifyHeaderFooter();
+		verifyUsersList();
 		if(!dpTestSetName.isEmpty()){
 			openTestSetDetails();
 		}
@@ -92,6 +93,17 @@ public class ProjectDetails  extends ProjectDetailsHelper{
 		result[1] = footer; // You need to get actual result for
 											// each comparison
 		compareTxtResult(result[1], dpMasterFiles[2]);
+	}
+	
+	public void verifyUsersList(){
+		String usersList = getUsersPanelTitle();
+		getUsersPopup();
+		usersList = usersList+":"+getUsersPopupHeader()+":"+getUsersList();
+		logTAFStep("Verify Users - " + dpMasterFiles[6]);
+		result[0] = usersList; // You need to get actual result for
+											// each comparison
+		compareTxtResult(result[0], dpMasterFiles[6]);
+		closeUsersPopup();
 	}
 	
 	public void openTestSetDetails(){

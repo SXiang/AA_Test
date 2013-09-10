@@ -143,7 +143,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		return driver.findElement(testSetsHeaderLocator).getText();
 	}
 	
-	public String getUsersLabel() {
+	public String getUsersPanelTitle() {
 		return driver.findElements(rightPanelTitleLocator).get(2).getText();
     }
 	public void getUsersPopup(){
