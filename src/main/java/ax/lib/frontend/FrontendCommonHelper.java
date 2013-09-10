@@ -43,6 +43,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	By searchItemLocator = By.cssSelector("li.search-item-row > button.search-item");
 	By searchCancelFilterIconLocator = By.cssSelector("li.search-item-row > i.icon-remove");
 	By copyrightFooter = By.className("footer");
+	By closeIconLocator = By.cssSelector("div.title-row > div > i.icon_remove");
 	//END
     
     // BEGIN of other local variables declaration
@@ -114,6 +115,10 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		isElementDisplayed(searchItemLocator);
 		isElementEnabled(searchCancelFilterIconLocator);
 	}
+	
+	public void closeLayer() {
+		driver.findElement(closeIconLocator).click();
+	}	
 	
 	
 	//*******************************************

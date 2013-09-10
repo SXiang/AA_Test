@@ -39,7 +39,7 @@ public class ProjectsList extends ProjectsListHelper{
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
 		verifyAllProjectsList();
-		verifyMiscElements();
+		verifyHeaderFooter();
 		if(!dpProjectName.isEmpty()){
 			openProjectDetails();
 		}
@@ -75,7 +75,7 @@ public class ProjectsList extends ProjectsListHelper{
 		}
 	}
 	
-	public void verifyMiscElements(){
+	public void verifyHeaderFooter(){
 		String header = getProjectHeader();
 		String footer = getFooter();
 		logTAFStep("Verify Project Header - " + dpMasterFiles[1]);
@@ -109,7 +109,7 @@ public class ProjectsList extends ProjectsListHelper{
 	public static void main(String args) {
 		//ProjectsList debug = new ProjectsList();
 		//debug.verifyAllProjectsList();.
-		//debug.verifyMiscElements();
+		//debug.verifyHeaderFooter();
 		//debug.openProjectDetails();
 	}
 }
