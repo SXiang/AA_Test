@@ -3,6 +3,7 @@ package ax.lib.frontend;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -46,6 +47,7 @@ public class LoginHelper extends FrontendCommonHelper{
     // BEGIN of other local variables declaration
 	private URL remoteURL;
 	private DesiredCapabilities capability;
+	public String imageName;
 	private String nodeUrl;
 	//END
 	
@@ -56,13 +58,14 @@ public class LoginHelper extends FrontendCommonHelper{
 	public boolean dataInitialization() {
 		getSharedObj();
 		super.dataInitialization();
-		dpWebDriver = getDpString("WebDriver");
-		dpDriverPath = getDpString("DriverPath");
-		dpNodeName = getDpString("NodeName");
-		dpNodePort = getDpString("NodePort");
-		dpExecutionType = getDpString("ExecutionType");
-		dpAXServerName = getDpString("AXServerName");
-		dpAXServerPort = getDpString("AXServerPort");
+		dpWebDriver = projectConf.getWebDriver();
+		dpDriverPath = projectConf.getDriverPath();
+		dpNodeName = projectConf.getNodeName();
+		dpNodePort = projectConf.getNodePort();
+		dpExecutionType = projectConf.getExecutionType();
+		dpAXServerName = projectConf.getAxServerName();
+		dpAXServerPort = projectConf.getAxServerPort();
+		imageName = projectConf.getImageName();
 		return true;
 	}
 	
@@ -82,7 +85,7 @@ public class LoginHelper extends FrontendCommonHelper{
 	}
 	
 	public void setupNewDriver(String browserType) {
-		
+
 		if(dpExecutionType.equalsIgnoreCase("node")){
 			nodeUrl = "http://"+dpNodeName+":"+dpNodePort+"/wd/hub";
 			try {
@@ -110,6 +113,7 @@ public class LoginHelper extends FrontendCommonHelper{
 				logTAFStep("Recognized Chrome browser, about to intiate...");
 				InitiateChromeBrowser();
 				driver = new ChromeDriver(capability);
+				//driver = new ChromeDriver();
 			}else{
 					//other browser's code
 			}
@@ -126,15 +130,15 @@ public class LoginHelper extends FrontendCommonHelper{
 		capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 		capability.setBrowserName("internetExplorer");
 		capability.setPlatform(org.openqa.selenium.Platform.ANY);
-		imageName = "iexploere.exe";
 	}
 	public void InitiateChromeBrowser(){
 		System.setProperty("webdriver.chrome.driver", dpDriverPath+"chromedriver.exe");
 		capability = DesiredCapabilities.chrome();
 		capability.setBrowserName("chrome");
 		capability.setPlatform(org.openqa.selenium.Platform.ANY);
+		//capability.setCapability("chrome.binary", "%LOCALAPPDATA%\\Google\\Chrome\\Application\\");
+		capability.setCapability("chrome.switches", Arrays.asList("--start-maximized"));
 		capability.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
-		imageName = "chrome.exe";
 	}
 
 	

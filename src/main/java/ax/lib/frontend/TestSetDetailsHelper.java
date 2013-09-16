@@ -5,14 +5,13 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class ProjectDetailsHelper extends FrontendCommonHelper{
+public class TestSetDetailsHelper extends FrontendCommonHelper{
 	
 	/**
-	 * Script Name   : <b>ProjectDetailsHelper</b>
-	 * Generated     : <b>Sep 6, 2013</b>
-	 * Description   : ProjectDetailsHelper
+	 * Script Name   : <b>TestSetDetailsHelper</b>
+	 * Generated     : <b>Sep 11, 2013</b>
+	 * Description   : TestSetDetailsHelper
 	 * 
-	 * @since  Sep 6, 2013
 	 * @author Ramneet Kaur
 	 */
 
@@ -26,17 +25,20 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 
 	// BEGIN locators of the web elements of ProjectsList page
 	By projectHeaderLocator = By.cssSelector("div.project-header > a > span");
-	By projectNameLocator = By.cssSelector("div.title > span");
-	By projectDropDownLocator = By.cssSelector("div.dropdown > a.dropdown-toggle > i");
-	By projectDropDownMenuItemsLocator = By.cssSelector("div.dropdown > ul.dropdown-menu > li.ng-scope > a");
-	By testSetsHeaderLocator = By.cssSelector("div.testset-subtitle > span");
-	By testSetsNameLocator = By.cssSelector("div.testset-row > div.row-fluid");
+	By projectNameLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-title > span");
+	By testSetNameLocator = By.cssSelector("div.title > span");
+	By projectDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a");
+	By projectDropDownMenuItemsLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > ul.dropdown-menu > li.ng-scope");
+	By testSetDropDownLocator = By.cssSelector("div.title-row > div.dropdown > a");
+	By testSetDropDownMenuItemsLocator = By.cssSelector("div.title-row > div.dropdown > ul.dropdown-menu > li.ng-scope");
+	By testsHeaderLocator = By.cssSelector("div.test-subtitle > span");
+	By testsNameLocator = By.cssSelector("div.test-row > div.row-fluid > div.ng-binding");
 	By rightPanelTitleLocator = By.className("right-panel-block-title");
 	By rightPanelIconLocator = By.className("right-panel-block-icon");
 	By descriptionLocator = By.className("right-panel-block-content");
 	By infoContentLabelLocator = By.cssSelector("div.right-panel-block-content > dl > dt > span");
 	By infoContentDataLocator = By.cssSelector("div.right-panel-block-content > dl > dd");
-	By usersPopupHeaderLocator = By.xpath("html/body/div[4]/div[1]/div[1]");
+	By usersPopupHeaderLocator = By.className("modal-title");
 	By usersListLocator = By.cssSelector("div.modal-body > ul.user-list > li.user-row");
 	By usersPopupCloseIconLocator = By.cssSelector("div.modal-header > div.icon-remove");
 	//END
@@ -140,7 +142,6 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetHeader(){
-		sleep(3);
 		return driver.findElement(testSetsHeaderLocator).getText();
 	}
 	
@@ -151,8 +152,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		driver.findElements(rightPanelTitleLocator).get(2).click();
 	}
 	public String getUsersPopupHeader(){
-		String usersHeader  = driver.findElement(usersPopupHeaderLocator).getText();
-		return usersHeader;
+		return driver.findElement(usersPopupHeaderLocator).getText();
 	}
 	public String getUsersList(){
 		users = driver.findElements(usersListLocator);
@@ -194,19 +194,5 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		logTAFError("TestSet: "+testSetName+" not found!!");
 		return false;
 	}	
-	
-	public Boolean clickProjectNameFromDropDown(String projectName){
-		driver.findElement(projectDropDownLocator).click();
-		sleep(5);
-		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
-        for(int i = 0; i < dropDownMenu.size(); i++) {
-        	if(dropDownMenu.get(i).getText().equalsIgnoreCase(projectName)){
-        		dropDownMenu.get(i).click();
-        		return true;
-        	}
-        }
-		driver.findElement(projectDropDownLocator).click();
-		return false;
-	}
 
 }

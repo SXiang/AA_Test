@@ -25,7 +25,7 @@ public class Login extends LoginHelper{
 	public boolean dataInitialization() {
 		super.dataInitialization();
 		// BEGIN read datapool
-		dpCasType = getDpString("CasType");
+		dpCasType = projectConf.getCasType();
 		dpUserName = getDpString("UserName");
 		dpPassword = getDpString("Password");
 		//END

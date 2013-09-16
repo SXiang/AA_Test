@@ -38,10 +38,13 @@ public class ProjectsList extends ProjectsListHelper{
 	@Override
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
-		verifyAllProjectsList();
-		verifyHeaderFooter();
+		if(!dpMasterFiles[0].isEmpty()){
+			verifyAllProjectsList();
+			verifyHeaderFooter();
+		}
 		if(!dpProjectName.isEmpty()){
-			openProjectDetails();
+			String viewType = openView();
+			openProjectDetails(viewType);
 		}
 		cleanUp();
 	
@@ -53,17 +56,22 @@ public class ProjectsList extends ProjectsListHelper{
 	// *** Implementation of test functions ******
 	// *******************************************
 	
-	public void verifyAllProjectsList(){
+	public String openView(){
 		String viewType = findViewType();
 		if(!dpViewType.isEmpty() && !viewType.equalsIgnoreCase(dpViewType)){
 			if(dpViewType.equalsIgnoreCase("card")){
 				viewCards();
-				viewType = "card";
+				return "card";
 			}else if(dpViewType.equalsIgnoreCase("list")){
 				viewList();
-				viewType = "list";
+				return "list";
 			}
 		}
+		return viewType;
+	}
+	
+	public void verifyAllProjectsList(){
+		String viewType = openView();
 		String allProjects = getAllProjects(viewType);
 		if(allProjects.isEmpty()){
 			logTAFError("No Project Found!!");
@@ -88,17 +96,7 @@ public class ProjectsList extends ProjectsListHelper{
 		compareTxtResult(result[1], dpMasterFiles[2]);
 	}
 	
-	public void openProjectDetails(){
-		String viewType = findViewType();
-		if(!dpViewType.isEmpty() && !viewType.equalsIgnoreCase(dpViewType)){
-			if(dpViewType.equalsIgnoreCase("card")){
-				viewCards();
-				viewType = "card";
-			}else if(dpViewType.equalsIgnoreCase("list")){
-				viewList();
-				viewType = "list";
-			}
-		}
+	public void openProjectDetails(String viewType){
 		clickProjectName(viewType, dpProjectName);
 	}
 	

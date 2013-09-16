@@ -222,20 +222,16 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public void getSharedObj() {
 		if (suiteObj != null) {
 			driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
-			imageName = ((TestSuiteExampleHelper) suiteObj).currentImageName;
 		} else if (caseObj != null) {
 			driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
-			imageName = ((FrontendTestDriverHelper) caseObj).currentImageName;
 		}
 	}
 
 	public void setSharedObj() {
 		if (suiteObj != null) {
 			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
-			((TestSuiteExampleHelper) suiteObj).currentImageName = imageName;
 		} else if (caseObj != null) {
 			((FrontendTestDriverHelper) caseObj).currentDriver = driver;
-			((FrontendTestDriverHelper) caseObj).currentImageName = imageName;
 		}
 	}	
 
