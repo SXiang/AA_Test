@@ -3,6 +3,7 @@ package ax.lib.frontend;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -43,7 +44,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	By searchItemLocator = By.cssSelector("li.search-item-row > button.search-item");
 	By searchCancelFilterIconLocator = By.cssSelector("li.search-item-row > i.icon-remove");
 	By copyrightFooter = By.className("footer");
-	By closeIconLocator = By.cssSelector("div.title-row > div > i.icon_remove");
+	By closeIconLocator = By.cssSelector(".icon_remove.close-layer-icon");
 	//END
     
     // BEGIN of other local variables declaration
@@ -117,6 +118,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public void closeLayer() {
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		driver.findElement(closeIconLocator).click();
 	}	
 	

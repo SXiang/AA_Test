@@ -3,6 +3,7 @@ package ax.lib.frontend;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 public class ProjectDetailsHelper extends FrontendCommonHelper{
@@ -157,10 +158,10 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	public String getUsersList(){
 		users = driver.findElements(usersListLocator);
 		sleep(5);
-        for(int i = 0; i < users.size(); i++) {
-        	if(i==0){
+        for(int i = 1; i < users.size(); i++) {
+        	if(i==1){
         		usersList=users.get(i).getText();
-        	}else{
+        	}else if(i>1){
         		usersList=usersList+"|"+users.get(i).getText();
         	}
         }
@@ -196,6 +197,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	}	
 	
 	public Boolean clickProjectNameFromDropDown(String projectName){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		driver.findElement(projectDropDownLocator).click();
 		sleep(5);
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
