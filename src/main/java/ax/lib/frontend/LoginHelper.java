@@ -156,9 +156,9 @@ public class LoginHelper extends FrontendCommonHelper{
 		if(driver.getTitle().startsWith("Certificate Error")){
 			passCertWarning();
 		}
-		isElementEnabled(usernameLocator);
-		isElementEnabled(passwordLocator);
-		isElementEnabled(loginButtonLocator);
+		isElementEnabled(usernameLocator,"Username field");
+		isElementEnabled(passwordLocator,"Password field");
+		isElementEnabled(loginButtonLocator,"Login Button");
 		if(casType.equalsIgnoreCase("nonSSO")){
 			driver.findElement(usernameLocator).sendKeys(username);
 	        driver.findElement(passwordLocator).click();
@@ -172,13 +172,13 @@ public class LoginHelper extends FrontendCommonHelper{
 	// ******* Methods on verification ***********
 	// *******************************************
 	
-	public boolean isElementEnabled(By locator) {
+	public boolean isElementEnabled(By locator, String elementName) {
 		boolean done = false;
 		try{
 			done = driver.findElement(locator).isEnabled();
-			logTAFStep("Successfully found '"+locator+"'");
+			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
-			logTAFError("Failed to find '"+locator+"' !!!");
+			logTAFError("Failed to find '"+elementName+"' !!!");
 		}
         return done;
     }

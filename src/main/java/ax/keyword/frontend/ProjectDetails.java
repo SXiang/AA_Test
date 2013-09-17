@@ -47,8 +47,7 @@ public class ProjectDetails  extends ProjectDetailsHelper{
 		}
 		if(!dpProjectName.isEmpty()){
 			openProjectFromDropDown();
-		}
-		if(!dpTestSetName.isEmpty()){
+		}else if(!dpTestSetName.isEmpty()){
 			openTestSetDetails();
 		}
 		cleanUp();

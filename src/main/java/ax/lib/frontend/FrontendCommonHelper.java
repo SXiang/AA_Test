@@ -83,6 +83,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}	
 	
 	public void filterList(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		if(!dpSearchItems.isEmpty()){
 			searchItemsArr = dpSearchItems.split("\\|");
 			for(int i=0;i<searchItemsArr.length;i++){
@@ -94,6 +95,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public String getSearchItemsList(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		searchItems = driver.findElements(searchItemLocator);
 		for(int i = 0; i < searchItems.size(); i++) {
         	if(i==0){
@@ -106,6 +108,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public void clearFilter(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		searchItems = driver.findElements(searchCancelFilterIconLocator);
 		for(int i=0;i<searchItems.size();i++){
 			searchItems.get(i).click();
@@ -113,8 +116,9 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public void verifyElementsAfterFilter(){
-		isElementDisplayed(searchItemLocator);
-		isElementEnabled(searchCancelFilterIconLocator);
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
+		isElementDisplayed(searchItemLocator, "Search Items in search box");
+		isElementEnabled(searchCancelFilterIconLocator, "Search items' cancel (x) button");
 	}
 	
 	public void closeLayer() {
@@ -144,24 +148,24 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	// ******* Methods on verification ***********
 	// *******************************************
 	
-	public boolean isElementEnabled(By locator) {
+	public boolean isElementEnabled(By locator, String elementName) {
 		boolean done = false;
 		try{
 			done = driver.findElement(locator).isEnabled();
-			logTAFStep("Successfully found '"+locator+"'");
+			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
-			logTAFError("Failed to find '"+locator+"' !!!");
+			logTAFError("Failed to find '"+elementName+"' !!!");
 		}
         return done;
     }
 	
-	public boolean isElementDisplayed(By locator) {
+	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
 		try{
 			done = driver.findElement(locator).isDisplayed();
-			logTAFStep("Successfully found '"+locator+"'");
+			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
-			logTAFError("Failed to find '"+locator+"' !!!");
+			logTAFError("Failed to find '"+elementName+"' !!!");
 		}
         return done;
     }

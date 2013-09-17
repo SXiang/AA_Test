@@ -69,15 +69,15 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	public void testMain(Object[] args) {
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
-		isElementDisplayed(projectHeaderLocator);
-		isElementEnabled(searchBoxLocator);
-		isElementDisplayed(searchBoxIconLocator);
-		isElementDisplayed(copyrightFooter);
-		isElementDisplayed(projectNameLocator);
-		isElementDisplayed(projectDropDownLocator);
-		isElementDisplayed(testSetsHeaderLocator);
+		isElementDisplayed(projectHeaderLocator, "Project header");
+		isElementEnabled(searchBoxLocator, "Search box");
+		isElementDisplayed(searchBoxIconLocator, "Search box lens icon");
+		isElementDisplayed(copyrightFooter, "Copyright footer");
+		isElementDisplayed(projectNameLocator, "Project name");
+		isElementDisplayed(projectDropDownLocator, "Project drop down button");
+		isElementDisplayed(testSetsHeaderLocator, "TestSets list header");
 		isRightPanelIconDisplayed();
-		isElementDisplayed(closeIconLocator);
+		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
 
 	//***************  Part 3  *******************
