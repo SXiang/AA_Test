@@ -10,7 +10,6 @@ public class TestSuiteFrontEnd extends TestSuiteExampleHelper implements TestSui
 	 * Generated     : <b>Sep 18, 2013</b>
 	 * Description   : ACL Test Automation TestSuiteFrontEnd
 	 * 
-	 * @since  2013/08/10
 	 * @author Ramneet_Kaur
 	 */
 		
