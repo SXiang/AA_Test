@@ -47,6 +47,8 @@ public class TestSetDetails  extends TestSetDetailsHelper{
 			verifyDescriptionPanelContents();
 			verifyInfoPanelContents();
 			verifyHeaderFooter();
+			verifyDataTablesLink();
+			verifyRelatedFilesLink();
 			verifyUsersList();
 		}
 		if(!dpProjectName.isEmpty()){
