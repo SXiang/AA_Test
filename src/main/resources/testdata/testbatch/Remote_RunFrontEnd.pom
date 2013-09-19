@@ -3,11 +3,11 @@
   <groupId>ACLQA</groupId>
   <artifactId>AX_RunFromPom</artifactId>
   <version>10.0-SNAPSHOT</version>
-  <name>AX Web Client FrontEndTest - Selenium</name>
+  <name>AX FrontEnd Test - Selenium</name>
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-      <!-- mainClass>ax.TestSuiteFrontEnd</mainClass-->
+      <!--  mainClass>ax.TestSuiteExample</mainClass-->
       <aclqaNexusUrl>http://192.168.10.129:8081/nexus/content</aclqaNexusUrl>
       <testDeployServerDir>\\192.168.10.129\Automation\MavenTest\AX_TestAutomation</testDeployServerDir>
       <testDeployLocalDir>C:\ACL\Automation\MavenTest\AX_TestAutomation</testDeployLocalDir>
@@ -106,7 +106,7 @@
                     </arguments>
                     <systemProperties>
                        <systemProperty><key>file.encoding</key><value>UTF-8</value></systemProperty>
-                       <systemProperty><key>user.language</key><value>EN</value></systemProperty>
+                       <systemProperty><key>user.language</key><value>en</value></systemProperty>
                        <systemProperty><key>user.country</key><value>CA</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}appLocale</key><value>EN</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}unicodeTest</key><value>True</value></systemProperty>
@@ -126,15 +126,15 @@
                        <systemProperty><key>${sysPropPrefix}filterLevel</key><value>5</value></systemProperty>
                        
                        <systemProperty><key>${sysPropPrefix}emailReport</key><value>true</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}subject</key><value>Automation FrontEnd test report - AX5 Web Client</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}subject</key><value>Automation Test Report - AX5 FrontEnd</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}toAddress</key><value>ramneet_kaur@acl.com</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}ccAddress</key><value></value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}bccAddress</key><value></value></systemProperty>
                        
-                       <systemProperty><key>${sysPropPrefix}dbtype</key><value>Postgres</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}dbtype</key><value>PostgreSQL</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}serverip</key><value>192.168.10.67</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}port</key><value>1521</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}dbname</key><value>ACLAuditExchangeDB</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}port</key><value>5432</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}dbname</key><value>AclAuditExchangeDB</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}userid</key><value>AclAuditExchangeRole</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}passwd</key><value>Password00</value></systemProperty>
                        
