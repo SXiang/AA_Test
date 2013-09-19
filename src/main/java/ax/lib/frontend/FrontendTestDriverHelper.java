@@ -9,6 +9,7 @@ public class FrontendTestDriverHelper extends TestDriverSuperHelper{
 	//Variables could be shared among keywords of same test suite.
 	
 		public WebDriver currentDriver = null;
+		public String currentImageName = "";
 		
 		// ***********************************************
 		public FrontendTestDriverHelper() {

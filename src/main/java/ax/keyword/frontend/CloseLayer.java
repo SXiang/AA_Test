@@ -1,34 +1,26 @@
 package ax.keyword.frontend;
 
-import ax.lib.frontend.LoginHelper;
+import ax.lib.frontend.FrontendCommonHelper;
 
-public class Login extends LoginHelper{
+public class CloseLayer  extends FrontendCommonHelper{
+	
 	/**
-	 * Script Name   : <b>Login</b>
-	 * Generated     : <b>Sep 4, 2013</b>
-	 * Description   : Login keyword
+	 * Script Name   : <b>CloseLayer</b>
+	 * Generated     : <b>Sep 7, 2013</b>
+	 * Description   : CloseLayer keyword
 	 * 
 	 * @author Ramneet Kaur
 	 */
-	
+
 	// *************** Part 1 *******************
 	// ******* Declaration of variables **********
 	// *******************************************
 	// BEGIN of datapool variables declaration
-	protected String dpCasType; //@arg SSO or nonSSO
-	                            // @value = SSO|nonSSO
-	protected String dpUserName; //@arg username for login
-	protected String dpPassword; //@arg password for login
 	// END of datapool variables declaration
 	
 	@Override
 	public boolean dataInitialization() {
 		super.dataInitialization();
-		// BEGIN read datapool
-		dpCasType = projectConf.getCasType();
-		dpUserName = getDpString("UserName");
-		dpPassword = getDpString("Password");
-		//END
 		return true;
 	}	
 	
@@ -39,27 +31,19 @@ public class Login extends LoginHelper{
 	@Override
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
-		login();
+		closeLayer();
 		cleanUp();
-	
 		// *** cleanup by framework ***
 		onTerminate();
 	}
 	
-	// *************** Part 3 *******************
-	// *** Implementation of test functions ******
-	// *******************************************
-	
-	public void login(){
-		login(dpUserName,dpPassword,dpCasType);
-	}
-	
+
 	// *************** Optional ******************
 	// ******* main method for quick debugging ***
 	// *******************************************
 	
 	public static void main(String args) {
-		//Login debug = new Login();
-		//debug.login();
+		//CloseLayer debug = new CloseLayer();
+		//debug.closeLayer();
 	}
 }
