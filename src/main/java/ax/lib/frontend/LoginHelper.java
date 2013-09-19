@@ -1,14 +1,15 @@
 package ax.lib.frontend;
 
+/* Commented code is for running using Selenium grid
 import java.net.URL;
+import org.openqa.selenium.remote.RemoteWebDriver;
+*/
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class LoginHelper extends FrontendCommonHelper{
 	
@@ -28,14 +29,18 @@ public class LoginHelper extends FrontendCommonHelper{
 	// BEGIN of datapool variables declaration
 	protected String dpWebDriver; //@arg Selenium webdriver type
 	                              //@value = HtmlUnit|Firefox|IE|Chrome
-	protected String dpDriverPath; //@arg Absolute path to Selenium IE/Chrome driver executable
+	protected String dpAXServerName; //@arg AX Server name or IP address
+	protected String dpAXServerPort; //@arg AX Server port
+	
+	/* Commented code is for running using Selenium grid
+		protected String dpDriverPath; //@arg Absolute path to Selenium IE/Chrome driver executable
                                    //@value = C:\Selenium\
 	protected String dpNodeName; //@arg machine or IP address of the machine where want to run the test
 	protected String dpNodePort; //@arg port of the machine on which Selenium node is running
 	protected String dpExecutionType; //@arg whether want to run in hub-node mode or local
                                 //@value = node|local
-	protected String dpAXServerName; //@arg AX Server name or IP address
-	protected String dpAXServerPort; //@arg AX Server port
+    */
+	
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of login page
@@ -45,11 +50,13 @@ public class LoginHelper extends FrontendCommonHelper{
 	//END
     
     // BEGIN of other local variables declaration
-	private URL remoteURL;
 	private DesiredCapabilities capability;
 	public String imageName;
-	private String nodeUrl;
 	//END
+	/* Commented code is for running using Selenium grid
+	private String nodeUrl;
+	private URL remoteURL;
+	*/
 	
 	//***************  Part 2  *******************
 	// ******* Methods on initialization *********
@@ -58,11 +65,12 @@ public class LoginHelper extends FrontendCommonHelper{
 	public boolean dataInitialization() {
 		getSharedObj();
 		super.dataInitialization();
+		// Commented code is for running using Selenium grid
+		//dpDriverPath = projectConf.getDriverPath();
+		//dpNodeName = projectConf.getNodeName();
+		//dpNodePort = projectConf.getNodePort();
+		//dpExecutionType = projectConf.getExecutionType();
 		dpWebDriver = projectConf.getWebDriver();
-		dpDriverPath = projectConf.getDriverPath();
-		dpNodeName = projectConf.getNodeName();
-		dpNodePort = projectConf.getNodePort();
-		dpExecutionType = projectConf.getExecutionType();
 		dpAXServerName = projectConf.getAxServerName();
 		dpAXServerPort = projectConf.getAxServerPort();
 		imageName = projectConf.getImageName();
@@ -78,14 +86,15 @@ public class LoginHelper extends FrontendCommonHelper{
 	
 	public void launchBrowser() {
 		if (dpWebDriver.equals("")) {
-			logTAFError("Web Driver datapool entry missing");
+			logTAFError("Not able to read from project.properties the correct value of variable 'webDriver'. Please check the file.");
 		} else {
 			setupNewDriver(dpWebDriver);
 		}
 	}
 	
 	public void setupNewDriver(String browserType) {
-
+		// Commented code is for running using Selenium grid
+		/*
 		if(dpExecutionType.equalsIgnoreCase("node")){
 			nodeUrl = "http://"+dpNodeName+":"+dpNodePort+"/wd/hub";
 			try {
@@ -117,7 +126,20 @@ public class LoginHelper extends FrontendCommonHelper{
 			}else{
 					//other browser's code
 			}
+		}*/
+		
+		if(browserType.equalsIgnoreCase("IE")){
+			logTAFStep("Recognized IE browser, about to intiate...");
+			InitiateIEBrowser();
+			driver = new InternetExplorerDriver(capability);
+		}else if(browserType.equalsIgnoreCase("Chrome")){
+			logTAFStep("Recognized Chrome browser, about to intiate...");
+			InitiateChromeBrowser();
+			driver = new ChromeDriver(capability);
+		}else{
+				//other browser's code
 		}
+		
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get("https://"+dpAXServerName+":"+dpAXServerPort+"/aclax");
 		setSharedObj();
@@ -125,18 +147,19 @@ public class LoginHelper extends FrontendCommonHelper{
 	}
 	
 	public void InitiateIEBrowser(){
-		System.setProperty("webdriver.ie.driver", dpDriverPath+"IEDriverServer.exe");
+		// Commented code is for running using Selenium grid
+		//System.setProperty("webdriver.ie.driver", dpDriverPath+"IEDriverServer.exe");
 		capability = DesiredCapabilities.internetExplorer();
 		capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 		capability.setBrowserName("internetExplorer");
 		capability.setPlatform(org.openqa.selenium.Platform.ANY);
 	}
 	public void InitiateChromeBrowser(){
-		System.setProperty("webdriver.chrome.driver", dpDriverPath+"chromedriver.exe");
+		// Commented code is for running using Selenium grid
+		//System.setProperty("webdriver.chrome.driver", dpDriverPath+"chromedriver.exe");
 		capability = DesiredCapabilities.chrome();
 		capability.setBrowserName("chrome");
 		capability.setPlatform(org.openqa.selenium.Platform.ANY);
-		//capability.setCapability("chrome.binary", "%LOCALAPPDATA%\\Google\\Chrome\\Application\\");
 		capability.setCapability("chrome.switches", Arrays.asList("--start-maximized"));
 		capability.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
 	}

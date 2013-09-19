@@ -1,7 +1,7 @@
 SET pomServer=\\192.168.10.129
 SET pomDir=Automation\MavenTest\AX_TestAutomation
 SET pom=testdata\testbatch\Remote_RunFrontEnd.pom
-SET outputDir=C:\SeleniumAutomationTest\%pomDir%
+SET outputDir=C:\ACL\%pomDir%
 SET sysPropPrefix=AutoQA.
 
 Rem ****************************************************
