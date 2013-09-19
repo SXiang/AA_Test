@@ -4,11 +4,11 @@ import ax.lib.restapi.TestDriverExampleHelper;
 
 import com.acl.qa.taf.helper.Interface.TestDriverInterface;
 
-public class TestGetProjectsList extends TestDriverExampleHelper implements TestDriverInterface{
+public class TestGetAnalyticDetails extends TestDriverExampleHelper implements TestDriverInterface{
 	
 	
     public static void main(String[] args){
-    	TestGetProjectsList test = new TestGetProjectsList();
+    	TestGetAnalyticDetails test = new TestGetAnalyticDetails();
     	test.setMainScript(true);
     	test.testMain(args);
     }
@@ -20,7 +20,7 @@ public class TestGetProjectsList extends TestDriverExampleHelper implements Test
 		startFromLine = 2; // 4-9
 		endAtLine = 2;     //
 			
-		String poolFile = "testdata/ax/testdriver/restapi/GetProjectsList.xls";
+		String poolFile = "testdata/ax/testdriver/restapi/GetAnalyticDetails.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 	}
 	

@@ -45,13 +45,13 @@ public class SQLConf {
 		
 		String sql="";
 
-		sql = "SELECT a.programtype, a.name, b.name, c.name,d.name, d.id "+
+		sql = "SELECT d.id "+
 			  "FROM audititems a, audititems b, audititems c, audititems d, audititems e "+
 			  "WHERE a.programtype = '"+type.toUpperCase()+"' "+
 			     "AND a.name = '"+bc+"' AND a.itemtype = 'BC' AND a.id = b.parentid "+
 			     "AND b.name = '"+lc+"' AND b.itemtype = 'LC' AND b.id = c.parentid "+
-			     "AND c.name = 'Analytic Container' AND c.itemtype = 'AC' AND c.id = d.parentid "+
-			     "AND d.name like '%"+gap+"%' AND d.itemtype = 'GAP'";
+			     "AND c.itemtype = 'AC' AND c.id = d.parentid "+
+			     "AND d.name like '%"+gap+"%' AND d.itemtype = 'GAP' Group By d.id";
 			     		
 		return sql;
 	}
@@ -63,10 +63,10 @@ public class SQLConf {
 
 		sql = "SELECT a.programtype, a.name, b.name, c.name,d.name, e.name, e.id "+
 			  "FROM audititems a, audititems b, audititems c, audititems d, audititems e "+
-			  "WHERE a.programtype = '"+type+"' "+
+			  "WHERE a.programtype = '"+type.toUpperCase()+"' "+
 			     "AND a.name = '"+bc+"' AND a.itemtype = 'BC' AND a.id = b.parentid "+
 			     "AND b.name = '"+lc+"' AND b.itemtype = 'LC' AND b.id = c.parentid "+
-			     "AND c.name = 'Analytic Container' AND c.itemtype = 'AC' AND c.id = d.parentid "+
+			     "AND c.itemtype = 'AC' AND c.id = d.parentid "+
 			     "AND d.name like '%"+gap+"%' AND d.itemtype = 'GAP' AND d.id = e.parentid "+
 			     "AND e.name = '"+an+"' AND e.itemtype = 'AN'";
 			     		
@@ -100,8 +100,8 @@ public class SQLConf {
 				  "WHERE a.programtype = '"+type.toUpperCase()+"' "+
 				     "AND a.name = '"+bc+"' AND a.itemtype = 'BC' AND a.id = b.parentid "+
 				     "AND b.name = '"+lc+"' AND b.itemtype = 'LC' AND b.id = c.parentid "+
-				     "AND c.name = 'Related Files' AND c.itemtype = 'RFC' AND c.id = d.parentid "+
-				     "AND d.name = '"+ tableName +"' AND d.itemtype = 'RF'";
+				     "AND c.itemtype = 'DMC' AND c.id = d.parentid "+
+				     "AND d.name = '"+ tableName +"' AND d.itemtype = 'TB'";
 
 		return sql;
 	}
@@ -115,7 +115,7 @@ public class SQLConf {
 				  "WHERE a.programtype = '"+type.toUpperCase()+"' "+
 				     "AND a.name = '"+bc+"' AND a.itemtype = 'BC' AND a.id = b.parentid "+
 				     "AND b.name = '"+lc+"' AND b.itemtype = 'LC' AND b.id = c.parentid "+
-				     "AND c.name = 'Related Files' AND c.itemtype = 'RFC' AND c.id = d.parentid "+
+				     "AND c.itemtype = 'RFC' AND c.id = d.parentid "+
 				     "AND d.name = '"+ fileName +"' AND d.itemtype = 'RF'";
 				     		
 		return sql;

@@ -33,6 +33,7 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
 		
+		//Rest API - Projects List in a Test: /api/projects/{uuid}/testsets
 		uuid = queryProjectID(dpScope,dpProjectName);
 		if ((uuid != null) && (uuid != ""))
 			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix+"projects/"+uuid+"/testsets";
