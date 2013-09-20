@@ -191,7 +191,8 @@ public class ProjectConf {
 	}
 
 	public void setLocalizationDir(String localizationDir) {
-		this.localizationDir = FileUtil.getAbsDir(localizationDir);
+		//this.localizationDir = FileUtil.getAbsDir(localizationDir);
+		this.localizationDir = localizationDir;
 	}
 
 	public void setTempLocalDir(String tempLocalDir) {

@@ -12,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.service.DriverService;
+
 
 import ax.lib.restapi.TestDriverExampleHelper;
 import ax.lib.restapi.TestSuiteExampleHelper;
@@ -41,7 +41,6 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 
 	protected WebDriver driver;
 	protected boolean casAuthenticated;
-	protected DriverService service;
 
 	
 	//***************  Part 2  *******************
