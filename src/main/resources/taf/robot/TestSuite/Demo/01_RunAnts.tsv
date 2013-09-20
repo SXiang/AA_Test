@@ -1,0 +1,12 @@
+*Settings*							
+Test Template	ACLScriptRunner						
+Resource	${ACLScriptRunner}						
+							
+*Test Cases*	*Script_Owner*	*ProjectName*	*ScriptName*	*Timeout*	*MasterFiles*		
+Ants_Unicode	[Documentation]	Test Ants on Unicode Desktop and Ironhide					
+	[Tags]	Desktop	Ironhide	Unicode	Debug		
+	Iryna_Babak	OldbatsDesktopEnglish\\OLDBATSClient.acl	_AutoAllTest	20 minutes 30 seconds			
+							
+Ants_NonUnicode	[Documentation]	Test Ants on NonUnicode Desktop and Ironhide					
+	[Tags]	Demo	NonUnicode	Desktop	Ironhide		
+	Iryna_Babak	i18NBatchesUnicode\\OldBats_i18n.acl	_AutoAllTest	10 minutes			
