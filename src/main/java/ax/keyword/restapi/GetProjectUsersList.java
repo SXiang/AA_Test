@@ -89,5 +89,19 @@ public class GetProjectUsersList extends RestapiHelper implements KeywordInterfa
 		}
 	
 	}
+	
+	public boolean compareJsonResult(String result,String master)	{
+		
+        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
+        String[] ignoreName = {"$1u-u-i-d$2"};
+        String delimiterPattern = "\\},\\{";
+        
+        return compareResult(
+        	master,result,
+   			true,          //Exact Match
+   			ignorePattern,ignoreName,  //Replacement
+   			delimiterPattern);  // used to split
+		
+	}
     
 }

@@ -22,6 +22,15 @@ public class ProjectConf {
 			localInputDataDir = "",
 			testDataDir = "",
 			toolDir = "";
+	public String webDriver = "chrome";
+	public String imageName = "chromedriver.exe";
+	public String driverPath = "C:\\Selenium";
+	public String nodeName = "localhost";
+	public String nodePort = "4444";
+	public String executionType = "local";
+	public String casType = "nonSSO";
+	public String axServerName = "win2012-64-ramn.aclqa.local";
+	public String axServerPort = "8443";
 
 	// ********************************************************
 	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
@@ -209,6 +218,74 @@ public class ProjectConf {
 	public void setLocalInputDataDir(String localInputDataDir) {
 		this.localInputDataDir = FileUtil.getAbsDir(localInputDataDir);
 	}
+	
+	public String getWebDriver() {
+		return webDriver;
+	}
+
+	public void setWebDriver(String webDriver) {
+		this.webDriver = webDriver;
+	}
+
+	public String getDriverPath() {
+		return driverPath;
+	}
+
+	public void setDriverPath(String driverPath) {
+		this.driverPath = driverPath;
+	}
+
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
+	}
+
+	public String getNodePort() {
+		return nodePort;
+	}
+
+	public void setNodePort(String nodePort) {
+		this.nodePort = nodePort;
+	}
+
+	public String getExecutionType() {
+		return executionType;
+	}
+
+	public void setExecutionType(String executionType) {
+		this.executionType = executionType;
+	}
+
+	public String getCasType() {
+		return casType;
+	}
+
+	public void setCasType(String casType) {
+		this.casType = casType;
+	}
+
+	public String getAxServerName() {
+		return axServerName;
+	}
+
+	public void setAxServerName(String axServerName) {
+		this.axServerName = axServerName;
+	}
+
+	public String getAxServerPort() {
+		return axServerPort;
+	}
+
+	public void setAxServerPort(String axServerPort) {
+		this.axServerPort = axServerPort;
+	}
+	
+	public String getImageName() {
+		return imageName;
+	}
 
 	// **********************************************************************
 	// ********** Default configurations - modify with caution *************
@@ -245,7 +322,7 @@ public class ProjectConf {
 			testerName = "Automation Demo Tester",
 			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
 
-	public String AUT="", appLocale = "", startComm, imageName;
+	public String AUT="", appLocale = "", startComm;
 
 	// Getter & Setter
 

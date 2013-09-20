@@ -4,10 +4,10 @@ import ax.lib.frontend.FrontendTestDriverHelper;
 
 import com.acl.qa.taf.helper.Interface.TestDriverInterface;
 
-public class TestCaseProjectDetails extends FrontendTestDriverHelper implements TestDriverInterface{
+public class TestCaseTestDetails extends FrontendTestDriverHelper implements TestDriverInterface{
 
 	public static void main(String[] args){
-		TestCaseProjectDetails test = new TestCaseProjectDetails();
+		TestCaseTestDetails test = new TestCaseTestDetails();
     	test.setMainScript(true);
     	test.testMain(args);
     }
@@ -18,9 +18,9 @@ public class TestCaseProjectDetails extends FrontendTestDriverHelper implements 
 	{		
 
 		startFromLine = 2; // 4-9
-		//endAtLine = 4;     //
+		//endAtLine = 9;     //
 			
-		String poolFile = "testdata/ax/testdriver/frontend/ProjectDetails.xls";
+		String poolFile = "testdata/ax/testdriver/frontend/TestDetails.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 		
 	}

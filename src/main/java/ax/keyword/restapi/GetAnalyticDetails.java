@@ -6,33 +6,46 @@ import com.acl.qa.taf.util.UTF8Control;
 
 import ax.lib.restapi.RestapiHelper;
 
-public class GetTestSetUsersList extends RestapiHelper implements KeywordInterface {
+public class GetAnalyticDetails extends RestapiHelper implements KeywordInterface {
 	/**
 	 * Script Name   : <b>GetProjectList</b>
-	 * Generated     : <b>Aug. 19, 2013 4:20:42 PM</b>
+	 * Generated     : <b>Sep. 06, 2013 4:20:42 PM</b>
 	 * Description   : Functional Test Script
 	 * 
-	 * @since  2013/08/19
+	 * @since  2013/09/06
 	 * @author Karen_Zou
 	 */
 
 	// BEGIN of datapool variables declaration
-	protected String dpScope;          //@arg value for Scope
+	protected String dpScope;          	//@arg value for Scope
                                     	//@value = working/library/""
+	protected String dpProjectName;   	//@arg value for Project Name
+	protected String dpTestSetName;   	//@arg value for TestSet Name
+	protected String dpTestName;   	    //@arg value for Test Name
+	protected String dpAnalyticName;   	//@arg value for Analytic Name
+
 	// END of datapool variables declaration
-    
-    private String url = "";
-    
+	private String url = "";
+	private String uuid="";
+	
 	@Override
 	public boolean dataInitialization() {
 		super.dataInitialization();
      
-		//*** read in data from datapool
+		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
-
-		if ((dpScope != null) && (dpScope != ""))
-			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects?scope="+dpScope;
-		else url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects";
+		dpProjectName = getDpString("ProjectName");
+		dpTestSetName = getDpString("TestSetName");
+		dpTestName = getDpString("TestName");
+		dpAnalyticName = getDpString("AnalyticName");
+		
+		//Rest API - Analytics List in a Test: /api/analytics/<analytic_uuid>
+		uuid = queryAnalyticID(dpScope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
+		if ((uuid != null) && (uuid != ""))
+			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix+"analytics/"+uuid;
+		else System.out.println("Error:" + "Can not find the uuid for the specific analytic");
+		
+		System.out.println("url:"+url);
 
 		return true;
 	}
@@ -73,33 +86,30 @@ public class GetTestSetUsersList extends RestapiHelper implements KeywordInterfa
 	// *******************************************
 		
 	public void doVerification(){
-		
-	//	for (int i=0; i<ConcurrentInstances; i++) {
-	//		String actualResult = UTF8Control.utf8decode(driver[i].getPageSource());
-			String actualResult = UTF8Control.utf8decode(driver.getPageSource());
-		
-			if(casAuthenticated){
-				logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
-				// compare Json Result - exact master and actual files are handled by framework.
-				logTAFStep("File verification - "+dpMasterFiles[0]);
-				compareJsonResult(actualResult,dpMasterFiles[0]);
-			}else{							
-				logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
-			}
-		}
-	//}
 
+		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
+		if(casAuthenticated){
+			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
+			// compare Json Result - exact master and actual files are handled by framework.
+		    logTAFStep("File verification - "+dpMasterFiles[0]);
+		    compareJsonResult(actualResult,dpMasterFiles[0]);
+		}else{							
+			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
+		}
+	
+	}
+	
 	public boolean compareJsonResult(String result,String master)	{
 		
-        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
-        String[] ignoreName = {"$1u-u-i-d$2"};
-        String delimiterPattern = "\\},\\{";
+		String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","\"createdAt\":\"\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.\\d{3}\"","\"modifiedAt\":\"\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.\\d{3}\""};
+        String[] ignoreName = {"$1u-u-i-d$2","createdAt","modifiedAt"};
+        String delimiterPattern = ",";
         
         return compareResult(
         	master,result,
    			true,          //Exact Match
    			ignorePattern,ignoreName,  //Replacement
    			delimiterPattern);  // used to split
-		
 	}
- }
+
+}

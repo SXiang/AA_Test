@@ -50,12 +50,12 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 	public void testMain(Object[] args) {
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
-		isElementEnabled(listIconLocator);
-		isElementEnabled(cardIconLocator);
-		isElementDisplayed(projectHeaderLocator);
-		isElementEnabled(searchBoxLocator);
-		isElementDisplayed(searchBoxIconLocator);
-		isElementDisplayed(copyrightFooter);
+		isElementEnabled(listIconLocator, "List view icon");
+		isElementEnabled(cardIconLocator, "Card view icon");
+		isElementDisplayed(projectHeaderLocator, "Project header");
+		isElementEnabled(searchBoxLocator, "Search box");
+		isElementDisplayed(searchBoxIconLocator, "Search box lens icon");
+		isElementDisplayed(copyrightFooter, "Copyright footer");
 	}
 
 	//***************  Part 3  *******************

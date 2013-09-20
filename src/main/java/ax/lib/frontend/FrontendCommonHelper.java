@@ -3,6 +3,7 @@ package ax.lib.frontend;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -43,7 +44,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	By searchItemLocator = By.cssSelector("li.search-item-row > button.search-item");
 	By searchCancelFilterIconLocator = By.cssSelector("li.search-item-row > i.icon-remove");
 	By copyrightFooter = By.className("footer");
-	By closeIconLocator = By.cssSelector("div.title-row > div > i.icon_remove");
+	By closeIconLocator = By.cssSelector(".icon_remove.close-layer-icon");
 	//END
     
     // BEGIN of other local variables declaration
@@ -82,6 +83,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}	
 	
 	public void filterList(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		if(!dpSearchItems.isEmpty()){
 			searchItemsArr = dpSearchItems.split("\\|");
 			for(int i=0;i<searchItemsArr.length;i++){
@@ -93,6 +95,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public String getSearchItemsList(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		searchItems = driver.findElements(searchItemLocator);
 		for(int i = 0; i < searchItems.size(); i++) {
         	if(i==0){
@@ -105,6 +108,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public void clearFilter(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		searchItems = driver.findElements(searchCancelFilterIconLocator);
 		for(int i=0;i<searchItems.size();i++){
 			searchItems.get(i).click();
@@ -112,11 +116,13 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public void verifyElementsAfterFilter(){
-		isElementDisplayed(searchItemLocator);
-		isElementEnabled(searchCancelFilterIconLocator);
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
+		isElementDisplayed(searchItemLocator, "Search Items in search box");
+		isElementEnabled(searchCancelFilterIconLocator, "Search items' cancel (x) button");
 	}
 	
 	public void closeLayer() {
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		driver.findElement(closeIconLocator).click();
 	}	
 	
@@ -142,24 +148,24 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	// ******* Methods on verification ***********
 	// *******************************************
 	
-	public boolean isElementEnabled(By locator) {
+	public boolean isElementEnabled(By locator, String elementName) {
 		boolean done = false;
 		try{
 			done = driver.findElement(locator).isEnabled();
-			logTAFStep("Successfully found '"+locator+"'");
+			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
-			logTAFError("Failed to find '"+locator+"' !!!");
+			logTAFError("Failed to find '"+elementName+"' !!!");
 		}
         return done;
     }
 	
-	public boolean isElementDisplayed(By locator) {
+	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
 		try{
 			done = driver.findElement(locator).isDisplayed();
-			logTAFStep("Successfully found '"+locator+"'");
+			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
-			logTAFError("Failed to find '"+locator+"' !!!");
+			logTAFError("Failed to find '"+elementName+"' !!!");
 		}
         return done;
     }
@@ -222,20 +228,16 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public void getSharedObj() {
 		if (suiteObj != null) {
 			driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
-			imageName = ((TestSuiteExampleHelper) suiteObj).currentImageName;
 		} else if (caseObj != null) {
 			driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
-			imageName = ((FrontendTestDriverHelper) caseObj).currentImageName;
 		}
 	}
 
 	public void setSharedObj() {
 		if (suiteObj != null) {
 			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
-			((TestSuiteExampleHelper) suiteObj).currentImageName = imageName;
 		} else if (caseObj != null) {
 			((FrontendTestDriverHelper) caseObj).currentDriver = driver;
-			((FrontendTestDriverHelper) caseObj).currentImageName = imageName;
 		}
 	}	
 

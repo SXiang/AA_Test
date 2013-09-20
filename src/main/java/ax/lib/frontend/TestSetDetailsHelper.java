@@ -6,14 +6,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
-public class ProjectDetailsHelper extends FrontendCommonHelper{
+public class TestSetDetailsHelper extends FrontendCommonHelper{
 	
 	/**
-	 * Script Name   : <b>ProjectDetailsHelper</b>
-	 * Generated     : <b>Sep 6, 2013</b>
-	 * Description   : ProjectDetailsHelper
+	 * Script Name   : <b>TestSetDetailsHelper</b>
+	 * Generated     : <b>Sep 11, 2013</b>
+	 * Description   : TestSetDetailsHelper
 	 * 
-	 * @since  Sep 6, 2013
 	 * @author Ramneet Kaur
 	 */
 
@@ -27,17 +26,20 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 
 	// BEGIN locators of the web elements of ProjectsList page
 	By projectHeaderLocator = By.cssSelector("div.project-header > a > span");
-	By projectNameLocator = By.cssSelector("div.title > span");
-	By projectDropDownLocator = By.cssSelector("div.dropdown > a.dropdown-toggle > i");
-	By projectDropDownMenuItemsLocator = By.cssSelector("div.dropdown > ul.dropdown-menu > li.ng-scope > a");
-	By testSetsHeaderLocator = By.cssSelector("div.testset-subtitle > span");
-	By testSetsNameLocator = By.cssSelector("div.testset-row > div.row-fluid");
+	By projectNameLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-title > span");
+	By testSetNameLocator = By.cssSelector("div.title > span");
+	By projectDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a");
+	By projectDropDownMenuItemsLocator = By.cssSelector("div.sub-layer1 > div.dropdown > div > ul.dropdown-menu > li > a");
+	By testSetDropDownLocator = By.cssSelector("div.title-row > div.dropdown > a");
+	By testSetDropDownMenuItemsLocator = By.cssSelector("div.title-row > div.dropdown > div > ul.dropdown-menu > li > a");
+	By testsHeaderLocator = By.cssSelector("div.test-subtitle > span");
+	By testsNameLocator = By.cssSelector("div.test-row > div.row-fluid > a");
 	By rightPanelTitleLocator = By.className("right-panel-block-title");
 	By rightPanelIconLocator = By.className("right-panel-block-icon");
 	By descriptionLocator = By.className("right-panel-block-content");
 	By infoContentLabelLocator = By.cssSelector("div.right-panel-block-content > dl > dt > span");
 	By infoContentDataLocator = By.cssSelector("div.right-panel-block-content > dl > dd");
-	By usersPopupHeaderLocator = By.xpath("html/body/div[4]/div[1]/div[1]");
+	By usersPopupHeaderLocator = By.className("modal-title");
 	By usersListLocator = By.cssSelector("div.modal-body > ul.user-list > li.user-row");
 	By usersPopupCloseIconLocator = By.cssSelector("div.modal-header > div.icon-remove");
 	//END
@@ -48,8 +50,8 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	protected String dropDownMenuList;
 	protected List<WebElement> users;
 	protected String usersList;
-	protected List<WebElement> testSets;
-	protected String testSetsList;
+	protected List<WebElement> tests;
+	protected String testsList;
 	protected int index;
 	protected String rightPanelLabels;
 	protected String infoPanelContent;
@@ -75,7 +77,8 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		isElementDisplayed(copyrightFooter, "Copyright footer");
 		isElementDisplayed(projectNameLocator, "Project name");
 		isElementDisplayed(projectDropDownLocator, "Project drop down button");
-		isElementDisplayed(testSetsHeaderLocator, "TestSets list header");
+		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
+		isElementDisplayed(testsHeaderLocator, "Test list header");
 		isRightPanelIconDisplayed();
 		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
@@ -86,17 +89,27 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	
 	public void isRightPanelIconDisplayed(){
 		rightPanelData = driver.findElements(rightPanelIconLocator);
-        if(rightPanelData.get(0).isDisplayed()){
+		if(rightPanelData.get(0).isDisplayed()){
+        	logTAFInfo("Found DataTables Icon");
+        } else{
+        	logTAFError("DataTables Icon missing");
+        }
+        if(rightPanelData.get(1).isDisplayed()){
+        	logTAFInfo("Found RelatedFiles Icon");
+        } else{
+        	logTAFError("Info RelatedFiles missing");
+        }
+        if(rightPanelData.get(2).isDisplayed()){
         	logTAFInfo("Found Description Icon");
         } else{
         	logTAFError("Description Icon missing");
         }
-        if(rightPanelData.get(1).isDisplayed()){
+        if(rightPanelData.get(3).isDisplayed()){
         	logTAFInfo("Found Info Icon");
         } else{
         	logTAFError("Info Icon missing");
         }
-        if(rightPanelData.get(2).isDisplayed()){
+        if(rightPanelData.get(4).isDisplayed()){
         	logTAFInfo("Found Users Icon");
         } else{
         	logTAFError("Users Icon missing");
@@ -104,7 +117,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	}
 
 	public String getDescription(){
-		return driver.findElements(rightPanelTitleLocator).get(0).getText()+":"+driver.findElement(descriptionLocator).getText();
+		return driver.findElements(rightPanelTitleLocator).get(2).getText()+":"+driver.findElement(descriptionLocator).getText();
 	}
 	
 	public String getInfo(){
@@ -116,6 +129,14 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
         	}
         }
 		return infoPanelContent;
+	}
+	
+	public String getDataTablesLabel(){
+		return driver.findElements(rightPanelTitleLocator).get(0).getText();
+	}
+	
+	public String getRelatedFilesLabel(){
+		return driver.findElements(rightPanelTitleLocator).get(1).getText();
 	}
 	
 	public String getProjectHeader(){
@@ -140,20 +161,37 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		return dropDownMenuList;
 	}
 	
-	public String getTestSetHeader(){
-		sleep(3);
-		return driver.findElement(testSetsHeaderLocator).getText();
+	public String getTestSetName(){
+		return driver.findElement(testSetNameLocator).getText();
+	}
+	
+	public String getTestSetsListFromDropDown(){
+		driver.findElement(testSetDropDownLocator).click();
+		sleep(5);
+		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
+        for(int i = 0; i < dropDownMenu.size(); i++) {
+        	if(i==0){
+        		dropDownMenuList=dropDownMenu.get(i).getText();
+        	}else{
+        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        	}
+        }
+		driver.findElement(testSetDropDownLocator).click();
+		return dropDownMenuList;
+	}
+	
+	public String getTestHeader(){
+		return driver.findElement(testsHeaderLocator).getText();
 	}
 	
 	public String getUsersPanelTitle() {
-		return driver.findElements(rightPanelTitleLocator).get(2).getText();
+		return driver.findElements(rightPanelTitleLocator).get(4).getText();
     }
 	public void getUsersPopup(){
-		driver.findElements(rightPanelTitleLocator).get(2).click();
+		driver.findElements(rightPanelTitleLocator).get(4).click();
 	}
 	public String getUsersPopupHeader(){
-		String usersHeader  = driver.findElement(usersPopupHeaderLocator).getText();
-		return usersHeader;
+		return driver.findElement(usersPopupHeaderLocator).getText();
 	}
 	public String getUsersList(){
 		users = driver.findElements(usersListLocator);
@@ -171,30 +209,45 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		driver.findElement(usersPopupCloseIconLocator).click();
 	}
 	
-	public String getTestSetsList(){
-		testSets = driver.findElements(testSetsNameLocator);
-        for(int i = 0; i < testSets.size(); i++) {
+	public String getTestsList(){
+		tests = driver.findElements(testsNameLocator);
+        for(int i = 0; i < tests.size(); i++) {
         	if(i==0){
-        		testSetsList=testSets.get(i).getText();
+        		testsList=tests.get(i).getText();
         	}else{
-        		testSetsList=testSetsList+"|"+testSets.get(i).getText();
+        		testsList=testsList+"|"+tests.get(i).getText();
         	}
         }
-		return testSetsList;
+		return testsList;
 	}
 	
-	public boolean clickTestSetName(String testSetName) {
-		testSets = driver.findElements(testSetsNameLocator);
-		for(int i = 0; i < testSets.size(); i++) {
-        	if(testSets.get(i).getText().equals(testSetName)){
-        		logTAFStep("TestSet: "+testSetName+" found and clicked on!!!");
-        		testSets.get(i).click();
+	public boolean clickTestName(String testName) {
+		tests = driver.findElements(testsNameLocator);
+		for(int i = 0; i < tests.size(); i++) {
+        	if(tests.get(i).getText().equals(testName)){
+        		logTAFStep("Test: "+testName+" found and clicked on!!!");
+        		tests.get(i).click();
         		return true;
         	}
         }
-		logTAFError("TestSet: "+testSetName+" not found!!");
+		logTAFError("Test: "+testName+" not found!!");
 		return false;
 	}	
+	
+	public Boolean clickTestSetNameFromDropDown(String testSetName){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
+		driver.findElement(testSetDropDownLocator).click();
+		sleep(5);
+		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
+        for(int i = 0; i < dropDownMenu.size(); i++) {
+        	if(dropDownMenu.get(i).getText().equalsIgnoreCase(testSetName)){
+        		dropDownMenu.get(i).click();
+        		return true;
+        	}
+        }
+		driver.findElement(projectDropDownLocator).click();
+		return false;
+	}
 	
 	public Boolean clickProjectNameFromDropDown(String projectName){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
