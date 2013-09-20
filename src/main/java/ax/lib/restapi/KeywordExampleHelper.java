@@ -14,6 +14,8 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 
+import org.openqa.selenium.remote.DesiredCapabilities;
+
 import ax.lib.restapi.TestDriverExampleHelper;
 import ax.lib.restapi.TestSuiteExampleHelper;
 
@@ -82,6 +84,7 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 	public void setupNewDriver(String Browser) {
 		//Browser="Chrome";
 		//Browser="InternetExplorer";
+		//Browser="fireFox";
         String imageName = "";
 		logTAFStep("Start a new browser for testing - " + Browser);
 		if (Browser.equalsIgnoreCase("HtmlUnit")) {
@@ -95,8 +98,10 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 			driver = new ChromeDriver();
 			imageName = "chrome.exe";
 		} else if (Browser.equalsIgnoreCase("InternetExplorer")) {
-			System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer64.exe");
-			driver = new InternetExplorerDriver();
+			System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer32.exe");
+			DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
+			ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+			driver = new InternetExplorerDriver(ieCapabilities);
 			imageName = "iexploere.exe";
 		} else {
 			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
