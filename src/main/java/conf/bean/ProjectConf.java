@@ -191,7 +191,8 @@ public class ProjectConf {
 	}
 
 	public void setLocalizationDir(String localizationDir) {
-		this.localizationDir = FileUtil.getAbsDir(localizationDir);
+		//this.localizationDir = FileUtil.getAbsDir(localizationDir);
+		this.localizationDir = localizationDir;
 	}
 
 	public void setTempLocalDir(String tempLocalDir) {
@@ -460,7 +461,7 @@ public class ProjectConf {
 		return;
 	}
 	public void initCache() {
-		String cacheConfig = localizationDir + "cache4j_config.xml";
+		String cacheConfig = FileUtil.getAbsDir(localizationDir) + "cache4j_config.xml";
 
 		try {
 			CacheFactory cacheFactory = CacheFactory.getInstance();

@@ -32,7 +32,8 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
-		
+
+		//Rest API - Projects List in a Test: /api/projects/{uuid}
 		uuid = queryProjectID(dpScope,dpProjectName);
 		if ((uuid != null) && (uuid != ""))
 			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects/"+uuid;
@@ -88,6 +89,20 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
 		}
 	
+	}
+	
+	public boolean compareJsonResult(String result,String master)	{
+			
+		String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","\"createdAt\":\"\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.\\d{3}\"","\"modifiedAt\":\"\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.\\d{3}\""};
+        String[] ignoreName = {"$1u-u-i-d$2","createdAt","modifiedAt"};
+        String delimiterPattern = ",";
+        
+        return compareResult(
+        	master,result,
+   			true,          //Exact Match
+   			ignorePattern,ignoreName,  //Replacement
+   			delimiterPattern);  // used to split
+		
 	}
     
 }

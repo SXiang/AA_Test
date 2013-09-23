@@ -327,6 +327,7 @@ public class RestapiHelper extends KeywordSuperHelper {
     	try {
     		rs.next();
     		id = rs.getString("id");
+			logTAFInfo("Project uuid is retrieved successfully");
     	} catch (SQLException e) {
 			logTAFError("Cannot find the project uuid for specified project - Please check your data. "+e.toString());
     	}
@@ -342,8 +343,41 @@ public class RestapiHelper extends KeywordSuperHelper {
     	try {
     		rs.next();
     		id = rs.getString("id");
+			logTAFInfo("Testset uuid is retrieved successfully");
     	} catch (SQLException e) {
 			logTAFError("Cannot find the testset uuid for specified testset - Please check your data. "+e.toString());
+    	}
+    	 
+	    return id;
+   }
+
+    public String queryTestID(String scope, String projectname, String testsetname, String testname){
+    	String id = "";
+    	String sql = SQLConf.getTestID(scope, projectname, testsetname, testname);
+    	
+    	ResultSet rs = queryDB(sql);
+    	try {
+    		rs.next();
+    		id = rs.getString("id");
+			logTAFInfo("Test uuid is retrieved successfully");
+    	} catch (SQLException e) {
+			logTAFError("Cannot find the test uuid for specified test - Please check your data. "+e.toString());
+    	}
+    	 
+	    return id;
+   }
+
+    public String queryAnalyticID(String scope, String projectname, String testsetname, String testname, String analyticname){
+    	String id = "";
+    	String sql = SQLConf.getAnalyticID(scope, projectname, testsetname, testname, analyticname);
+    	
+    	ResultSet rs = queryDB(sql);
+    	try {
+    		rs.next();
+    		id = rs.getString("id");
+			logTAFInfo("Analytic uuid is retrieved successfully");
+    	} catch (SQLException e) {
+			logTAFError("Cannot find the analytic uuid for specified analytic - Please check your data. "+e.toString());
     	}
     	 
 	    return id;

@@ -74,16 +74,32 @@ public class GetTestSetUsersList extends RestapiHelper implements KeywordInterfa
 		
 	public void doVerification(){
 		
-		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
+	//	for (int i=0; i<ConcurrentInstances; i++) {
+	//		String actualResult = UTF8Control.utf8decode(driver[i].getPageSource());
+			String actualResult = UTF8Control.utf8decode(driver.getPageSource());
 		
-		if(casAuthenticated){
-			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
-			// compare Json Result - exact master and actual files are handled by framework.
-		    logTAFStep("File verification - "+dpMasterFiles[0]);
-		    compareJsonResult(actualResult,dpMasterFiles[0]);
-		}else{							
-			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
+			if(casAuthenticated){
+				logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
+				// compare Json Result - exact master and actual files are handled by framework.
+				logTAFStep("File verification - "+dpMasterFiles[0]);
+				compareJsonResult(actualResult,dpMasterFiles[0]);
+			}else{							
+				logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
+			}
 		}
-	}
+	//}
 
+	public boolean compareJsonResult(String result,String master)	{
+		
+        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
+        String[] ignoreName = {"$1u-u-i-d$2"};
+        String delimiterPattern = "\\},\\{";
+        
+        return compareResult(
+        	master,result,
+   			true,          //Exact Match
+   			ignorePattern,ignoreName,  //Replacement
+   			delimiterPattern);  // used to split
+		
+	}
  }
