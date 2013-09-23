@@ -38,7 +38,7 @@
       <url>${aclqaNexusUrl}/groups/public</url>
      </pluginRepository>
    </pluginRepositories> 
-   <repositories>
+   <repositories>  
       <repository>
         <id>Nexus</id>
         <name>Nexus Public Repository</name>
@@ -110,7 +110,7 @@
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <phase>validate</phase>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
