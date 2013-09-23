@@ -38,7 +38,7 @@ public class GetTestSetDetail extends RestapiHelper implements KeywordInterface 
 		//Rest API - Projects List in a Test: /api/testsets/{uuid}
 		uuid = queryTestSetID(dpScope,dpProjectName,dpTestSetName);
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix+"testsets/"+uuid;
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"testsets/"+uuid;
 		else System.out.println("Error:" + "Can not find the uuid for the specific test set");
 
 		return true;

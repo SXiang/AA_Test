@@ -31,8 +31,8 @@ public class GetTestSetUsersList extends RestapiHelper implements KeywordInterfa
 		dpScope = getDpString("Scope");
 
 		if ((dpScope != null) && (dpScope != ""))
-			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects?scope="+dpScope;
-		else url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix + "projects";
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "projects?scope="+dpScope;
+		else url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "projects";
 
 		return true;
 	}

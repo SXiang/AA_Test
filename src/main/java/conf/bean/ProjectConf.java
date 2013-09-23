@@ -12,8 +12,9 @@ import com.acl.qa.taf.util.*;
 public class ProjectConf {
 
 	// **** User defined parameters - declared on demand *****
-	public String unicodeServerIP = "192.168.10.95",
-			nonUnicodeServerIP = "192.168.10.98",
+	public String 
+	        //20130923 clean parameters unicodeServerIP = "192.168.10.95",
+			//20130923 clean parameters nonUnicodeServerIP = "192.168.10.98",
 			serverPrefix = "C:/ACL/Automation/RFT_DATA/",
 			serverNetDir = ":/ACL/Automation/",
 			serverNetUser = "Administrator", serverNetPassword = "Password00",
@@ -31,7 +32,7 @@ public class ProjectConf {
 	public String casType = "nonSSO";
 	public String axServerName = "win2012-64-ramn.aclqa.local";
 	public String axServerPort = "8443";
-
+    public String apiPrefix = "/aclax/api/";
 	// ********************************************************
 	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
 	// ********** Setters - Auto generated and dir addressed *****************
@@ -166,14 +167,14 @@ public class ProjectConf {
 		this.hostIP = hostIP;
 	}
 
-	public void setUnicodeServerIP(String unicodeServerIP) {
+/*20130923 clean parameters public void setUnicodeServerIP(String unicodeServerIP) {
 		this.unicodeServerIP = unicodeServerIP;
 	}
 
 	public void setNonUnicodeServerIP(String nonUnicodeServerIP) {
 		this.nonUnicodeServerIP = nonUnicodeServerIP;
 	}
-
+20130923 clean parameters */
 	public void setServerPrefix(String serverPrefix) {
 		this.serverPrefix = serverPrefix;
 	}
@@ -516,19 +517,6 @@ public class ProjectConf {
 		}
 	}
 	
-	// Configurations for RestAPI 
-	public String serverName = "win2012-3.aclqa.local",
-	              port = "8443",
-	              apiPrefix = "/aclax/api/";
-	
-	public void setServerName(String serverName) {
-		this.serverName = serverName;
-	}
-	
-	public void setPort(String port) {
-		this.port = port;
-	}
-
 	public void setApiPrefix(String apiPrefix) {
 		this.apiPrefix = apiPrefix;
 	}

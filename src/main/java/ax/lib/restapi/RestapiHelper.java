@@ -72,7 +72,7 @@ public class RestapiHelper extends KeywordSuperHelper {
         String imageName = "";
 		logTAFStep("Start a new browser for testing - " + Browser);
 		if (Browser.equalsIgnoreCase("HtmlUnit")) {
-			driver = setupHtmlUnitDriver();
+			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
 			imageName = "";
 		} else if (Browser.equalsIgnoreCase("FireFox")) {
 			driver = new FirefoxDriver();
@@ -84,7 +84,7 @@ public class RestapiHelper extends KeywordSuperHelper {
 			driver = new InternetExplorerDriver();
 			imageName = "iexploere.exe";
 		} else {
-			driver = setupHtmlUnitDriver();
+			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
 			imageName = "";
 		}
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

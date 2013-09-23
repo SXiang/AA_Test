@@ -40,7 +40,7 @@ public class GetAnalyticsList extends RestapiHelper implements KeywordInterface 
 		//Rest API - Analytics List in a Test: /api/tests/<test_uuid>/analytics
 		uuid = queryTestID(dpScope,dpProjectName,dpTestSetName,dpTestName);
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.serverName+":" + projectConf.port + projectConf.apiPrefix+"tests/"+uuid+"/analytics";
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"tests/"+uuid+"/analytics";
 		else System.out.println("Error:" + "Can not find the uuid for the specific test");
 
 		return true;
