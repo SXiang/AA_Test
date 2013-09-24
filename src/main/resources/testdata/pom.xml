@@ -25,17 +25,6 @@
       
   </distributionManagement>
   <pluginRepositories>
-   <pluginRepository>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>Central Repository</name>
-      <url>http://repo.maven.apache.org/maven2</url>
-    </pluginRepository>
     <pluginRepository>
       <releases>
          <enabled>true</enabled>
@@ -49,15 +38,7 @@
       <url>${aclqaNexusUrl}/groups/public</url>
      </pluginRepository>
    </pluginRepositories> 
-   <repositories>
-     <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>Central Repository</name>
-      <url>http://repo.maven.apache.org/maven2</url>
-    </repository>
+   <repositories>  
       <repository>
         <id>Nexus</id>
         <name>Nexus Public Repository</name>
@@ -129,7 +110,7 @@
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <phase>validate</phase>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
