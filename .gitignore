@@ -28,4 +28,5 @@ submodule_taf
 !*Example.xls
 *.xlsx
 !*Example.xlsx
+/2013/
 *.bak[0-9]*
