@@ -26,7 +26,7 @@ public class TestSuiteRestAPI extends TestSuiteExampleHelper implements TestSuit
 		//startFromLine = 37; // 4-9
 		//endAtLine =2;     //
 		//logTAFInfo(System.getProperty("user.dir"));
-    	String poolFile = "testdata/ax/TestSuiteFrontEnd.xls";
+    	String poolFile = "testdata/ax/TestSuiteRestAPI.xls";
 		exeBatchRun(onInitialize(poolFile, getClass().getName()));
 	}
 		

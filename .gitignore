@@ -1,5 +1,6 @@
 # Lines that begin with #, like this one, are ignored.
 /*.*
+*.xls
 !/*.bat
 .*
 !.gitignore
@@ -18,7 +19,6 @@
 # Floder and Files
 null/
 target/
-deployment/
 .gitmodules
 submodule_taf
 /output/
@@ -28,5 +28,5 @@ submodule_taf
 !*Example.xls
 *.xlsx
 !*Example.xlsx
-*.bak[0-9]*
 /2013/
+*.bak[0-9]*
