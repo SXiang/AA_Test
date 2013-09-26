@@ -189,6 +189,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 
 	public void closeBrowser(){
 		driver.close();
+		killProcess(projectConf.driverName);
 		driver = null;
 		logTAFStep("Close test browser");
 		setSharedObj();
@@ -197,6 +198,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public void killBrowser(){
 		logTAFStep("Kill browser '" + imageName + "'");
 		killProcess(imageName);
+		killProcess(projectConf.driverName);
 		driver = null;
 		setSharedObj();
 	}
