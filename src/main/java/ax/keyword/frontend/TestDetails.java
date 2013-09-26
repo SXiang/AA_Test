@@ -12,7 +12,7 @@ public class TestDetails  extends TestDetailsHelper{
 	 * @author Ramneet Kaur
 	 */
 
-	
+	/*
 	// *************** Part 1 *******************
 	// ******* Declaration of variables **********
 	// *******************************************
@@ -226,5 +226,5 @@ public class TestDetails  extends TestDetailsHelper{
 		//debug.openTestSetDetails();
 		//debug.verifyUsersList();
 	}
-	
+	*/
 }

@@ -46,6 +46,9 @@ public class ProjectsList extends ProjectsListHelper{
 			String viewType = openView();
 			openProjectDetails(viewType);
 		}
+		if(!dpViewType.isEmpty()){
+			openView();
+		}
 		cleanUp();
 	
 		// *** cleanup by framework ***
