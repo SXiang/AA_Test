@@ -110,9 +110,11 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	public String getInfo(){
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
-        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
+        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         	}else{
-        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText();
+        		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         	}
         }
 		return infoPanelContent;
