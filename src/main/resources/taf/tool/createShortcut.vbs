@@ -14,7 +14,8 @@
 '	description = "ACLQA_Automation"
 
 set WshShell = WScript.CreateObject("WScript.Shell")
-strDesktop = WshShell.SpecialFolders("AllUsersDesktop")
+strDesktop = WshShell.SpecialFolders("Desktop")
+'strDesktop = WshShell.SpecialFolders("AllUsersDesktop")
 strShortcut = strDesktop & "\" & shortcutName & ".lnk"
 Set fso = CreateObject("Scripting.FileSystemObject")
 If fso.FileExists(strShortcut) Then fso.DeleteFile(strShortcut)

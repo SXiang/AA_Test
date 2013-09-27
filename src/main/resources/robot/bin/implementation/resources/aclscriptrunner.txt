@@ -1,0 +1,54 @@
+*** Settings ***
+Library           OperatingSystem
+Library           AutoItLibrary    OutputDir=${outputdir}    CaptureScreenOnError=${True}
+Library           Process
+Library           String
+Library           Collections
+Resource          fileutil.txt
+Variables         ../../../execution/local/settings/user.py
+
+*** Keywords ***
+ACLScriptRunner
+    [Arguments]    ${ProjectName}    ${ScriptName}    ${Timeout}    @{MasterFiles}
+    Set Test Variable    ${ProjectName_ori}    ${projectBackupDir}\\${ProjectName}
+    Set Test Variable    ${ProjectName}    ${projectDir}\\${ProjectName}
+    Set Test Variable    ${testDir}    ${ProjectName}.ACL\\..
+    Comment    Set Test Variable    ${doneFile}    ${doneFile}.LOG
+    Set Test Variable    ${status}    FAIL
+    Set Test Variable    ${count}    0
+    Set Test Variable    ${master}    MasterFile
+    Set Test Variable    ${fileEncoding}    UTF-16LE
+    Run Keyword Unless    '${Encoding}'=='Unicode'    Set Test Variable    ${fileEncoding}    UTF-8
+    cleanup    ${sutDir}    ${imageName}    ${testDir}\\${doneFile}    ${ProjectName}    ${ProjectName_ori}
+    Start Process    ScriptExecute.bat    ${testDir}    ${sutDir}\\${imageName}    ${ProjectName}    ${doneFile}    ${ScriptName}
+    Wait Until Created    ${testDir}\\${doneFile}.LOG    ${Timeout}
+    : FOR    ${file}    IN    ${doneFile}.LOG    @{MasterFiles}
+    \    ${status}=    File Should Exist    ${testDir}\\${file}
+    \    ${count}=    Count Files In Directory    ${testDir}\\${master}    ${file}
+    \    Run Keyword Unless    '${count}'=='1'    Copy File    ${testDir}\\${file}    ${testDir}\\${master}\\${file}
+    \    Run Keyword If    '${updateMasterFile}'=='True'    Copy File    ${testDir}\\${file}    ${testDir}\\${master}\\${file}
+    \    ${status}=    fileutil.CompareFile    ${testDir}\\${master}\\${file}    ${testDir}\\${file}    ${fileEncoding}
+    [Teardown]    closeapp    ${status}    ${ScriptName}    ${ImageName}
+
+cleanup
+    [Arguments]    ${sutDir}    ${imageName}    ${doneFile}    ${ProjectName}    ${ProjectName_ori}
+    File Should Exist    ${sutDir}\\${imageName}
+    ${path}    ${pName}=    Split Path    ${ProjectName}
+    Run Keyword If    '${updateMasterFile}'=='True'    Copy File    ${ProjectName}\\..\\${pName}.ACL    ${ProjectName}\\..\\MasterFile\\${pName}.ACL
+    Run Keyword And Ignore Error    OperatingSystem.Run    xcopy ${ProjectName_ori}\\..\\${pName}.ACL ${ProjectName}\\..\\MasterFile\\${pName}.ACL /Y /E /D /R
+    ${status}    ${value}=    Run Keyword And Ignore Error    File Should Exist    ${ProjectName}\\..\\MasterFile\\${pName}.ACL
+    Run Keyword Unless    '${status}'=='PASS'    Copy File    ${ProjectName}\\..\\${pName}.ACL    ${ProjectName}\\..\\MasterFile\\${pName}.ACL
+    Run Keyword If    '${status}'=='PASS'    Copy File    ${ProjectName}\\..\\MasterFile\\${pName}.ACL    ${ProjectName}\\..\\${pName}.ACL
+    Set Test Variable    ${pref}    acl10.prf
+    Run Keyword Unless    '${Encoding}'=='Unicode'    Set Test Variable    ${pref}    aclwin10.prf
+    Run Keyword And Ignore Error    Copy File    ..\\settings\\${pref}    ${ProjectName}\\..\\${pref}
+    Run Keyword And Ignore Error    Remove File    ${doneFile}.LOG
+    Run Keyword And Ignore Error    Remove File    ${doneFile}.LIX
+    Run Keyword And Ignore Error    Remove File    ${ProjectName}.LOG
+    Run Keyword And Ignore Error    Remove File    ${ProjectName}.LIX
+    Run Keyword And Ignore Error    Remove File    ${ProjectName}.AC
+
+closeapp
+    [Arguments]    ${status}    ${ScriptName}    ${ImageName}
+    Run Keyword Unless    '${status}'=='PASS'    Get Screen Image    ${ImageName}_${ScriptName}.jpeg
+    Run Keyword And Ignore Error    OperatingSystem.Run    taskkill /F /T /IM ${imageName}

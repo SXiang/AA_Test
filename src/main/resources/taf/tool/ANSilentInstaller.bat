@@ -46,7 +46,10 @@ SET USER_NAME=Your ACL User Name
 SET PASSWORD=Your ACL Password
 IF "%PIDKEY%"=="" SET PIDKEY=CAW1234567890
 SET COMPANYNAME=ACLQA Automation
-SET InstallIH=No
+IF '%InstallIH%'=='' SET InstallIH=No
+IF '%INSTALL_DIR1%'=='' SET INSTALL_DIR1=C:\ACL\Analytics10.5
+IF '%INSTALL_DIR2%'=='' SET INSTALL_DIR2=C:\ACL\CI_Jenkins\Analytics10.5
+
 IF NOT '%1'=='' SET _Version=%1
 ::IF NOT '%2'=='' SET VerPrefix=%2
 IF /I '%tFolder%'=='Dev' SET VerPrefix=%VerPrefix%
@@ -112,11 +115,11 @@ SET INSTALLEXE=ACLSilentInstall.exe
 SET IHINSTALLEXE=ACLIHSilentInstall.exe
 SET NUM_TOKENS=4
 SET INSTALL_DIR=%DESROOT%
-SET INSTALL_DIR1=C:\ACL\Analytics10.5
-SET INSTALL_DIR2=C:\ACL\CI_Jenkins\Analytics10.5
-SET COPY_DIR=D:\ACL\Analytics10.5_Binary\%Project%
+
+IF '%COPY_DIR1%'=='' SET COPY_DIR1=:\ACL\Analytics10.5_Binary\%Project%
+SET COPY_DIR=D%COPY_DIR1%
 MKDIR %COPY_DIR% 2>NUL
-IF NOT EXIST %COPY_DIR% SET COPY_DIR=C:\ACL\Analytics10.5_Binary\%Project%
+IF NOT EXIST %COPY_DIR% SET COPY_DIR=C%COPY_DIR1%
 IF '"%DESROOT%"'=='""' (
     IF /I '%SILENT_INSTALL%' == 'TRUE' (
 	   SET DESROOT=%INSTALL_DIR1%
@@ -147,6 +150,8 @@ SET Nameprefix=ACLv10
 SET Nameprefix_New=ACLAnalytics105
 SET Executable=ACLWin.exe
 
+SET ACLNonUni=Release
+SET ACLUni=Unicode
 SET ACLNonUni_Old=Release
 SET ACLUni_Old=Unicode
 SET ACLNonUni_New=Desktop_nonUnicode
@@ -251,8 +256,9 @@ FOR /D  %%g IN (%SRCROOT%\%VerPattern%) DO (
 	   SET tempLatestVer=%%f
 	   SET /a tempLatestVer_num=!tempLatestVer:~6!
 	   SET /a LatestVer_num=!LatestVer:~6!
-	   rem IF /I '%LatestVer%' LEQ '%%f' (	   
-	   IF !LatestVer_num! LEQ !tempLatestVer_num! (	     
+
+	   SET DUBUGTHIS=LatestVer_num LEQ tempLatestVer_num
+	   IF !LatestVer_num! LEQ !tempLatestVer_num! (
 	      IF /I '%SILENT_INSTALL%'=='TRUE' (
 		    set dir_suffix=Installer
 rem 		    IF /I Not '%LOCALE%'=='En' (
@@ -260,12 +266,12 @@ rem 			   set sub_Type=
 rem 			   set sub_dir=%%f
 rem 			   IF NOT EXIST %SRCROOT%\%%f\%dir_suffix% Call :getSubDir
 rem 			) ELSE (
-			   set sub_Type=\%dir_suffix%
-		       IF EXIST %SRCROOT%\%%f\%dir_suffix%\%ACLUni%.exe SET LatestVer=%%f
-			   IF EXIST %SRCROOT%\%%f\%dir_suffix%\%ACLNonUni%.exe SET LatestVer=%%f
-			)
+			   set sub_Type=\!dir_suffix!
+		       IF EXIST %SRCROOT%\!tempLatestVer!\!dir_suffix!\%ACLUni%.exe SET LatestVer=!tempLatestVer!
+			   IF EXIST %SRCROOT%\!tempLatestVer!\!dir_suffix!\%ACLNonUni%.exe SET LatestVer=!tempLatestVer!
+			REM )
 		  ) ELSE (
-	        SET LatestVer=%%f
+	        SET LatestVer=!tempLatestVer!
 		  )
 	   )
     )
@@ -336,14 +342,14 @@ IF /I '%VerType%'=='Installer' (
 
  IF NOT EXIST %DESROOT%\%Version%\%ACLNonUni%\%Executable% (
    SET aclNonUniExist=!Not Installed
-   IF EXIST %SRCROOT%.\%Version%.\%ACLNonUni% SET aclNonUniExist=Ready
-   IF NOT EXIST %SRCROOT%\%Version%\%ACLNonUni% SET aclNonUniExist=!Binary Not Ready Yet
+   IF EXIST %SRCROOT%.\%Version%.\%ACLNonUni%\%Executable% SET aclNonUniExist=Ready
+   IF NOT EXIST %SRCROOT%\%Version%\%ACLNonUni%\%Executable% SET aclNonUniExist=!Binary Not Ready Yet
  
    )
  IF NOT EXIST %DESROOT%\%Version%\%ACLUni%\%Executable% (
    SET aclUniExist=!Not Installed
-   IF EXIST %SRCROOT%.\%Version%.\%ACLUni% SET aclUniExist=Ready
-   IF NOT EXIST %SRCROOT%\%Version%\%ACLUni% SET aclUniExist=!Binary Not Ready Yet
+   IF EXIST %SRCROOT%.\%Version%.\%ACLUni%\%Executable% SET aclUniExist=Ready
+   IF NOT EXIST %SRCROOT%\%Version%\%ACLUni%\%Executable% SET aclUniExist=!Binary Not Ready Yet
    )
 )
 
@@ -360,7 +366,7 @@ ECHO.
 ECHO.**********************  Setup %Project% daily build ***********************
 ECHO.**With Silent Installer mode,You may need to uninstall pre installed   *
 ECHO.* version manually  for the first time use of this script              *
-ECHO.**To install PL product, you may need to change the system locale      *
+rem ECHO.**To install PL product, you may need to change the system locale      *
 ECHO.**You may change all the default values by editing this script         *
 ECHO.**Developed by: Steven_Xiang@ACL.COM                                   *
 ECHO.* * * * * * * * * * * * * * *  * * * * * * * * * * * * * * * * * * * * *
@@ -802,6 +808,7 @@ SET Done=
 GOTO EOF
 
 :RUNTEST
+IF '%RUN_PARAMETER%'=='' GOTO EOF
 SET RUN_FLAG=%DESROOT%\%Version%\AUTOMATION_IS_RUNING
 IF NOT '%1'=='' SET Done=%1
 ::ECHO TEST_CATEGORY=%TEST_CATEGORY%  _testCategory=%_testCategory%
@@ -818,7 +825,6 @@ IF /I '%tExecutable%'=='%IHExecutable%' (
 )
 
 Rem ************************
-
 IF NOT '%VerType%'=='DevBuild' (
   SET UNI_PATH=%DESROOT%\%Executable%
   SET NONUNI_PATH=%DESROOT%\%Executable%
