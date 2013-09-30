@@ -91,7 +91,7 @@ IF /I '%RPS%'=='RESTAPI' (
 ) 
 IF /I '%RPS%'=='FrontEnd' (
  	SET mainClass=ax.TestSuiteFrontEnd
- 	SET testDataFile=testdata/ax/TestSuiteFrontEnd-karen.xls
+ 	SET testDataFile=testdata/ax/TestSuiteFrontEnd.xls
  	SET webDriver=%webDriver%
  	SET imageName=%imageName%
 )
