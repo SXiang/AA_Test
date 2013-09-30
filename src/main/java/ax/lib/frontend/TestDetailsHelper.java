@@ -280,21 +280,50 @@ public class TestDetailsHelper extends FrontendCommonHelper{
         		categoriesList=categoriesList+"|"+categories.get(i).getText();
         	}
         }
-		return testsList;
+		return categoriesList;
 	}
 	
-	public boolean clickAnalyticName(String analyticName) {
+	public boolean clickRunIcon(String analyticName) {
 		analytics = driver.findElements(analyticNameLocator);
+		runIcons = driver.findElements(analyticRunIconLocator);
 		for(int i = 0; i < analytics.size(); i++) {
         	if(analytics.get(i).getText().equals(analyticName)){
-        		logTAFStep("Analytic: "+analyticName+" found and clicked on!!!");
-        		analytics.get(i).click();
+        		logTAFStep("Analytic: "+analyticName+" found and clicked on Run icon.");
+        		runIcons.get(i).click();
         		return true;
         	}
         }
 		logTAFError("Analytic: "+analyticName+" not found!!");
 		return false;
 	}	
+	
+	public boolean clickJobsIcon(String analyticName) {
+		analytics = driver.findElements(analyticNameLocator);
+		jobsIcons = driver.findElements(analyticJobsIconLocator);
+		for(int i = 0; i < analytics.size(); i++) {
+        	if(analytics.get(i).getText().equals(analyticName)){
+        		logTAFStep("Analytic: "+analyticName+" found and clicked on Jobs icon.");
+        		jobsIcons.get(i).click();
+        		return true;
+        	}
+        }
+		logTAFError("Analytic: "+analyticName+" not found!!");
+		return false;
+	}
+	
+	public boolean clickScheduleIcon(String analyticName) {
+		analytics = driver.findElements(analyticNameLocator);
+		scheduleIcons = driver.findElements(analyticScheduleIconLocator);
+		for(int i = 0; i < analytics.size(); i++) {
+        	if(analytics.get(i).getText().equals(analyticName)){
+        		logTAFStep("Analytic: "+analyticName+" found and clicked on Schedule icon.");
+        		scheduleIcons.get(i).click();
+        		return true;
+        	}
+        }
+		logTAFError("Analytic: "+analyticName+" not found!!");
+		return false;
+	}
 	
 	public Boolean clickTestNameFromDropDown(String testName){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");

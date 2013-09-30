@@ -87,7 +87,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		if(!dpSearchItems.isEmpty()){
 			searchItemsArr = dpSearchItems.split("\\|");
 			for(int i=0;i<searchItemsArr.length;i++){
-				driver.findElement(searchBoxIconLocator).click();
+				logTAFInfo("with updated code");
+				driver.findElement(searchBoxLocator).sendKeys(Keys.END);
 				driver.findElement(searchBoxLocator).sendKeys(searchItemsArr[i]);
 				driver.findElement(searchBoxLocator).sendKeys(Keys.ENTER);
 				//driver.findElement(searchBoxIconLocator).click();

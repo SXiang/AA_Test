@@ -1,13 +1,11 @@
 package ax.lib.frontend;
 
-//Commented code is for running using Selenium grid
+/*Commented code is for running using Selenium grid
 import java.net.URL;
-
 import org.openqa.selenium.remote.RemoteWebDriver;
-
+*/
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;

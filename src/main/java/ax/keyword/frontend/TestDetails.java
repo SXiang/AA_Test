@@ -153,7 +153,7 @@ public class TestDetails  extends TestDetailsHelper{
 	}
 	
 	public void openRunDrawer(String analyticName){
-		//clickTestName(dpTestName);
+		clickRunIcon(analyticName);
 	}
 	
 	public void verifyAnalyticJobsList(String analyticName){
