@@ -10,7 +10,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	
 	/**
 	 * Script Name   : <b>TestSetDetailsHelper</b>
-	 * Generated     : <b>Sep 11, 2013</b>
+	 * Generated     : <b>Sep 27, 2013</b>
 	 * Description   : TestSetDetailsHelper
 	 * 
 	 * @author Ramneet Kaur
@@ -69,7 +69,14 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	protected String usersList;
 	protected List<WebElement> tests;
 	protected String testsList;
+	protected List<WebElement> analytics;
+	protected String analyticsList;
+	protected List<WebElement> categories;
+	protected String categoriesList;
 	protected int index;
+	protected List<WebElement> runIcons;
+	protected List<WebElement> jobsIcons;
+	protected List<WebElement> scheduleIcons;
 	protected String rightPanelLabels;
 	protected String infoPanelContent;
 	//END
@@ -94,8 +101,11 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		isElementDisplayed(copyrightFooter, "Copyright footer");
 		isElementDisplayed(projectNameLocator, "Project name");
 		isElementDisplayed(projectDropDownLocator, "Project drop down button");
+		isElementDisplayed(testSetNameLocator, "TestSet name");
 		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
-		isElementDisplayed(testsHeaderLocator, "Test list header");
+		isElementDisplayed(testNameLocator, "Test name");
+		isElementDisplayed(testDropDownLocator, "Test Drop down button");
+		isElementDisplayed(analyticsHeaderLocator, "Analytics list header");
 		isRightPanelIconDisplayed();
 		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
@@ -106,54 +116,33 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	
 	public void isRightPanelIconDisplayed(){
 		rightPanelData = driver.findElements(rightPanelIconLocator);
-		if(rightPanelData.get(0).isDisplayed()){
-        	logTAFInfo("Found DataTables Icon");
-        } else{
-        	logTAFError("DataTables Icon missing");
-        }
-        if(rightPanelData.get(1).isDisplayed()){
-        	logTAFInfo("Found RelatedFiles Icon");
-        } else{
-        	logTAFError("Info RelatedFiles missing");
-        }
-        if(rightPanelData.get(2).isDisplayed()){
+        if(rightPanelData.get(0).isDisplayed()){
         	logTAFInfo("Found Description Icon");
         } else{
         	logTAFError("Description Icon missing");
         }
-        if(rightPanelData.get(3).isDisplayed()){
+        if(rightPanelData.get(1).isDisplayed()){
         	logTAFInfo("Found Info Icon");
         } else{
         	logTAFError("Info Icon missing");
         }
-        if(rightPanelData.get(4).isDisplayed()){
-        	logTAFInfo("Found Users Icon");
-        } else{
-        	logTAFError("Users Icon missing");
-        }
 	}
 
 	public String getDescription(){
-		return driver.findElements(rightPanelTitleLocator).get(2).getText()+":"+driver.findElement(descriptionLocator).getText();
+		return driver.findElements(rightPanelTitleLocator).get(0).getText()+":"+driver.findElement(descriptionLocator).getText();
 	}
 	
 	public String getInfo(){
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
-        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
         	}else{
-        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText();
         	}
         }
 		return infoPanelContent;
-	}
-	
-	public String getDataTablesLabel(){
-		return driver.findElements(rightPanelTitleLocator).get(0).getText();
-	}
-	
-	public String getRelatedFilesLabel(){
-		return driver.findElements(rightPanelTitleLocator).get(1).getText();
 	}
 	
 	public String getProjectHeader(){
@@ -197,10 +186,30 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		return dropDownMenuList;
 	}
 	
-	public String getTestHeader(){
-		return driver.findElement(testsHeaderLocator).getText();
+	public String getTestName(){
+		return driver.findElement(testNameLocator).getText();
 	}
 	
+	public String getTestsListFromDropDown(){
+		driver.findElement(testDropDownLocator).click();
+		sleep(5);
+		dropDownMenu = driver.findElements(testDropDownMenuItemsLocator);
+        for(int i = 0; i < dropDownMenu.size(); i++) {
+        	if(i==0){
+        		dropDownMenuList=dropDownMenu.get(i).getText();
+        	}else{
+        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        	}
+        }
+		driver.findElement(testDropDownLocator).click();
+		return dropDownMenuList;
+	}
+	
+	public String getAnalyticsHeader(){
+		return driver.findElement(analyticsHeaderLocator).getText();
+	}
+	
+	/* not required
 	public String getUsersPanelTitle() {
 		return driver.findElements(rightPanelTitleLocator).get(4).getText();
     }
@@ -225,31 +234,82 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	public void closeUsersPopup(){
 		driver.findElement(usersPopupCloseIconLocator).click();
 	}
-	
-	public String getTestsList(){
-		tests = driver.findElements(testsNameLocator);
-        for(int i = 0; i < tests.size(); i++) {
+	*/
+	public String getAnalyticsList(){
+		analytics = driver.findElements(analyticNameLocator);
+        for(int i = 0; i < analytics.size(); i++) {
         	if(i==0){
-        		testsList=tests.get(i).getText();
+        		analyticsList=analytics.get(i).getText();
         	}else{
-        		testsList=testsList+"|"+tests.get(i).getText();
+        		analyticsList=analyticsList+"|"+analytics.get(i).getText();
         	}
         }
 		return testsList;
 	}
 	
-	public boolean clickTestName(String testName) {
-		tests = driver.findElements(testsNameLocator);
-		for(int i = 0; i < tests.size(); i++) {
-        	if(tests.get(i).getText().equals(testName)){
-        		logTAFStep("Test: "+testName+" found and clicked on!!!");
-        		tests.get(i).click();
+	public void verifyAnalyticsIcons(){
+		analytics = driver.findElements(analyticNameLocator);
+		runIcons = driver.findElements(analyticRunIconLocator);
+		jobsIcons = driver.findElements(analyticJobsIconLocator);
+		scheduleIcons = driver.findElements(analyticScheduleIconLocator);
+        for(int i = 0; i < analytics.size(); i++) {
+            if(runIcons.get(i).isDisplayed()){
+            	logTAFInfo("Found Run Icon for analytic '"+analytics.get(i).getText()+"'");
+            } else{
+            	logTAFError("Run Icon missing for analytic '"+analytics.get(i).getText()+"'");
+            }
+            if(jobsIcons.get(i).isDisplayed()){
+            	logTAFInfo("Found Jobs Icon for analytic '"+analytics.get(i).getText()+"'");
+            } else{
+            	logTAFError("Jobs Icon missing for analytic '"+analytics.get(i).getText()+"'");
+            }
+            if(scheduleIcons.get(i).isDisplayed()){
+            	logTAFInfo("Found Schedule Icon for analytic '"+analytics.get(i).getText()+"'");
+            } else{
+            	logTAFError("Schedule Icon missing for analytic '"+analytics.get(i).getText()+"'");
+            }
+        }
+	}
+	
+	public String getCategoriesName(){
+		categories = driver.findElements(analyticsHeaderLocator);
+        for(int i = 0; i < categories.size(); i++) {
+        	if(i==0){
+        		categoriesList=categories.get(i).getText();
+        	}else{
+        		categoriesList=categoriesList+"|"+categories.get(i).getText();
+        	}
+        }
+		return testsList;
+	}
+	
+	public boolean clickAnalyticName(String analyticName) {
+		analytics = driver.findElements(analyticNameLocator);
+		for(int i = 0; i < analytics.size(); i++) {
+        	if(analytics.get(i).getText().equals(analyticName)){
+        		logTAFStep("Analytic: "+analyticName+" found and clicked on!!!");
+        		analytics.get(i).click();
         		return true;
         	}
         }
-		logTAFError("Test: "+testName+" not found!!");
+		logTAFError("Analytic: "+analyticName+" not found!!");
 		return false;
 	}	
+	
+	public Boolean clickTestNameFromDropDown(String testName){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
+		driver.findElement(testDropDownLocator).click();
+		sleep(5);
+		dropDownMenu = driver.findElements(testDropDownMenuItemsLocator);
+        for(int i = 0; i < dropDownMenu.size(); i++) {
+        	if(dropDownMenu.get(i).getText().equalsIgnoreCase(testName)){
+        		dropDownMenu.get(i).click();
+        		return true;
+        	}
+        }
+		driver.findElement(testDropDownLocator).click();
+		return false;
+	}
 	
 	public Boolean clickTestSetNameFromDropDown(String testSetName){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
@@ -262,7 +322,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
         		return true;
         	}
         }
-		driver.findElement(projectDropDownLocator).click();
+		driver.findElement(testSetDropDownLocator).click();
 		return false;
 	}
 	

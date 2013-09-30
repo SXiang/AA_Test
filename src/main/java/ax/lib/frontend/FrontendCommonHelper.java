@@ -1,9 +1,9 @@
 package ax.lib.frontend;
 
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -87,11 +87,12 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		if(!dpSearchItems.isEmpty()){
 			searchItemsArr = dpSearchItems.split("\\|");
 			for(int i=0;i<searchItemsArr.length;i++){
-				driver.findElement(searchBoxLocator).click();
-				driver.findElement(searchBoxLocator).sendKeys(searchItemsArr[i]);
 				driver.findElement(searchBoxIconLocator).click();
+				driver.findElement(searchBoxLocator).sendKeys(searchItemsArr[i]);
+				driver.findElement(searchBoxLocator).sendKeys(Keys.ENTER);
+				//driver.findElement(searchBoxIconLocator).click();
 			}	
-		}	
+		}
 	}
 	
 	public String getSearchItemsList(){

@@ -6,13 +6,13 @@ public class TestDetails  extends TestDetailsHelper{
 
 	/**
 	 * Script Name   : <b>TestDetails</b>
-	 * Generated     : <b>Sep 11, 2013</b>
+	 * Generated     : <b>Sep 27, 2013</b>
 	 * Description   : TestDetails keyword
 	 * 
 	 * @author Ramneet Kaur
 	 */
 
-	/*
+	
 	// *************** Part 1 *******************
 	// ******* Declaration of variables **********
 	// *******************************************
@@ -65,15 +65,15 @@ public class TestDetails  extends TestDetailsHelper{
 			analyticName = analyticOperationArr[0];
 			if(analyticOperationArr.length > 1){
 				actionOnAnalytic = analyticOperationArr[1];
-			}
-			if("description".equalsIgnoreCase(actionOnAnalytic)){
-				verifyAnalyticDescription(analyticName);
-			}else if("run".equalsIgnoreCase(actionOnAnalytic)){
-				runAnalytic(analyticName);
-			}else if("jobs".equalsIgnoreCase(actionOnAnalytic)){
-				verifyAnalyticJobsList(analyticName);
-			}else if("schedules".equalsIgnoreCase(actionOnAnalytic)){
-				verifyAnalyticSchedulesList(analyticName);
+				if("description".equalsIgnoreCase(actionOnAnalytic)){
+					verifyAnalyticDescription(analyticName);
+				}else if("run".equalsIgnoreCase(actionOnAnalytic)){
+					runAnalytic(analyticName);
+				}else if("jobs".equalsIgnoreCase(actionOnAnalytic)){
+					verifyAnalyticJobsList(analyticName);
+				}else if("schedules".equalsIgnoreCase(actionOnAnalytic)){
+					verifyAnalyticSchedulesList(analyticName);
+				}
 			}
 		}
 		cleanUp();
@@ -106,10 +106,10 @@ public class TestDetails  extends TestDetailsHelper{
 			logTAFError("No Projects Found!!");
 		}else{
 			//System.out.println("All Projects: "+allProjects);
-			logTAFStep("Verify list of Projects - " + dpMasterFiles[7]);
+			logTAFStep("Verify list of Projects - " + dpMasterFiles[5]);
 			result[0] = allProjects; // You need to get actual result for
 											// each comparison
-			compareTxtResult(result[0], dpMasterFiles[7]);
+			compareTxtResult(result[0], dpMasterFiles[5]);
 		}
 	}
 	
@@ -118,10 +118,10 @@ public class TestDetails  extends TestDetailsHelper{
 		if(allTestSets.isEmpty()){
 			logTAFError("No TestSets Found!!");
 		}else{
-			logTAFStep("Verify list of TestSets - " + dpMasterFiles[8]);
+			logTAFStep("Verify list of TestSets - " + dpMasterFiles[6]);
 			result[0] = allTestSets; // You need to get actual result for
 											// each comparison
-			compareTxtResult(result[0], dpMasterFiles[8]);
+			compareTxtResult(result[0], dpMasterFiles[6]);
 		}
 	}
 	
@@ -130,10 +130,10 @@ public class TestDetails  extends TestDetailsHelper{
 		if(allTests.isEmpty()){
 			logTAFError("No Tests Found!!");
 		}else{
-			logTAFStep("Verify list of Tests - " + dpMasterFiles[?]);
+			logTAFStep("Verify list of Tests - " + dpMasterFiles[7]);
 			result[0] = allTests; // You need to get actual result for
 											// each comparison
-			compareTxtResult(result[0], dpMasterFiles[?]);
+			compareTxtResult(result[0], dpMasterFiles[7]);
 		}
 	}
 	
@@ -226,5 +226,5 @@ public class TestDetails  extends TestDetailsHelper{
 		//debug.openTestSetDetails();
 		//debug.verifyUsersList();
 	}
-	*/
+	
 }

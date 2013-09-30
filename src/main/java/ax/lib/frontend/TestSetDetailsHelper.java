@@ -77,6 +77,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		isElementDisplayed(copyrightFooter, "Copyright footer");
 		isElementDisplayed(projectNameLocator, "Project name");
 		isElementDisplayed(projectDropDownLocator, "Project drop down button");
+		isElementDisplayed(testSetNameLocator, "TestSet name");
 		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
 		isElementDisplayed(testsHeaderLocator, "Test list header");
 		isRightPanelIconDisplayed();
@@ -123,9 +124,11 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	public String getInfo(){
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
-        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
         	}else{
-        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText();
+        		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         	}
         }
 		return infoPanelContent;
@@ -245,7 +248,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         		return true;
         	}
         }
-		driver.findElement(projectDropDownLocator).click();
+		driver.findElement(testSetDropDownLocator).click();
 		return false;
 	}
 	
