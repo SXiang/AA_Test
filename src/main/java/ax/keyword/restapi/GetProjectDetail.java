@@ -1,5 +1,7 @@
 package ax.keyword.restapi;
 
+import java.lang.Math;
+
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
@@ -17,10 +19,11 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 	 */
 
 	// BEGIN of datapool variables declaration
+	protected String dpuuid;   	        //@arg uuid for project
 	protected String dpScope;          	//@arg value for Scope
                                     	//@value = working/library/""
 	protected String dpProjectName;   	//@arg value for Project Name
-
+	
 	// END of datapool variables declaration
 	private String url = "";
 	private String uuid="";
@@ -29,16 +32,19 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 	public boolean dataInitialization() {
 		super.dataInitialization();
      
-		//*** read in data from datapool     
+		//*** read in data from datapool   
+		dpuuid =  getDpString("uuid");
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
 
 		//Rest API - Projects List in a Test: /api/projects/{uuid}
-		uuid = queryProjectID(dpScope,dpProjectName);
+		if ((dpuuid == null) || (dpuuid == ""))
+			uuid = queryProjectID(dpScope,dpProjectName);
+		else uuid = dpuuid;
 		if ((uuid != null) && (uuid != ""))
 			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "projects/"+uuid;
 		else System.out.println("Error:" + "Can not find the uuid for the specific project");
-
+System.out.println(url);
 		return true;
 	}
 	
@@ -81,12 +87,12 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 
 		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
 		if(casAuthenticated){
-			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
+			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()))+"...");
 			// compare Json Result - exact master and actual files are handled by framework.
 		    logTAFStep("File verification - "+dpMasterFiles[0]);
 		    compareJsonResult(actualResult,dpMasterFiles[0]);
 		}else{							
-			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
+			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()))+"..."+"'"	);
 		}
 	
 	}

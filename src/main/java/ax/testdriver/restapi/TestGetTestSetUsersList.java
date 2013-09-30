@@ -18,7 +18,7 @@ public class TestGetTestSetUsersList extends TestDriverExampleHelper implements 
 		//startFromLine = 2; // 4-9
 		//endAtLine = 2;     //
 			
-		String poolFile = "testdata/ax/testdriver/restapi/GetTestSetUsersLis.xls";
+		String poolFile = "testdata/ax/testdriver/restapi/GetTestSetUsersList.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 	}
 }
