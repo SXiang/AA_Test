@@ -1,0 +1,6 @@
+# Lines that begin with #, like this one, are ignored.
+*.*
+!*.jar
+!*.xls
+!.gitignore
+original-*.jar

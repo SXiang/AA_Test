@@ -1,4 +1,11 @@
 # Lines that begin with #, like this one, are ignored.
+<<<<<<< HEAD
+*.*
+!*.jar
+!*.xls
+!.gitignore
+original-*.jar
+=======
 /*.*
 *.xls
 !/*.bat
@@ -30,3 +37,4 @@ submodule_taf
 !*Example.xlsx
 /2013/
 *.bak[0-9]*
+>>>>>>> b17dc330df25e14330eb4c17673dc9bb0bed5dd5
