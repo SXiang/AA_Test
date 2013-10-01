@@ -1,11 +1,13 @@
 package ax.lib.frontend;
 
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import ax.lib.restapi.TestSuiteExampleHelper;
 
@@ -88,6 +90,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 			searchItemsArr = dpSearchItems.split("\\|");
 			for(int i=0;i<searchItemsArr.length;i++){
 				logTAFInfo("with updated code");
+				//((JavascriptExecutor) driver).executeScript("document.getElementByTagName('input').focus()");
+				new Actions(driver).moveToElement(driver.findElement(searchBoxIconLocator)).click().perform();
 				driver.findElement(searchBoxLocator).sendKeys(Keys.END);
 				driver.findElement(searchBoxLocator).sendKeys(searchItemsArr[i]);
 				driver.findElement(searchBoxLocator).sendKeys(Keys.ENTER);

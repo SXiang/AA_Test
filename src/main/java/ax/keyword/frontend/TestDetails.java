@@ -20,7 +20,6 @@ public class TestDetails  extends TestDetailsHelper{
 	protected String dpProjectName; //@arg ProjectName whose link to be clicked for details
 	protected String dpTestName; //@arg Test Name whose link to be clicked for details
 	protected String dpTestSetName; //@arg TestSet Name whose link to be clicked for details
-	protected String dpAnalyticName; //@arg Test Name whose link to be clicked for details
 	// END of datapool variables declaration
 	
 	public String analyticName;
@@ -33,7 +32,6 @@ public class TestDetails  extends TestDetailsHelper{
 		dpProjectName = getDpString("ProjectName");
 		dpTestSetName = getDpString("TestSetName");
 		dpTestName = getDpString("TestName");
-		dpAnalyticName = getDpString("AnalyticName");
 		//END
 		return true;
 	}	
@@ -53,28 +51,6 @@ public class TestDetails  extends TestDetailsHelper{
 			verifyDescriptionPanelContents();
 			verifyInfoPanelContents();
 			verifyHeaderFooter();
-		}
-		if(!dpProjectName.isEmpty()){
-			openProjectFromDropDown();
-		}else if(!dpTestSetName.isEmpty()){
-			openTestSetFromDropDown();
-		}else if(!dpTestName.isEmpty()){
-			openTestFromDropDown();
-		}else if(!dpAnalyticName.isEmpty()){
-			String[] analyticOperationArr = dpAnalyticName.split("\\|");
-			analyticName = analyticOperationArr[0];
-			if(analyticOperationArr.length > 1){
-				actionOnAnalytic = analyticOperationArr[1];
-				if("description".equalsIgnoreCase(actionOnAnalytic)){
-					verifyAnalyticDescription(analyticName);
-				}else if("run".equalsIgnoreCase(actionOnAnalytic)){
-					runAnalytic(analyticName);
-				}else if("jobs".equalsIgnoreCase(actionOnAnalytic)){
-					verifyAnalyticJobsList(analyticName);
-				}else if("schedules".equalsIgnoreCase(actionOnAnalytic)){
-					verifyAnalyticSchedulesList(analyticName);
-				}
-			}
 		}
 		cleanUp();
 	
@@ -152,28 +128,6 @@ public class TestDetails  extends TestDetailsHelper{
 		compareTxtResult(result[1], dpMasterFiles[2]);
 	}
 	
-	public void openRunDrawer(String analyticName){
-		clickRunIcon(analyticName);
-	}
-	
-	public void verifyAnalyticJobsList(String analyticName){
-		//clickTestName(dpTestName);
-	}
-	
-	public void verifyAnalyticSchedulesList(String analyticName){
-		//clickTestName(dpTestName);
-	}
-	
-	public void verifyAnalyticDescription(String analyticName){
-		openRunDrawer(analyticName);
-		//clickTestName(dpTestName);
-	}
-	
-	public void runAnalytic(String analyticName){
-		openRunDrawer(analyticName);
-		//clickTestName(dpTestName);
-	}
-	
 	public void openTestFromDropDown(){
 		clickTestNameFromDropDown(dpTestName);
 	}
@@ -192,10 +146,10 @@ public class TestDetails  extends TestDetailsHelper{
 			logTAFError("Description panel not found!!");
 		}else{
 			//System.out.println("description: "+description);
-			logTAFStep("Verify contents of Description panel - " + dpMasterFiles[5]);
+			logTAFStep("Verify contents of Description panel - " + dpMasterFiles[3]);
 			result[0] = description; // You need to get actual result for
 											// each comparison
-			compareTxtResult(result[0], dpMasterFiles[5]);
+			compareTxtResult(result[0], dpMasterFiles[3]);
 		}
 	}
 	
@@ -205,10 +159,10 @@ public class TestDetails  extends TestDetailsHelper{
 			logTAFError("Info panel not found!!");
 		}else{
 			//System.out.println("info: "+info);
-			logTAFStep("Verify contents of Info panel - " + dpMasterFiles[6]);
+			logTAFStep("Verify contents of Info panel - " + dpMasterFiles[4]);
 			result[0] = info; // You need to get actual result for
 											// each comparison
-			compareTxtResult(result[0], dpMasterFiles[6]);
+			compareTxtResult(result[0], dpMasterFiles[4]);
 		}
 	}
 	

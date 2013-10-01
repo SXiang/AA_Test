@@ -29,35 +29,47 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	By projectNameLocator = By.cssSelector("div.sub-layer2 > div.sub-layer-title > span");
 	By testSetNameLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-title > span");
 	By testNameLocator = By.cssSelector("div.title > span");
-	By projectDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a");
-	By projectDropDownMenuItemsLocator = By.cssSelector("div.sub-layer1 > div.dropdown > div > ul.dropdown-menu > li > a");
-	By testSetDropDownLocator = By.cssSelector("div.title-row > div.dropdown > a");
-	By testSetDropDownMenuItemsLocator = By.cssSelector("div.title-row > div.dropdown > div > ul.dropdown-menu > li > a");
+	By projectDropDownLocator = By.cssSelector("div.sub-layer2 > div.sub-layer-dropdown > a");
+	By projectDropDownMenuItemsLocator = By.cssSelector("div.sub-layer2 > div.dropdown > ul.dropdown-menu > li > a");
+	By testSetDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a");
+	By testSetDropDownMenuItemsLocator = By.cssSelector("div.sub-layer1 > div.dropdown > ul.dropdown-menu > li > a");
 	By testDropDownLocator = By.cssSelector("div.title-row > div.dropdown > a");
-	By testDropDownMenuItemsLocator = By.cssSelector("div.title-row > div.dropdown > div > ul.dropdown-menu > li > a");
+	By testDropDownMenuItemsLocator = By.cssSelector("div.title-row > div.dropdown > ul.dropdown-menu > li > a");
 	By analyticsHeaderLocator = By.cssSelector("div.analytic-script-subtitle > span");
 	By analyticNameLocator = By.cssSelector("div.script-row > div.row-fluid > div.ng-binding");
-	By analyticNameOfOpenDrawerLocator = By.cssSelector("div.drawer-opened > div > div.ng-binding");
-	By analyticRunIconLocator = By.cssSelector("div.script-row > div > i");
-	By analyticDrawerBtnLocator = By.cssSelector("div.drawer > a.action-btn");
-	By analyticJobsIconLocator = By.cssSelector("div.script-row > div > div > i.icon_list");
-	By analyticScheduleIconLocator = By.cssSelector("div.script-row > div > div > i.icon_comment");
-	By analyticJobDrawerHeaderLocator = By.cssSelector("div.drawer > div > h3 > span");
-	By analyticScheduleDrawerHeaderLocator = By.cssSelector("div.drawer > div > div.strong > span");
-	By analyticDrawerTableColHeaderLocator = By.cssSelector("div.headlines > div > span");
-	By analyticJobDrawerTableTextValuesLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div");
-	By analyticJobDrawerTableDTValuesLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div > span");
-	By analyticScheduleDrawerTableTextValuesLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div.ng-binding");
-	By analyticScheduleDrawerTableDTValuesLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div > span");
-	By analyticDrawerViewResultsLinkLocator = By.cssSelector("div.margin_top > div > div > a > span");
+	//By analyticNameOfOpenDrawerLocator = By.cssSelector("div.drawer-opened > div > div.ng-binding");
+	By analyticRunIconLocator = By.cssSelector("div.script-row > div > a");
+	By analyticDescriptionLocator = By.id("description");
+	By analyticDrawerBtnLocator = By.cssSelector("div.drawer > div > a.action-btn");
+	By analyticJobsIconLocator = By.cssSelector("div.action-buttons > a.icon_list");
+	By analyticScheduleIconLocator = By.cssSelector("div.action-buttons a.icon_comment");
+	By analyticJobDrawerHeaderLocator = By.cssSelector("div.drawer[ng-show*='results'] > div > h3 > span");
+	By analyticScheduleDrawerHeaderLocator = By.cssSelector("div.drawer[ng-show*='schedule'] > div > h3 > span");
+	By analyticJobsTableColHeaderLocator = By.cssSelector("div.drawer[ng-show*='results'] > div.headlines > div > span");
+	By analyticScheduleTableColHeaderLocator = By.cssSelector("div.drawer[ng-show*='schedule'] > div.headlines > div > span");
+	By analyticJobRunByLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(1)");
+	By analyticJobStartTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(2) > span");
+	By analyticJobEndTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(3) > span");
+	By analyticJobStatusLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(4)");
+	By analyticJobResultLinkLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(5) > a > span");
+	By scheduledByLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(1)");
+	By scheduleTypeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(2)");
+	By scheduleRepeatLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(3)");
+	By scheduleNextLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(4) > span");
+	By scheduleParamSetLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(5)");
+	//By analyticJobDrawerTableTextValuesLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div");
+	//By analyticJobDrawerTableDTValuesLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div > span");
+	//By analyticScheduleDrawerTableTextValuesLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div.ng-binding");
+	//By analyticScheduleDrawerTableDTValuesLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div > span");
+	//By analyticDrawerViewResultsLinkLocator = By.cssSelector("div.margin_top > div > div > a > span");
 	By rightPanelTitleLocator = By.className("right-panel-block-title");
 	By rightPanelIconLocator = By.className("right-panel-block-icon");
 	By descriptionLocator = By.className("right-panel-block-content");
 	By infoContentLabelLocator = By.cssSelector("div.right-panel-block-content > dl > dt > span");
 	By infoContentDataLocator = By.cssSelector("div.right-panel-block-content > dl > dd");
-	By usersPopupHeaderLocator = By.className("modal-title");
-	By usersListLocator = By.cssSelector("div.modal-body > ul.user-list > li.user-row");
-	By usersPopupCloseIconLocator = By.cssSelector("div.modal-header > div.icon-remove");
+	//By usersPopupHeaderLocator = By.className("modal-title");
+	//By usersListLocator = By.cssSelector("div.modal-body > ul.user-list > li.user-row");
+	//By usersPopupCloseIconLocator = By.cssSelector("div.modal-header > div.icon-remove");
 	
 	//END
     
@@ -77,6 +89,19 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	protected List<WebElement> runIcons;
 	protected List<WebElement> jobsIcons;
 	protected List<WebElement> scheduleIcons;
+	protected List<WebElement> columnHeaders;
+	protected List<WebElement> jobRunBy;
+	protected List<WebElement> jobStartTime;
+	protected List<WebElement> jobEndTime;
+	protected List<WebElement> jobStatus;
+	protected List<WebElement> jobResultsLink;
+	protected String jobsList;
+	protected List<WebElement> scheduledBy;
+	protected List<WebElement> scheduleType;
+	protected List<WebElement> scheduleRepeat;
+	protected List<WebElement> scheduleNext;
+	protected List<WebElement> scheduleParamSet;
+	protected String scheduleList;
 	protected String rightPanelLabels;
 	protected String infoPanelContent;
 	//END
@@ -129,6 +154,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 
 	public String getDescription(){
+		
 		return driver.findElements(rightPanelTitleLocator).get(0).getText()+":"+driver.findElement(descriptionLocator).getText();
 	}
 	
@@ -244,7 +270,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
         		analyticsList=analyticsList+"|"+analytics.get(i).getText();
         	}
         }
-		return testsList;
+		return analyticsList;
 	}
 	
 	public void verifyAnalyticsIcons(){
@@ -283,6 +309,44 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		return categoriesList;
 	}
 	
+	public String getJobsList(){
+		columnHeaders = driver.findElements(analyticJobsTableColHeaderLocator);
+		jobRunBy = driver.findElements(analyticJobRunByLocator);
+		jobStartTime = driver.findElements(analyticJobStartTimeLocator);
+		jobEndTime = driver.findElements(analyticJobEndTimeLocator);
+		jobStatus = driver.findElements(analyticJobStatusLocator);
+		jobResultsLink = driver.findElements(analyticJobResultLinkLocator);
+        for(int i = 0; i < jobRunBy.size(); i++) {
+        	if(i==0){
+        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobResultsLink.get(i).getText();
+        	}else{
+        		jobsList=jobsList+"\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobResultsLink.get(i).getText();
+        	}
+        }
+		return jobsList;
+	}
+	
+	public String getScheduleList(){
+		columnHeaders = driver.findElements(analyticScheduleTableColHeaderLocator);
+		scheduledBy = driver.findElements(scheduledByLocator);
+		scheduleType = driver.findElements(scheduleTypeLocator);
+		scheduleRepeat = driver.findElements(scheduleRepeatLocator);
+		scheduleNext = driver.findElements(scheduleNextLocator);
+		scheduleParamSet = driver.findElements(scheduleParamSetLocator);
+        for(int i = 0; i < scheduledBy.size(); i++) {
+        	if(i==0){
+        		scheduleList=columnHeaders.get(0).getText()+":"+scheduledBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+scheduleType.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+scheduleRepeat.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+scheduleNext.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+scheduleParamSet.get(i).getText();
+        	}else{
+        		scheduleList=scheduleList+"\n"+columnHeaders.get(0).getText()+":"+scheduledBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+scheduleType.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+scheduleRepeat.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+scheduleNext.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+scheduleParamSet.get(i).getText();
+        	}
+        }
+		return scheduleList;
+	}
+	
+	public String getAnalyticDescription(){
+		return driver.findElement(analyticDescriptionLocator).getText();
+	}
+	
 	public boolean clickRunIcon(String analyticName) {
 		analytics = driver.findElements(analyticNameLocator);
 		runIcons = driver.findElements(analyticRunIconLocator);
@@ -296,6 +360,15 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		logTAFError("Analytic: "+analyticName+" not found!!");
 		return false;
 	}	
+	
+	public void clickRunBtn(){
+		
+	}
+	
+	public void viewLatestJobResults(){
+		jobResultsLink = driver.findElements(analyticJobResultLinkLocator);
+		jobResultsLink.get(0).click();
+	}
 	
 	public boolean clickJobsIcon(String analyticName) {
 		analytics = driver.findElements(analyticNameLocator);

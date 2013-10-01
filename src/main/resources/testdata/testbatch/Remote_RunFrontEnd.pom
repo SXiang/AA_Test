@@ -109,7 +109,7 @@
                        <systemProperty><key>user.language</key><value>en</value></systemProperty>
                        <systemProperty><key>user.country</key><value>CA</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}appLocale</key><value>EN</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}unicodeTest</key><value>True</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}unicodeTest</key><value>False</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}updateMasterFile</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}imageName</key><value>iexplorer.exe</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}webDriver</key><value>IE</value></systemProperty>
