@@ -20,6 +20,7 @@ public class TestSetDetails  extends TestSetDetailsHelper{
 	protected String dpProjectName; //@arg ProjectName whose link to be clicked for details
 	protected String dpTestName; //@arg Test Name whose link to be clicked for details
 	protected String dpTestSetName; //@arg TestSet Name whose link to be clicked for details
+	protected String dpOpenTablesOrFiles; //@arg to select whether open Data Tables or Related Files
 	// END of datapool variables declaration
 	
 	@Override
@@ -29,6 +30,7 @@ public class TestSetDetails  extends TestSetDetailsHelper{
 		dpProjectName = getDpString("ProjectName");
 		dpTestSetName = getDpString("TestSetName");
 		dpTestName = getDpString("TestName");
+		dpOpenTablesOrFiles = getDpString("OpenTablesOrFiles");
 		//END
 		return true;
 	}	
@@ -40,6 +42,8 @@ public class TestSetDetails  extends TestSetDetailsHelper{
 	@Override
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
+		isTestsHeaderDisplayed();
+		isRightPanelIconDisplayed();
 		if(!dpMasterFiles[0].isEmpty()){
 			verifyTestsList();
 			verifyProjectsDropDownList();
@@ -57,6 +61,12 @@ public class TestSetDetails  extends TestSetDetailsHelper{
 			openTestSetFromDropDown();
 		}else if(!dpTestName.isEmpty()){
 			openTestDetails();
+		}else if(!dpOpenTablesOrFiles.isEmpty()){
+			if(dpOpenTablesOrFiles.contains("table")){
+				openDataTables();
+			}else if(dpOpenTablesOrFiles.contains("file")){
+				openRelatedFiles();
+			}
 		}
 		cleanUp();
 	
@@ -168,6 +178,14 @@ public class TestSetDetails  extends TestSetDetailsHelper{
 											// each comparison
 			compareTxtResult(result[0], dpMasterFiles[4]);
 		}
+	}
+	
+	public void openDataTables(){
+		clickDataTablesLink();
+	}
+	
+	public void openRelatedFiles(){
+		clickRelatedFilesLink();
 	}
 	
 	public void verifyDescriptionPanelContents(){

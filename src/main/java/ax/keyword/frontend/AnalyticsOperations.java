@@ -18,8 +18,11 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 	// *******************************************
 	// BEGIN of datapool variables declaration
 	protected String dpAnalyticName; //@arg Analytic Name whose link to be clicked for details
-	protected String dpAnalyticOperation; //@arg Operation to be performed on Analytic, if nothing specified, it will open Description of analytic
 	// END of datapool variables declaration
+	
+	
+	private String analyticOperation;
+	private String analyticName;
 	
 	@Override
 	public boolean dataInitialization() {
@@ -38,16 +41,22 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
 		if(!dpAnalyticName.isEmpty()){
-			if("run".equalsIgnoreCase(dpAnalyticOperation)){
-				runAnalytic(dpAnalyticName);
-			}else if("jobs".equalsIgnoreCase(dpAnalyticOperation)){
-				verifyAnalyticJobsList(dpAnalyticName);
-			}else if("viewResults".equalsIgnoreCase(dpAnalyticOperation)){
-				viewResults(dpAnalyticName);
-			}else if("schedules".equalsIgnoreCase(dpAnalyticOperation)){
-				verifyAnalyticSchedulesList(dpAnalyticName);
+			analyticName = dpAnalyticName.split("\\|")[0];
+			if(dpAnalyticName.contains("|")){
+				analyticOperation = dpAnalyticName.split("\\|")[1];
+				if("run".equalsIgnoreCase(analyticOperation)){
+					runAnalytic(analyticName);
+				}else if("jobs".equalsIgnoreCase(analyticOperation)){
+					verifyAnalyticJobsList(analyticName);
+				}else if("viewResults".equalsIgnoreCase(analyticOperation)){
+					viewResults(analyticName);
+				}else if("schedules".equalsIgnoreCase(analyticOperation)){
+					verifyAnalyticSchedulesList(analyticName);
+				}else{
+					verifyAnalyticDescription(analyticName);
+				}
 			}else{
-				verifyAnalyticDescription(dpAnalyticName);
+					verifyAnalyticDescription(analyticName);
 			}
 		}else{
 			logTAFInfo("Analytic Name datatpool entry is empty");
@@ -62,9 +71,6 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 	// *** Implementation of test functions ******
 	// *******************************************
 	
-	public void openRunDrawer(String analyticName){
-		clickRunIcon(analyticName);
-	}
 	
 	public void verifyAnalyticJobsList(String analyticName){
 		clickJobsIcon(analyticName);
@@ -73,6 +79,7 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 		result[0] = jobs; // You need to get actual result for
 											// each comparison
 		compareTxtResult(result[0], dpMasterFiles[0]);
+		clickJobsIcon(analyticName);
 	}
 	
 	public void verifyAnalyticSchedulesList(String analyticName){
@@ -82,19 +89,21 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 		result[0] = schedule; // You need to get actual result for
 											// each comparison
 		compareTxtResult(result[0], dpMasterFiles[0]);
+		clickScheduleIcon(analyticName);
 	}
 	
 	public void verifyAnalyticDescription(String analyticName){
-		openRunDrawer(analyticName);
+		clickRunIcon(analyticName);
 		String desc = getAnalyticDescription();
 		logTAFStep("Verify Description of Analytic '" +analyticName+"' - "+ dpMasterFiles[0]);
 		result[0] = desc; // You need to get actual result for
 											// each comparison
 		compareTxtResult(result[0], dpMasterFiles[0]);
+		clickRunIcon(analyticName);
 	}
 	
 	public void runAnalytic(String analyticName){
-		openRunDrawer(analyticName);
+		clickRunIcon(analyticName);
 		clickRunBtn();
 	}
 	

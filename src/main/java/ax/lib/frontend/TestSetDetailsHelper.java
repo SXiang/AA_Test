@@ -79,8 +79,6 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		isElementDisplayed(projectDropDownLocator, "Project drop down button");
 		isElementDisplayed(testSetNameLocator, "TestSet name");
 		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
-		isElementDisplayed(testsHeaderLocator, "Test list header");
-		isRightPanelIconDisplayed();
 		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
 
@@ -116,6 +114,14 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         	logTAFError("Users Icon missing");
         }
 	}
+	
+	public void isTestsHeaderDisplayed(){
+		if(isElementDisplayed(testsHeaderLocator, "Tests list Header")){
+        	logTAFInfo("Found Tests list Header");
+        } else{
+        	logTAFError("Tests list Header missing");
+        }
+	}
 
 	public String getDescription(){
 		return driver.findElements(rightPanelTitleLocator).get(2).getText()+":"+driver.findElement(descriptionLocator).getText();
@@ -141,6 +147,15 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	public String getRelatedFilesLabel(){
 		return driver.findElements(rightPanelTitleLocator).get(1).getText();
 	}
+	
+	public void clickDataTablesLink(){
+		driver.findElements(rightPanelTitleLocator).get(0).click();
+	}
+	
+	public void clickRelatedFilesLink(){
+		driver.findElements(rightPanelTitleLocator).get(1).click();
+	}
+	
 	
 	public String getProjectHeader(){
 		return driver.findElement(projectHeaderLocator).getText();

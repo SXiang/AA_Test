@@ -52,6 +52,13 @@ public class TestDetails  extends TestDetailsHelper{
 			verifyInfoPanelContents();
 			verifyHeaderFooter();
 		}
+		if(!dpProjectName.isEmpty()){
+			openProjectFromDropDown();
+		}else if(!dpTestSetName.isEmpty()){
+			openTestSetFromDropDown();
+		}else if(!dpTestName.isEmpty()){
+			openTestFromDropDown();
+		}
 		cleanUp();
 	
 		// *** cleanup by framework ***

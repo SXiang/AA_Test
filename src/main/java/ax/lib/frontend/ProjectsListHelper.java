@@ -107,7 +107,7 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 		for(int i = 0; i < allProjects.size(); i++) {
         	if(allProjects.get(i).getText().equals(projectName)){
         		logTAFStep("Project: "+projectName+" found and clicked on!!!");
-        		allProjects.get(i).click();
+        		driver.findElement(By.linkText(projectName)).click();
         		return true;
         	}
         }
