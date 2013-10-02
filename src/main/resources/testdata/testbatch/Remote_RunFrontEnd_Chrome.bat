@@ -1,9 +1,8 @@
 SET pomServer=\\192.168.10.129
 SET pomDir=Automation\MavenTest\AX_TestAutomation
-SET pom=testdata\testbatch\Remote_RunFrontEnd.pom
+SET pom=testdata\testbatch\Remote_RunFrontEnd_Chrome.pom
 SET outputDir=C:\ACL\%pomDir%
 SET sysPropPrefix=AutoQA.
-SET driverName = chromedriver.exe
 
 
 Rem ****************************************************

@@ -111,12 +111,12 @@
                        <systemProperty><key>${sysPropPrefix}appLocale</key><value>EN</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}unicodeTest</key><value>False</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}updateMasterFile</key><value>true</value></systemProperty>
-                       <!-- systemProperty><key>${sysPropPrefix}imageName</key><value>iexplorer.exe</value></systemProperty-->
-                       <!-- systemProperty><key>${sysPropPrefix}webDriver</key><value>IE</value></systemProperty-->
-                       <!-- systemProperty><key>${sysPropPrefix}driverName</key><value>IEDriverServer.exe</value></systemProperty-->
-                       <systemProperty><key>${sysPropPrefix}imageName</key><value>chrome.exe</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}webDriver</key><value>chrome</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}driverName</key><value>chromedriver.exe</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}imageName</key><value>iexplorer.exe</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}webDriver</key><value>IE</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}driverName</key><value>IEDriverServer.exe</value></systemProperty>
+                       <!-- systemProperty><key>${sysPropPrefix}imageName</key><value>chrome.exe</value></systemProperty-->
+                       <!-- systemProperty><key>${sysPropPrefix}webDriver</key><value>Chrome</value></systemProperty-->
+                       <!-- systemProperty><key>${sysPropPrefix}driverName</key><value>chromedriver.exe</value></systemProperty-->
                        <systemProperty><key>${sysPropPrefix}testProject</key><value>AX5</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}buildInfo</key><value>LatestBuild</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}jenkinsReport</key><value>false</value></systemProperty>

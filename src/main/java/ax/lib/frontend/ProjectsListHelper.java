@@ -106,8 +106,12 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 		}
 		for(int i = 0; i < allProjects.size(); i++) {
         	if(allProjects.get(i).getText().equals(projectName)){
+        		if(viewType.equalsIgnoreCase("card")){
+        			driver.findElement(By.linkText(projectName)).click();
+        		}else{
+        			driver.findElements(projectNameInListTypeLocator).get(i).click();
+        		}
         		logTAFStep("Project: "+projectName+" found and clicked on!!!");
-        		driver.findElement(By.linkText(projectName)).click();
         		return true;
         	}
         }
