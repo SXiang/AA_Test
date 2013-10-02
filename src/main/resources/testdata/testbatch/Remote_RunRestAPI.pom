@@ -1,0 +1,205 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ACLQA</groupId>
+  <artifactId>AX_RunFromPom</artifactId>
+  <version>10.0-SNAPSHOT</version>
+  <name>AX Example Test - Selenium</name>
+    <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      <!--  mainClass>ax.TestSuiteExample</mainClass-->
+      <aclqaNexusUrl>http://192.168.10.129:8081/nexus/content</aclqaNexusUrl>
+      <testDeployServerDir>\\192.168.10.129\Automation\MavenTest\AX_TestAutomation</testDeployServerDir>
+      <testDeployLocalDir>C:\ACL\Automation\MavenTest\AX_TestAutomation</testDeployLocalDir>
+      <sysPropPrefix>AutoQA.</sysPropPrefix>
+  </properties>
+  <pluginRepositories>
+    <pluginRepository>
+      <releases>
+         <enabled>true</enabled>
+         <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+         <enabled>true</enabled>
+      </snapshots>
+      <id>Nexus</id>
+      <name>Nexus Public Repository</name>
+      <url>${aclqaNexusUrl}/groups/public</url>
+     </pluginRepository>
+   </pluginRepositories> 
+   <repositories>
+      <repository>
+        <id>Nexus</id>
+        <name>Nexus Public Repository</name>
+        <url>${aclqaNexusUrl}/groups/public</url>
+        <releases>
+              <enabled>true</enabled>
+              <updatePolicy>never</updatePolicy>
+         </releases>
+         <snapshots>
+              <enabled>true</enabled>
+         </snapshots>
+        </repository>    
+       <repository>
+         <id>Nexus-Snapshots</id>
+	     <name>Nexus Public Snapshots</name>
+	     <url>${aclqaNexusUrl}/groups/public-snapshots</url>
+         <releases>
+              <enabled>true</enabled>
+              <updatePolicy>never</updatePolicy>
+         </releases>
+         <snapshots>
+                <enabled>true</enabled>
+         </snapshots>
+        </repository>
+       <repository>
+         <id>Releases</id>
+	     <name>ACLQA Automation Repository</name>
+	     <url>${aclqaNexusUrl}/repositories/releases</url>
+         <releases>
+              <enabled>true</enabled>
+              <updatePolicy>always</updatePolicy>
+         </releases>
+         <snapshots>
+                <enabled>false</enabled>
+         </snapshots>
+        </repository>
+       <repository>
+         <id>Snapshots</id>
+	     <name>ACLQA Automation Snapshots</name>
+	     <url>${aclqaNexusUrl}/repositories/snapshots</url>
+         <releases>
+              <enabled>false</enabled>
+         </releases>
+         <snapshots>
+               <enabled>true</enabled>
+               <updatePolicy>always</updatePolicy>
+         </snapshots>
+        </repository>
+    </repositories>
+  
+  
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                 <executions>
+                    <execution>
+                        <id>TestDemo</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                 </executions>
+                <configuration>
+                    <!-- mainClass>${mainClass}</mainClass-->
+                    <workingDirectory>${testDeployLocalDir}</workingDirectory>
+                    <includeProjectDependencies>true</includeProjectDependencies>
+                    <includePluginDependencies>false</includePluginDependencies>
+                    <executableDependency>
+                    </executableDependency>
+                    <arguments>
+                        <argument></argument>
+                    </arguments>
+                    <systemProperties>
+                       <systemProperty><key>file.encoding</key><value>UTF-8</value></systemProperty>
+                       <systemProperty><key>user.language</key><value>en</value></systemProperty>
+                       <systemProperty><key>user.country</key><value>CA</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}appLocale</key><value>EN</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}unicodeTest</key><value>True</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}updateMasterFile</key><value>true</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}imageName</key><value></value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}testProject</key><value>AX5</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}buildInfo</key><value>LatestBuild</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}jenkinsReport</key><value>false</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}traceMemusage</key><value>true</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}traceImageName</key><value>services.exe</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}testerName</key><value>Automation_V10_Demo</value></systemProperty>
+                       
+                       
+                       <systemProperty><key>${sysPropPrefix}openHtmlReport</key><value>true</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}openLogFile</key><value>true</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}openByApp</key><value>iexplore</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}filterLevel</key><value>5</value></systemProperty>
+                       
+                       <systemProperty><key>${sysPropPrefix}emailReport</key><value>true</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}subject</key><value>Automation Test Report - AX5 FrontEnd</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}toAddress</key><value>karen_zou@acl.com</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}ccAddress</key><value></value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}bccAddress</key><value></value></systemProperty>
+                       
+                       <systemProperty><key>${sysPropPrefix}dbtype</key><value>PostgreSQL</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}serverip</key><value>192.168.10.83</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}port</key><value>5432</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}dbname</key><value>AclAuditExchangeDB</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}userid</key><value>AclAuditExchangeRole</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}passwd</key><value>Password00</value></systemProperty>
+                       
+                       <systemProperty><key>${sysPropPrefix}emailCmd</key><value></value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}testCategory</key><value>Regression</value></systemProperty>
+                       <!-- systemProperty><key>${sysPropPrefix}testDataFile</key><value></value></systemProperty-->
+                       <systemProperty><key>${sysPropPrefix}jenkinsReportDir</key><value></value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}singleInstance</key><value>false</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}testerName</key><value></value></systemProperty>
+
+
+                    </systemProperties>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>pre-clean</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${testDeployLocalDir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${testDeployServerDir}</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+           </plugin> 
+        </plugins>
+    </build>
+ 
+  <organization>
+  	<name>ACLQA Automation</name>
+  	<url>https://aclgrc.atlassian.net/wiki/display/ACD/Analytics+Continuous+Delivery</url>
+  </organization>
+  <ciManagement>
+  	<system>Jenkins</system>
+  	<url>http://biollante02:8080/view/TestUtilities/</url>
+  </ciManagement>
+  <issueManagement>
+  	<system>JIRA</system>
+  	<url>https://aclgrc.atlassian.net/</url>
+  </issueManagement>
+
+
+  <dependencies>
+  	<dependency>
+  		<groupId>ACLQA</groupId>
+  		<artifactId>TAFDependencies</artifactId>
+  		<version>10.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>ACLQA</groupId>
+  		<artifactId>AX_TestAutomation</artifactId>
+  		<version>10.0-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+</project>
+
