@@ -102,7 +102,7 @@ public class DataTables  extends DataTablesRelatedFilesHelper{
 	}
 	
 	public void verifyHeaderFooter(){
-		String header = getProjectHeader()+"|"+getProjectName()+"|"+getTestSetName()+"|"+getTestHeader();
+		String header = getProjectHeader()+"\r\n"+getProjectName()+"\r\n"+getTestSetName()+"\r\n"+getListHeader();
 		String footer = getFooter();
 		//System.out.println("header: "+header);
 		//System.out.println("footer: "+footer);

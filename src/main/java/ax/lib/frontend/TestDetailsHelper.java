@@ -165,7 +165,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
         		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
         	}else{
         		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
-        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"\r\n"+driver.findElements(infoContentLabelLocator).get(i).getText();
         	}
         }
 		return infoPanelContent;
@@ -186,7 +186,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		dropDownMenuList=dropDownMenu.get(i).getText();
         	}else{
-        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        		dropDownMenuList=dropDownMenuList+"\r\n"+dropDownMenu.get(i).getText();
         	}
         }
 		driver.findElement(projectDropDownLocator).click();
@@ -205,7 +205,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		dropDownMenuList=dropDownMenu.get(i).getText();
         	}else{
-        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        		dropDownMenuList=dropDownMenuList+"\r\n"+dropDownMenu.get(i).getText();
         	}
         }
 		driver.findElement(testSetDropDownLocator).click();
@@ -224,7 +224,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		dropDownMenuList=dropDownMenu.get(i).getText();
         	}else{
-        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        		dropDownMenuList=dropDownMenuList+"\r\n"+dropDownMenu.get(i).getText();
         	}
         }
 		driver.findElement(testDropDownLocator).click();
@@ -267,7 +267,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		analyticsList=analytics.get(i).getText();
         	}else{
-        		analyticsList=analyticsList+"|"+analytics.get(i).getText();
+        		analyticsList=analyticsList+"\r\n"+analytics.get(i).getText();
         	}
         }
 		return analyticsList;
@@ -325,7 +325,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	        	if(i==0){
 	        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobResultsLink.get(i).getText();
 	        	}else{
-	        		jobsList=jobsList+"\\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobResultsLink.get(i).getText();
+	        		jobsList=jobsList+"\r\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobResultsLink.get(i).getText();
 	        	}
 	        }
 	        return jobsList;
@@ -347,7 +347,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		scheduleList=columnHeaders.get(0).getText()+":"+scheduledBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+scheduleType.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+scheduleRepeat.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+scheduleNext.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+scheduleParamSet.get(i).getText();
         	}else{
-        		scheduleList=scheduleList+"\\n"+columnHeaders.get(0).getText()+":"+scheduledBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+scheduleType.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+scheduleRepeat.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+scheduleNext.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+scheduleParamSet.get(i).getText();
+        		scheduleList=scheduleList+"\r\n"+columnHeaders.get(0).getText()+":"+scheduledBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+scheduleType.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+scheduleRepeat.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+scheduleNext.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+scheduleParamSet.get(i).getText();
         	}
         }
 		return scheduleList;

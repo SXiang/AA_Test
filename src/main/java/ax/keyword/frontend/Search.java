@@ -58,8 +58,21 @@ public class Search  extends FrontendCommonHelper{
 	
 	public void verifySearchItemsList(){
 		String searchItems = getSearchItemsList();
+		System.out.println("actual search items:"+searchItems+"*END");
+		System.out.println("Expected search items:"+dpSearchItems+"*END");
 		logTAFStep("Verify Search items list in Search box - ");
-		if(searchItems.equals(dpSearchItems)){
+		String[] expSearchItemsArr = dpSearchItems.split("\\|");
+		String[] actualSearchItemsArr = searchItems.split("\\|");
+		Boolean identical = true;
+		for(int i=0;i<expSearchItemsArr.length;i++){
+			System.out.println("actual search item"+i+"'"+actualSearchItemsArr[i]+"'");
+			System.out.println("Expected search item"+i+"'"+expSearchItemsArr[i]+"'");
+			if(!expSearchItemsArr[i].equals(actualSearchItemsArr[i])){
+				System.out.println("Following items didnt match -- actual search item"+i+"'"+actualSearchItemsArr[i]+"' and Expected search item"+i+"'"+expSearchItemsArr[i]+"'");
+				identical = false;
+			}
+		}
+		if(identical){
 			logTAFInfo("Search box items match successfully with the searched items");
 		}else{
 			logTAFError("Search box items do not match with searched items!!!");

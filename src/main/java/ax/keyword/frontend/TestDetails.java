@@ -121,7 +121,7 @@ public class TestDetails  extends TestDetailsHelper{
 	}
 	
 	public void verifyHeaderFooter(){
-		String header = getProjectHeader()+"|"+getProjectName()+"|"+getTestSetName()+"|"+getTestName()+"|"+getCategoriesName();
+		String header = getProjectHeader()+"\r\n"+getProjectName()+"\r\n"+getTestSetName()+"\r\n"+getTestName()+"\r\n"+getCategoriesName();
 		String footer = getFooter();
 		//System.out.println("header: "+header);
 		//System.out.println("footer: "+footer);

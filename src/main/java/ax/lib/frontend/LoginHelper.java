@@ -144,7 +144,7 @@ public class LoginHelper extends FrontendCommonHelper{
 		*/
 		// Commented code is for running using Selenium standalone
 		
-		if(browserType.startsWith("IE")){
+		if((browserType.startsWith("IE")) || (browserType.startsWith("ie"))){
 			logTAFStep("Recognized IE browser, about to intiate...");
 			InitiateIEBrowser();
 			/*String comm = "java -jar selenium-server-standalone-2.34.0.jar "+
@@ -154,7 +154,7 @@ public class LoginHelper extends FrontendCommonHelper{
 				FileUtil.exeComm(comm);
 			*/
 			driver = new InternetExplorerDriver(capability);
-		}else if(browserType.startsWith("Chrome")){
+		}else if((browserType.startsWith("Chrome"))||(browserType.startsWith("chrome"))){
 			logTAFStep("Recognized Chrome browser, about to intiate...");
 			InitiateChromeBrowser();
 			driver = new ChromeDriver(capability);
