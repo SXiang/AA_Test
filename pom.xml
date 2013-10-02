@@ -3,12 +3,14 @@
   <groupId>ACLQA</groupId>
   <artifactId>AN_TestAutomation</artifactId>
   <version>10.0-SNAPSHOT</version>
-  <name>AN Test Automation - M2</name>
+  <name>AN Test Automation - Selenium</name>
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <testDeployServerDir>\\192.168.10.129\Automation\MavenTest</testDeployServerDir>
       <testDeployLocalDir>${project.basedir}/src/main/resources/</testDeployLocalDir>
+      <robotDeployServerDir>\\nas2-dev\QA_A\AN\AutomationScriptRunner</robotDeployServerDir>
+      <robotDeployLocalDir>${project.basedir}/src/main/resources/robot</robotDeployLocalDir>
       <aclqaNexusUrl>http://192.168.10.129:8081/nexus/content</aclqaNexusUrl>
   </properties>
   <distributionManagement>
@@ -25,6 +27,17 @@
       
   </distributionManagement>
   <pluginRepositories>
+     <pluginRepository>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>http://repo.maven.apache.org/maven2</url>
+    </pluginRepository>
     <pluginRepository>
       <releases>
          <enabled>true</enabled>
@@ -39,6 +52,14 @@
      </pluginRepository>
    </pluginRepositories> 
    <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>http://repo.maven.apache.org/maven2</url>
+    </repository>
       <repository>
         <id>Nexus</id>
         <name>Nexus Public Repository</name>
@@ -109,7 +130,7 @@
                 <version>2.6</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
+                        <id>copy-resources-all</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -124,6 +145,22 @@
                             </resources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy-resources-robot</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${robotDeployServerDir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${robotDeployLocalDir}</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
       </plugin>   
       <plugin>
@@ -132,7 +169,7 @@
 		  <version>2.1</version>
 		  <executions>
 			 <execution>
-					<phase>package</phase>
+					<phase>deploy</phase>
 					<goals>
 						<goal>shade</goal>
 					</goals>

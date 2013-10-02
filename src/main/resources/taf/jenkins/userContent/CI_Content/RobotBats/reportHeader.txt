@@ -1,0 +1,31 @@
+﻿<html>
+<head>
+<meta name="Steven X" content="text/html;charset=UTF-8">
+<title>[Robot] ACL Script Test</title>
+<style type="text/css">
+table.bottomBorder { border-collapse:collapse; }
+table.bottomBorder td, table.bottomBorder th { border-bottom:1px dotted black;padding:5px; }
+</style>
+</head>
+<body style="font-family:sans-serif">
+
+<h3><a href="http://biollante02:8080/view/TestAdmin_En/job/ACLScriptRunner/robot">
+      <img height="48" style="margin: 2px;" alt="" width="48" src="http://biollante02:8080/static/2bef2abf/plugin/robot/robot-large.png" />
+	</a>
+	&nbsp;
+	<a href="http://biollante02:8080/view/TestAdmin_En/job/ACLScriptRunner/robot">
+       ACLQA Script Test
+	</a>
+</h3>
+<hr />
+<table class="bottomBorder">
+	<tbody>
+	<tr style="color:#000080; background-color:#B0C4DE">
+	    <td><b>OSType</b></td>
+		<td><b>Language</b></td>
+		<td><b>Charset</b></td>
+		<td><b>SUT</b></td>
+		<td><b>TestLink</b></td>
+		<td><b>TestSummary</b></td>
+		<td><b>Status</b></td>
+	</tr>

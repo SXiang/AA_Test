@@ -1,0 +1,3 @@
+[RegionalSettings]
+Language=040c
+SystemLocale=040c

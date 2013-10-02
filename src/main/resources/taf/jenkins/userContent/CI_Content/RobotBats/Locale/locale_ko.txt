@@ -1,0 +1,3 @@
+[RegionalSettings]
+Language=0412
+SystemLocale=0412

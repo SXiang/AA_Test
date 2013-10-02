@@ -1,6 +1,10 @@
 @ECHO OFF
 
 SET TEAM_NAME=AN_Automation
+IF /I Not '%REVISION_NUM_New%' == '' (
+   SET REVISION_NUM=%REVISION_NUM_New%
+   SET TEST_BUILD=%REVISION_NUM_New%
+)
 IF '%Project%'=='' SET Project=Zaxxon
 
 
@@ -187,7 +191,7 @@ Echo.RFT_SCRIPT_NAME=%RFT_SCRIPT_NAME% >> %userProp%
 Echo.PROJECT=%PROJECT% >> %userProp%
 Echo.guiBuglist=%guiBuglist% >> %userProp%
 Echo.batchBuglist=%batchBuglist% >> %userProp%
-Echo.reportFile=%hisdir%\reportBody>> %userProp%
+Echo.reportFile=%hisdir%\reportBody >> %userProp%
 Echo.UPDATE_MASTER_FILE=%UPDATE_MASTER_FILE% >> %userProp%
 Echo.UPDATE_PROJECTS=%UPDATE_PROJECTS% >> %userProp%
 Echo.MAX_RUNTIME=%MAX_RUNTIME% >> %userProp%

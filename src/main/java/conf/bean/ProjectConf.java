@@ -12,8 +12,9 @@ import com.acl.qa.taf.util.*;
 public class ProjectConf {
 
 	// **** User defined parameters - declared on demand *****
-	public String unicodeServerIP = "192.168.10.95",
-			nonUnicodeServerIP = "192.168.10.98",
+	public String 
+	        //20130923 clean parameters unicodeServerIP = "192.168.10.95",
+			//20130923 clean parameters nonUnicodeServerIP = "192.168.10.98",
 			serverPrefix = "C:/ACL/Automation/RFT_DATA/",
 			serverNetDir = ":/ACL/Automation/",
 			serverNetUser = "Administrator", serverNetPassword = "Password00",
@@ -22,7 +23,16 @@ public class ProjectConf {
 			localInputDataDir = "",
 			testDataDir = "",
 			toolDir = "";
-
+	public String webDriver = "chrome";
+	public String imageName = "chromedriver.exe";
+	public String driverPath = "C:\\Selenium";
+	public String nodeName = "localhost";
+	public String nodePort = "4444";
+	public String executionType = "local";
+	public String casType = "nonSSO";
+	public String axServerName = "win2012-64-ramn.aclqa.local";
+	public String axServerPort = "8443";
+    public String apiPrefix = "/aclax/api/";
 	// ********************************************************
 	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
 	// ********** Setters - Auto generated and dir addressed *****************
@@ -157,14 +167,14 @@ public class ProjectConf {
 		this.hostIP = hostIP;
 	}
 
-	public void setUnicodeServerIP(String unicodeServerIP) {
+/*20130923 clean parameters public void setUnicodeServerIP(String unicodeServerIP) {
 		this.unicodeServerIP = unicodeServerIP;
 	}
 
 	public void setNonUnicodeServerIP(String nonUnicodeServerIP) {
 		this.nonUnicodeServerIP = nonUnicodeServerIP;
 	}
-
+20130923 clean parameters */
 	public void setServerPrefix(String serverPrefix) {
 		this.serverPrefix = serverPrefix;
 	}
@@ -182,7 +192,8 @@ public class ProjectConf {
 	}
 
 	public void setLocalizationDir(String localizationDir) {
-		this.localizationDir = FileUtil.getAbsDir(localizationDir);
+		//this.localizationDir = FileUtil.getAbsDir(localizationDir);
+		this.localizationDir = localizationDir;
 	}
 
 	public void setTempLocalDir(String tempLocalDir) {
@@ -208,6 +219,74 @@ public class ProjectConf {
 
 	public void setLocalInputDataDir(String localInputDataDir) {
 		this.localInputDataDir = FileUtil.getAbsDir(localInputDataDir);
+	}
+	
+	public String getWebDriver() {
+		return webDriver;
+	}
+
+	public void setWebDriver(String webDriver) {
+		this.webDriver = webDriver;
+	}
+
+	public String getDriverPath() {
+		return driverPath;
+	}
+
+	public void setDriverPath(String driverPath) {
+		this.driverPath = driverPath;
+	}
+
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
+	}
+
+	public String getNodePort() {
+		return nodePort;
+	}
+
+	public void setNodePort(String nodePort) {
+		this.nodePort = nodePort;
+	}
+
+	public String getExecutionType() {
+		return executionType;
+	}
+
+	public void setExecutionType(String executionType) {
+		this.executionType = executionType;
+	}
+
+	public String getCasType() {
+		return casType;
+	}
+
+	public void setCasType(String casType) {
+		this.casType = casType;
+	}
+
+	public String getAxServerName() {
+		return axServerName;
+	}
+
+	public void setAxServerName(String axServerName) {
+		this.axServerName = axServerName;
+	}
+
+	public String getAxServerPort() {
+		return axServerPort;
+	}
+
+	public void setAxServerPort(String axServerPort) {
+		this.axServerPort = axServerPort;
+	}
+	
+	public String getImageName() {
+		return imageName;
 	}
 
 	// **********************************************************************
@@ -245,7 +324,7 @@ public class ProjectConf {
 			testerName = "Automation Demo Tester",
 			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
 
-	public String AUT="", appLocale = "", startComm, imageName;
+	public String AUT="", appLocale = "", startComm;
 
 	// Getter & Setter
 
@@ -348,7 +427,7 @@ public class ProjectConf {
 			actualDir += uniFolder;
 		}
 		
-		if(!(appLocale.equalsIgnoreCase("")&&appLocale.equalsIgnoreCase("En"))){
+		if(!(appLocale.equalsIgnoreCase("")||appLocale.equalsIgnoreCase("En"))){
 			superMDir += appLocale.toLowerCase()+"/";
 			expectedDir += appLocale.toLowerCase()+"/";
 			actualDir += appLocale.toLowerCase()+"/";
@@ -383,15 +462,15 @@ public class ProjectConf {
 		return;
 	}
 	public void initCache() {
-		String cacheConfig = localizationDir + "cache4j_config.xml";
+		String cacheConfig = FileUtil.getAbsDir(localizationDir) + "cache4j_config.xml";
 
 		try {
-			CacheFactory сacheFactory = CacheFactory.getInstance();
+			CacheFactory cacheFactory = CacheFactory.getInstance();
 			InputStream in = new FileInputStream(cacheConfig);
-			сacheFactory.loadConfig(in);
-			LoggerHelper.cache_l10n = сacheFactory.getCache("cache_l10n");
+			cacheFactory.loadConfig(in);
+			LoggerHelper.cache_l10n = cacheFactory.getCache("cache_l10n");
 			LoggerHelper.cache_l10n.clear();
-			LoggerHelper.cache_en = сacheFactory.getCache("cache_en");
+			LoggerHelper.cache_en = cacheFactory.getCache("cache_en");
 			LoggerHelper.cache_en.clear();
 			// LoggerHelper.logTAFWarning(LoggerHelper.cache_l10n.getCacheInfo().toString());
 			// LoggerHelper.logTAFWarning(LoggerHelper.cache_en.getCacheInfo().toString());
@@ -439,6 +518,7 @@ public class ProjectConf {
 		}
 	}
 	
-	// ************ Not used, will be moved later - steven
-	public String serverName = "";
+	public void setApiPrefix(String apiPrefix) {
+		this.apiPrefix = apiPrefix;
+	}
 }
