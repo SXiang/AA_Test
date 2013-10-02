@@ -1,0 +1,3 @@
+[RegionalSettings]
+Language=0415
+SystemLocale=0415

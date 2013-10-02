@@ -3,14 +3,14 @@
   <groupId>ACLQA</groupId>
   <artifactId>AX_RunFromPom</artifactId>
   <version>10.0-SNAPSHOT</version>
-  <name>AN Test Automation</name>
+  <name>AX RestApiTestExample - Selenium</name>
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-      <mainClass>an.TestSuiteExample</mainClass>
+      <mainClass>${exec.mainClass}</mainClass>
       <aclqaNexusUrl>http://192.168.10.129:8081/nexus/content</aclqaNexusUrl>
-      <testDeployServerDir>\\192.168.10.129\Automation\MavenTest\AN_TestAutomation</testDeployServerDir>
-      <testDeployLocalDir>C:\ACL\Automation\MavenTest\AN_TestAutomation</testDeployLocalDir>
+      <testDeployServerDir>\\192.168.10.129\Automation\MavenTest\AX_TestAutomation</testDeployServerDir>
+      <testDeployLocalDir>${outputDir}</testDeployLocalDir>
       <sysPropPrefix>AutoQA.</sysPropPrefix>
   </properties>
   <pluginRepositories>
@@ -95,7 +95,7 @@
                     </execution>
                  </executions>
                 <configuration>
-                    <!-- mainClass>${mainClass}</mainClass-->
+                    <mainClass>${mainClass}</mainClass>
                     <workingDirectory>${testDeployLocalDir}</workingDirectory>
                     <includeProjectDependencies>true</includeProjectDependencies>
                     <includePluginDependencies>false</includePluginDependencies>
@@ -112,7 +112,7 @@
                        <systemProperty><key>${sysPropPrefix}unicodeTest</key><value>True</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}updateMasterFile</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}imageName</key><value></value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}testProject</key><value>Zaxxon</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}testProject</key><value>AX5</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}buildInfo</key><value>BuildSample</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}jenkinsReport</key><value>false</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}traceMemusage</key><value>true</value></systemProperty>
@@ -140,7 +140,7 @@
                        
                        <systemProperty><key>${sysPropPrefix}emailCmd</key><value></value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}testCategory</key><value>Regression</value></systemProperty>
-                       <!-- systemProperty><key>${sysPropPrefix}testDataFile</key><value></value></systemProperty-->
+                       <systemProperty><key>${sysPropPrefix}testDataFile</key><value>${testDataFile}</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}jenkinsReportDir</key><value></value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}singleInstance</key><value>false</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}testerName</key><value></value></systemProperty>
@@ -195,7 +195,7 @@
   	</dependency>
   	<dependency>
   		<groupId>ACLQA</groupId>
-  		<artifactId>AN_TestAutomation</artifactId>
+  		<artifactId>AX_TestAutomation</artifactId>
   		<version>10.0-SNAPSHOT</version>
   	</dependency>
   </dependencies>

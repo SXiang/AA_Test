@@ -1,18 +1,29 @@
-
-SET aclScriptRunner=..\..\..\implementation\resources\aclScriptRunner.txt
+REM @Echo OFF
+SET aclScriptRunner=..\..\..\implementation\resources\aclScriptRunner.robot
 SET doneFile=TestCompleted
 SET varFile=..\settings\user.py
+
 REM  FAIL, WARN, INFO, DEBUG, TRACE
 SET logLevel=TRACE
 
-
-del %outDir%\*.* /Q
+rem IF Not '%outDir%'=='' del %outDir%\*.* /Q 2>NUL
+IF Not '%outDir%'=='' (
+  IF exist '%outDir%'=='' DEL "%outDir%" /S /Q 2>NUL
+  )
 IF Not Exist %sutDir%\%imageName% (
+  Echo. Not found? %sutDir%\%imageName%
   GOTO END
 )
+IF '%screenshotDir%'=='' SET screenshotDir=Screenshot
 
-pybot --name %Report_Title% ^
-      --doc %Report_Doc% ^
+IF /I '%Encoding%'=='Unicode' (
+   SET Encoding=Unicode
+   ) ELSE (
+   SET Encoding=NonUnicode
+   )
+pybot --name %Test_Name% ^
+      --doc %Test_Doc% ^
+	  --reporttitle %Report_Title% ^
 	  --variablefile %varFile% ^
       --variable testDir:%testDir% ^
       --variable testSuite:%testSuite% ^
@@ -23,16 +34,20 @@ pybot --name %Report_Title% ^
 	  --variable Encoding:%Encoding% ^
 	  --variable projectDir:%projectDir% ^
 	  --variable projectBackupDir:%projectBackupDir% ^
-	  --variable updateMasterFile:%updateMasterFile% ^
+	  --variable updateMasterFile:%UPDATE_MASTER_FILE% ^
+	  --variable screenshotDir:%screenshotDir% ^
       --outputdir %outDir% ^
-	  --noncritical %tagInclusion2% ^
+	  %nonCritical% ^
+	  --settag @%OS_NAME% ^
 	  --settag %sut%-%Encoding% ^
-	  --settag OS:%OS_NAME% ^
+      %tagstatInclude% ^
 	  --tagstatinclude %sut%-%Encoding% ^
-	  %tagstatinclude% ^
+	  %tagExclude% ^
 	  --runemptysuite ^
-	  -i %tagInclusion2%AND%Encoding%AND%sut% ^
-	  -i %tagInclusion%AND%Encoding%AND%sut% ^
+	  -i %Encoding%AND%sut% ^
 	  -L %logLevel% ^
 	  %testSuite%
+	  
+
 :END
+:EOF

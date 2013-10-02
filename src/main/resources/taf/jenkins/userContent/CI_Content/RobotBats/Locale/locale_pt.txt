@@ -1,0 +1,3 @@
+[RegionalSettings]
+Language=0816
+SystemLocale=0816

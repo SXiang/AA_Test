@@ -1,0 +1,3 @@
+[RegionalSettings]
+Language=0804
+SystemLocale=0804

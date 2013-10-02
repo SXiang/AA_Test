@@ -1,0 +1,6 @@
+C:\Python27;C:\Python27\Scripts;C:\jython2.2.1;%M2_HOME%\BIN;%JAVA_HOME%\BIN
+M2_HOME C:\ACL\Software\apache-maven-3.1.0
+M2 %M2_HOME%\BIN
+JAVA_HOME C:\Program Files\Java\jre7
+UPDATE_MASTER_FILE=true
+UPDATE_PROJECTS=false

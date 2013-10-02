@@ -4,13 +4,13 @@ Resource	${ACLScriptRunner}
 							
 *Test Cases*	*ProjectName*	*ScriptName*	*Timeout*	*MasterFiles*			
 ExecuteCommand	[Documentation]	Test Execute command					
-	[Tags]	@Iryna_Babak	Unicode	NonUnicode	Desktop	Ironhide	Debug
+	[Tags]	@Iryna_Babak	Unicode	NonUnicode	Desktop	Ironhide	
 	Execute\\Execute_Regression	Execute_R	30 s				
 							
 FuzzyDuplicates	[Documentation]	Test FuzzyDuplicates command					
-	[Tags]	@Iryna_Babak	NonUnicode	Desktop	Ironhide	Unicode	TBD
-	Fuzzydup\\Auto_Regression_Fuzzy_Local	Regression_Fuzzydup	2 m				
+	[Tags]	@Iryna_Babak	NonUnicode	Desktop	Ironhide	Unicode	
+	Fuzzydup\\Auto_Regression_Fuzzy_Local	Regression_Fuzzydup	5 m				
 							
 ExportXMLWithSchema	[Documentation]	Export XML With Schema					
-	[Tags]	@Iryna_Babak	NonUnicode	Unicode	Desktop	Ironhide	TBD
-	OtherProject\\SpecailCases\\ExpXML\\Special_Cases	exp_xmls	2 minutes				
+	[Tags]	@Iryna_Babak	NonUnicode	Unicode	Desktop	Ironhide	
+	OtherProject\\SpecailCases\\ExpXML\\Special_Cases	exp_xmls	4 minutes				
