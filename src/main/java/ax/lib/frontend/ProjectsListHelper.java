@@ -88,7 +88,7 @@ public class ProjectsListHelper extends FrontendCommonHelper{
         	if(i==0){
         		projects=allProjects.get(i).getText();
         	}else{
-        		projects=projects+"|"+allProjects.get(i).getText();
+        		projects=projects+"\r\n"+allProjects.get(i).getText();
         	}
         }
         return projects;

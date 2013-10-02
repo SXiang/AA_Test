@@ -1,5 +1,12 @@
 package ax.lib.frontend;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -78,7 +85,23 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	//***************  Part 1  *******************
 	// ******* common functions      ***
 	// *******************************************
+	public String getClipboard() {
+		Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+	    try {
+	        if (t != null && t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+	            String text = (String)t.getTransferData(DataFlavor.stringFlavor);
+	            return text;
+	        }
+	    } catch (UnsupportedFlavorException e) {
+	    } catch (IOException e) {}
+	    return null;
+	}
 	
+	public void copyToClipboard(String copiedData) {
+		StringSelection selection = new StringSelection(copiedData);
+	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	    clipboard.setContents(selection, selection);
+	}
 	
 	public String getFooter() {
 		return driver.findElement(copyrightFooter).getText();
@@ -89,11 +112,15 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		if(!dpSearchItems.isEmpty()){
 			searchItemsArr = dpSearchItems.split("\\|");
 			for(int i=0;i<searchItemsArr.length;i++){
-				logTAFInfo("with updated code");
 				//((JavascriptExecutor) driver).executeScript("document.getElementByTagName('input').focus()");
+				copyToClipboard(searchItemsArr[i]);
+				//driver.findElement(searchBoxLocator).sendKeys(getClipboard());
+				//new Actions( driver ).contextClick( driver.findElement(searchBoxLocator) ).sendKeys( "p" ).perform();
 				new Actions(driver).moveToElement(driver.findElement(searchBoxIconLocator)).click().perform();
 				driver.findElement(searchBoxLocator).sendKeys(Keys.END);
-				driver.findElement(searchBoxLocator).sendKeys(searchItemsArr[i]);
+				System.out.println("ABout to type:"+getClipboard()+"*END");
+				driver.findElement(searchBoxLocator).sendKeys(Keys.SHIFT, Keys.INSERT);
+				//new Actions( driver ).contextClick( driver.findElement(searchBoxLocator)).sendKeys(Keys.END).keyDown(Keys.CONTROL).sendKeys("v").keyUp(Keys.CONTROL).build().perform();
 				driver.findElement(searchBoxLocator).sendKeys(Keys.ENTER);
 				//driver.findElement(searchBoxIconLocator).click();
 			}	
@@ -103,11 +130,14 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public String getSearchItemsList(){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		searchItems = driver.findElements(searchItemLocator);
+		System.out.println("number of search items: "+searchItems.size());
 		for(int i = 0; i < searchItems.size(); i++) {
         	if(i==0){
         		allSearchItems=searchItems.get(i).getText();
+        		System.out.println("search item"+i+": "+searchItems.get(i).getText());
         	}else{
         		allSearchItems=allSearchItems+"|"+searchItems.get(i).getText();
+        		System.out.println("search item"+i+": "+searchItems.get(i).getText());
         	}
         }
 		return allSearchItems;
@@ -141,7 +171,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		
         String[] ignorePattern ={""};
         String[] ignoreName = {""};
-        String delimiterPattern = "\\|";
+        String delimiterPattern = "\r\n";
         
         return compareResult(
         	master,result,

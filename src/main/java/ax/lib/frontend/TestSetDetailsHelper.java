@@ -133,7 +133,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
         	}else{
-        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"\r\n"+driver.findElements(infoContentLabelLocator).get(i).getText();
         		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         	}
         }
@@ -172,7 +172,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		dropDownMenuList=dropDownMenu.get(i).getText();
         	}else{
-        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        		dropDownMenuList=dropDownMenuList+"\r\n"+dropDownMenu.get(i).getText();
         	}
         }
 		driver.findElement(projectDropDownLocator).click();
@@ -191,7 +191,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		dropDownMenuList=dropDownMenu.get(i).getText();
         	}else{
-        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        		dropDownMenuList=dropDownMenuList+"\r\n"+dropDownMenu.get(i).getText();
         	}
         }
 		driver.findElement(testSetDropDownLocator).click();
@@ -218,7 +218,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         	if(i==1){
         		usersList=users.get(i).getText();
         	}else if(i>1){
-        		usersList=usersList+"|"+users.get(i).getText();
+        		usersList=usersList+"\r\n"+users.get(i).getText();
         	}
         }
 		return usersList;
@@ -233,7 +233,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		testsList=tests.get(i).getText();
         	}else{
-        		testsList=testsList+"|"+tests.get(i).getText();
+        		testsList=testsList+"\r\n"+tests.get(i).getText();
         	}
         }
 		return testsList;
