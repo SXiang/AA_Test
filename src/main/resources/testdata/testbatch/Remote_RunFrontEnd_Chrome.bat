@@ -3,6 +3,9 @@ SET pomDir=Automation\MavenTest\AX_TestAutomation
 SET pom=testdata\testbatch\Remote_RunFrontEnd_Chrome.pom
 SET outputDir=C:\ACL\%pomDir%
 SET sysPropPrefix=AutoQA.
+SET toAddress = ramneet_kaur@acl.com
+SET testCategory = Regression
+SET axServerName = autoqawin2012.aclqa.local
 
 
 Rem ****************************************************

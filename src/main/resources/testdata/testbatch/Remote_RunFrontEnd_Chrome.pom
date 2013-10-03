@@ -144,7 +144,7 @@
                        <systemProperty><key>${sysPropPrefix}passwd</key><value>Password00</value></systemProperty>
                        
                        <systemProperty><key>${sysPropPrefix}emailCmd</key><value></value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}testCategory</key><value>Regression</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}testCategory</key><value>Daily</value></systemProperty>
                        <!-- systemProperty><key>${sysPropPrefix}testDataFile</key><value></value></systemProperty-->
                        <systemProperty><key>${sysPropPrefix}jenkinsReportDir</key><value></value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}singleInstance</key><value>false</value></systemProperty>
