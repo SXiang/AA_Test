@@ -5,9 +5,9 @@ import ax.lib.frontend.DataTablesRelatedFilesHelper;
 public class RelatedFiles  extends DataTablesRelatedFilesHelper{
 
 	/**
-	 * Script Name   : <b>DataTables</b>
-	 * Generated     : <b>Sep 11, 2013</b>
-	 * Description   : DataTables keyword
+	 * Script Name   : <b>RelatedFiles</b>
+	 * Generated     : <b>Oct 2, 2013</b>
+	 * Description   : RelatedFiles keyword
 	 * 
 	 * @author Ramneet Kaur
 	 */

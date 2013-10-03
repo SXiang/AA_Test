@@ -27,17 +27,17 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	By projectHeaderLocator = By.cssSelector("div.project-header > a > span");
 	By projectNameLocator = By.cssSelector("div.sub-layer2 > div.sub-layer-title > span");
 	By testSetNameLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-title > span");
-	By projectDropDownLocator = By.cssSelector("div.sub-layer2 > div.sub-layer-dropdown > a > i");
-	By projectDropDownMenuItemsLocator = By.cssSelector("div.sub-layer2 > div.dropdown > ul.dropdown-menu > li > a");
-	By testSetDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a > i");
-	By testSetDropDownMenuItemsLocator = By.cssSelector("div.sub-layer1 > div.dropdown > ul.dropdown-menu > li > a");
+	By projectDropDownLocator = By.cssSelector("div.sub-layer2 > div.sub-layer-dropdown > a");
+	By projectDropDownMenuItemsLocator = By.cssSelector("div.sub-layer2 > div.dropdown > div > ul.dropdown-menu > li > a");
+	By testSetDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a");
+	By testSetDropDownMenuItemsLocator = By.cssSelector("div.sub-layer1 > div.dropdown > div > ul.dropdown-menu > li > a");
 	By listHeaderLocator = By.cssSelector("div.title-row > span");
 	By listColHeaderLocator = By.cssSelector("div.header-row > div > span");
 	By tableNameLocator = By.cssSelector("div.table-row > div > div:nth-child(1)");
 	By tableSizeLocator = By.cssSelector("div.table-row > div > div:nth-child(2)");
 	By tableRecordsLocator = By.cssSelector("div.table-row > div > div:nth-child(3)");
 	By tableModDateLocator = By.cssSelector("");
-	By descIconLocator = By.cssSelector("div.action-buttons > div.dropdown > i");
+	By descIconLocator = By.cssSelector("div.action-buttons > div.dropdown > a");
 	By descHeaderLocator = By.cssSelector("div.description-content > h5 > span");
 	By descLocator = By.cssSelector("div.description-content > span");
 	By fileNameLocator = By.cssSelector("div.file-row > div > div:nth-child(1)");
@@ -75,7 +75,15 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
 		isElementDisplayed(listHeaderLocator, "List header");
-
+		isElementDisplayed(projectHeaderLocator, "Project header");
+		isElementEnabled(searchBoxLocator, "Search box");
+		isElementDisplayed(searchBoxIconLocator, "Search box lens icon");
+		isElementDisplayed(copyrightFooter, "Copyright footer");
+		isElementDisplayed(projectNameLocator, "Project name");
+		isElementDisplayed(projectDropDownLocator, "Project drop down button");
+		isElementDisplayed(testSetNameLocator, "TestSet name");
+		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
+		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
 	
 	public String getTablesList(){

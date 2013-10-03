@@ -4,7 +4,7 @@ SET pom=testdata\testbatch\Remote_RunFrontEnd_Chrome.pom
 SET outputDir=C:\ACL\%pomDir%
 SET sysPropPrefix=AutoQA.
 SET toAddress = ramneet_kaur@acl.com
-SET testCategory = Regression
+SET testCategory = Daily
 SET axServerName = autoqawin2012.aclqa.local
 
 

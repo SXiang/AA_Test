@@ -138,6 +138,7 @@
                        
                        <systemProperty><key>${sysPropPrefix}dbtype</key><value>PostgreSQL</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}serverip</key><value>192.168.10.67</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}axServerName</key><value>autoqawin2012.aclqa.local</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}port</key><value>5432</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}dbname</key><value>AclAuditExchangeDB</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}userid</key><value>AclAuditExchangeRole</value></systemProperty>
