@@ -159,6 +159,7 @@ public class RestapiHelper extends KeywordSuperHelper {
         try{
 			WebElement username = driver.findElement(By.id("username"));
 			logTAFStep("Input username '"+dpUserName+"'");
+			
 			username.sendKeys(dpUserName);
 			
 			WebElement password = driver.findElement(By.id("password"));

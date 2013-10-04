@@ -117,9 +117,8 @@
                        <systemProperty><key>${sysPropPrefix}jenkinsReport</key><value>false</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}traceMemusage</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}traceImageName</key><value>services.exe</value></systemProperty>
-                       <systemProperty><key>${sysPropPrefix}testerName</key><value>Automation_V10_Demo</value></systemProperty>
-                       
-                       
+                       <systemProperty><key>${sysPropPrefix}testerName</key><value>AX_Automation</value></systemProperty>
+                                              
                        <systemProperty><key>${sysPropPrefix}openHtmlReport</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}openLogFile</key><value>true</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}openByApp</key><value>iexplore</value></systemProperty>
@@ -130,7 +129,8 @@
                        <systemProperty><key>${sysPropPrefix}toAddress</key><value>karen_zou@acl.com</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}ccAddress</key><value></value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}bccAddress</key><value></value></systemProperty>
-                       
+
+					   <systemProperty><key>${sysPropPrefix}axServerName</key><value>autoqawin2012.aclqa.local</value></systemProperty>                                              
                        <systemProperty><key>${sysPropPrefix}dbtype</key><value>PostgreSQL</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}serverip</key><value>192.168.10.83</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}port</key><value>5432</value></systemProperty>
