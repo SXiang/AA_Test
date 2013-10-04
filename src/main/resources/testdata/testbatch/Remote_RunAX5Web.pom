@@ -116,6 +116,7 @@
 
 					   <systemProperty><key>${sysPropPrefix}webDriver</key><value>${webDriver}</value></systemProperty>
 					   <systemProperty><key>${sysPropPrefix}imageName</key><value>${imageName}</value></systemProperty>
+					   <systemProperty><key>${sysPropPrefix}driverName</key><value>${driverName}</value></systemProperty>					   
 					   <systemProperty><key>${sysPropPrefix}casType</key><value>${casType}</value></systemProperty>
 					   <systemProperty><key>${sysPropPrefix}axServerName</key><value>${axServerName}</value></systemProperty>
 					   <systemProperty><key>${sysPropPrefix}axServerPort</key><value>${axServerPort}</value></systemProperty>

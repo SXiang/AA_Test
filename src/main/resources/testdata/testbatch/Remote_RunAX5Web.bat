@@ -15,6 +15,7 @@ SET unicodeTest = false
 
 SET webDriver = chrome
 SET imageName = chrome.exe
+SET driverName = chromedriver.exe
 SET casType = nonSSO
 SET axServerName = AUTOQAWIN2012.ACLQA.local
 SET axServerPort = 8443
@@ -94,6 +95,7 @@ IF /I '%RPS%'=='FrontEnd' (
  	SET testDataFile=testdata/ax/TestSuiteFrontEnd.xls
  	SET webDriver=%webDriver%
  	SET imageName=%imageName%
+	SET driverName=%driverName%
 )
 Rem ****************************************************
 
@@ -114,6 +116,7 @@ CALL mvn -U ^
       -DunicodeTest=%unicodeTest% ^
       -DwebDriver=%webDriver% ^
       -DimageName=%imageName% ^
+      -DdriverName=%driverName% ^
       -DcasType=%casType% ^
       -DaxServerName=%axServerName% ^
       -DaxServerPort=%axServerPort% ^
