@@ -160,10 +160,10 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	public String getUsersList(){
 		users = driver.findElements(usersListLocator);
 		sleep(5);
-        for(int i = 1; i < users.size(); i++) {
-        	if(i==1){
+        for(int i = 0; i < users.size(); i++) {
+        	if(i==0){
         		usersList=users.get(i).getText();
-        	}else if(i>1){
+        	}else if(i>0){
         		usersList=usersList+"\r\n"+users.get(i).getText();
         	}
         }
