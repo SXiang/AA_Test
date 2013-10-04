@@ -50,6 +50,7 @@ public class ResultsHelper extends FrontendCommonHelper{
 	By infoContentDataLocator = By.cssSelector("div.right-panel-block-content > dl > dd");
 	By paramLabelLocator = By.cssSelector("div.right-panel-block-content > dl[ng-repeat*='parameterSet'] > dt");
 	By paramValueLocator = By.cssSelector("div.right-panel-block-content > dl[ng-repeat*='parameterSet'] > dd");
+	By paramMsgLocator = By.cssSelector("div.right-panel-block-content[ng-hide*='hasParameterSet'] > span");
 	//END
     
     // BEGIN of other local variables declaration
@@ -120,7 +121,7 @@ public class ResultsHelper extends FrontendCommonHelper{
 			resultSize = driver.findElements(resultSizeLocator);
 			resultRecords = driver.findElements(resultRecordsLocator);
 		}else{
-			logTAFInfo("No results found");
+			logTAFError("No job results available");
 			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText();
 		}
 		for(int i = 0; i < resultName.size(); i++) {
@@ -227,15 +228,19 @@ public class ResultsHelper extends FrontendCommonHelper{
 	
 	public String getParams(){
 		allParams = driver.findElements(paramLabelLocator);
-		for(int i = 0; i < allParams.size(); i++) {
-        	if(i==0){
-        		params=driver.findElements(paramLabelLocator).get(i).getText()+":"+driver.findElements(paramValueLocator).get(i).getText();
-        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
-        	}else{
-        		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
-        		params=params+"\r\n"+driver.findElements(paramLabelLocator).get(i).getText()+":"+driver.findElements(paramValueLocator).get(i).getText();
-        	}
-        }
+		if(allParams.size()>0){
+			for(int i = 0; i < allParams.size(); i++) {
+	        	if(i==0){
+	        		params=driver.findElements(paramLabelLocator).get(i).getText()+":"+driver.findElements(paramValueLocator).get(i).getText();
+	        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
+	        	}else{
+	        		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+	        		params=params+"\r\n"+driver.findElements(paramLabelLocator).get(i).getText()+":"+driver.findElements(paramValueLocator).get(i).getText();
+	        	}
+	        }
+		}else{
+			params = driver.findElement(paramMsgLocator).getText();
+		}
 		return params;
 	}
 	public Boolean clickTestNameFromDropDown(String testName){

@@ -3,6 +3,7 @@ package ax.lib.frontend;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
@@ -116,6 +117,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 		}
 		for(int i = 0; i < tableName.size(); i++) {
 	        	if(tableName.get(i).getText().equalsIgnoreCase(table)){
+	        		logTAFStep("Table: "+table+" found and clicked on its Description icon.");
 	        		descIcon.get(i).click();
 	        		desc = driver.findElements(descHeaderLocator).get(i).getText()+":"+driver.findElements(descLocator).get(i).getText();
 	        		descIcon.get(i).click();
@@ -135,6 +137,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 		}
 		for(int i = 0; i < fileName.size(); i++) {
 	        	if(fileName.get(i).getText().equalsIgnoreCase(file)){
+	        		logTAFStep("File: "+file+" found and clicked on its Description icon.");
 	        		descIcon.get(i).click();
 	        		desc = driver.findElements(descHeaderLocator).get(i).getText()+":"+driver.findElements(descLocator).get(i).getText();
 	        		descIcon.get(i).click();
@@ -205,6 +208,38 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	
 	public String getListHeader(){
 		return driver.findElement(listHeaderLocator).getText();
+	}
+	
+	public Boolean clickTestSetNameFromDropDown(String testSetName){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
+		driver.findElement(testSetDropDownLocator).click();
+		sleep(5);
+		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
+        for(int i = 0; i < dropDownMenu.size(); i++) {
+        	if(dropDownMenu.get(i).getText().equalsIgnoreCase(testSetName)){
+        		logTAFStep("TestSet: "+testSetName+" found and clicked on.");
+        		dropDownMenu.get(i).click();
+        		return true;
+        	}
+        }
+		driver.findElement(testSetDropDownLocator).click();
+		return false;
+	}
+	
+	public Boolean clickProjectNameFromDropDown(String projectName){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
+		driver.findElement(projectDropDownLocator).click();
+		sleep(5);
+		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
+        for(int i = 0; i < dropDownMenu.size(); i++) {
+        	if(dropDownMenu.get(i).getText().equalsIgnoreCase(projectName)){
+        		logTAFStep("Project: "+projectName+" found and clicked on.");
+        		dropDownMenu.get(i).click();
+        		return true;
+        	}
+        }
+		driver.findElement(projectDropDownLocator).click();
+		return false;
 	}
 	
 	//***************  Part 3  *******************

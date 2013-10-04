@@ -415,6 +415,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		dropDownMenu = driver.findElements(testDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(testName)){
+        		logTAFStep("Test: "+testName+" found and clicked on.");
         		dropDownMenu.get(i).click();
         		return true;
         	}
@@ -430,6 +431,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(testSetName)){
+        		logTAFStep("TestSet: "+testSetName+" found and clicked on.");
         		dropDownMenu.get(i).click();
         		return true;
         	}
@@ -445,6 +447,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(projectName)){
+        		logTAFStep("Project: "+projectName+" found and clicked on.");
         		dropDownMenu.get(i).click();
         		return true;
         	}
