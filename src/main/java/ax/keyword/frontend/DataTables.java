@@ -6,7 +6,7 @@ public class DataTables  extends DataTablesRelatedFilesHelper{
 
 	/**
 	 * Script Name   : <b>DataTables</b>
-	 * Generated     : <b>Sep 11, 2013</b>
+	 * Generated     : <b>Oct 2, 2013</b>
 	 * Description   : DataTables keyword
 	 * 
 	 * @author Ramneet Kaur

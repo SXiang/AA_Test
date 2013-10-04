@@ -137,6 +137,7 @@
                        <systemProperty><key>${sysPropPrefix}dbname</key><value>AclAuditExchangeDB</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}userid</key><value>AclAuditExchangeRole</value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}passwd</key><value>Password00</value></systemProperty>
+                       <systemProperty><key>${sysPropPrefix}axServerName</key><value>autoqawin2012.aclqa.local</value></systemProperty>
                        
                        <systemProperty><key>${sysPropPrefix}emailCmd</key><value></value></systemProperty>
                        <systemProperty><key>${sysPropPrefix}testCategory</key><value>Regression</value></systemProperty>
