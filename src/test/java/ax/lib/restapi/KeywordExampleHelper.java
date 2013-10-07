@@ -82,6 +82,8 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 	
 	public void setupNewDriver(String Browser) {
 		//Browser = "Chrome";
+		//Browser = "FireFox";
+		//Browser = "InternetExplorer";
         String imageName = "";
 		logTAFStep("Start a new browser for testing - " + Browser);
 		if (Browser.equalsIgnoreCase("HtmlUnit")) {
@@ -95,6 +97,8 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 			 driver = new ChromeDriver();
 			imageName = "chrome.exe";
 		} else if (Browser.equalsIgnoreCase("InternetExplorer")) {
+			 System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer32.exe");
+
 			driver = new InternetExplorerDriver();
 			imageName = "iexploere.exe";
 		} else {
