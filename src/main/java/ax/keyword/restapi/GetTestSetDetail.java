@@ -1,5 +1,7 @@
 package ax.keyword.restapi;
 
+import java.lang.Math;
+
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
@@ -83,12 +85,12 @@ public class GetTestSetDetail extends RestapiHelper implements KeywordInterface 
 
 		String actualResult = UTF8Control.utf8decode(driver.getPageSource());
 		if(casAuthenticated){
-			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
+			logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()))+"...");
 			// compare Json Result - exact master and actual files are handled by framework.
 		    logTAFStep("File verification - "+dpMasterFiles[0]);
 		    compareJsonResult(actualResult,dpMasterFiles[0]);
 		}else{							
-			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
+			logTAFWarning("Should this be what we want? '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()))+"..."+"'"	);
 		}
 	
 	}

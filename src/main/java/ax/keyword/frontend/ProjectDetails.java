@@ -87,7 +87,7 @@ public class ProjectDetails  extends ProjectDetailsHelper{
 	}
 	
 	public void verifyHeaderFooter(){
-		String header = getProjectHeader()+"|"+getProjectName()+"|"+getTestSetHeader();
+		String header = getProjectHeader()+"\r\n"+getProjectName()+"\r\n"+getTestSetHeader();
 		String footer = getFooter();
 		//System.out.println("header: "+header);
 		//System.out.println("footer: "+footer);

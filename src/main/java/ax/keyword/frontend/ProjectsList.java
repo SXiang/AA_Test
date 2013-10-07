@@ -42,6 +42,9 @@ public class ProjectsList extends ProjectsListHelper{
 			verifyAllProjectsList();
 			verifyHeaderFooter();
 		}
+		if(!dpViewType.isEmpty()){
+			openView();
+		}
 		if(!dpProjectName.isEmpty()){
 			String viewType = openView();
 			openProjectDetails(viewType);
@@ -59,12 +62,16 @@ public class ProjectsList extends ProjectsListHelper{
 	public String openView(){
 		String viewType = findViewType();
 		if(!dpViewType.isEmpty() && !viewType.equalsIgnoreCase(dpViewType)){
-			if(dpViewType.equalsIgnoreCase("card")){
+			if(dpViewType.equalsIgnoreCase("force:card")){
 				viewCards();
 				return "card";
-			}else if(dpViewType.equalsIgnoreCase("list")){
+			}else if(dpViewType.equalsIgnoreCase("force:list")){
 				viewList();
 				return "list";
+			}else if(dpViewType.equalsIgnoreCase("card")){
+				logTAFError("The expected view type does not match with current view type");
+			}else if(dpViewType.equalsIgnoreCase("list")){
+				logTAFError("The expected view type does not match with current view type");
 			}
 		}
 		return viewType;

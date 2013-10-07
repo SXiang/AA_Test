@@ -24,7 +24,8 @@ public class ProjectConf {
 			testDataDir = "",
 			toolDir = "";
 	public String webDriver = "chrome";
-	public String imageName = "chromedriver.exe";
+	public String imageName = "chrome.exe";
+	public String driverName = "chromedriver.exe";
 	public String driverPath = "C:\\Selenium";
 	public String nodeName = "localhost";
 	public String nodePort = "4444";
@@ -289,9 +290,21 @@ public class ProjectConf {
 		return imageName;
 	}
 
+	public String getDriverName() {
+		return driverName;
+	}
+
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
+	}
+	
+
 	// **********************************************************************
 	// ********** Default configurations - modify with caution *************
 	// **********************************************************************
+
+
+
 
 	public boolean tempTestSummary = true;
 	public boolean traceMemusage = true;

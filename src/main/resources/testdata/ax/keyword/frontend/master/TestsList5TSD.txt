@@ -1,1 +1,0 @@
-Analytics.ACL|AnalyticsAndScripts.ACL|AnalyticsAndScriptsNU.ACL|AnalyticsNU.ACL|ProjetDeCaractères_étendu.ACL|ProjetDeCaractères_étenduNU.ACL

@@ -110,9 +110,11 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	public String getInfo(){
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
-        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
+        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         	}else{
-        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"\r\n"+driver.findElements(infoContentLabelLocator).get(i).getText();
+        		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         	}
         }
 		return infoPanelContent;
@@ -133,7 +135,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		dropDownMenuList=dropDownMenu.get(i).getText();
         	}else{
-        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        		dropDownMenuList=dropDownMenuList+"\r\n"+dropDownMenu.get(i).getText();
         	}
         }
 		driver.findElement(projectDropDownLocator).click();
@@ -158,11 +160,11 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	public String getUsersList(){
 		users = driver.findElements(usersListLocator);
 		sleep(5);
-        for(int i = 1; i < users.size(); i++) {
-        	if(i==1){
+        for(int i = 0; i < users.size(); i++) {
+        	if(i==0){
         		usersList=users.get(i).getText();
-        	}else if(i>1){
-        		usersList=usersList+"|"+users.get(i).getText();
+        	}else if(i>0){
+        		usersList=usersList+"\r\n"+users.get(i).getText();
         	}
         }
 		return usersList;
@@ -177,7 +179,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		testSetsList=testSets.get(i).getText();
         	}else{
-        		testSetsList=testSetsList+"|"+testSets.get(i).getText();
+        		testSetsList=testSetsList+"\r\n"+testSets.get(i).getText();
         	}
         }
 		return testSetsList;
@@ -203,6 +205,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(projectName)){
+        		logTAFStep("Project: "+projectName+" found and clicked on.");
         		dropDownMenu.get(i).click();
         		return true;
         	}

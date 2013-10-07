@@ -77,9 +77,8 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		isElementDisplayed(copyrightFooter, "Copyright footer");
 		isElementDisplayed(projectNameLocator, "Project name");
 		isElementDisplayed(projectDropDownLocator, "Project drop down button");
+		isElementDisplayed(testSetNameLocator, "TestSet name");
 		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
-		isElementDisplayed(testsHeaderLocator, "Test list header");
-		isRightPanelIconDisplayed();
 		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
 
@@ -115,6 +114,14 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         	logTAFError("Users Icon missing");
         }
 	}
+	
+	public void isTestsHeaderDisplayed(){
+		if(isElementDisplayed(testsHeaderLocator, "Tests list Header")){
+        	logTAFInfo("Found Tests list Header");
+        } else{
+        	logTAFError("Tests list Header missing");
+        }
+	}
 
 	public String getDescription(){
 		return driver.findElements(rightPanelTitleLocator).get(2).getText()+":"+driver.findElement(descriptionLocator).getText();
@@ -123,9 +130,11 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	public String getInfo(){
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
-        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
         	}else{
-        		infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"\r\n"+driver.findElements(infoContentLabelLocator).get(i).getText();
+        		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         	}
         }
 		return infoPanelContent;
@@ -138,6 +147,15 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	public String getRelatedFilesLabel(){
 		return driver.findElements(rightPanelTitleLocator).get(1).getText();
 	}
+	
+	public void clickDataTablesLink(){
+		driver.findElements(rightPanelTitleLocator).get(0).click();
+	}
+	
+	public void clickRelatedFilesLink(){
+		driver.findElements(rightPanelTitleLocator).get(1).click();
+	}
+	
 	
 	public String getProjectHeader(){
 		return driver.findElement(projectHeaderLocator).getText();
@@ -154,7 +172,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		dropDownMenuList=dropDownMenu.get(i).getText();
         	}else{
-        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        		dropDownMenuList=dropDownMenuList+"\r\n"+dropDownMenu.get(i).getText();
         	}
         }
 		driver.findElement(projectDropDownLocator).click();
@@ -173,7 +191,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		dropDownMenuList=dropDownMenu.get(i).getText();
         	}else{
-        		dropDownMenuList=dropDownMenuList+"|"+dropDownMenu.get(i).getText();
+        		dropDownMenuList=dropDownMenuList+"\r\n"+dropDownMenu.get(i).getText();
         	}
         }
 		driver.findElement(testSetDropDownLocator).click();
@@ -196,11 +214,11 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	public String getUsersList(){
 		users = driver.findElements(usersListLocator);
 		sleep(5);
-        for(int i = 1; i < users.size(); i++) {
-        	if(i==1){
+        for(int i = 0; i < users.size(); i++) {
+        	if(i==0){
         		usersList=users.get(i).getText();
-        	}else if(i>1){
-        		usersList=usersList+"|"+users.get(i).getText();
+        	}else if(i>0){
+        		usersList=usersList+"\r\n"+users.get(i).getText();
         	}
         }
 		return usersList;
@@ -215,7 +233,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         	if(i==0){
         		testsList=tests.get(i).getText();
         	}else{
-        		testsList=testsList+"|"+tests.get(i).getText();
+        		testsList=testsList+"\r\n"+tests.get(i).getText();
         	}
         }
 		return testsList;
@@ -241,11 +259,12 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(testSetName)){
+        		logTAFStep("TestSet: "+testSetName+" found and clicked on.");
         		dropDownMenu.get(i).click();
         		return true;
         	}
         }
-		driver.findElement(projectDropDownLocator).click();
+		driver.findElement(testSetDropDownLocator).click();
 		return false;
 	}
 	
@@ -256,6 +275,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(projectName)){
+        		logTAFStep("Project: "+projectName+" found and clicked on.");
         		dropDownMenu.get(i).click();
         		return true;
         	}

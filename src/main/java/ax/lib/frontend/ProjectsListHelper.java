@@ -88,7 +88,7 @@ public class ProjectsListHelper extends FrontendCommonHelper{
         	if(i==0){
         		projects=allProjects.get(i).getText();
         	}else{
-        		projects=projects+"|"+allProjects.get(i).getText();
+        		projects=projects+"\r\n"+allProjects.get(i).getText();
         	}
         }
         return projects;
@@ -106,8 +106,12 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 		}
 		for(int i = 0; i < allProjects.size(); i++) {
         	if(allProjects.get(i).getText().equals(projectName)){
+        		if(viewType.equalsIgnoreCase("card")){
+        			driver.findElement(By.linkText(projectName)).click();
+        		}else{
+        			driver.findElements(projectNameInListTypeLocator).get(i).click();
+        		}
         		logTAFStep("Project: "+projectName+" found and clicked on!!!");
-        		allProjects.get(i).click();
         		return true;
         	}
         }

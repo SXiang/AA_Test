@@ -18,7 +18,7 @@ public class TestCaseTestDetails extends FrontendTestDriverHelper implements Tes
 	{		
 
 		startFromLine = 2; // 4-9
-		//endAtLine = 9;     //
+		//endAtLine = 8;     //
 			
 		String poolFile = "testdata/ax/testdriver/frontend/TestDetails.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

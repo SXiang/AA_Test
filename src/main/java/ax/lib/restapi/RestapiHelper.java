@@ -72,7 +72,8 @@ public class RestapiHelper extends KeywordSuperHelper {
         String imageName = "";
 		logTAFStep("Start a new browser for testing - " + Browser);
 		if (Browser.equalsIgnoreCase("HtmlUnit")) {
-			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+			//driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+			driver = new HtmlUnitDriver(BrowserVersion.CHROME);
 			imageName = "";
 		} else if (Browser.equalsIgnoreCase("FireFox")) {
 			driver = new FirefoxDriver();
@@ -158,6 +159,7 @@ public class RestapiHelper extends KeywordSuperHelper {
         try{
 			WebElement username = driver.findElement(By.id("username"));
 			logTAFStep("Input username '"+dpUserName+"'");
+			
 			username.sendKeys(dpUserName);
 			
 			WebElement password = driver.findElement(By.id("password"));
