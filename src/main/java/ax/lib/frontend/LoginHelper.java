@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -173,6 +174,7 @@ public class LoginHelper extends FrontendCommonHelper{
 	    Dimension screenResolution = new Dimension((int)
 	    toolkit.getScreenSize().getWidth(), (int)
 	    toolkit.getScreenSize().getHeight());
+	    driver.manage().window().setPosition(new Point(0, 0));
 		driver.manage().window().setSize(screenResolution);
 		setSharedObj();
 		logTAFStep("Browser initiated successfully");
