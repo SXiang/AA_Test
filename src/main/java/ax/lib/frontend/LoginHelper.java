@@ -229,17 +229,6 @@ public class LoginHelper extends FrontendCommonHelper{
 	// ******* Methods on verification ***********
 	// *******************************************
 	
-	public boolean isElementEnabled(By locator, String elementName) {
-		boolean done = false;
-		try{
-			done = driver.findElement(locator).isEnabled();
-			logTAFStep("Successfully found '"+elementName+"'");
-		}catch(Exception e){
-			logTAFError("Failed to find '"+elementName+"' !!!");
-		}
-        return done;
-    }
-	
 	public boolean isUserLoggedIn() {
 		sleep(3);
 		boolean done = false;

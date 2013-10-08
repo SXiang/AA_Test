@@ -188,7 +188,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean isElementEnabled(By locator, String elementName) {
 		boolean done = false;
-		WebDriverWait wait = new WebDriverWait(driver, 5);
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.elementToBeClickable(locator));
 		try{
 			done = driver.findElement(locator).isEnabled();
@@ -201,7 +201,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
-		WebDriverWait wait = new WebDriverWait(driver, 5);
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 		try{
 			done = driver.findElement(locator).isDisplayed();

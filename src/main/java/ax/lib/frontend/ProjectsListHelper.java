@@ -1,8 +1,11 @@
 package ax.lib.frontend;
 
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class ProjectsListHelper extends FrontendCommonHelper{
@@ -63,10 +66,14 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public void viewList() {
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(listIconLocator));
 		driver.findElement(listIconLocator).click();
 	}
 
 	public void viewCards() {
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(cardIconLocator));
 		driver.findElement(cardIconLocator).click();
 	}
 	
@@ -95,6 +102,8 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 	}
 
 	public String getProjectHeader() {
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
 		return driver.findElement(projectHeaderLocator).getText();
 	}	
 	
