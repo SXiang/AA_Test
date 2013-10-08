@@ -106,7 +106,7 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 	public void verifyAllAnalyticsList(){
 		String allAnalytics = getAllAnalytics(dpProjectFolder,dpProjectFile);
 		
-		if(allTables.isEmpty()){
+		if(allAnalytics.isEmpty()){
 			logTAFError("No Table Found!!");
 		}else{
 			logTAFStep("Verify list of Analytics - " + dpMasterFiles[1]);

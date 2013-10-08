@@ -89,7 +89,6 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 			allTables = driver.findElements(tablesLocator);
 		}
 		
-		//tables += tablesTag.getText();
 		tables += tablesTag.getText();
 		
         for(int i = 0; i < allTables.size(); i++) {
