@@ -34,6 +34,8 @@ public class ProjectConf {
 	public String axServerName = "win2012-64-ramn.aclqa.local";
 	public String axServerPort = "8443";
     public String apiPrefix = "/aclax/api/";
+    public String anrPrefix = "localhost:10002/ui";
+    public String anrBatch = "C:\\ACL\\ANR\\AclRevolution.bat";
 	// ********************************************************
 	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
 	// ********** Setters - Auto generated and dir addressed *****************
@@ -298,6 +300,29 @@ public class ProjectConf {
 		this.driverName = driverName;
 	}
 	
+	public String getapiPrefix() {
+		return apiPrefix;
+	}
+
+	public void setapiPrefix(String apiPrefix) {
+		this.apiPrefix = apiPrefix;
+	}
+
+	public String getanrPrefix() {
+		return anrPrefix;
+	}
+
+	public void setanrPrefix(String anrPrefix) {
+		this.anrPrefix = anrPrefix;
+	}
+
+	public String getanrBatch() {
+		return anrBatch;
+	}
+
+	public void setanrBatch(String anrBatch) {
+		this.anrBatch = anrBatch;
+	}
 
 	// **********************************************************************
 	// ********** Default configurations - modify with caution *************
@@ -530,8 +555,5 @@ public class ProjectConf {
 			this.testType = "LOCAL";
 		}
 	}
-	
-	public void setApiPrefix(String apiPrefix) {
-		this.apiPrefix = apiPrefix;
-	}
+
 }
