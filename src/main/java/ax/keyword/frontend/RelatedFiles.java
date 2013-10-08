@@ -17,7 +17,9 @@ public class RelatedFiles  extends DataTablesRelatedFilesHelper{
 	// ******* Declaration of variables **********
 	// *******************************************
 	// BEGIN of datapool variables declaration
-	protected String dpRelatedFileName; //@arg Table name whose link to be clicked for description
+	protected String dpRelatedFileName; //@arg file name whose link to be clicked for description
+	protected String dpProjectName; //@arg ProjectName whose link to be clicked for details
+	protected String dpTestSetName; //@arg TestSet Name whose link to be clicked for details
 	// END of datapool variables declaration
 	
 	@Override
@@ -25,6 +27,8 @@ public class RelatedFiles  extends DataTablesRelatedFilesHelper{
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpRelatedFileName = getDpString("TableOrFileName");
+		dpProjectName = getDpString("ProjectName");
+		dpTestSetName = getDpString("TestSetName");
 		//END
 		return true;
 	}	
@@ -41,8 +45,11 @@ public class RelatedFiles  extends DataTablesRelatedFilesHelper{
 			verifyProjectsDropDownList();
 			verifyTestSetsDropDownList();
 			verifyHeaderFooter();
-		}
-		if(!dpRelatedFileName.isEmpty()){
+		}		if(!dpProjectName.isEmpty()){
+			openProjectFromDropDown();
+		}else if(!dpTestSetName.isEmpty()){
+			openTestSetFromDropDown();
+		}else if(!dpRelatedFileName.isEmpty()){
 			verifyFileDesc(dpRelatedFileName);
 		}
 		cleanUp();
@@ -54,6 +61,14 @@ public class RelatedFiles  extends DataTablesRelatedFilesHelper{
 	// *************** Part 3 *******************
 	// *** Implementation of test functions ******
 	// *******************************************
+	public void openTestSetFromDropDown(){
+		clickTestSetNameFromDropDown(dpTestSetName);
+	}
+	
+	public void openProjectFromDropDown(){
+		clickProjectNameFromDropDown(dpProjectName);
+	}
+	
 	
 	public void verifyRelatedFilesList(){
 		String allFiles = getFilesList();

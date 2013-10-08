@@ -18,6 +18,8 @@ public class DataTables  extends DataTablesRelatedFilesHelper{
 	// *******************************************
 	// BEGIN of datapool variables declaration
 	protected String dpTableName; //@arg Table name whose link to be clicked for description
+	protected String dpProjectName; //@arg ProjectName whose link to be clicked for details
+	protected String dpTestSetName; //@arg TestSet Name whose link to be clicked for details
 	// END of datapool variables declaration
 	
 	@Override
@@ -25,6 +27,8 @@ public class DataTables  extends DataTablesRelatedFilesHelper{
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpTableName = getDpString("TableOrFileName");
+		dpProjectName = getDpString("ProjectName");
+		dpTestSetName = getDpString("TestSetName");
 		//END
 		return true;
 	}	
@@ -42,7 +46,11 @@ public class DataTables  extends DataTablesRelatedFilesHelper{
 			verifyTestSetsDropDownList();
 			verifyHeaderFooter();
 		}
-		if(!dpTableName.isEmpty()){
+		if(!dpProjectName.isEmpty()){
+			openProjectFromDropDown();
+		}else if(!dpTestSetName.isEmpty()){
+			openTestSetFromDropDown();
+		}else if(!dpTableName.isEmpty()){
 			verifyTableDesc(dpTableName);
 		}
 		cleanUp();
@@ -54,6 +62,13 @@ public class DataTables  extends DataTablesRelatedFilesHelper{
 	// *************** Part 3 *******************
 	// *** Implementation of test functions ******
 	// *******************************************
+	public void openTestSetFromDropDown(){
+		clickTestSetNameFromDropDown(dpTestSetName);
+	}
+	
+	public void openProjectFromDropDown(){
+		clickProjectNameFromDropDown(dpProjectName);
+	}
 	
 	public void verifyTablesList(){
 		String allTables = getTablesList();

@@ -42,12 +42,12 @@ public class ProjectsList extends ProjectsListHelper{
 			verifyAllProjectsList();
 			verifyHeaderFooter();
 		}
+		if(!dpViewType.isEmpty()){
+			openView();
+		}
 		if(!dpProjectName.isEmpty()){
 			String viewType = openView();
 			openProjectDetails(viewType);
-		}
-		if(!dpViewType.isEmpty()){
-			openView();
 		}
 		cleanUp();
 	

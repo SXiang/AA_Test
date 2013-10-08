@@ -15,6 +15,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ax.lib.restapi.TestSuiteExampleHelper;
 
@@ -186,6 +188,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean isElementEnabled(By locator, String elementName) {
 		boolean done = false;
+		WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.elementToBeClickable(locator));
 		try{
 			done = driver.findElement(locator).isEnabled();
 			logTAFStep("Successfully found '"+elementName+"'");
@@ -197,6 +201,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
+		WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 		try{
 			done = driver.findElement(locator).isDisplayed();
 			logTAFStep("Successfully found '"+elementName+"'");

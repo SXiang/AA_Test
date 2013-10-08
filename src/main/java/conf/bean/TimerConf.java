@@ -22,7 +22,16 @@ public class TimerConf {
 	maxWaitTime = 30,
 	waitBetweenRetry = 5,
 	loginWaitTime = 5,
-	saveToDiskTime = 5;
+	saveToDiskTime = 5,
+	waitToFindElement = 30;
+	
+	public int getWaitToFindElement() {
+		return waitToFindElement;
+	}
+
+	public void setWaitToFindElement(int waitToFindElement) {
+		this.waitToFindElement = waitToFindElement;
+	}
 
 	public void setWaitBetweenKeywords(int waitBetweenKeywords) {
 		this.waitBetweenKeywords = waitBetweenKeywords;
