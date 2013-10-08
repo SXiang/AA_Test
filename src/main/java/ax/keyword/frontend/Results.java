@@ -147,7 +147,7 @@ public class Results  extends ResultsHelper{
 	}
 	
 	public void verifyHeaderFooter(){
-		String header = getProjectHeader()+"\r\n"+getProjectName()+"\r\n"+getTestSetName()+"\r\n"+getListHeader();
+		String header = getProjectHeader()+"\r\n"+getProjectName()+"\r\n"+getTestSetName()+"\r\n"+getTestName()+"\r\n"+getListHeader();
 		String footer = getFooter();
 		//System.out.println("header: "+header);
 		//System.out.println("footer: "+footer);
