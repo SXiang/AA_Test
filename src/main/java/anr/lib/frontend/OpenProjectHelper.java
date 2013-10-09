@@ -1,11 +1,14 @@
 package anr.lib.frontend;
 
+import java.awt.Toolkit;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -40,14 +43,15 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	By projectOpenButtonLocator = By.id("projectOpenButton");
 	By projectNameLocator = By.id("projectName");
 	By tablesLocator = By.id("tables");
-	By projectdetailsLocator = By.className("project-details");
+	By analyticsLocator = By.id("analytics");
+	By tablesanalyticsTagLocator = By.cssSelector("div.project-details > div > h4");
 	//END
     
     // BEGIN of other local variables declaration
 	private DesiredCapabilities capability;
 	public String imageName;
 
-	protected List<WebElement> allTables;
+	protected List<WebElement> allTables,allAnalytics;
 	//END
 	
 	//***************  Part 2  *******************
@@ -78,22 +82,38 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public  String getAllTables(String projectfolder, String projectfile) {
+		WebElement tablesTag = driver.findElements(tablesanalyticsTagLocator).get(0);
+		String tables = "";
+		
 		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
 			allTables = driver.findElements(tablesLocator);
 		}
-		String tables = "";
+		
+		//tables += tablesTag.getText();
+		tables += tablesTag.getText();
+		
         for(int i = 0; i < allTables.size(); i++) {
-        	if(i==0){
-        		tables=allTables.get(i).getText();
-        	}else{
-        		tables=tables+"\r\n"+allTables.get(i).getText();
-        	}
+       		tables=tables+"\r\n"+allTables.get(i).getText();
         }
         return tables;
 	}
 
-	public String getProjectName() {
+	public  String getAllAnalytics(String projectfolder, String projectfile) {
+		WebElement analyticsTag = driver.findElements(tablesanalyticsTagLocator).get(1);
+		String analytics = "";
 		
+		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
+			allAnalytics = driver.findElements(analyticsLocator);
+		}
+		
+		analytics += analyticsTag.getText();
+        for(int i = 0; i < allAnalytics.size(); i++) {
+        	analytics=analytics+"\r\n"+allAnalytics.get(i).getText();
+        }
+        return analytics;
+	}
+
+	public String getProjectName() {
 		return driver.findElement(projectNameLocator).getText();
 	}	
 	
@@ -130,6 +150,13 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get(projectConf.getanrPrefix()+"/index.html");
 		
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+	    Dimension screenResolution = new Dimension((int)
+	    toolkit.getScreenSize().getWidth(), (int)
+	    toolkit.getScreenSize().getHeight());
+	    driver.manage().window().setPosition(new Point(0, 0));
+		driver.manage().window().setSize(screenResolution);
+
 		setSharedObj();
 		logTAFStep("Browser initiated successfully");
 	}
@@ -146,10 +173,12 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 
 	public void startApp() {
 		String comm = projectConf.getanrBatch();
+		System.out.println("comm:"+comm);
 		
 		logTAFStep("Run ANR batch to start HttpService");
 		try {
 			Runtime.getRuntime().exec(comm);
+			sleep(3);
 			logTAFStep("HttpService has started successfully");
 		} catch (Exception e) {
 			logTAFError("Not able to run ANR batch file. Please check the full path");			

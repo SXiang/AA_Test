@@ -57,10 +57,6 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 		//Launch browser
 		launchBrowser();
 		
-		//driver.get("localhost:10002/ui/index.html");
-		//setSharedObj();
-		//logTAFStep("Browser initiated successfully");
-
 		//Enter Project File with the full path
 		clickProjectOpenButton(dpProjectFolder,dpProjectFile);
 		
@@ -69,6 +65,7 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 		}
 		if(!dpMasterFiles[0].isEmpty()){
 			verifyAllTablesList();
+			verifyAllAnalyticsList();
 		}
 
 		cleanUp();
@@ -106,6 +103,19 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 		}
 	}
 	
+	public void verifyAllAnalyticsList(){
+		String allAnalytics = getAllAnalytics(dpProjectFolder,dpProjectFile);
+		
+		if(allTables.isEmpty()){
+			logTAFError("No Table Found!!");
+		}else{
+			logTAFStep("Verify list of Analytics - " + dpMasterFiles[1]);
+			result[0] = allAnalytics; // You need to get actual result for
+											// each comparison
+			compareTxtResult(result[0], dpMasterFiles[1]);
+		}
+	}
+
 	public static void main(String args) {
 
 	}
