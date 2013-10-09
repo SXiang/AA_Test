@@ -185,6 +185,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getProjectsListFromDropDown(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
@@ -208,6 +209,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetsListFromDropDown(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
