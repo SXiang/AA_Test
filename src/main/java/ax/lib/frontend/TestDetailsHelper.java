@@ -50,10 +50,11 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	By analyticJobsTableColHeaderLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='results'] > div.headlines > div > span");
 	By analyticScheduleTableColHeaderLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='schedule'] > div.headlines > div > span");
 	By analyticJobRunByLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(1)");
-	By analyticJobStartTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(2) > span");
-	By analyticJobEndTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(3) > span");
-	By analyticJobStatusLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(4)");
-	By analyticJobResultLinkLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(5) > a > span");
+	By analyticJobParameterSetLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(2)");
+	By analyticJobStartTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(3) > span");
+	By analyticJobEndTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(4) > span");
+	By analyticJobStatusLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(5)");
+	By analyticJobResultLinkLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(6) > a > span");
 	By scheduledByLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(1)");
 	By scheduleTypeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(2)");
 	By scheduleRepeatLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(3)");
@@ -97,7 +98,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	protected List<WebElement> jobEndTime;
 	protected List<WebElement> jobStatus;
 	protected List<WebElement> jobResultsLink;
+	protected List<WebElement> jobParamSet;
 	protected String jobsList;
+	protected String[] jobParamSetArr;
 	protected List<WebElement> scheduledBy;
 	protected List<WebElement> scheduleType;
 	protected List<WebElement> scheduleRepeat;
@@ -311,6 +314,8 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getJobsList(){
+		//**** This code doesnt handle if in one drawer there is one job without param set and another without.
+		// it can only handle if all jobs have param set or if none have param set
 		columnHeaders = driver.findElements(analyticJobsTableColHeaderLocator);
 		jobRunBy = driver.findElements(analyticJobRunByLocator);
 		if(jobRunBy.size()>0){
@@ -318,18 +323,29 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 			jobEndTime = driver.findElements(analyticJobEndTimeLocator);
 			jobStatus = driver.findElements(analyticJobStatusLocator);
 			jobResultsLink = driver.findElements(analyticJobResultLinkLocator);
+			jobParamSet = driver.findElements(analyticJobParameterSetLocator);
 		}else{
 			logTAFInfo("No analytic jobs found");
 			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText()+"|"+columnHeaders.get(4).getText();
 		}
-		for(int i = 0; i < jobRunBy.size(); i++) {
+		if(jobParamSet.size()==0){
+			for(int i = 0; i < jobRunBy.size(); i++) {
 	        	if(i==0){
-	        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobResultsLink.get(i).getText();
+	        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":No Parameter set used|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
 	        	}else{
-	        		jobsList=jobsList+"\r\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobResultsLink.get(i).getText();
+	        		jobsList=jobsList+"\r\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":No Parameter set used|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
 	        	}
 	        }
-	        return jobsList;
+		}else{
+			for(int i = 0; i < jobRunBy.size(); i++) {
+	        	if(i==0){
+	        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobParamSet.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
+	        	}else{
+	        		jobsList=jobsList+"\r\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobParamSet.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
+	        	}
+	        }
+		}
+	    return jobsList;
 	}
 	
 	public String getScheduleList(){

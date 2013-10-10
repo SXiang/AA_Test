@@ -1,4 +1,4 @@
-﻿AllTypesResultsAnalytic.ACL
+AllTypesResultsAnalytic.ACL
 AllTypesResultsAnalytic_FAIL.ACL
 Analytic_1234 ODBC.acl
 Analytic_1234 PublishTest.acl
