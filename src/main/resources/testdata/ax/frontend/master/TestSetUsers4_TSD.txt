@@ -1,0 +1,10 @@
+Users:
+Users - VeryLongNamedActivityToTestWidthHandlingOfNewWebAppHavngInTotal70Chars:
+(ACLQA\devtest)
+(ACLQA\g1_admin)
+(ACLQA\g2_admin)
+(ACLQA\g2_qauser01)
+(ACLQA\ÄäÖöÜüß€)
+(ACLQA\administrator)
+(ACLQA\g1_qauser02)
+(ACLQA\g1_qauser01)

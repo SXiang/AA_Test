@@ -167,10 +167,11 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		driver.findElements(rightPanelTitleLocator).get(2).click();
 	}
 	public String getUsersPopupHeader(){
+		sleep(timerConf.itemClickTime);
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(usersPopupHeaderLocator));
-		String usersHeader  = driver.findElement(usersPopupHeaderLocator).getText();
-		return usersHeader;
+		//String usersHeader  = driver.findElement(usersPopupHeaderLocator).getText();
+		return driver.findElement(usersPopupHeaderLocator).getText();
 	}
 	public String getUsersList(){
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
@@ -191,13 +192,18 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	
 	public String getTestSetsList(){
 		testSets = driver.findElements(testSetsNameLocator);
-        for(int i = 0; i < testSets.size(); i++) {
-        	if(i==0){
-        		testSetsList=testSets.get(i).getText();
-        	}else{
-        		testSetsList=testSetsList+"\r\n"+testSets.get(i).getText();
-        	}
-        }
+		if(testSets.size()>0){
+			for(int i = 0; i < testSets.size(); i++) {
+	        	if(i==0){
+	        		testSetsList=testSets.get(i).getText();
+	        	}else{
+	        		testSetsList=testSetsList+"\r\n"+testSets.get(i).getText();
+	        	}
+	        }
+		}else{
+			testSetsList = "";
+			logTAFError("No Test Set Available.");
+		}
 		return testSetsList;
 	}
 	

@@ -1,4 +1,4 @@
-﻿Users:
+Users:
 Users - æÆôöòûùÿÖÜáíóúñÑº¿°ÇüéâäàåçêëèïîìÄÅÉæÆô:
 (ACLQA\devtest)
 (ACLQA\g1_admin)

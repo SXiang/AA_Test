@@ -257,13 +257,18 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 
 	public String getAnalyticsList(){
 		analytics = driver.findElements(analyticNameLocator);
-        for(int i = 0; i < analytics.size(); i++) {
-        	if(i==0){
-        		analyticsList=analytics.get(i).getText();
-        	}else{
-        		analyticsList=analyticsList+"\r\n"+analytics.get(i).getText();
-        	}
-        }
+		if(analytics.size() >0){
+			for(int i = 0; i < analytics.size(); i++) {
+	        	if(i==0){
+	        		analyticsList=analytics.get(i).getText();
+	        	}else{
+	        		analyticsList=analyticsList+"\r\n"+analytics.get(i).getText();
+	        	}
+	        }
+		}else{
+			analyticsList = "";
+			logTAFError("No Analytics Available.");
+		}
 		return analyticsList;
 	}
 	

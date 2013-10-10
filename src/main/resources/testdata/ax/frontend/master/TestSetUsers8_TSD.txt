@@ -1,4 +1,4 @@
-﻿Users:
+Users:
 Users - Long Name Activity with spaces To Test WidthHandling having 70 Chars:
 (ACLQA\devtest)
 (ACLQA\g1_admin)
