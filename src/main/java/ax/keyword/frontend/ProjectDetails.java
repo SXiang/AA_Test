@@ -104,7 +104,7 @@ public class ProjectDetails  extends ProjectDetailsHelper{
 	public void verifyUsersList(){
 		String usersList = getUsersPanelTitle();
 		getUsersPopup();
-		usersList = usersList+":"+getUsersPopupHeader()+":"+getUsersList();
+		usersList = usersList+":\r\n"+getUsersPopupHeader()+":\r\n"+getUsersList();
 		logTAFStep("Verify Users - " + dpMasterFiles[6]);
 		result[0] = usersList; // You need to get actual result for
 											// each comparison

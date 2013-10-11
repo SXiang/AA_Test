@@ -109,7 +109,7 @@ public class TestDetails  extends TestDetailsHelper{
 	}
 	
 	public void verifyTestsDropDownList(){
-		String allTests = getTestSetsListFromDropDown();
+		String allTests = getTestsListFromDropDown();
 		if(allTests.isEmpty()){
 			logTAFError("No Tests Found!!");
 		}else{

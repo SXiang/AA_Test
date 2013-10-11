@@ -185,6 +185,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getProjectsListFromDropDown(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
@@ -208,6 +209,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetsListFromDropDown(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
@@ -241,6 +243,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		driver.findElements(rightPanelTitleLocator).get(4).click();
 	}
 	public String getUsersPopupHeader(){
+		sleep(timerConf.itemClickTime);
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(usersPopupHeaderLocator));
 		return driver.findElement(usersPopupHeaderLocator).getText();
@@ -264,13 +267,18 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	
 	public String getTestsList(){
 		tests = driver.findElements(testsNameLocator);
-        for(int i = 0; i < tests.size(); i++) {
-        	if(i==0){
-        		testsList=tests.get(i).getText();
-        	}else{
-        		testsList=testsList+"\r\n"+tests.get(i).getText();
-        	}
-        }
+		if(tests.size()>0){
+			for(int i = 0; i < tests.size(); i++) {
+	        	if(i==0){
+	        		testsList=tests.get(i).getText();
+	        	}else{
+	        		testsList=testsList+"\r\n"+tests.get(i).getText();
+	        	}
+	        }
+		}else{
+			testsList = "";
+			logTAFError("No Test Available.");
+		}
 		return testsList;
 	}
 	
