@@ -147,7 +147,8 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 		}
 
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		driver.get(projectConf.getanrPrefix()+"/index.html");
+		//driver.get(projectConf.getanrPrefix()+"/index.html");
+		driver.get("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR.exe");
 		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 	    Dimension screenResolution = new Dimension((int)
