@@ -2714,3 +2714,91 @@
 
 2013-10-08 14:35:49.2257 Process:4312 Thread:1 Debug Dirty rect [20,157,300,35] 
 
+2013-10-08 15:29:00.7827 Process:9504 Thread:1 Debug BrowserResize. Old H0xW0; New H662xW984. 
+
+2013-10-08 15:29:00.8597 Process:9504 Thread:1 Debug Calling javascript:    var global_isRunningInCefWrapper = true; 
+
+2013-10-08 15:29:00.8597 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.8597 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9337 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9337 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9337 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9337 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9337 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9337 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9337 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9487 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9537 Process:9504 Thread:3 Debug Type: View Buffer: 314310656 Width: 984 Height: 662 
+
+2013-10-08 15:29:00.9537 Process:9504 Thread:3 Debug    DirtyRect: X=0 Y=0 W=984 H=662 
+
+2013-10-08 15:29:00.9537 Process:9504 Thread:1 Debug DoRenderBrowser() Bitmap H662xW984, Browser H662xW984 
+
+2013-10-08 15:29:00.9537 Process:9504 Thread:1 Debug Dirty rect [0,0,984,662] 
+
+2013-10-08 15:29:00.9537 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:00.9537 Process:9504 Thread:1 Debug BrowserResize. Old H662xW984; New H662xW984. 
+
+2013-10-08 15:29:00.9537 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:01.2157 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:01.2157 Process:9504 Thread:3 Debug Type: View Buffer: 314310656 Width: 984 Height: 662 
+
+2013-10-08 15:29:01.2157 Process:9504 Thread:3 Debug    DirtyRect: X=0 Y=0 W=984 H=662 
+
+2013-10-08 15:29:01.2157 Process:9504 Thread:1 Debug DoRenderBrowser() Bitmap H662xW984, Browser H662xW984 
+
+2013-10-08 15:29:01.2157 Process:9504 Thread:1 Debug Dirty rect [0,0,984,662] 
+
+2013-10-08 15:29:01.2667 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:01.2667 Process:9504 Thread:3 Debug Type: View Buffer: 314310656 Width: 984 Height: 662 
+
+2013-10-08 15:29:01.2667 Process:9504 Thread:3 Debug    DirtyRect: X=0 Y=0 W=984 H=662 
+
+2013-10-08 15:29:01.2667 Process:9504 Thread:1 Debug DoRenderBrowser() Bitmap H662xW984, Browser H662xW984 
+
+2013-10-08 15:29:01.2667 Process:9504 Thread:1 Debug Dirty rect [0,0,984,662] 
+
+2013-10-08 15:29:01.6997 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:01.6997 Process:9504 Thread:3 Debug Type: View Buffer: 314310656 Width: 984 Height: 662 
+
+2013-10-08 15:29:01.6997 Process:9504 Thread:3 Debug    DirtyRect: X=0 Y=0 W=984 H=662 
+
+2013-10-08 15:29:01.6997 Process:9504 Thread:1 Debug DoRenderBrowser() Bitmap H662xW984, Browser H662xW984 
+
+2013-10-08 15:29:01.6997 Process:9504 Thread:1 Debug Dirty rect [0,0,984,662] 
+
+2013-10-08 15:29:01.7547 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:01.7547 Process:9504 Thread:3 Debug Type: View Buffer: 314310656 Width: 984 Height: 662 
+
+2013-10-08 15:29:01.7547 Process:9504 Thread:3 Debug    DirtyRect: X=0 Y=0 W=984 H=662 
+
+2013-10-08 15:29:01.7547 Process:9504 Thread:1 Debug DoRenderBrowser() Bitmap H662xW984, Browser H662xW984 
+
+2013-10-08 15:29:01.7547 Process:9504 Thread:1 Debug Dirty rect [0,0,984,662] 
+
+2013-10-08 15:29:01.7547 Process:9504 Thread:3 Debug GetViewRect result provided:True Rect: X0 Y0 H662 W984 
+
+2013-10-08 15:29:01.7647 Process:9504 Thread:3 Debug Type: View Buffer: 314310656 Width: 984 Height: 662 
+
+2013-10-08 15:29:01.7647 Process:9504 Thread:3 Debug    DirtyRect: X=20 Y=85 W=300 H=107 
+
+2013-10-08 15:29:01.7647 Process:9504 Thread:1 Debug DoRenderBrowser() Bitmap H662xW984, Browser H662xW984 
+
+2013-10-08 15:29:01.7647 Process:9504 Thread:1 Debug Dirty rect [20,85,300,107] 
+

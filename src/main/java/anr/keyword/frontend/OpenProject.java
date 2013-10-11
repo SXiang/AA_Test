@@ -78,12 +78,12 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 	// *** Implementation of test functions ******
 	// *******************************************
 	public void verifyProjectName(String projectfolder, String projectfile){
-		String projectname = getProjectName();
-		if(projectname.isEmpty()){
-			logTAFError("No Project Name Found!!");
+		String projecttitle = getProjectTitle();
+		if(projecttitle.isEmpty()){
+			logTAFError("No Project title Found!!");
 		}else{
 			logTAFStep("Verify Project Name");
-			if ((projectfolder+"\\"+projectfile).equalsIgnoreCase(projectname))
+			if ((projectfile.replaceAll(".[a|A][c|C][l|L]", "")).equalsIgnoreCase(projecttitle))
 				logTAFInfo("Project name is echo-displayed successfully");
 			else
 				logTAFError("Project name is echo-displayed unsuccessfully!!");

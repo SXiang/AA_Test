@@ -41,10 +41,10 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	// BEGIN locators of the web elements of ProjectsList page
 	By projectFilePathLocator = By.id("projectFilePath");
 	By projectOpenButtonLocator = By.id("projectOpenButton");
-	By projectNameLocator = By.id("projectName");
+	By projectTitleLocator = By.id("projectTitle");
+	By tablesanalyticsLabelLocator = By.cssSelector("div.project-details > div > h4");
 	By tablesLocator = By.id("tables");
 	By analyticsLocator = By.id("analytics");
-	By tablesanalyticsTagLocator = By.cssSelector("div.project-details > div > h4");
 	//END
     
     // BEGIN of other local variables declaration
@@ -82,7 +82,7 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public  String getAllTables(String projectfolder, String projectfile) {
-		WebElement tablesTag = driver.findElements(tablesanalyticsTagLocator).get(0);
+		WebElement tablesTag = driver.findElements(tablesanalyticsLabelLocator).get(0);
 		String tables = "";
 		
 		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
@@ -98,7 +98,7 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	}
 
 	public  String getAllAnalytics(String projectfolder, String projectfile) {
-		WebElement analyticsTag = driver.findElements(tablesanalyticsTagLocator).get(1);
+		WebElement analyticsTag = driver.findElements(tablesanalyticsLabelLocator).get(1);
 		String analytics = "";
 		
 		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
@@ -112,8 +112,8 @@ public class OpenProjectHelper extends FrontendCommonHelper{
         return analytics;
 	}
 
-	public String getProjectName() {
-		return driver.findElement(projectNameLocator).getText();
+	public String getProjectTitle() {
+		return driver.findElement(projectTitleLocator).getText();
 	}	
 	
 	public boolean clickProjectOpenButton(String projectfolder, String projectfile) {
