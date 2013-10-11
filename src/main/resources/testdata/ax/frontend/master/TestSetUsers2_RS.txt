@@ -1,9 +1,9 @@
 Users:
 Users - Long Name Activity with spaces To Test WidthHandling having 70 Chars NotInherit User02Read:
-(ACLQA\devtest)
-(ACLQA\g1_admin)
-(ACLQA\g2_admin)
-(ACLQA\g2_qauser01)
-(ACLQA\ÄäÖöÜüß€)
+devtest (ACLQA\devtest)
+g1_admin (ACLQA\g1_admin)
+g2_admin (ACLQA\g2_admin)
+g2_qauser01 (ACLQA\g2_qauser01)
+ÄäÖöÜüß€ (ACLQA\ÄäÖöÜüß€)
 (ACLQA\administrator)
-(ACLQA\g1_qauser02)
+g1_qauser02 (ACLQA\g1_qauser02)
