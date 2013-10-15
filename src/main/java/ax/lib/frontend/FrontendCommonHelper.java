@@ -7,6 +7,10 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -87,6 +91,17 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	//***************  Part 1  *******************
 	// ******* common functions      ***
 	// *******************************************
+	
+	public String getScreenshotPathAndName()
+	{
+		  try {
+			return projectConf.localizationSnapshots + projectConf.appLocale + "\\" + InetAddress.getLocalHost().getHostAddress() + "\\" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime())+ "\\" + this.getClass().getName() + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".jpeg";	 
+		  } catch (UnknownHostException e) {
+			e.printStackTrace();
+		    return projectConf.localizationSnapshots + projectConf.appLocale + "\\" + "192.168.0.0" + "\\" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime())+ "\\" + this.getClass().getName() + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".jpeg";
+		  }
+	}
+	
 	public String getClipboard() {
 		Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
 	    try {
@@ -127,6 +142,15 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 				//driver.findElement(searchBoxIconLocator).click();
 			}	
 		}
+		sleep(timerConf.waitToTakeScreenshot);
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		Boolean reachedbottom = false;
+		do{
+		  reachedbottom = Boolean.parseBoolean(js.executeScript("return $(document).height() == ($(window).height() + $(window).scrollTop());").toString());
+		  captureScreen(getScreenshotPathAndName());
+		  logTAFInfo("Screenshot taken");
+		  }while(!reachedbottom);
+		js.executeScript("scroll(250,0);");
 	}
 	
 	public String getSearchItemsList(){

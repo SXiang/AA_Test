@@ -116,6 +116,15 @@ public class ResultsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getResultsList(){
+		sleep(timerConf.waitToTakeScreenshot);
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		Boolean reachedbottom = false;
+		do{
+		  reachedbottom = Boolean.parseBoolean(js.executeScript("return $(document).height() == ($(window).height() + $(window).scrollTop());").toString());
+		  captureScreen(getScreenshotPathAndName());
+		  logTAFInfo("Screenshot taken");
+		  }while(!reachedbottom);
+		js.executeScript("scroll(250,0);");
 		columnHeaders = driver.findElements(listColHeaderLocator);
 		resultName = driver.findElements(resultNameLocator);
 		if(resultName.size()>0){
@@ -165,6 +174,9 @@ public class ResultsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -188,6 +200,9 @@ public class ResultsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownMenuItemsLocator));
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -211,6 +226,9 @@ public class ResultsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownLocator));
 		driver.findElement(testDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownMenuItemsLocator));
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		dropDownMenu = driver.findElements(testDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){

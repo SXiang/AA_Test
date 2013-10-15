@@ -6,7 +6,7 @@ SET sysPropPrefix=AutoQA.
 SET toAddress = ramneet_kaur@acl.com
 SET testCategory = Daily
 SET axServerName = autoqawin2012.aclqa.local
-
+SET appLocale = EN
 
 Rem ****************************************************
 Rem *** These 2 lines could be changed for your test ***
@@ -20,7 +20,11 @@ mkdir %outputDir% 2>nul
 
 START "Run Maven Script..." /D"%outputDir%" /WAIT /B mvn -U ^
       -Dexec.mainClass=%mainClass% ^
-      -D%sysPropPrefix%testDataFile=%testDataFile% ^
+      -DtestDataFile=%testDataFile% ^
+      -DappLocale=%appLocale% ^
+      -DtestCategory=%testCategory% ^
+      -DaxServerName=%axServerName% ^
+      -DtoAddress=%toAddress% ^
       -f %pomServer%\%pomDir%\%pom% ^
       clean
 
