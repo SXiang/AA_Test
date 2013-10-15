@@ -197,15 +197,20 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetsList(){
-		sleep(timerConf.waitToTakeScreenshot);
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 		Boolean reachedbottom = false;
 		do{
-		  reachedbottom = Boolean.parseBoolean(js.executeScript("return $(document).height() == ($(window).height() + $(window).scrollTop());").toString());
-		  captureScreen(getScreenshotPathAndName());
-		  logTAFInfo("Screenshot taken");
-		  }while(!reachedbottom);
-		js.executeScript("scroll(250,0);");
+			  sleep(timerConf.waitToTakeScreenshot);
+			  captureScreen(getScreenshotPathAndName());
+			  logTAFInfo("Screenshot taken");
+			  js.executeScript("scroll(0,window.innerHeight);");
+			  reachedbottom = Boolean.parseBoolean(js.executeScript("return ((window.innerHeight + window.scrollY) >= document.body.offsetHeight);").toString());
+			  }while(!reachedbottom);
+			js.executeScript("scroll(0,document.body.offsetHeight);");
+			sleep(timerConf.waitToTakeScreenshot);
+			captureScreen(getScreenshotPathAndName());
+			logTAFInfo("Screenshot taken");
+			js.executeScript("scroll(250,0);");
 		testSets = driver.findElements(testSetsNameLocator);
 		if(testSets.size()>0){
 			for(int i = 0; i < testSets.size(); i++) {
