@@ -11,7 +11,7 @@
       <aclqaNexusUrl>http://192.168.10.129:8081/nexus/content</aclqaNexusUrl>
       <testDeployServerDir>\\192.168.10.129\Automation\MavenTest\AX_TestAutomation</testDeployServerDir>
       <testDeployLocalDir>C:\ACL\Automation\MavenTest\AX_TestAutomation</testDeployLocalDir>
-      <sysPropPrefix>AutoQA.</sysPropPrefix>
+      <sysPropPrefix>${sysPropPrefix}</sysPropPrefix>
   </properties>
   <pluginRepositories>
     <pluginRepository>

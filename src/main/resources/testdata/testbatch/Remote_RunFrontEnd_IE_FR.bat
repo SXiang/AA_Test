@@ -3,10 +3,10 @@ SET pomDir=Automation\MavenTest\AX_TestAutomation
 SET pom=testdata\testbatch\Remote_RunFrontEnd_IE.pom
 SET outputDir=C:\ACL\%pomDir%
 SET sysPropPrefix=AutoQA.
-SET toAddress = ramneet_kaur@acl.com
-SET testCategory = Regression
-SET axServerName = autoqawin2012.aclqa.local
-SET appLocale = FR
+SET toAddress=ramneet_kaur@acl.com
+SET testCategory=Daily
+SET axServerName=autoqawin2012.aclqa.local
+SET appLocale=FR
 
 Rem ****************************************************
 Rem *** These 2 lines could be changed for your test ***
@@ -25,6 +25,7 @@ START "Run Maven Script..." /D"%outputDir%" /WAIT /B mvn -U ^
       -DtestCategory=%testCategory% ^
       -DaxServerName=%axServerName% ^
       -DtoAddress=%toAddress% ^
+      -DsysPropPrefix=%sysPropPrefix% ^
       -f %pomServer%\%pomDir%\%pom% ^
       clean
 
