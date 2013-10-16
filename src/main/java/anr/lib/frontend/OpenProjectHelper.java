@@ -5,12 +5,15 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.io.File;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.acl.qa.taf.util.FileUtil;
@@ -38,16 +41,19 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	protected String dpAXServerPort; //@arg AX Server port
 	// END of datapool variables declaration
 
-	// BEGIN locators of the web elements of ProjectsList page
+	// BEGIN locators of the web elements of OpenProject page
 	By projectFilePathLocator = By.id("projectFilePath");
+	//By projectOpenButtonLocator = By.id("projectOpenButton");
 	By projectOpenButtonLocator = By.id("projectOpenButton");
 	By projectTitleLocator = By.id("projectTitle");
-	By tablesanalyticsLabelLocator = By.cssSelector("div.project-details > div > h4");
+	By dataTablesButtonLocator = By.id("dataTables");
+	//By tablesanalyticsLabelLocator = By.cssSelector("div.project-details > div > h4");
 	By tablesLocator = By.id("tables");
-	By analyticsLocator = By.id("analytics");
+	By analyzeLocator = By.id("analyze");
+	By tablesLinkLocator = By.cssSelector("div.tables > div > a");
 	//END
     
-    // BEGIN of other local variables declaration
+    // BEGIN of other local variables declaration 
 	private DesiredCapabilities capability;
 	public String imageName;
 
@@ -82,14 +88,15 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public  String getAllTables(String projectfolder, String projectfile) {
-		WebElement tablesTag = driver.findElements(tablesanalyticsLabelLocator).get(0);
+//		WebElement tablesTag = driver.findElements(tablesanalyticsLabelLocator).get(0);
 		String tables = "";
 		
 		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
+			clickdataTablesButton();
 			allTables = driver.findElements(tablesLocator);
 		}
 		
-		tables += tablesTag.getText();
+//		tables += tablesTag.getText();
 		
         for(int i = 0; i < allTables.size(); i++) {
        		tables=tables+"\r\n"+allTables.get(i).getText();
@@ -98,14 +105,14 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	}
 
 	public  String getAllAnalytics(String projectfolder, String projectfile) {
-		WebElement analyticsTag = driver.findElements(tablesanalyticsLabelLocator).get(1);
+//		WebElement analyticsTag = driver.findElements(tablesanalyticsLabelLocator).get(1);
 		String analytics = "";
 		
 		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
-			allAnalytics = driver.findElements(analyticsLocator);
+			allAnalytics = driver.findElements(analyzeLocator);
 		}
 		
-		analytics += analyticsTag.getText();
+//		analytics += analyticsTag.getText();
         for(int i = 0; i < allAnalytics.size(); i++) {
         	analytics=analytics+"\r\n"+allAnalytics.get(i).getText();
         }
@@ -127,10 +134,37 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 		//Click Open Local Project button
 	    logTAFStep("Click Open Local Project button");
 		driver.findElement(projectOpenButtonLocator).click();
+		
 	    logTAFStep("Click Open Local Project button successfully");
 		return true;
 	}
 	
+	public boolean clickdataTablesButton() {
+		//Enter ACL Project file folder
+	    logTAFStep("Click Data Tables button");
+		driver.findElement(dataTablesButtonLocator).click();
+		
+		return true;
+	}
+
+	public boolean clickTableName(String tablename) {
+		//Enter ACL Project file folder
+	    logTAFStep("Click table name");
+		List<WebElement> allTables;
+		
+ 		allTables = driver.findElements(tablesLocator);
+        for(int i = 0; i < allTables.size(); i++) {
+        	String temp = allTables.get(i).getText();
+        	if (allTables.get(i).getText().contains(tablename)) {
+        		driver.findElement(By.linkText(tablename)).click();
+        		return true;
+        	}
+		}
+
+        return false;
+
+	}
+
 	public void launchBrowser() {
 		if (dpWebDriver.equals("")) {
 			logTAFError("Not able to read from project.properties the correct value of variable 'webDriver'. Please check the file.");
@@ -139,7 +173,7 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 		}
 	}
 	
-	public void setupNewDriver(String browserType) {
+/*	public void setupNewDriver(String browserType) {
 		if (browserType.equalsIgnoreCase("chrome")) {
 			logTAFStep("Recognized Chrome browser, about to intiate...");
 			InitiateChromeBrowser();
@@ -147,8 +181,7 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 		}
 
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		//driver.get(projectConf.getanrPrefix()+"/index.html");
-		driver.get("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR.exe");
+		driver.get(projectConf.getanrPrefix()+"/index.html");
 		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 	    Dimension screenResolution = new Dimension((int)
@@ -157,6 +190,32 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	    driver.manage().window().setPosition(new Point(0, 0));
 		driver.manage().window().setSize(screenResolution);
 
+		setSharedObj();
+		logTAFStep("Browser initiated successfully");
+	}
+*/
+
+	public void setupNewDriver(String browserType) {
+
+		File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\AclRevolution.bat");
+ 		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--start-maximized");
+		options.setBinary(chromium);
+		 		
+		driver = new ChromeDriver(options);
+
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+	    Dimension screenResolution = new Dimension((int)
+	    toolkit.getScreenSize().getWidth(), (int)
+	    toolkit.getScreenSize().getHeight());
+//	    driver.manage().window().maximize();
+//	    driver.manage().window().setPosition(new Point(0, 0));
+		//driver.manage().window().setSize(screenResolution);
+		//((JavascriptExecutor) driver).executeScript("window.resizeTo(1024, 768);");
+		
 		setSharedObj();
 		logTAFStep("Browser initiated successfully");
 	}
