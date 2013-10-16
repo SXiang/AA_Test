@@ -3,7 +3,6 @@ package ax.lib.frontend;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -86,20 +85,7 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 	}
 	
 	public  String getAllProjects(String viewType) {
-		JavascriptExecutor js = (JavascriptExecutor)driver;
-		Boolean reachedbottom = false;
-		do{
-		  sleep(timerConf.waitToTakeScreenshot);
-		  captureScreen(getScreenshotPathAndName());
-		  logTAFInfo("Screenshot taken");
-		  js.executeScript("scroll(0,window.innerHeight);");
-		  reachedbottom = Boolean.parseBoolean(js.executeScript("return ((window.innerHeight + window.scrollY) >= document.body.offsetHeight);").toString());
-		  }while(!reachedbottom);
-		js.executeScript("scroll(0,document.body.offsetHeight);");
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
-		js.executeScript("scroll(250,0);");
+		takeScreenshot();
 		if(viewType.equalsIgnoreCase("card")){
 			allProjects = driver.findElements(projectNameInCardTypeLocator);
 		}else{

@@ -90,20 +90,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTablesList(){
-		JavascriptExecutor js = (JavascriptExecutor)driver;
-		Boolean reachedbottom = false;
-		do{
-			  sleep(timerConf.waitToTakeScreenshot);
-			  captureScreen(getScreenshotPathAndName());
-			  logTAFInfo("Screenshot taken");
-			  js.executeScript("scroll(0,window.innerHeight);");
-			  reachedbottom = Boolean.parseBoolean(js.executeScript("return ((window.innerHeight + window.scrollY) >= document.body.offsetHeight);").toString());
-			  }while(!reachedbottom);
-			js.executeScript("scroll(0,document.body.offsetHeight);");
-			sleep(timerConf.waitToTakeScreenshot);
-			captureScreen(getScreenshotPathAndName());
-			logTAFInfo("Screenshot taken");
-			js.executeScript("scroll(250,0);");
+		takeScreenshot();
 		columnHeaders = driver.findElements(listColHeaderLocator);
 		tableName = driver.findElements(tableNameLocator);
 		if(tableName.size()>0){
@@ -170,20 +157,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	}
 
 	public String getFilesList(){
-		JavascriptExecutor js = (JavascriptExecutor)driver;
-		Boolean reachedbottom = false;
-		do{
-			  sleep(timerConf.waitToTakeScreenshot);
-			  captureScreen(getScreenshotPathAndName());
-			  logTAFInfo("Screenshot taken");
-			  js.executeScript("scroll(0,window.innerHeight);");
-			  reachedbottom = Boolean.parseBoolean(js.executeScript("return ((window.innerHeight + window.scrollY) >= document.body.offsetHeight);").toString());
-			  }while(!reachedbottom);
-			js.executeScript("scroll(0,document.body.offsetHeight);");
-			sleep(timerConf.waitToTakeScreenshot);
-			captureScreen(getScreenshotPathAndName());
-			logTAFInfo("Screenshot taken");
-			js.executeScript("scroll(250,0);");
+		takeScreenshot();
 		columnHeaders = driver.findElements(listColHeaderLocator);
 		fileName = driver.findElements(fileNameLocator);
 		if(fileName.size()>0){

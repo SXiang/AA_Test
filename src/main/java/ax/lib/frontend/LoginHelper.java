@@ -78,10 +78,10 @@ public class LoginHelper extends FrontendCommonHelper{
 		dpNodePort = projectConf.getNodePort();
 		dpExecutionType = projectConf.getExecutionType();
 		*/
-		dpWebDriver = projectConf.getWebDriver();
-		dpAXServerName = projectConf.getAxServerName();
-		dpAXServerPort = projectConf.getAxServerPort();
-		imageName = projectConf.getImageName();
+		dpWebDriver = projectConf.webDriver;
+		dpAXServerName = projectConf.axServerName;
+		dpAXServerPort = projectConf.axServerPort;
+		imageName = projectConf.imageName;
 		return true;
 	}
 	

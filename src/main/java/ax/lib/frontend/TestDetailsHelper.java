@@ -268,20 +268,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 
 	public String getAnalyticsList(){
-		JavascriptExecutor js = (JavascriptExecutor)driver;
-		Boolean reachedbottom = false;
-		do{
-			  sleep(timerConf.waitToTakeScreenshot);
-			  captureScreen(getScreenshotPathAndName());
-			  logTAFInfo("Screenshot taken");
-			  js.executeScript("scroll(0,window.innerHeight);");
-			  reachedbottom = Boolean.parseBoolean(js.executeScript("return ((window.innerHeight + window.scrollY) >= document.body.offsetHeight);").toString());
-			  }while(!reachedbottom);
-			js.executeScript("scroll(0,document.body.offsetHeight);");
-			sleep(timerConf.waitToTakeScreenshot);
-			captureScreen(getScreenshotPathAndName());
-			logTAFInfo("Screenshot taken");
-			js.executeScript("scroll(250,0);");
+		takeScreenshot();
 		analytics = driver.findElements(analyticNameLocator);
 		if(analytics.size() >0){
 			for(int i = 0; i < analytics.size(); i++) {
@@ -352,7 +339,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 			jobParamSet = driver.findElements(analyticJobParameterSetLocator);
 		}else{
 			logTAFInfo("No analytic jobs found");
-			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText()+"|"+columnHeaders.get(4).getText();
+			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText()+"|"+columnHeaders.get(4).getText()+"|"+columnHeaders.get(5).getText();
 		}
 		if(jobParamSet.size()==0){
 			for(int i = 0; i < jobRunBy.size(); i++) {

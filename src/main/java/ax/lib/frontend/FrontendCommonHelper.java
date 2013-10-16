@@ -142,20 +142,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 				//driver.findElement(searchBoxIconLocator).click();
 			}	
 		}
-		JavascriptExecutor js = (JavascriptExecutor)driver;
-		Boolean reachedbottom = false;
-		do{
-			  sleep(timerConf.waitToTakeScreenshot);
-			  captureScreen(getScreenshotPathAndName());
-			  logTAFInfo("Screenshot taken");
-			  js.executeScript("scroll(0,window.innerHeight);");
-			  reachedbottom = Boolean.parseBoolean(js.executeScript("return ((window.innerHeight + window.scrollY) >= document.body.offsetHeight);").toString());
-			  }while(!reachedbottom);
-			js.executeScript("scroll(0,document.body.offsetHeight);");
-			sleep(timerConf.waitToTakeScreenshot);
-			captureScreen(getScreenshotPathAndName());
-			logTAFInfo("Screenshot taken");
-			js.executeScript("scroll(250,0);");
+		takeScreenshot();
 	}
 	
 	public String getSearchItemsList(){
@@ -193,6 +180,37 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		driver.findElement(closeIconLocator).click();
 	}	
 	
+	public void takeScreenshot(){
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		Boolean reachedBottom = false;
+		int screenSize;
+		int scrolledSize;
+		int totalSize;
+		do{
+		  sleep(timerConf.waitToTakeScreenshot);
+		  captureScreen(getScreenshotPathAndName());
+		  logTAFInfo("Screenshot taken");
+		  if((projectConf.webDriver).startsWith("IE")||((projectConf.webDriver).startsWith("ie"))){
+			  screenSize = Integer.parseInt(js.executeScript("return window.innerHeight;").toString());
+			  scrolledSize = Integer.parseInt(js.executeScript("return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;").toString());
+			  totalSize = Integer.parseInt(js.executeScript("return document.body.scrollHeight;").toString());
+		  }else{
+			  screenSize = Integer.parseInt(js.executeScript("return window.innerHeight;").toString());
+			  scrolledSize = Integer.parseInt(js.executeScript("return window.scrollY;").toString());
+			  totalSize = Integer.parseInt(js.executeScript("return document.body.scrollHeight;").toString());
+		  }
+		  if(totalSize - screenSize - scrolledSize > 0){
+			  if(totalSize - screenSize - scrolledSize > screenSize ){
+				  js.executeScript("var jsScreenSize = "+ screenSize + "; scrollBy(0,jsScreenSize);");
+			  }else if(totalSize - screenSize - scrolledSize < screenSize ){
+				  js.executeScript("var jsTotalSize = "+ totalSize + "; var jsScrolledSize = "+ scrolledSize + "; var jsScreenSize = "+ screenSize + "; scrollBy(0,jsTotalSize-jsScrolledSize-jsScreenSize);");
+			  }
+		  }else{
+			  reachedBottom = true;
+		  }
+		  }while(!reachedBottom);
+		js.executeScript("scroll(250,0);");
+	}
 	
 	//*******************************************
 	// ******* Methods on compare results **************
