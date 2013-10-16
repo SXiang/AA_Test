@@ -90,6 +90,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTablesList(){
+		takeScreenshot();
 		columnHeaders = driver.findElements(listColHeaderLocator);
 		tableName = driver.findElements(tableNameLocator);
 		if(tableName.size()>0){
@@ -121,6 +122,9 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	        	if(tableName.get(i).getText().equalsIgnoreCase(table)){
 	        		logTAFStep("Table: "+table+" found and clicked on its Description icon.");
 	        		descIcon.get(i).click();
+	        		sleep(timerConf.waitToTakeScreenshot);
+	        		captureScreen(getScreenshotPathAndName());
+	        		logTAFInfo("Screenshot taken");
 	        		desc = driver.findElements(descHeaderLocator).get(i).getText()+":"+driver.findElements(descLocator).get(i).getText();
 	        		descIcon.get(i).click();
 	        		return desc;
@@ -141,6 +145,9 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	        	if(fileName.get(i).getText().equalsIgnoreCase(file)){
 	        		logTAFStep("File: "+file+" found and clicked on its Description icon.");
 	        		descIcon.get(i).click();
+	        		sleep(timerConf.waitToTakeScreenshot);
+	        		captureScreen(getScreenshotPathAndName());
+	        		logTAFInfo("Screenshot taken");
 	        		desc = driver.findElements(descHeaderLocator).get(i).getText()+":"+driver.findElements(descLocator).get(i).getText();
 	        		descIcon.get(i).click();
 	        		return desc;
@@ -150,6 +157,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	}
 
 	public String getFilesList(){
+		takeScreenshot();
 		columnHeaders = driver.findElements(listColHeaderLocator);
 		fileName = driver.findElements(fileNameLocator);
 		if(fileName.size()>0){
@@ -183,6 +191,9 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -206,6 +217,9 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownMenuItemsLocator));
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){

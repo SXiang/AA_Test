@@ -85,6 +85,7 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 	}
 	
 	public  String getAllProjects(String viewType) {
+		takeScreenshot();
 		if(viewType.equalsIgnoreCase("card")){
 			allProjects = driver.findElements(projectNameInCardTypeLocator);
 		}else{

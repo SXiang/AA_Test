@@ -78,10 +78,10 @@ public class LoginHelper extends FrontendCommonHelper{
 		dpNodePort = projectConf.getNodePort();
 		dpExecutionType = projectConf.getExecutionType();
 		*/
-		dpWebDriver = projectConf.getWebDriver();
-		dpAXServerName = projectConf.getAxServerName();
-		dpAXServerPort = projectConf.getAxServerPort();
-		imageName = projectConf.getImageName();
+		dpWebDriver = projectConf.webDriver;
+		dpAXServerName = projectConf.axServerName;
+		dpAXServerPort = projectConf.axServerPort;
+		imageName = projectConf.imageName;
 		return true;
 	}
 	
@@ -216,6 +216,9 @@ public class LoginHelper extends FrontendCommonHelper{
 		isElementEnabled(usernameLocator,"Username field");
 		isElementEnabled(passwordLocator,"Password field");
 		isElementEnabled(loginButtonLocator,"Login Button");
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		if(casType.equalsIgnoreCase("nonSSO")){
 			driver.findElement(usernameLocator).sendKeys(username);
 	        driver.findElement(passwordLocator).click();

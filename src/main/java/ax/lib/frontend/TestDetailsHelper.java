@@ -194,6 +194,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -217,6 +220,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownMenuItemsLocator));
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -240,6 +246,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownLocator));
 		driver.findElement(testDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownMenuItemsLocator));
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		dropDownMenu = driver.findElements(testDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -259,6 +268,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 
 	public String getAnalyticsList(){
+		takeScreenshot();
 		analytics = driver.findElements(analyticNameLocator);
 		if(analytics.size() >0){
 			for(int i = 0; i < analytics.size(); i++) {
@@ -316,6 +326,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	public String getJobsList(){
 		//**** This code doesnt handle if in one drawer there is one job without param set and another without.
 		// it can only handle if all jobs have param set or if none have param set
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		columnHeaders = driver.findElements(analyticJobsTableColHeaderLocator);
 		jobRunBy = driver.findElements(analyticJobRunByLocator);
 		if(jobRunBy.size()>0){
@@ -326,7 +339,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 			jobParamSet = driver.findElements(analyticJobParameterSetLocator);
 		}else{
 			logTAFInfo("No analytic jobs found");
-			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText()+"|"+columnHeaders.get(4).getText();
+			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText()+"|"+columnHeaders.get(4).getText()+"|"+columnHeaders.get(5).getText();
 		}
 		if(jobParamSet.size()==0){
 			for(int i = 0; i < jobRunBy.size(); i++) {
@@ -349,6 +362,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getScheduleList(){
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		columnHeaders = driver.findElements(analyticScheduleTableColHeaderLocator);
 		scheduledBy = driver.findElements(scheduledByLocator);
 		if(scheduledBy.size()>0){
@@ -371,6 +387,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getAnalyticDescription(){
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
 		return driver.findElement(analyticDescriptionLocator).getText();
 	}
 	

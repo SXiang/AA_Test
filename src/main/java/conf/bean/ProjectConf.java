@@ -36,6 +36,7 @@ public class ProjectConf {
     public String apiPrefix = "/aclax/api/";
     public String anrPrefix = "localhost:10002/ui";
     public String anrBatch = "C:\\ACL\\ANR\\AclRevolution.bat";
+    public String localizationSnapshots = "\\\\192.168.10.129\\Automation\\LocalizationSnapshots\\";
 	// ********************************************************
 	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
 	// ********** Setters - Auto generated and dir addressed *****************
@@ -43,6 +44,14 @@ public class ProjectConf {
 
 
 	
+	public String getLocalizationSnapshots() {
+		return localizationSnapshots;
+	}
+
+	public void setLocalizationSnapshots(String localizationSnapshots) {
+		this.localizationSnapshots = localizationSnapshots;
+	}
+
 	public void setTempTestSummary(boolean tempTestSummary) {
 		this.tempTestSummary = tempTestSummary;
 	}
