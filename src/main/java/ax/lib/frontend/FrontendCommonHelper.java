@@ -181,6 +181,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}	
 	
 	public void takeScreenshot(){
+		logTAFInfo("takeScreenshot() function disabled for now. need to be enabled again when localization tests have been added.");
+		/*
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 		Boolean reachedBottom = false;
 		int screenSize;
@@ -210,6 +212,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		  }
 		  }while(!reachedBottom);
 		js.executeScript("scroll(250,0);");
+		*/
 	}
 	
 	//*******************************************
