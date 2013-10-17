@@ -166,9 +166,7 @@ public class ResultsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -192,9 +190,7 @@ public class ResultsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -218,9 +214,7 @@ public class ResultsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownLocator));
 		driver.findElement(testDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(testDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){

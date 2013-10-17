@@ -215,6 +215,15 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		*/
 	}
 	
+	public void takeScreenshotWithoutScroll(){
+		logTAFInfo("takeScreenshot() function disabled for now. need to be enabled again when localization tests have been added.");
+		/*
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
+		*/
+	}
+	
 	//*******************************************
 	// ******* Methods on compare results **************
 	// *******************************************

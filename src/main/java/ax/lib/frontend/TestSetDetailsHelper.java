@@ -190,9 +190,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -217,9 +215,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -257,9 +253,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	public String getUsersList(){
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(usersListLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		users = driver.findElements(usersListLocator);
         for(int i = 0; i < users.size(); i++) {
         	if(i==0){
