@@ -194,9 +194,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -220,9 +218,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -246,9 +242,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownLocator));
 		driver.findElement(testDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(testDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -326,9 +320,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	public String getJobsList(){
 		//**** This code doesnt handle if in one drawer there is one job without param set and another without.
 		// it can only handle if all jobs have param set or if none have param set
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		columnHeaders = driver.findElements(analyticJobsTableColHeaderLocator);
 		jobRunBy = driver.findElements(analyticJobRunByLocator);
 		if(jobRunBy.size()>0){
@@ -362,9 +354,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getScheduleList(){
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		columnHeaders = driver.findElements(analyticScheduleTableColHeaderLocator);
 		scheduledBy = driver.findElements(scheduledByLocator);
 		if(scheduledBy.size()>0){
@@ -387,9 +377,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getAnalyticDescription(){
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		return driver.findElement(analyticDescriptionLocator).getText();
 	}
 	

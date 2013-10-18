@@ -216,9 +216,7 @@ public class LoginHelper extends FrontendCommonHelper{
 		isElementEnabled(usernameLocator,"Username field");
 		isElementEnabled(passwordLocator,"Password field");
 		isElementEnabled(loginButtonLocator,"Login Button");
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		if(casType.equalsIgnoreCase("nonSSO")){
 			driver.findElement(usernameLocator).sendKeys(username);
 	        driver.findElement(passwordLocator).click();

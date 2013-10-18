@@ -122,9 +122,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	        	if(tableName.get(i).getText().equalsIgnoreCase(table)){
 	        		logTAFStep("Table: "+table+" found and clicked on its Description icon.");
 	        		descIcon.get(i).click();
-	        		sleep(timerConf.waitToTakeScreenshot);
-	        		captureScreen(getScreenshotPathAndName());
-	        		logTAFInfo("Screenshot taken");
+	        		takeScreenshotWithoutScroll();
 	        		desc = driver.findElements(descHeaderLocator).get(i).getText()+":"+driver.findElements(descLocator).get(i).getText();
 	        		descIcon.get(i).click();
 	        		return desc;
@@ -145,9 +143,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	        	if(fileName.get(i).getText().equalsIgnoreCase(file)){
 	        		logTAFStep("File: "+file+" found and clicked on its Description icon.");
 	        		descIcon.get(i).click();
-	        		sleep(timerConf.waitToTakeScreenshot);
-	        		captureScreen(getScreenshotPathAndName());
-	        		logTAFInfo("Screenshot taken");
+	        		takeScreenshotWithoutScroll();
 	        		desc = driver.findElements(descHeaderLocator).get(i).getText()+":"+driver.findElements(descLocator).get(i).getText();
 	        		descIcon.get(i).click();
 	        		return desc;
@@ -191,9 +187,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -217,9 +211,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownMenuItemsLocator));
-		sleep(timerConf.waitToTakeScreenshot);
-		captureScreen(getScreenshotPathAndName());
-		logTAFInfo("Screenshot taken");
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
