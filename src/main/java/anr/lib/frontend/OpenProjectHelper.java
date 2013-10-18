@@ -197,20 +197,20 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 
 	public void setupNewDriver(String browserType) {
 
-		File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\AclRevolution.bat");
+		File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR.exe");
  		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--start-maximized");
+//		options.addArguments("--start-maximized");
 		options.setBinary(chromium);
 		 		
 		driver = new ChromeDriver(options);
 
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-	    Dimension screenResolution = new Dimension((int)
-	    toolkit.getScreenSize().getWidth(), (int)
-	    toolkit.getScreenSize().getHeight());
+//		Toolkit toolkit = Toolkit.getDefaultToolkit();
+//	    Dimension screenResolution = new Dimension((int)
+//	    toolkit.getScreenSize().getWidth(), (int)
+//	    toolkit.getScreenSize().getHeight());
 //	    driver.manage().window().maximize();
 //	    driver.manage().window().setPosition(new Point(0, 0));
 		//driver.manage().window().setSize(screenResolution);

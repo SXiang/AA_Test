@@ -69,11 +69,11 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 		if(tablename.isEmpty()){
 			logTAFError("No Table name Found!!");
 		}else{
-			logTAFStep("Verify Table Name");
+			logTAFStep("Verify the Table Name");
 			if (tablename.equalsIgnoreCase(dpTableName))
-				logTAFInfo("Table name is displayed successfully");
+				logTAFInfo("Table name is displayed successfully. Expected TableName:"+dpTableName+" Actual TableName:"+tablename);
 			else
-				logTAFError("Table name is displayed incorrectly!!");
+				logTAFError("Table name is displayed incorrectly!! Expected TableName:"+dpTableName+" Actual TableName:"+tablename);
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 		if(tablerecords.isEmpty()){
 			logTAFError("No Table Records Found!!");
 		}else{
-			logTAFStep("Verify Table Records - " + dpMasterFiles[0]);
+			logTAFStep("Verify the Table Records - " + dpMasterFiles[0]);
 			result[0] = tablerecords; // You need to get actual result for
 											// each comparison
 			compareTxtResult(result[0], dpMasterFiles[0]);
@@ -96,7 +96,7 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 		if(tabledata.isEmpty()){
 			logTAFError("No Table Data Found!!");
 		}else{
-			logTAFStep("Verify Table Data - " + dpMasterFiles[1]);
+			logTAFStep("Verify the Table Data - " + dpMasterFiles[1]);
 			result[0] = tabledata; // You need to get actual result for
 											// each comparison
 			compareTxtResult(result[0], dpMasterFiles[1]);

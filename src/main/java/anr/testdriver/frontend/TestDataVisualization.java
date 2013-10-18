@@ -20,7 +20,7 @@ public class TestDataVisualization extends FrontendTestDriverHelper implements T
 		//startFromLine = 2; // 4-9
 		//endAtLine = 8;     //
 			
-		String poolFile = "src/main/resources/testdata/anr/testdriver/frontend/DataVisualization.xls";
+		String poolFile = "src/main/resources/testdata/anr/testdriver/frontend/DataVisualization-new.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));		
 	}
 
