@@ -31,7 +31,7 @@ public class ProjectConf {
 	public String nodePort = "4444";
 	public String executionType = "local";
 	public String casType = "nonSSO";
-	public String axServerName = "win2012-64-ramn.aclqa.local";
+	public String axServerName = "AUTOQAWIN2012.ACLQA.local";
 	public String axServerPort = "8443";
     public String apiPrefix = "/aclax/api/";
     public String anrPrefix = "localhost:10002/ui";
@@ -349,7 +349,7 @@ public class ProjectConf {
 	public boolean updateProjects = false;
 	public boolean jenkinsReport = true;
 	public boolean unicodeTest = false;
-	public boolean dailyTest = false;
+	public boolean dailyTest = true;
 
 	public int timeIntervalForMemusage = 1;
 	public int maxMemUsage = Integer.MAX_VALUE;
