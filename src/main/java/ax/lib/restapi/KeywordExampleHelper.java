@@ -167,10 +167,9 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 			WebElement username = driver.findElement(By.id("username"));
 			logTAFStep("Input username '"+dpUserName+"'");
 			username.sendKeys(dpUserName);
-			
+//		inputChars(username,"用户测试username");
 			WebElement password = driver.findElement(By.id("password"));
 			logTAFStep("Input password '"+dpPassword+"'");
-			password.sendKeys(dpPassword);
 
 			WebElement submit = driver.findElement(By
 					.xpath("//input[@name='submit']"));
