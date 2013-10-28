@@ -164,11 +164,13 @@ public class RestapiHelper extends KeywordSuperHelper {
 			logTAFStep("Input username '"+dpUserName+"'");
 			
 			username.sendKeys(dpUserName);
+			//inputChars(username, dpUserName);
 			
 			WebElement password = driver.findElement(By.id("password"));
 			logTAFStep("Input password '"+dpPassword+"'");
 			password.sendKeys(dpPassword);
-
+			//inputChars(password, dpPassword);
+			
 			WebElement submit = driver.findElement(By
 					.xpath("//input[@name='submit']"));
             logTAFStep("Submit user credential");

@@ -25,7 +25,8 @@ public class GetAnalyticDetails extends RestapiHelper implements KeywordInterfac
 	protected String dpTestSetName;   	//@arg value for TestSet Name
 	protected String dpTestName;   	    //@arg value for Test Name
 	protected String dpAnalyticName;   	//@arg value for Analytic Name
-
+	protected String dpAnalyticUuid;   	//@arg value for Analytic Uuid
+	
 	// END of datapool variables declaration
 	private String url = "";
 	private String uuid="";
@@ -40,9 +41,13 @@ public class GetAnalyticDetails extends RestapiHelper implements KeywordInterfac
 		dpTestSetName = getDpString("TestSetName");
 		dpTestName = getDpString("TestName");
 		dpAnalyticName = getDpString("AnalyticName");
+		dpAnalyticUuid = getDpString("AnalyticUuid");
 		
 		//Rest API - Analytics List in a Test: /api/analytics/<analytic_uuid>
-		uuid = queryAnalyticID(dpScope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
+		if (!dpAnalyticUuid.isEmpty())
+			uuid = dpAnalyticUuid;
+		else uuid = queryAnalyticID(dpScope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
+
 		if ((uuid != null) && (uuid != ""))
 			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"analytics/"+uuid;
 		else System.out.println("Error:" + "Can not find the uuid for the specific analytic");

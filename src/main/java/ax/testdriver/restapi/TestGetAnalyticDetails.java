@@ -17,8 +17,8 @@ public class TestGetAnalyticDetails extends TestDriverExampleHelper implements T
 	@Override
 	public void testMain(Object[] args) 
 	{		
-		//startFromLine = 2; // 4-9
-		//endAtLine = 2;     //
+		//startFromLine = 11; // 4-9
+		//endAtLine = 12;     //
 			
 		String poolFile = "testdata/ax/testdriver/restapi/GetAnalyticDetails.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
