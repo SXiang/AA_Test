@@ -25,6 +25,7 @@ public class TestSuiteExampleHelper extends TestSuiteSuperHelper {
 	public WebDriver currentDriver = null;
 	public String currentImageName = "";
 	public boolean casAuthenticated = false;
+	public String browserType = "";
 	// ***********************************************
 	public TestSuiteExampleHelper() {
 		// TODO Auto-generated constructor stub

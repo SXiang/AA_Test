@@ -7,6 +7,10 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -15,6 +19,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ax.lib.restapi.TestSuiteExampleHelper;
 
@@ -85,6 +91,17 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	//***************  Part 1  *******************
 	// ******* common functions      ***
 	// *******************************************
+	
+	public String getScreenshotPathAndName()
+	{
+		  try {
+			return projectConf.localizationSnapshots + projectConf.appLocale + "\\" + InetAddress.getLocalHost().getHostAddress() + "\\" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime())+ "\\" + this.getClass().getName() + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".jpeg";	 
+		  } catch (UnknownHostException e) {
+			e.printStackTrace();
+		    return projectConf.localizationSnapshots + projectConf.appLocale + "\\" + "192.168.0.0" + "\\" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime())+ "\\" + this.getClass().getName() + new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()) + ".jpeg";
+		  }
+	}
+	
 	public String getClipboard() {
 		Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
 	    try {
@@ -125,6 +142,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 				//driver.findElement(searchBoxIconLocator).click();
 			}	
 		}
+		takeScreenshot();
 	}
 	
 	public String getSearchItemsList(){
@@ -162,6 +180,49 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		driver.findElement(closeIconLocator).click();
 	}	
 	
+	public void takeScreenshot(){
+		logTAFInfo("takeScreenshot() function disabled for now. need to be enabled again when localization tests have been added.");
+		/*
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		Boolean reachedBottom = false;
+		int screenSize;
+		int scrolledSize;
+		int totalSize;
+		do{
+		  sleep(timerConf.waitToTakeScreenshot);
+		  captureScreen(getScreenshotPathAndName());
+		  logTAFInfo("Screenshot taken");
+		  if((projectConf.webDriver).startsWith("IE")||((projectConf.webDriver).startsWith("ie"))){
+			  screenSize = Integer.parseInt(js.executeScript("return window.innerHeight;").toString());
+			  scrolledSize = Integer.parseInt(js.executeScript("return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;").toString());
+			  totalSize = Integer.parseInt(js.executeScript("return document.body.scrollHeight;").toString());
+		  }else{
+			  screenSize = Integer.parseInt(js.executeScript("return window.innerHeight;").toString());
+			  scrolledSize = Integer.parseInt(js.executeScript("return window.scrollY;").toString());
+			  totalSize = Integer.parseInt(js.executeScript("return document.body.scrollHeight;").toString());
+		  }
+		  if(totalSize - screenSize - scrolledSize > 0){
+			  if(totalSize - screenSize - scrolledSize > screenSize ){
+				  js.executeScript("var jsScreenSize = "+ screenSize + "; scrollBy(0,jsScreenSize);");
+			  }else if(totalSize - screenSize - scrolledSize < screenSize ){
+				  js.executeScript("var jsTotalSize = "+ totalSize + "; var jsScrolledSize = "+ scrolledSize + "; var jsScreenSize = "+ screenSize + "; scrollBy(0,jsTotalSize-jsScrolledSize-jsScreenSize);");
+			  }
+		  }else{
+			  reachedBottom = true;
+		  }
+		  }while(!reachedBottom);
+		js.executeScript("scroll(250,0);");
+		*/
+	}
+	
+	public void takeScreenshotWithoutScroll(){
+		logTAFInfo("takeScreenshot() function disabled for now. need to be enabled again when localization tests have been added.");
+		/*
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
+		*/
+	}
 	
 	//*******************************************
 	// ******* Methods on compare results **************
@@ -186,6 +247,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean isElementEnabled(By locator, String elementName) {
 		boolean done = false;
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.elementToBeClickable(locator));
 		try{
 			done = driver.findElement(locator).isEnabled();
 			logTAFStep("Successfully found '"+elementName+"'");
@@ -197,6 +260,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 		try{
 			done = driver.findElement(locator).isDisplayed();
 			logTAFStep("Successfully found '"+elementName+"'");

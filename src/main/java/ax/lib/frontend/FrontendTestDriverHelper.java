@@ -10,6 +10,7 @@ public class FrontendTestDriverHelper extends TestDriverSuperHelper{
 	
 		public WebDriver currentDriver = null;
 		public String currentImageName = "";
+		public String browserType = "";
 		
 		// ***********************************************
 		public FrontendTestDriverHelper() {

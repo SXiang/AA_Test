@@ -5,6 +5,8 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TestDetailsHelper extends FrontendCommonHelper{
 	
@@ -48,10 +50,11 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	By analyticJobsTableColHeaderLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='results'] > div.headlines > div > span");
 	By analyticScheduleTableColHeaderLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='schedule'] > div.headlines > div > span");
 	By analyticJobRunByLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(1)");
-	By analyticJobStartTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(2) > span");
-	By analyticJobEndTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(3) > span");
-	By analyticJobStatusLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(4)");
-	By analyticJobResultLinkLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(5) > a > span");
+	By analyticJobParameterSetLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(2)");
+	By analyticJobStartTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(3) > span");
+	By analyticJobEndTimeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(4) > span");
+	By analyticJobStatusLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(5)");
+	By analyticJobResultLinkLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(6) > a > span");
 	By scheduledByLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(1)");
 	By scheduleTypeLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(2)");
 	By scheduleRepeatLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div:nth-child(3)");
@@ -95,7 +98,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	protected List<WebElement> jobEndTime;
 	protected List<WebElement> jobStatus;
 	protected List<WebElement> jobResultsLink;
+	protected List<WebElement> jobParamSet;
 	protected String jobsList;
+	protected String[] jobParamSetArr;
 	protected List<WebElement> scheduledBy;
 	protected List<WebElement> scheduleType;
 	protected List<WebElement> scheduleRepeat;
@@ -159,6 +164,8 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getInfo(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(infoContentLabelLocator));
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
         		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
@@ -172,15 +179,22 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getProjectHeader(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
 		return driver.findElement(projectHeaderLocator).getText();
 	}
 	public String getProjectName(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectNameLocator));
 		return driver.findElement(projectNameLocator).getText();
 	}
 	
 	public String getProjectsListFromDropDown(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
-		sleep(5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -194,12 +208,17 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetName(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testSetNameLocator));
 		return driver.findElement(testSetNameLocator).getText();
 	}
 	
 	public String getTestSetsListFromDropDown(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
-		sleep(5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownMenuItemsLocator));
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -213,12 +232,17 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestName(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testNameLocator));
 		return driver.findElement(testNameLocator).getText();
 	}
 	
 	public String getTestsListFromDropDown(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownLocator));
 		driver.findElement(testDropDownLocator).click();
-		sleep(5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownMenuItemsLocator));
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(testDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -232,44 +256,26 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getAnalyticsHeader(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(analyticsHeaderLocator));
 		return driver.findElement(analyticsHeaderLocator).getText();
 	}
-	
-	/* not required
-	public String getUsersPanelTitle() {
-		return driver.findElements(rightPanelTitleLocator).get(4).getText();
-    }
-	public void getUsersPopup(){
-		driver.findElements(rightPanelTitleLocator).get(4).click();
-	}
-	public String getUsersPopupHeader(){
-		return driver.findElement(usersPopupHeaderLocator).getText();
-	}
-	public String getUsersList(){
-		users = driver.findElements(usersListLocator);
-		sleep(5);
-        for(int i = 1; i < users.size(); i++) {
-        	if(i==1){
-        		usersList=users.get(i).getText();
-        	}else if(i>1){
-        		usersList=usersList+"|"+users.get(i).getText();
-        	}
-        }
-		return usersList;
-	}
-	public void closeUsersPopup(){
-		driver.findElement(usersPopupCloseIconLocator).click();
-	}
-	*/
+
 	public String getAnalyticsList(){
+		takeScreenshot();
 		analytics = driver.findElements(analyticNameLocator);
-        for(int i = 0; i < analytics.size(); i++) {
-        	if(i==0){
-        		analyticsList=analytics.get(i).getText();
-        	}else{
-        		analyticsList=analyticsList+"\r\n"+analytics.get(i).getText();
-        	}
-        }
+		if(analytics.size() >0){
+			for(int i = 0; i < analytics.size(); i++) {
+	        	if(i==0){
+	        		analyticsList=analytics.get(i).getText();
+	        	}else{
+	        		analyticsList=analyticsList+"\r\n"+analytics.get(i).getText();
+	        	}
+	        }
+		}else{
+			analyticsList = "";
+			logTAFError("No Analytics Available.");
+		}
 		return analyticsList;
 	}
 	
@@ -298,6 +304,8 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getCategoriesName(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(analyticsHeaderLocator));
 		categories = driver.findElements(analyticsHeaderLocator);
         for(int i = 0; i < categories.size(); i++) {
         	if(i==0){
@@ -310,6 +318,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getJobsList(){
+		//**** This code doesnt handle if in one drawer there is one job without param set and another without.
+		// it can only handle if all jobs have param set or if none have param set
+		takeScreenshotWithoutScroll();
 		columnHeaders = driver.findElements(analyticJobsTableColHeaderLocator);
 		jobRunBy = driver.findElements(analyticJobRunByLocator);
 		if(jobRunBy.size()>0){
@@ -317,21 +328,33 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 			jobEndTime = driver.findElements(analyticJobEndTimeLocator);
 			jobStatus = driver.findElements(analyticJobStatusLocator);
 			jobResultsLink = driver.findElements(analyticJobResultLinkLocator);
+			jobParamSet = driver.findElements(analyticJobParameterSetLocator);
 		}else{
 			logTAFInfo("No analytic jobs found");
-			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText()+"|"+columnHeaders.get(4).getText();
+			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText()+"|"+columnHeaders.get(4).getText()+"|"+columnHeaders.get(5).getText();
 		}
-		for(int i = 0; i < jobRunBy.size(); i++) {
+		if(jobParamSet.size()==0){
+			for(int i = 0; i < jobRunBy.size(); i++) {
 	        	if(i==0){
-	        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobResultsLink.get(i).getText();
+	        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":No Parameter set used|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
 	        	}else{
-	        		jobsList=jobsList+"\r\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobResultsLink.get(i).getText();
+	        		jobsList=jobsList+"\r\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":No Parameter set used|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
 	        	}
 	        }
-	        return jobsList;
+		}else{
+			for(int i = 0; i < jobRunBy.size(); i++) {
+	        	if(i==0){
+	        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobParamSet.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
+	        	}else{
+	        		jobsList=jobsList+"\r\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobParamSet.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
+	        	}
+	        }
+		}
+	    return jobsList;
 	}
 	
 	public String getScheduleList(){
+		takeScreenshotWithoutScroll();
 		columnHeaders = driver.findElements(analyticScheduleTableColHeaderLocator);
 		scheduledBy = driver.findElements(scheduledByLocator);
 		if(scheduledBy.size()>0){
@@ -354,6 +377,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getAnalyticDescription(){
+		takeScreenshotWithoutScroll();
 		return driver.findElement(analyticDescriptionLocator).getText();
 	}
 	
@@ -410,8 +434,10 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	
 	public Boolean clickTestNameFromDropDown(String testName){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownLocator));
 		driver.findElement(testDropDownLocator).click();
-		sleep(5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownMenuItemsLocator));
 		dropDownMenu = driver.findElements(testDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(testName)){
@@ -426,8 +452,10 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	
 	public Boolean clickTestSetNameFromDropDown(String testSetName){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
-		sleep(5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownMenuItemsLocator));
 		dropDownMenu = driver.findElements(testSetDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(testSetName)){
@@ -442,8 +470,10 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	
 	public Boolean clickProjectNameFromDropDown(String projectName){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
-		sleep(5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(projectName)){

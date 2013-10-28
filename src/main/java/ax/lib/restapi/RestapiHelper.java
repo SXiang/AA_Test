@@ -18,6 +18,14 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 public class RestapiHelper extends KeywordSuperHelper {
+	/**
+	 * Script Name   : <b>GetProjectList</b>
+	 * Generated     : <b>Aug. 19, 2013 4:20:42 PM</b>
+	 * Description   : Functional Test Script
+	 * 
+	 * @since  2013/09/01
+	 * @author Karen_Zou
+	 */
 	
 	//***************  Part 1  *******************
 	// ******* Declaration of shared variables ***
@@ -72,8 +80,7 @@ public class RestapiHelper extends KeywordSuperHelper {
         String imageName = "";
 		logTAFStep("Start a new browser for testing - " + Browser);
 		if (Browser.equalsIgnoreCase("HtmlUnit")) {
-			//driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
-			driver = new HtmlUnitDriver(BrowserVersion.CHROME);
+			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
 			imageName = "";
 		} else if (Browser.equalsIgnoreCase("FireFox")) {
 			driver = new FirefoxDriver();
@@ -124,9 +131,9 @@ public class RestapiHelper extends KeywordSuperHelper {
 				
 		if(isUserLoggedon()){
 			if(!casAuthenticated){
-			  logTAFError(autoIssue+"User CAS session is still alive?");			  
+			    logTAFError(autoIssue+"User CAS session is still alive?");			  
 			}else{
-				logTAFInfo("CAS authenticated session is still alive as expected");
+  			    logTAFInfo("CAS authenticated session is still alive as expected");
 			}			
 		  done = true;			
 		}else{			
@@ -152,20 +159,18 @@ public class RestapiHelper extends KeywordSuperHelper {
 	}
 	
 	public void submitCredential(){
-		if(getDpString("L10NDemo").equalsIgnoreCase("Yes")){
-            nlsDemo();
-		}
-            
         try{
 			WebElement username = driver.findElement(By.id("username"));
 			logTAFStep("Input username '"+dpUserName+"'");
 			
 			username.sendKeys(dpUserName);
+			//inputChars(username, dpUserName);
 			
 			WebElement password = driver.findElement(By.id("password"));
 			logTAFStep("Input password '"+dpPassword+"'");
 			password.sendKeys(dpPassword);
-
+			//inputChars(password, dpPassword);
+			
 			WebElement submit = driver.findElement(By
 					.xpath("//input[@name='submit']"));
             logTAFStep("Submit user credential");
@@ -175,7 +180,6 @@ public class RestapiHelper extends KeywordSuperHelper {
 		} catch (Exception e) {
 			logTAFError("CAS login form not found? "+e.toString());
 		}
-		
 
 	}
 	

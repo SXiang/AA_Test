@@ -78,10 +78,10 @@ public class LoginHelper extends FrontendCommonHelper{
 		dpNodePort = projectConf.getNodePort();
 		dpExecutionType = projectConf.getExecutionType();
 		*/
-		dpWebDriver = projectConf.getWebDriver();
-		dpAXServerName = projectConf.getAxServerName();
-		dpAXServerPort = projectConf.getAxServerPort();
-		imageName = projectConf.getImageName();
+		dpWebDriver = projectConf.webDriver;
+		dpAXServerName = projectConf.axServerName;
+		dpAXServerPort = projectConf.axServerPort;
+		imageName = projectConf.imageName;
 		return true;
 	}
 	
@@ -216,6 +216,7 @@ public class LoginHelper extends FrontendCommonHelper{
 		isElementEnabled(usernameLocator,"Username field");
 		isElementEnabled(passwordLocator,"Password field");
 		isElementEnabled(loginButtonLocator,"Login Button");
+		takeScreenshotWithoutScroll();
 		if(casType.equalsIgnoreCase("nonSSO")){
 			driver.findElement(usernameLocator).sendKeys(username);
 	        driver.findElement(passwordLocator).click();
@@ -228,17 +229,6 @@ public class LoginHelper extends FrontendCommonHelper{
 	//***************  Part 4  *******************
 	// ******* Methods on verification ***********
 	// *******************************************
-	
-	public boolean isElementEnabled(By locator, String elementName) {
-		boolean done = false;
-		try{
-			done = driver.findElement(locator).isEnabled();
-			logTAFStep("Successfully found '"+elementName+"'");
-		}catch(Exception e){
-			logTAFError("Failed to find '"+elementName+"' !!!");
-		}
-        return done;
-    }
 	
 	public boolean isUserLoggedIn() {
 		sleep(3);

@@ -5,6 +5,8 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProjectDetailsHelper extends FrontendCommonHelper{
 	
@@ -108,6 +110,8 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getInfo(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(infoContentLabelLocator));
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
         		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
@@ -121,15 +125,22 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getProjectHeader(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
 		return driver.findElement(projectHeaderLocator).getText();
 	}
 	public String getProjectName(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectNameLocator));
 		return driver.findElement(projectNameLocator).getText();
 	}
 	
 	public String getProjectsListFromDropDown(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
-		sleep(5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
+		takeScreenshotWithoutScroll();
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(i==0){
@@ -143,7 +154,8 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetHeader(){
-		sleep(3);
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testSetsHeaderLocator));
 		return driver.findElement(testSetsHeaderLocator).getText();
 	}
 	
@@ -151,15 +163,22 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		return driver.findElements(rightPanelTitleLocator).get(2).getText();
     }
 	public void getUsersPopup(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(rightPanelTitleLocator));
 		driver.findElements(rightPanelTitleLocator).get(2).click();
 	}
 	public String getUsersPopupHeader(){
-		String usersHeader  = driver.findElement(usersPopupHeaderLocator).getText();
-		return usersHeader;
+		sleep(timerConf.itemClickTime);
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(usersPopupHeaderLocator));
+		//String usersHeader  = driver.findElement(usersPopupHeaderLocator).getText();
+		return driver.findElement(usersPopupHeaderLocator).getText();
 	}
 	public String getUsersList(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(usersListLocator));
+		takeScreenshotWithoutScroll();
 		users = driver.findElements(usersListLocator);
-		sleep(5);
         for(int i = 0; i < users.size(); i++) {
         	if(i==0){
         		usersList=users.get(i).getText();
@@ -174,18 +193,26 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetsList(){
+		takeScreenshot();
 		testSets = driver.findElements(testSetsNameLocator);
-        for(int i = 0; i < testSets.size(); i++) {
-        	if(i==0){
-        		testSetsList=testSets.get(i).getText();
-        	}else{
-        		testSetsList=testSetsList+"\r\n"+testSets.get(i).getText();
-        	}
-        }
+		if(testSets.size()>0){
+			for(int i = 0; i < testSets.size(); i++) {
+	        	if(i==0){
+	        		testSetsList=testSets.get(i).getText();
+	        	}else{
+	        		testSetsList=testSetsList+"\r\n"+testSets.get(i).getText();
+	        	}
+	        }
+		}else{
+			testSetsList = "";
+			logTAFError("No Test Set Available.");
+		}
 		return testSetsList;
 	}
 	
 	public boolean clickTestSetName(String testSetName) {
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(testSetsNameLocator));
 		testSets = driver.findElements(testSetsNameLocator);
 		for(int i = 0; i < testSets.size(); i++) {
         	if(testSets.get(i).getText().equals(testSetName)){
@@ -199,9 +226,11 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	}	
 	
 	public Boolean clickProjectNameFromDropDown(String projectName){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		driver.findElement(projectDropDownLocator).click();
-		sleep(5);
+		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownMenuItemsLocator));
 		dropDownMenu = driver.findElements(projectDropDownMenuItemsLocator);
         for(int i = 0; i < dropDownMenu.size(); i++) {
         	if(dropDownMenu.get(i).getText().equalsIgnoreCase(projectName)){

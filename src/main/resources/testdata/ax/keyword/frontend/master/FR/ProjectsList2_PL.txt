@@ -1,0 +1,17 @@
+123456
+123456 - inherit,NotInherit Mixed User01Full,User02Read
+123456 - NOT inherit User01,02Full
+123456 - NOT inherit User01,02Read
+123Engagement
+_Engagement_with_Underscores
+BlankEng01
+EngagamentWithoutSpace
+Engagement With Space
+Engagement-with-dashes
+Engagement123
+EngBlankActivity01
+EngNoDataTablesAndRelatedFiles01
+EngNoResults01
+Long Name Engagement with spaces To Test WidthHandling having 70 Chars01
+VeryLongNamedEngagementToTestWidthHandlingOfNewWebAppTotal70Characters01
+ÇüéâäàåçêëèïîìÄÅÉæÆô (1000)

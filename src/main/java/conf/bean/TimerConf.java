@@ -22,7 +22,25 @@ public class TimerConf {
 	maxWaitTime = 30,
 	waitBetweenRetry = 5,
 	loginWaitTime = 5,
-	saveToDiskTime = 5;
+	saveToDiskTime = 5,
+	waitToTakeScreenshot = 3,
+	waitToFindElement = 30;
+	
+	public int getWaitToTakeScreenshot() {
+		return waitToTakeScreenshot;
+	}
+
+	public void setWaitToTakeScreenshot(int waitToTakeScreenshot) {
+		this.waitToTakeScreenshot = waitToTakeScreenshot;
+	}
+
+	public int getWaitToFindElement() {
+		return waitToFindElement;
+	}
+
+	public void setWaitToFindElement(int waitToFindElement) {
+		this.waitToFindElement = waitToFindElement;
+	}
 
 	public void setWaitBetweenKeywords(int waitBetweenKeywords) {
 		this.waitBetweenKeywords = waitBetweenKeywords;
