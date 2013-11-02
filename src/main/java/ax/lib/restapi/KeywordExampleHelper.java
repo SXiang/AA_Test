@@ -2,6 +2,8 @@ package ax.lib.restapi;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -123,7 +125,9 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 	
 	public boolean casLogin(String url){
 		boolean done =false;
-		String loginUrl = url.substring(0,url.indexOf("/aclax/")) + "/cas/login";// "/cas/login"
+		String axPath = "/aclax";
+		String casPath = "/cas";
+		String loginUrl = url.substring(0,url.indexOf(axPath+"/")) + casPath+"/login";// "/cas/login"
 		
 		logTAFStep("User login - '"+loginUrl+"'");
 		
@@ -324,5 +328,31 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 			((TestDriverExampleHelper) caseObj).casAuthenticated = casAuthenticated;
 		}
 	}
+	//***************  Part 7  *******************
+	// *******   Get info from Database   ********
+	// *******************************************	
+	public String getAuditItemUUID(String sql, String itemName){
+		String uuid = getField(sql,"id",itemName);
+		return uuid;
+	}
+	public String getField(String sql, String fieldName,String itemName){
+		if(itemName==""){
+			itemName = "AuditItem";
+		}
+		String field = "NotFound";
+    	ResultSet rs = queryDB(sql);
+//    	Vector vt = getResultVector(rs);
+//    	displayResultSet(vt);
+    	
+    	try {
+    		rs.next();
+    		field = rs.getString(fieldName);
+			logTAFInfo(itemName+" '"+ fieldName+"' is retrieved successfully '"+field+"'");
+    	} catch (SQLException e) {
+			logTAFInfo("Warning - Cannot find the "+itemName+" '"+ fieldName+"' by '"+sql+"'- Please check your data. ");
+    	}
+    	 
+	    return field;
+    }
 
 }
