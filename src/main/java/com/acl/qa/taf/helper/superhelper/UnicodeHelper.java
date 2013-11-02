@@ -2,11 +2,24 @@ package com.acl.qa.taf.helper.superhelper;
 
 import ibm.util.NLSHlpr;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+
+import com.acl.qa.taf.tool.TAFRobot;
 import com.acl.qa.taf.util.NLSUtil;
+import com.acl.qa.taf.util.UnicodeUtil;
 
 
 /**
@@ -77,232 +90,234 @@ public abstract class UnicodeHelper extends DatabaseHelper
 	
 	
 	// *****************************************************************************************
-	// ****** These functions are from RFT GUI testing, the implementation should be useful	for later work 
+	// ****** Implemented for selenium2 webdriver  -- Steven 
 	// ******************************************************************************************
-		
-//		public static void inputChars(ITopWindow tw, String text){
-//			text = text.trim();
-//			cleanTextBox(tw);
-////			if(isAscii(text)){
-////				tw.inputChars(text);
-////				logTAFDebug("Use inputChars directly for '"+text+"'");
-////				sleep(1);
-////				return;
-////			}else{
-//				//inputUnicodeChars(tw, text);
-//				inputUnicodeChars(text);
-////			}
-//		}
-	//	
-	//
-	//
-//		public static void inputCharsFromKeyboard(ITopWindow tw, String text){
-//			String inputChar ="";
-////			logTAFInfo("Input Char: "+text);
-//			if(!tw.isEnabled()){
-//				sleep(2);
-//				return;  // need further debugging - steven.
-//			}
-//	        cleanTextBox(tw);
-//			for(int i=0;i<text.length();i++){
-//				inputChar = setIME(tw,text.charAt(i));
-//				if(inputChar.length()==1){
-//					tw.inputChars(inputChar);
-//				}else{
-//					tw.inputKeys(inputChar);
-//				}
-//			}
-//	       sleep(0);
-//		}
-	//	
-//		public static void cleanTextBox(ITopWindow tw){
-//			String keys = "{END}";
-//			for(int i=0;i<1000;i++){
-//				keys += "{BS}";
-//			}
-//			
-//			tw.inputKeys(keys);
-//			tw.inputKeys("^a{BS}");
-//			sleep(1);
-	//
-//		}
-	//	
-//		public static void setText(TextGuiTestObject tgto,String text){
-//			Point pt= new Point(5,5);
-//			text = text.trim();
-//			ObjectHelper.click(tgto,pt);
-//			if(isAscii(text)){
-//				tgto.setText(text);
-//				logTAFDebug("Use setText directly for '"+text+"'");
-//				sleep(1);
-//			}else{
-//			    inputUnicodeChars(getScreen(),text);
-//			}
-//		}
-	//	
-	//
-//		public static void inputChars(TextGuiTestObject tgto,String text){
-//			text = text.trim();
-//			ObjectHelper.click(tgto);
-//			if(isAscii(text)){
-//				getScreen().getActiveWindow().inputChars(text);
-//				logTAFDebug("Use inputChars directly for '"+text+"'");
-//				sleep(1);
-//			}else{
-//			    inputUnicodeChars(getScreen(),text);
-//			}
-//			sleep(0);
-//		}
-//			
-//		public static void inputChars(ITopWindow tw, TextGuiTestObject tgto,String text){
-//			text = text.trim();
-//			ObjectHelper.click(tgto);
-//			inputChars(tw,text);
-//		}
-	//	
-//		public static String getUnicodeChars(ITopWindow tw,char ch){
-//			
-//			String imeText;
-//	        String imeIndex = "0";
-//	        
-//	        imeText = convertExtendedAscii(ch);
-//			if(ch<256||imeText.length()>1){
-//				imeIndex = "0";
-//			}else{
-//				imeIndex = poolLanguageIndex;
-//			}
-//			
-//			if(!imeIndex.equals(currentImeIndex)){
-//				tw.inputKeys("%+"+imeIndex);
-//				currentImeIndex = imeIndex;
-////				logTAFDebug("IME index set to '"+imeIndex+"'");
-//				sleep(1);
-//			}		
-//			return imeText;
-//		}	
-//		public static String setIME(ITopWindow tw,char ch){
-//			
-//			String imeText;
-//	        String imeIndex = "0";
-//	        
-//	        imeText = convertExtendedAscii(ch);
-//			if(ch<256||imeText.length()>1){
-//				imeIndex = "0";
-//			}else{
-//				imeIndex = poolLanguageIndex;
-//			}
-//			
-//			if(!imeIndex.equals(currentImeIndex)){
-//				tw.inputKeys("%+"+imeIndex);
-//				currentImeIndex = imeIndex;
-////				logTAFDebug("IME index set to '"+imeIndex+"'");
-//				sleep(1);
-//			}		
-//			return imeText;
-//		}
-	//	
-//		public static String convertExtendedAscii(char text){
-//			boolean done = false;
-//			String temp="";
-//			String  easciiText = "%({Num0}";
-////			String easciiText = "%(+";
-//			
-//			int[] uniCode ={8364,129,8218,402,8222,8230,8224,8225,710,8240,
-//					        352,8249,338,141,381,143,144,8216,8217,8220,
-//					        8221,8226,8211,8212,732,8482,353,8250,339,157,
-//					        382,376};
-//			
-//			for(int i= 0;i<uniCode.length&&!done;i++){
-//				if(text==uniCode[i]&&text>255){
-//					temp = ""+(i+128);
-//					for(int j=0;j<temp.length();j++){
-//						easciiText +="{Num"+temp.charAt(j)+"}"; 
-//					}
-//					easciiText +=")";
-//					done = true;
-//				}
-//			}
-//			if(done){
-////			   logTAFDebug("converted '"+text+"' to Keys '"+easciiText+"'");
-//	    		return easciiText;
-//			}
-//			return ""+text;
-//		}
-	//  
-	// Temp use
 	
-//	public static void inputUnicodeChars(TopLevelSubitemTestObject tgto, String text){
-//        inputUnicodeChars(getScreen(),text);
-//	}	
-//	// Temp use
-//	public static void inputUnicodeChars(IWindow tgto, String text){
-//          inputUnicodeChars(getScreen(),text);
-//	}	
-//	public static void inputUnicodeChars(TextGuiSubitemTestObject tgto, String text){
-//		try{
-//		    tgto.setText("");
-//		    tgto.click();
-//		}catch(Exception e){
-//			logTAFWarning(e.toString());
-//		}
-//		sleep(1);
-//		
-//		inputUnicodeChars(getScreen(),text);
-//
-//	}	
-//	public static void inputUnicodeChars(TextGuiTestObject tgto, String text){
-//		
-//		tgto.setText("");
-//		tgto.click();
-//		sleep(1);
-//		
-//		inputUnicodeChars(getScreen(),text);
-//
-//	}
-//	public static void inputUnicodeChars(String text){
-//		
-//		inputUnicodeChars(getScreen(),text);
-//
-//	}
-//	public static void inputUnicodeChars(IScreen tw, String text){
-//		//copy/paste from clipboard
-//		//cleanTextBox((ITopWindow) tw);
-//		logTAFInfo("Input text: '"+text+"'");	
-//		boolean reinput = true;
-//		tw.inputKeys("^a{BS}");
-//		nlshelper.copyToClipboard("");
-//		
-//		if(!pasteSuccess(tw,"")){
-//			cleanTextBox(tw.getActiveWindow());		
-//			reinput = false;
-//		}
-//		nlshelper.copyToClipboard(text);
-//		tw.inputKeys("^v");
-//		sleep(1);
-//		
-//		//input from keyboard char by char
-//		if(!pasteSuccess(tw,text)){
-////			logTAFWarning("Paste '"+text+"' by ^v failed? or interfared by some unexpected windows activity...");
-////			inputCharsFromKeyboard(tw.getActiveWindow(),text);
-//			if(reinput){
-//			   logTAFWarning("Paste '"+text+"' by ^v failed, try to input through keyboard...");			
-//			   inputCharsFromKeyboard(tw.getActiveWindow(),text);
-//			}else{
-//				//logTAFError(autoIssue+"Paste '"+text+"' by ^v failed? or interfered by some unexpected window's activity...");
-//			}
-//		}
-//
-//	}
-//	
-//    public static boolean pasteSuccess(IScreen tw,String pasted){
-//    	String copied;
-//    	//
-//    	tw.inputKeys("^c");
-//    	sleep(1);
-//    	copied = getSystemClipboard().getText().trim();
-//    	logTAFDebug("String was pasted '"+pasted+"', actual string is '"+copied+"'");
-//    	//return(copied.equals(pasted)||(!copied.equals("")&&pasted.contains(copied)));
-//    	
-//    	return(copied.equals(pasted));
-//    }
+	public static void inputChars(WebElement we, String text){
+		inputChars(null,we,text);
+	}
+		public static void inputChars(WebDriver driver, WebElement we, String text){
+			text = text.trim();
+			
+			if(isAscii(text)){
+				we.sendKeys(text);
+				//we.sendKeys(Keys.ENTER);
+				logTAFDebug("Use inputChars directly for '"+text+"'");
+				sleep(1);
+				return;
+			}else{
+				we.clear();
+				inputUnicodeChars(driver,we, text);
+				//inputUnicodeChars(text);
+			}
+		}
+	//	
+	//
+
+			
+        public static void inputCharsFromKeyboard(WebDriver driver,WebElement we, String text){
+			if(driver==null){
+				logTAFWarning("Webdriver has not been specified?. input failed");
+				return;
+			}
+			String inputChar;
+			Actions action;
+			boolean ready = false;
+			if(!ready){
+			   logTAFInfo("Input Char: "+text+"' from keyboard method is not ready yet!");
+			   return;
+			}
+			if(!we.isEnabled()){
+				sleep(2);
+				return;  // need further debugging - steven.
+			}
+	        
+	        action = new Actions(driver);
+	       
+	        we.clear();
+	        we.click();
+	        TAFRobot robot = null;
+			try {
+				robot = new TAFRobot();
+			} catch (AWTException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				return;
+			}
+			for(int i=0;i<text.length();i++){   // TBD... in progress ... Steven
+				//inputChar[] = setIME(driver,we,text.charAt(i)).split(",");
+				inputChar = getHexString(text.charAt(i));
+//				robot.keyPress(KeyEvent.VK_ALT);
+//				robot.keyPress(KeyEvent.VK_ADD);		
+//				robot.keyRelease(KeyEvent.VK_ADD);
+//				action.sendKeys(inputChar);
+//				action.perform();
+//				robot.keyRelease(KeyEvent.VK_ALT);
+				robot.inputUnicodeFromKeyboard(we,inputChar);
+//			    action.keyDown(Keys.ALT);
+//			    action.sendKeys(Keys.ADD,inputChar);
+//			    action.keyUp(Keys.ALT);
+//			    action.perform();
+			}
+
+
+	       sleep(0);
+		}
+
+
+		public static String getHexString(char ch){
+			if(ch<256)
+				return UnicodeUtil.getCharHexString(ch);
+			int[] uniCode ={8364,129,8218,402,8222,8230,8224,8225,710,8240,
+					        352,8249,338,141,381,143,144,8216,8217,8220,
+					        8221,8226,8211,8212,732,8482,353,8250,339,157,
+					        382,376};
+			
+			for(int i= 0;i<uniCode.length;i++){
+				if(ch==uniCode[i]){
+					ch = (char) (i+128);
+					break;
+				}
+			}
+
+			return UnicodeUtil.getCharHexString(ch);
+
+		}
+		public static String setIME(WebDriver driver,WebElement we,char ch){
+			
+			String imeText;
+	        String imeIndex = "0";
+            Actions action = new Actions(driver);
+	        imeText = convertExtendedAscii(ch);
+			if(ch<256||imeText.length()>1){
+				imeIndex = "0";
+			}else{
+				imeIndex = poolLanguageIndex; // Need check the initialization ... in progress ...  Steven
+			}
+			
+			if(!imeIndex.equals(currentImeIndex)){
+				we.sendKeys(Keys.chord(Keys.ALT,Keys.SHIFT,imeIndex));
+				//action.sendKeys(Keys.chord(Keys.ALT,Keys.SHIFT,"1"));
+				currentImeIndex = imeIndex;
+				logTAFWarning("IME index set to '"+imeIndex+"'");
+				action.keyDown(Keys.ALT).keyDown(Keys.SHIFT).sendKeys("1").keyUp(Keys.SHIFT).keyUp(Keys.ALT).perform();
+				sleep(1);
+			}		
+			return imeText;
+		}
+		
+		public static String convertExtendedAscii(char text){
+			boolean done = false;
+			String temp="";
+			String  easciiText = ""+getNumpadValue((char) 0);
+//			String easciiText = "%(+";
+			if(text<256)
+				return ""+text;
+			int[] uniCode ={8364,129,8218,402,8222,8230,8224,8225,710,8240,
+					        352,8249,338,141,381,143,144,8216,8217,8220,
+					        8221,8226,8211,8212,732,8482,353,8250,339,157,
+					        382,376};
+			
+			for(int i= 0;i<uniCode.length&&!done;i++){
+				if(text==uniCode[i]&&text>255){
+					temp = ""+(i+128);
+					for(int j=0;j<temp.length();j++){
+						easciiText +=","+getNumpadValue(temp.charAt(j))+""; 
+					}
+					easciiText +="";
+					done = true;
+				}
+			}
+			if(done){
+//			   logTAFDebug("converted '"+text+"' to Keys '"+easciiText+"'");
+	    		return easciiText;
+			}
+			
+			temp = ""+(0+text);
+
+			//easciiText = ""+getNumpadValue((char) 0);
+			for(int j=0;j<temp.length();j++){
+				if(j>0)
+				   easciiText +=","+getNumpadValue(temp.charAt(j))+""; 
+				else
+					easciiText =getNumpadValue(temp.charAt(j))+""; 
+			}
+
+			logTAFInfo("converted '"+text+"("+temp+")' to Keys '"+easciiText+"'");
+			done = true;
+			if(done){
+//				   logTAFDebug("converted '"+text+"' to Keys '"+easciiText+"'");
+		    		return easciiText;
+				}
+			return ""+text;
+		}
+	//  
+
+		public static CharSequence getNumpadValue(char ch){
+			CharSequence cs= ""+ch;
+			switch (ch) {
+			     case '0': cs=Keys.NUMPAD0;
+			     case '1': cs=Keys.NUMPAD1;
+			     case '2': cs=Keys.NUMPAD2;
+			     case '3': cs=Keys.NUMPAD3;
+			     case '4': cs=Keys.NUMPAD4;
+			     case '5': cs=Keys.NUMPAD5;
+			     case '6': cs=Keys.NUMPAD6;
+			     case '7': cs=Keys.NUMPAD7;
+			     case '8': cs=Keys.NUMPAD8;
+			     case '9': cs=Keys.NUMPAD9;
+			     
+			}
+			
+			return cs;
+		}
+	public static void inputUnicodeChars(WebDriver driver,WebElement we, String text){
+		//copy/paste from clipboard
+		//cleanTextBox((ITopWindow) tw);
+		logTAFInfo("Input text: '"+text+"'");	
+		boolean reinput = true;
+		
+		nlshelper.copyToClipboard("");
+		
+		if(!pasteSuccess(we,"")){
+			we.clear();	
+			reinput = false;
+		}
+		nlshelper.copyToClipboard(text);
+		we.sendKeys(Keys.chord(Keys.CONTROL,"v"));
+		sleep(1);
+		
+		//input from keyboard char by char
+		if(!pasteSuccess(we,text)){
+//			logTAFWarning("Paste '"+text+"' by ^v failed? or interfared by some unexpected windows activity...");
+//			inputCharsFromKeyboard(tw.getActiveWindow(),text);
+			if(reinput){
+			   logTAFWarning("Paste '"+text+"' by ^v failed, try to input through keyboard...");			
+			   inputCharsFromKeyboard(driver,we,text);
+			}else{
+				//logTAFError(autoIssue+"Paste '"+text+"' by ^v failed? or interfered by some unexpected window's activity...");
+			}
+		}
+
+	}
+	
+    public static boolean pasteSuccess(WebElement we,String pasted){
+    	String copied=pasted;
+    	//
+    	we.sendKeys(Keys.chord(Keys.CONTROL,"c"));
+    	sleep(1);
+    	try {
+			copied = (String)getSystemClipboard().getData(DataFlavor.stringFlavor);
+		} catch (UnsupportedFlavorException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+    	logTAFDebug("String was pasted '"+pasted+"', actual string is '"+copied+"'");
+    	//return(copied.equals(pasted)||(!copied.equals("")&&pasted.contains(copied)));
+    	
+    	return(copied.equals(pasted));
+    }
 }

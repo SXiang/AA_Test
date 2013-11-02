@@ -164,18 +164,25 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
         try{
 			WebElement username = driver.findElement(By.id("username"));
 			logTAFStep("Input username '"+dpUserName+"'");
-			username.sendKeys(dpUserName);
-			
+			//username.sendKeys(dpUserName);
+			logTAFStep("Input username -copy/paste'"+dpUserName+"'");
+//			inputChars(username,"englishName");
+			inputChars(username,dpUserName);
+//			logTAFStep("Input username -keyboard'"+dpUserName+"'");
+//			inputCharsFromKeyboard(driver,username,"englishName");
+//			inputCharsFromKeyboard(driver,username,dpUserName);
 			WebElement password = driver.findElement(By.id("password"));
+			
 			logTAFStep("Input password '"+dpPassword+"'");
-			password.sendKeys(dpPassword);
-
+			//password.sendKeys(dpPassword);
+			inputChars(password,dpPassword);
+			
 			WebElement submit = driver.findElement(By
 					.xpath("//input[@name='submit']"));
             logTAFStep("Submit user credential");
 			submit.click();
 			// How to wait for page load?
-			sleep(2);
+			sleep(1);
 		} catch (Exception e) {
 			logTAFError("CAS login form not found? "+e.toString());
 		}

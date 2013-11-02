@@ -91,7 +91,7 @@ public class LoggerHelper extends ACLQATestScript {
 																		// in
 																		// TAF
 																		// logger
-
+    public static String currentTestCaseDir = "";
 	public static String curTestScenario = "";
 	public static String scenarioDesLinePrefix = "#@";
 	public static String currentImeIndex = "";

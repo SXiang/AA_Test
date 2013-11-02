@@ -50,7 +50,7 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
           // in the case of that the existences of files will prevent App functioning properly
           // enable delFile by setting it as 'true'
     protected boolean delFile = false;
-    
+    protected int responseCode = 0;
 	public void testMain(Object[] args) 
 	{
 
@@ -107,7 +107,7 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 	}
 	
 	public String setupMasterFile(String masterFile) {
-
+        String masterFileOri = masterFile;
 		if (masterFile == null || masterFile.equals("")) {
 			return "";
 		}
@@ -132,11 +132,21 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 			 name = FileUtil.getFullName(masterFile);
 			 masterFile = FileUtil.getAbsDir(masterFile+"/../").replaceFirst("/$","");  
 			 superMasterFile = masterFile + name;
+			
 		   }
 		   
-		   
-			thisMasterFile = dpMasterFile.trim() + name;
-			thisActualFile = dpActualFile.trim() + name;
+	    	 if(!superMasterFile.equalsIgnoreCase(masterFileOri)){
+				 name = masterFileOri;
+				 thisMasterFile = (dpMasterFile.trim() + name).replaceAll("//", "/");
+				 thisActualFile = (dpActualFile.trim() + name).replaceAll("//", "/");
+			     FileUtil.mkDirs(thisMasterFile);
+			     FileUtil.mkDirs(thisActualFile);  
+			 }else{
+			     thisMasterFile = dpMasterFile.trim() + name;
+			     thisActualFile = dpActualFile.trim() + name;
+			 }
+			
+			
             if(delFile){  // in the case the existences of files will prevent App functioning properly
             	FileUtil.delFile(thisActualFile);  
             }
@@ -188,7 +198,7 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 		
 		String subFilename = "";//filename+"_Line_"+(currentTestLine);
 		dpSuperMasterFile = projectConf.testDataDir+fdName+projectConf.superMDir+subFilename;
-logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
+        logTAFDebug("dpSuperMasterFile path '"+superMasterFile+"'");
 		//        if(location.equalsIgnoreCase("Server")){
 //        	localName = projectConf.tempServerNetDir+fdName+expectedDir+subFilename;
 //    		fdName = projectConf.tempServerDir+expectedDir+subFilename;

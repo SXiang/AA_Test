@@ -350,7 +350,9 @@ public class UnicodeUtil extends ACLQATestScript
 		      char[] array = { hexDigit[(b >> 4) & 0x0f], hexDigit[b & 0x0f] };
 		      return new String(array);
 		   }
-
+   public static String getCharHexString(char ch){
+	  return  String.format("%1$04x", (ch & 0xFFFF));
+   }
 		   static public String charToHex(char c) {
 		      // Returns hex String representation of char c
 		      byte hi = (byte) (c >>> 8);

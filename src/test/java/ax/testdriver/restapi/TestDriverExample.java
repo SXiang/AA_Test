@@ -20,8 +20,8 @@ public class TestDriverExample  extends TestDriverExampleHelper implements TestD
 	public void testMain(Object[] args) 
 	{		
 
-		startFromLine = 2; // 4-9
-	    endAtLine =3;     //
+		startFromLine = 8; // 4-9
+	    endAtLine =8;     // 
 			
 		String poolFile = "testdata/ax/testdriver/restapi/TestDriverExample.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

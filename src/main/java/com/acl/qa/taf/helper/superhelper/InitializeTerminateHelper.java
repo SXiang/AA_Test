@@ -193,8 +193,10 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			//**** if file converted, address changed - not using with selenium
 			xlsName = poolFileOri; //Save the xls file name
 		}
-        currentPoolName = new File(poolFile).getName().split("\\.")[0];    
-        
+        currentPoolName = new File(poolFile).getName();
+         
+        currentTestCaseDir = new File(poolFile).getParent();
+        currentPoolName = currentPoolName.split("\\.")[0];
         return new DatapoolUtil().setDefaultDataPool(this, poolFile);
 	}
     public void onTerminate(){

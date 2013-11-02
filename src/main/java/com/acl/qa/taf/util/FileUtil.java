@@ -248,7 +248,11 @@ public class FileUtil extends ibm.util.FileOps {
     		
     		if(absURL==null){
     			//System.out.println("Dir: '"+inputDir+"' is not a valid java resources?");
-    			absDir = userWorkingDir+"/"+inputDir;
+    			if(root!=""){
+    				absDir = root+"/"+inputDir;
+    			}else{
+    			   absDir = userWorkingDir+"/"+inputDir;
+    			}
     		}else{
     			absDir = absURL.toString().replaceFirst("file:/", "");
     		}

@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 
 //import org.apache.poi.hssf.usermodel.HSSFCell;
 //import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -16,6 +19,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+
 import com.acl.qa.taf.util.FileUtil;
 import com.acl.qa.taf.util.UnicodeUtil;
 
@@ -489,7 +493,11 @@ public class ObjectHelper extends GuiFinderHelper {
 		boolean compareNumLines = exactMatch||(isCompareable(fileMaster)
 				&& isCompareable(fileActual));
 		
-
+//temp workaround for JSON order issue
+    	tempMaster = tempMaster.replaceAll("[\\[\\]]","");
+    	tempActual = tempActual.replaceAll("[\\[\\]]","");
+// ********* Will be updated later ...  Steven
+    	
 		success = compareStringLines(compareNumLines,
 				textMaster, textActual,
 				fromLine, endLine, label,exactMatch);
@@ -554,6 +562,8 @@ public class ObjectHelper extends GuiFinderHelper {
 			tm = removeEmptyLines(tm);
 			ta = removeEmptyLines(ta);
 		}
+		Arrays.sort(tm);
+		Arrays.sort(ta);
 		String sm, sa, msg;
 
 		// logTAFStep("Comparing '"+label+"'");

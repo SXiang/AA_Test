@@ -70,7 +70,7 @@ public class SQLQuery {
 			 * GAP Generic Acl Project
 			 * AC === Analytic Container
 			 * AN Analytic
-			 * RF, RFC, RS; TB, TD, DMC  ----- checke the type table
+			 * RF, RFC, RS; TB, TD, DMC  ----- check the type table
 			 */
 		
 			public static String getUserPermissionOnItem(String type, String bc, String lc, String userSID){
