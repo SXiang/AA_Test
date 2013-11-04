@@ -3,6 +3,7 @@
  */
 package ax.lib.restapi;
 
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
 import com.acl.qa.taf.helper.TestSuiteSuperHelper;
