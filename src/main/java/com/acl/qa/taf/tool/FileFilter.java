@@ -8,7 +8,6 @@ public class FileFilter implements FilenameFilter {
 	public FileFilter(String ext) {
 		this.ext = "." + ext;
 	}
-	@Override
 	public boolean accept(File dir, String name) {
 		return name.endsWith(ext);
 	}

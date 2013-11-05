@@ -241,7 +241,7 @@ public class FileUtil extends ibm.util.FileOps {
     	}else{
     		absDir = absDir.replaceAll("\\\\","/");
     		if(absDir.startsWith("/")){
-    			absDir.replaceFirst("/", "");
+    			absDir=absDir.replaceFirst("/", "");
     			//absURL =class.getClassLoader().getResource(absDir);  			
     		}
 			   absURL = ClassLoader.getSystemResource(absDir);
@@ -258,7 +258,7 @@ public class FileUtil extends ibm.util.FileOps {
     		}
     		    		
     	}  
-    	absDir.replaceAll("//", "/");
+    	absDir = absDir.replaceAll("[/]+", "/");
 
 			if(!absDir.endsWith("/")&&!absDir.endsWith("\\")
 					&&isDir)

@@ -130,8 +130,8 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 			 superMasterFile = dpSuperMasterFile.trim() + name;
 		   }else{
 			 name = FileUtil.getFullName(masterFile);
-			 masterFile = FileUtil.getAbsDir(masterFile+"/../").replaceFirst("/$","");  
-			 superMasterFile = masterFile + name;
+			 masterFile = FileUtil.getAbsDir(masterFile+"/../",dpSuperMasterFile.trim()).replaceFirst("/$","");  
+			 superMasterFile = masterFile +"/" + name;
 			
 		   }
 		   

@@ -121,6 +121,7 @@ public static String getHtmlPrintable(String htmlStr,int length){
         		 
         		         "<table id=\"toc\" class=\"toc\" summary=\"AutoRunReport\">"+
                          "<tr style = \"color:#0B0B61\"><td><div id=\"toctitle\"><h2>"+title+"</h2></div>"+
+                         "<tr style = \"color:#0B0B61\"><td><div id=\"toctitle\"><h4>(File links are only clickable with IE!)</h4></div>"+
                          "</td></tr>" +
                          subjectC+
                         

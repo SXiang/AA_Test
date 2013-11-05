@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 
+
 //import org.apache.poi.hssf.usermodel.HSSFCell;
 //import org.apache.poi.hssf.usermodel.HSSFRow;
 //import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -470,11 +471,7 @@ public class ObjectHelper extends GuiFinderHelper {
         	delimiter = getPossibleLineDelimiter(tempMaster);
         }
         
-        if(ignorePattern!=null&&ignoreName!=null){
-        	tempMaster = stringReplaceAll(tempMaster,ignorePattern,ignoreName);
-        	tempActual = stringReplaceAll(tempActual,ignorePattern,ignoreName);
 
-        }
         textMaster = tempMaster.split(delimiter);
 		textActual = tempActual.split(delimiter);
 		
@@ -494,10 +491,15 @@ public class ObjectHelper extends GuiFinderHelper {
 				&& isCompareable(fileActual));
 		
 //temp workaround for JSON order issue
-    	tempMaster = tempMaster.replaceAll("[\\[\\]]","");
-    	tempActual = tempActual.replaceAll("[\\[\\]]","");
+//    	tempMaster = tempMaster.replaceAll("[\\[\\]]","");
+//    	tempActual = tempActual.replaceAll("[\\[\\]]","");
 // ********* Will be updated later ...  Steven
-    	
+        if(ignorePattern!=null&&ignoreName!=null){
+        	for(int i=0;i<textMaster.length&&i<textActual.length;i++){
+        	  textMaster[i] = stringReplaceAll(textMaster[i],ignorePattern,ignoreName);
+        	  textActual[i] = stringReplaceAll(textActual[i],ignorePattern,ignoreName);
+        	}
+        }    	
 		success = compareStringLines(compareNumLines,
 				textMaster, textActual,
 				fromLine, endLine, label,exactMatch);
@@ -557,11 +559,19 @@ public class ObjectHelper extends GuiFinderHelper {
 	public static boolean compareStringLines(boolean compareNumLines,
 			String[] tm, String[] ta, int fromLine, int endLine, String label,boolean exactMatch) {
 		boolean success = true, isInfo = false, linediff = false;
+        
 
 		if(!exactMatch){
 			tm = removeEmptyLines(tm);
 			ta = removeEmptyLines(ta);
 		}
+		
+//		ArrayList<String> tml = new ArrayList<String>(Arrays.asList(tm));
+//		ArrayList<String> tal = new ArrayList<String>(Arrays.asList(ta));		
+//		Collections.sort(tml);		
+//		Collections.sort(tal);
+//		tm = tml.toArray(new String[tml.size()]);
+//		ta = tal.toArray(new String[tal.size()]);
 		Arrays.sort(tm);
 		Arrays.sort(ta);
 		String sm, sa, msg;

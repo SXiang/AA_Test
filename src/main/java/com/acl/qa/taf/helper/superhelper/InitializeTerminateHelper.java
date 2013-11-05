@@ -154,6 +154,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
      		setCurrentLogFilter(rftLevel);
      		
      		if (isMainScript()){ // don't know why the outer condition doesn't work - Steven
+
      			logTAFTestResult(printTestLabel("Test Script : " + getScriptName() + " started "),true);
 
      			logTAFInfo("- AUT: "+projName+(projectConf.buildInfo.equalsIgnoreCase("")? "":" - "+projectConf.buildInfo));
