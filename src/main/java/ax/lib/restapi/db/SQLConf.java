@@ -145,20 +145,4 @@ public class SQLConf {
 		return sql;
 	}
 
-	public static String getDataTable(String type, String bc, String lc, String tableName){
-		
-		String sql="";
-        if(!type.equalsIgnoreCase("LIBRARY")){
-        	type = "WORKING";
-        }
-		sql = "SELECT a.programtype, a.name, b.name, c.name,d.name, d.id "+
-				  "FROM audititems a, audititems b, audititems c, audititems d "+
-				  "WHERE a.programtype = '"+type.toUpperCase()+"' "+
-				     "AND a.name = '"+bc+"' AND a.itemtype = 'BC' AND a.id = b.parentid "+
-				     "AND b.name = '"+lc+"' AND b.itemtype = 'LC' AND b.id = c.parentid "+
-				     "AND c.itemtype = 'DMC' AND c.id = d.parentid "+
-				     "AND d.name = '"+ tableName +"' AND d.itemtype = 'TB'";
-
-		return sql;
-	}
 }

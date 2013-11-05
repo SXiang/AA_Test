@@ -29,6 +29,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	protected String dpTestName;   	    //@arg value for Test Name
 	protected String dpAnalyticName;   	//@arg value for Analytic Name
 	protected String dpApi_Path;   	//@arg path of the request
+	protected String dpParameterSetName; //@arg parameter set name
 	protected String dpWrongUUID = "InvalidUUID";   	//@arg invalid uuid for negative test
 	protected String dpJsonBody;   //@arg input for json post, could be string or file
 	// END of datapool variables declaration
@@ -48,9 +49,10 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		dpTestSetName = getDpString("TestSetName");
 		dpTestName = getDpString("TestName");
 		dpAnalyticName = getDpString("AnalyticName");
+		dpParameterSetName = getDpString("ParameterSetName");
 		dpApi_Path = getDpString("Api_Path");
 		dpJsonBody = getDpString("JsonBody");
-		
+		//String gap, String an, String setName
 		//Rest API - Prepare path
 		//dpWebDriver="Firefox";
 		url = getApiFullPath(dpApi_Path);
@@ -126,14 +128,32 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	}
 	
 	public String getApiFullPath(String path){
-
+        String sqlstmt;
+        String scope = dpScope;
+        if(!scope.equalsIgnoreCase("LIBRARY")){
+        	scope = "WORKING";
+        }
 		if(path.contains("{tableId}")){
-			
-			uuid = getAuditItemUUID(SQLConf.getTableID(dpScope, dpProjectName, dpAnalyticName, dpTableName),"Table - "+dpTableName);
-			if(uuid.equalsIgnoreCase("NotFound")){
-				uuid = dpWrongUUID;
+			if(dpTableName.equals("")){
+				sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
+			}else{
+				sqlstmt = SQLConf.getTableID(scope, dpProjectName, dpTestSetName, dpTableName);
 			}
+			uuid = getAuditItemUUID(sqlstmt,"Table",dpTableName);
+
 			path = path.replaceAll("\\{tableId\\}", uuid);
+
+		}
+		
+		if(path.contains("parametersets/{uuid}")){
+			if(dpParameterSetName.equals("")){
+				sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
+			}else{
+				sqlstmt = SQLConf.getParameterSetID(scope, dpProjectName, dpTestSetName, dpTestName,dpAnalyticName,dpParameterSetName);
+			}
+			uuid = getField(sqlstmt,"parametersetid","Parameter Set",dpParameterSetName);
+
+			path = path.replaceAll("parametersets/\\{uuid\\}", "parametersets/"+uuid);
 
 		}
 		if(path.contains("{columnName}")){
