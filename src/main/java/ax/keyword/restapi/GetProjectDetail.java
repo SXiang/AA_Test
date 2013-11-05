@@ -6,6 +6,7 @@ import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
 
+import conf.bean.DBConf;
 import ax.lib.restapi.RestapiHelper;
 
 public class GetProjectDetail extends RestapiHelper implements KeywordInterface {
@@ -24,6 +25,8 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
                                     	//@value = working/library/""
 	protected String dpProjectName;   	//@arg value for Project Name
 	protected String dpProjectUuid;   	//@arg value for Project uuid
+	protected String dpDBServerIP;      //@arg value for DBServer
+    									 //@value = DB Server IP
 	
 	// END of datapool variables declaration
 	private String url = "";
@@ -38,8 +41,13 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
 		dpProjectUuid = getDpString("ProjectUuid");
-
+		dpDBServerIP = getDpString("DBServerIP");
 		
+		//Set up DB Server IP
+		if ((dpDBServerIP!= null) && (dpDBServerIP != "")) {
+			DBConf db = new DBConf();
+			db.setServerip(dpDBServerIP);
+		}
 		
 		//Rest API - Projects List in a Test: /api/projects/{uuid}
 		if (!dpProjectUuid.isEmpty())

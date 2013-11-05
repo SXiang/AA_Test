@@ -5,6 +5,7 @@ import java.lang.Math;
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
+import conf.bean.DBConf;  
 
 import ax.lib.restapi.RestapiHelper;
 
@@ -20,7 +21,9 @@ public class GetProjectsList extends RestapiHelper implements KeywordInterface {
 
 	// BEGIN of datapool variables declaration
 	protected String dpScope;          //@arg value for Scope
-                                    	//@value = working/library/""
+                                       //@value = working/library/""
+	protected String dpDBServerIP;       //@arg value for DBServer
+    //									@value = DB Server IP
 	// END of datapool variables declaration
     
     private String url = "";
@@ -31,6 +34,13 @@ public class GetProjectsList extends RestapiHelper implements KeywordInterface {
      
 		//*** read in data from datapool
 		dpScope = getDpString("Scope");
+		dpDBServerIP = getDpString("DBServerIP");
+		
+		//Set up DB Server IP
+		if ((dpDBServerIP!= null) && (dpDBServerIP != "")) {
+			DBConf db = new DBConf();
+			db.setServerip(dpDBServerIP);
+		}
 
 		//Rest API - Projects List in a Test: /api/projects?scope=
 		if ((dpScope != null) && (dpScope != ""))
