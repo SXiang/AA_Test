@@ -72,10 +72,11 @@ public class HttpRequestHelper extends RestapiHelper{
 		   String result = "";
 		   try{
 			if(jsonInput.equals("")){
+				logTAFStep("Http Request(Get): url='"+url+"'");
 				result = doGet(url);
 			}else{
 //				result = doPost(url.replaceFirst("/data",""),"");
-//				logTAFInfo("Debug: "+result);
+				logTAFStep("Http Request(Post): url='"+url+"',Body='"+jsonInput.substring(0,Math.min(jsonInput.length(), 100))+"..."+"'");
 				result = doPost(url,jsonInput);
 //				logTAFInfo("Debug: "+result);
 			}
