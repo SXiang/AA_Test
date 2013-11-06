@@ -66,8 +66,8 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 			verifyProjectName(dpProjectFolder,dpProjectFile);
 		}
 		if(!dpMasterFiles[0].isEmpty()){
-			verifyAllTablesList();
 			verifyAllAnalyticsList();
+			verifyAllTablesList();
 		}
 
 		if ((dpTableName != null) && (dpTableName != "")) {
