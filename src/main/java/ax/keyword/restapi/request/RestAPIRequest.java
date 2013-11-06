@@ -115,9 +115,9 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 
 	public boolean compareJsonResult(String result,String master)	{
 		
-        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
-        String[] ignoreName = {"$1u-u-i-d$2"};
-        String delimiterPattern = "\\},\\{";
+        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","[\\[\\{\\]\\}\\s]"};
+        String[] ignoreName = {"$1u-u-i-d$2",""};
+        String delimiterPattern = "\\}[\\s]*,[\\s]*\\{|[\\[\\]]";
         
         return compareResult(
         	master,result,

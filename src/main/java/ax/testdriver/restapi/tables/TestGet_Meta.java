@@ -33,7 +33,7 @@ public class TestGet_Meta  extends TestDriverExampleHelper implements TestDriver
 	{		
 
 		startFromLine = 2; // 4-9
-		//endAtLine =2;     //
+		endAtLine =2;     //
 			
 		String poolFile = "testdata/ax/testdriver/restapi/tables/TestGet_Meta.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
