@@ -50,6 +50,7 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 		super.testMain(onInitialize(args, getClass().getName()));
 		
 		if (!dpTableName.isEmpty()){
+			
 			verifyTableName();
 			verifyTableRecords();
 			verifyTableData();

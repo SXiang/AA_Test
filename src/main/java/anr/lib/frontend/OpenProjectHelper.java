@@ -10,10 +10,12 @@ import java.io.File;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.acl.qa.taf.util.FileUtil;
@@ -49,8 +51,13 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	By dataTablesButtonLocator = By.id("dataTables");
 	//By tablesanalyticsLabelLocator = By.cssSelector("div.project-details > div > h4");
 	By tablesLocator = By.id("tables");
-	By analyzeLocator = By.id("analyze");
-	By tablesLinkLocator = By.cssSelector("div.tables > div > a");
+	
+	By tableListLocator = By.cssSelector("div[class^='datatables-row']"); 
+	By Metaphor_Trans_AllRowLocator = By.cssSelector("div.tables > div[class^='datatables-row']:nth-child(2) > div[class='row-fluid']:nth-last-child(1)");
+	By Metaphor_Trans_AllIconLocator = By.cssSelector("div.tables > div[class^='datatables-row']:nth-child(2) > div[class='row-fluid']:nth-last-child(1) > div[class^='span']:nth-last-child(1) > a");
+	
+	By analyzeLocator = By.className("script-group");
+	By tablesLinkLocator = By.cssSelector("div.tables > div > div > a");
 	//END
     
     // BEGIN of other local variables declaration 
@@ -152,7 +159,24 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	    logTAFStep("Click table name");
 		List<WebElement> allTables;
 		
- 		allTables = driver.findElements(tablesLocator);
+		allTables = driver.findElements(tableListLocator);
+		
+		int k = allTables.size();
+		
+    	Actions actions = new Actions(driver); 
+    	actions.sendKeys(driver.findElement(Metaphor_Trans_AllRowLocator), Keys.ARROW_DOWN).perform();
+		driver.findElement(Metaphor_Trans_AllIconLocator).click();
+		
+/*        for(int i = 1; i < allTables.size(); i++) {
+String temp=driver.findElement(By.cssSelector("[div[class^='datatables-row']:nth-child(1)) > div > div]:nth-child(1)")).getText();
+        	if (temp.equalsIgnoreCase(tablename)) {
+        		System.out.println("DDDD");
+        	    return true;
+        	}
+        }
+		
+	*/	
+ /*		allTables = driver.findElements(tablesLocator);
         for(int i = 0; i < allTables.size(); i++) {
         	String temp = allTables.get(i).getText();
         	if (allTables.get(i).getText().contains(tablename)) {
@@ -160,7 +184,7 @@ public class OpenProjectHelper extends FrontendCommonHelper{
         		return true;
         	}
 		}
-
+*/
         return false;
 
 	}
@@ -198,6 +222,7 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	public void setupNewDriver(String browserType) {
 
 		File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR.exe");
+		//File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR-Shortcut.shortcut");
  		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 //		options.addArguments("--start-maximized");
