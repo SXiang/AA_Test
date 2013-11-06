@@ -344,15 +344,15 @@ public class RestapiHelper extends KeywordSuperHelper {
 	//***************  Part 7  *******************
 	// *******   Get info from Database   ********
 	// *******************************************	
-	public String getAuditItemUUID(String sql, String itemName){
-		String uuid = getField(sql,"id",itemName);
+	public String getAuditItemUUID(String sql, String itemType,String itemName){
+		String uuid = getField(sql,"id",itemType,itemName);
 		return uuid;
 	}
-	public String getField(String sql, String fieldName,String itemName){
+	public String getField(String sql, String fieldName,String itemType,String itemName){
 		if(itemName==""){
 			itemName = "AuditItem";
 		}
-		String field = "NotFound";
+		String field = itemName;
     	ResultSet rs = queryDB(sql);
 //    	Vector vt = getResultVector(rs);
 //    	displayResultSet(vt);
@@ -360,9 +360,9 @@ public class RestapiHelper extends KeywordSuperHelper {
     	try {
     		rs.next();
     		field = rs.getString(fieldName);
-			logTAFInfo(itemName+" '"+ fieldName+"' is retrieved successfully '"+field+"'");
+			logTAFInfo(itemType+" '"+itemName+"' - '"+ fieldName+"' is retrieved successfully '"+field+"'");
     	} catch (SQLException e) {
-			logTAFInfo("Warning - Cannot find the "+itemName+" '"+ fieldName+"' by '"+sql+"'- Please check your data. ");
+			logTAFInfo("Warning - Cannot find the "+itemType+" '"+itemName+"' - '"+ fieldName+"' by '"+sql+"', using '"+field+"' in query then");
     	}
     	 
 	    return field;
