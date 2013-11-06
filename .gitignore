@@ -18,6 +18,7 @@
 *.dmp
 # Floder and Files
 null/
+screenShots/
 target/
 .gitmodules
 submodule_taf
