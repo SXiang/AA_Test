@@ -176,9 +176,6 @@
                          <includes>
                              <include>**/*.java</include>
                              <include>**/*.class</include>
-                             <include>**/*.exe</include>
-                             <include>**/*.vbs</include>
-                             <include>**/*.xls</include>
                          </includes>
                          <excludes>
                               <exclude>META-INF/*.SF</exclude>
