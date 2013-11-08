@@ -129,7 +129,7 @@
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <phase>validate</phase>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
@@ -176,9 +176,6 @@
                          <includes>
                              <include>**/*.java</include>
                              <include>**/*.class</include>
-                             <include>**/*.exe</include>
-                             <include>**/*.vbs</include>
-                             <include>**/*.xls</include>
                          </includes>
                          <excludes>
                               <exclude>META-INF/*.SF</exclude>

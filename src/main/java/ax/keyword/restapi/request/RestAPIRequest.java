@@ -115,9 +115,9 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 
 	public boolean compareJsonResult(String result,String master)	{
 		
-        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
-        String[] ignoreName = {"$1u-u-i-d$2"};
-        String delimiterPattern = "\\},\\{";
+        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","[\\[\\{\\]\\}\\s]"};
+        String[] ignoreName = {"$1u-u-i-d$2",""};
+        String delimiterPattern = "\\}[\\s]*,[\\s]*\\{|[\\[\\]]";
         
         return compareResult(
         	master,result,
@@ -167,14 +167,14 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		return path;
 	}
 	
-	public String loadJsonText(String text){
-		String jsonPattern = "^\\s*[\\[\\{].*";
-		String fileText = text;
+	public String loadJsonText(String oriText){
+		String jsonPattern = "^[\\s]*[\\[\\{].*";
+		String text = oriText.replaceAll("[\\r\\n]", "");
 		if(text.matches(jsonPattern)){
 			return text;
 		}
 		String file = FileUtil.getAbsDir(text.replaceFirst("^[\\/]", ""),currentTestCaseDir);
-		fileText = FileUtil.getFileContents(file).replaceAll("\\r\\n", "");
-		return fileText;
+		text = FileUtil.getFileContents(file).replaceAll("[\\r\\n]", "");
+		return text;
 	}
  }
