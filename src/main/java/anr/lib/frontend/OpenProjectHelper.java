@@ -49,22 +49,23 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	By projectOpenButtonLocator = By.id("projectOpenButton");
 	By projectTitleLocator = By.id("projectTitle");
 	By dataTablesButtonLocator = By.id("dataTables");
-	//By tablesanalyticsLabelLocator = By.cssSelector("div.project-details > div > h4");
-	By tablesLocator = By.id("tables");
-	
-	By tableListLocator = By.cssSelector("div[class^='datatables-row']"); 
-	By Metaphor_Trans_AllRowLocator = By.cssSelector("div.tables > div[class^='datatables-row']:nth-child(2) > div[class='row-fluid']:nth-last-child(1)");
-	By Metaphor_Trans_AllIconLocator = By.cssSelector("div.tables > div[class^='datatables-row']:nth-child(2) > div[class='row-fluid']:nth-last-child(1) > div[class^='span']:nth-last-child(1) > a");
-	
+
 	By analyzeLocator = By.className("script-group");
-	By tablesLinkLocator = By.cssSelector("div.tables > div > div > a");
-	//END
+	By titleRowLocator = By.cssSelector("div[class='row-fluid datatables-title-row']");
+	
+	By tableNameLocator = By.cssSelector("div[class^='datatables-row'] > div.row-fluid:nth-child(2) > div[class^='span7']");
+	By tableRecordsLocator = By.cssSelector("div[class^='datatables-row'] > div.row-fluid:nth-child(2) > div[class^='span2'] > span[class^='ng-binding']");
+	By tableSizeLocator = By.cssSelector("div[class^='datatables-row'] > div.row-fluid:nth-child(2) > div[class='span2 ng-binding']");
+	By tableSizeUnitLocator = By.cssSelector("div[class^='datatables-row'] > div.row-fluid:nth-child(2) > div[class='span2 ng-binding'] > span[class^='dataTable-unit']");
+	By dataVisualizeIconLocator = By.cssSelector("div[class^='datatables-row'] > div.row-fluid:nth-child(2) > div.span1 > a > i");
+
+//END
     
     // BEGIN of other local variables declaration 
 	private DesiredCapabilities capability;
 	public String imageName;
 
-	protected List<WebElement> allTables,allAnalytics;
+	protected List<WebElement> allTables,allAnalytics,allTableNames, allTableRecords, allTableSizes, allTableSizeUnits;
 	//END
 	
 	//***************  Part 2  *******************
@@ -95,24 +96,27 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public  String getAllTables(String projectfolder, String projectfile) {
-//		WebElement tablesTag = driver.findElements(tablesanalyticsLabelLocator).get(0);
 		String tables = "";
 		
 		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
 			clickdataTablesButton();
-			allTables = driver.findElements(tablesLocator);
+			allTableNames = driver.findElements(tableNameLocator);
+			allTableRecords = driver.findElements(tableRecordsLocator);
+			allTableSizes = driver.findElements(tableSizeLocator);
+			allTableSizeUnits = driver.findElements(tableSizeUnitLocator);
 		}
-		
-//		tables += tablesTag.getText();
-		
-        for(int i = 0; i < allTables.size(); i++) {
-       		tables=tables+"\r\n"+allTables.get(i).getText();
+
+		//Locate the cursor to the first line
+		driver.findElement(titleRowLocator).getText(); 
+		tables = driver.findElement(titleRowLocator).getText(); 
+		tables.replace("\n", " ");
+        for(int i = 0; i < allTableNames.size(); i++) {
+        	tables=tables+"\r\n"+allTableNames.get(i).getText()+" "+allTableRecords.get(i).getText()+" "+allTableSizes.get(i).getText();
         }
         return tables;
 	}
 
 	public  String getAllAnalytics(String projectfolder, String projectfile) {
-//		WebElement analyticsTag = driver.findElements(tablesanalyticsLabelLocator).get(1);
 		String analytics = "";
 		
 		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
@@ -121,7 +125,8 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 		
 //		analytics += analyticsTag.getText();
         for(int i = 0; i < allAnalytics.size(); i++) {
-        	analytics=analytics+"\r\n"+allAnalytics.get(i).getText();
+        	//analytics=analytics+"\r\n"+allAnalytics.get(i).getText();
+        	analytics=analytics+allAnalytics.get(i).getText();
         }
         return analytics;
 	}
@@ -155,38 +160,28 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	}
 
 	public boolean clickTableName(String tablename) {
-		//Enter ACL Project file folder
-	    logTAFStep("Click table name");
 		List<WebElement> allTables;
+		List<WebElement> allDataVisualizeIcons;
 		
-		allTables = driver.findElements(tableListLocator);
+	    logTAFStep("Find the table name");
 		
-		int k = allTables.size();
-		
-    	Actions actions = new Actions(driver); 
-    	actions.sendKeys(driver.findElement(Metaphor_Trans_AllRowLocator), Keys.ARROW_DOWN).perform();
-		driver.findElement(Metaphor_Trans_AllIconLocator).click();
-		
-/*        for(int i = 1; i < allTables.size(); i++) {
-String temp=driver.findElement(By.cssSelector("[div[class^='datatables-row']:nth-child(1)) > div > div]:nth-child(1)")).getText();
+	    //Find the table list
+	    allTables = driver.findElements(tableNameLocator);
+	    allDataVisualizeIcons = driver.findElements(dataVisualizeIconLocator);
+	    		
+		for(int i = 0; i < allTables.size(); i++) {
+		    String temp = allTables.get(i).getText();
         	if (temp.equalsIgnoreCase(tablename)) {
-        		System.out.println("DDDD");
-        	    return true;
-        	}
-        }
-		
-	*/	
- /*		allTables = driver.findElements(tablesLocator);
-        for(int i = 0; i < allTables.size(); i++) {
-        	String temp = allTables.get(i).getText();
-        	if (allTables.get(i).getText().contains(tablename)) {
-        		driver.findElement(By.linkText(tablename)).click();
+        	    logTAFStep("Table name has been found successfully!");
+        	    logTAFStep("Click the related data visualize icon");
+        	    allDataVisualizeIcons.get(i).click();
+        		
+        		sleep(1);
         		return true;
         	}
 		}
-*/
-        return false;
 
+        return false;
 	}
 
 	public void launchBrowser() {

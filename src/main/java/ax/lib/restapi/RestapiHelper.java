@@ -163,6 +163,9 @@ public class RestapiHelper extends KeywordSuperHelper {
 			done = false;
 		   }
 		}
+		
+		logTAFStep("Sending url request:'"+url+"'");
+		
 		driver.get(axUrl);
 		setSharedObj();
 		

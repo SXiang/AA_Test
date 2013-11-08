@@ -19,9 +19,9 @@ import anr.lib.frontend.FrontendCommonHelper;
 
 public class DataVisualizationHelper extends FrontendCommonHelper{
 	/**
-	 * Script Name   : <b>OpenProjectsHelper</b>
+	 * Script Name   : <b>DataVisualizationHelper</b>
 	 * Generated     : <b>Oct 4, 2013</b>
-	 * Description   : OpenProjectsHelper
+	 * Description   : DataVisualizationHelper
 	 * 
 	 * @since  Oct 16, 2013
 	 * @author Karen Zou
