@@ -7,6 +7,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -77,6 +79,15 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		StringSelection selection = new StringSelection(copiedData);
 	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	    clipboard.setContents(selection, selection);
+	}
+	
+	public int getNumbers(String strNum) {
+		String regEx="[^0-9]";   
+		
+		Pattern p = Pattern.compile(regEx);   
+		Matcher m = p.matcher(strNum);   
+		
+		return Integer.parseInt(m.replaceAll("").trim());
 	}
 	
 	//*******************************************

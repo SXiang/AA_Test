@@ -24,8 +24,8 @@ public class TestSuiteExample extends TestSuiteExampleHelper implements TestSuit
 	public void testMain(Object[] args) 
 	{
 		//testCategory = "Daily";
-		//startFromLine = 37; // 4-9
-		//endAtLine =2;     //
+		startFromLine = 3; // 4-9
+		endAtLine =8;     //
 		//logTAFInfo(System.getProperty("user.dir"));
     	String poolFile = "testdata/ax/TestSuiteExample.xls";
 		exeBatchRun(onInitialize(poolFile, getClass().getName()));

@@ -15,6 +15,9 @@ public class SQLConf {
 	 * AC === Analytic Container
 	 * AN Analytic
 	 * RF, RFC, RS; TB, TD, DMC  ----- check the Audit item type table
+	 * TB Audit Table
+	 * TD Table Data
+	 * LK_TB Link to Table
 	 */
 
 	public static String getProjectID(String type, String bc){

@@ -22,6 +22,7 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 	protected String dpScope;          	//@arg value for Scope
                                     	//@value = working/library/""
 	protected String dpProjectName;   	//@arg value for Project Name
+	protected String dpProjectUuid;   	//@arg value for Project uuid
 
 	// END of datapool variables declaration
 	private String url = "";
@@ -34,9 +35,13 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
+		dpProjectUuid = getDpString("ProjectUuid");
 		
 		//Rest API - Projects List in a Test: /api/projects/{uuid}/testsets
-		uuid = queryProjectID(dpScope,dpProjectName);
+		if (!dpProjectUuid.isEmpty())
+			uuid = dpProjectUuid;
+		else uuid = queryProjectID(dpScope,dpProjectName);
+
 		if ((uuid != null) && (uuid != ""))
 			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"projects/"+uuid+"/testsets";
 		else System.out.println("Error:" + "Can not find the uuid for the specific project");

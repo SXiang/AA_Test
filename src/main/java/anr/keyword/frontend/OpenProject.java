@@ -24,6 +24,7 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 	// BEGIN of datapool variables declaration
 	private String dpProjectFolder;
 	private String dpProjectFile;
+	private String dpTableName;
 	// END of datapool variables declaration
 
     // BEGIN of other local variables declaration
@@ -39,6 +40,7 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 		
 		dpProjectFolder = getDpString("ProjectFolder");
 		dpProjectFile = getDpString("ProjectFile");
+		dpTableName = getDpString("TableName");
 		
 		return true;
 	}
@@ -52,7 +54,7 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 		super.testMain(onInitialize(args, getClass().getName()));
 		
 		//Start App
-		startApp();
+		//startApp();
 		
 		//Launch browser
 		launchBrowser();
@@ -64,10 +66,14 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 			verifyProjectName(dpProjectFolder,dpProjectFile);
 		}
 		if(!dpMasterFiles[0].isEmpty()){
-			verifyAllTablesList();
 			verifyAllAnalyticsList();
+			verifyAllTablesList();
 		}
 
+		if ((dpTableName != null) && (dpTableName != "")) {
+			OpenTable(dpTableName);
+		}
+		
 		cleanUp();
 	
 		// *** cleanup by framework ***
@@ -114,6 +120,11 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 											// each comparison
 			compareTxtResult(result[0], dpMasterFiles[1]);
 		}
+	}
+	
+	
+	public void OpenTable(String tablename){
+		clickTableName(tablename);
 	}
 
 	public static void main(String args) {

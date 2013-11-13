@@ -17,10 +17,11 @@ public class TestCaseProjectDetails extends FrontendTestDriverHelper implements 
 	public void testMain(Object[] args) 
 	{		
 
-		startFromLine = 2; // 4-9
-		//endAtLine = 4;     //
+		//startFromLine = 2; // 4-9
+		//endAtLine = 28;     //
 			
-		String poolFile = "testdata/ax/testdriver/frontend/ProjectDetails.xls";
+		//String poolFile = "testdata/ax/testdriver/frontend/ProjectDetails.xls";
+		String poolFile = "src/main/resources/testdata/ax/testdriver/frontend/ProjectDetails.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 		
 	}

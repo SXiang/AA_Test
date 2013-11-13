@@ -2,9 +2,11 @@ package ax.lib.restapi;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -42,6 +44,7 @@ public class RestapiHelper extends KeywordSuperHelper {
 
 	protected WebDriver driver;
 	protected boolean casAuthenticated;
+	
 
 	//***************  Part 2  *******************
 	// ******* Methods on initialization *********
@@ -69,7 +72,7 @@ public class RestapiHelper extends KeywordSuperHelper {
 	}
 	
 	public void activateBrowser() {
-		if (dpWebDriver.equals("")) {
+		if (dpWebDriver.equals("")&&driver!=null) {
 
 		} else {
 			setupNewDriver(dpWebDriver);
@@ -122,9 +125,17 @@ public class RestapiHelper extends KeywordSuperHelper {
 	// *******************************************
 	
 	public boolean casLogin(String url){
+		boolean done = setConnection(url);
+		driver.get(url);
+		return done;
+	}
+	public boolean setConnection(String url){
 		boolean done =false;
-		String loginUrl = url.substring(0,url.indexOf("/aclax/")) + "/cas/login";// "/cas/login"
-		
+		String axPath="/aclax";
+		String casPath = "/cas";
+		String serverDomain = url.substring(0,url.indexOf(axPath+"/"));
+		String loginUrl = serverDomain + casPath+"/login";// "/cas/login"
+		String axUrl = serverDomain+axPath+"/404";
 		logTAFStep("User login - '"+loginUrl+"'");
 		
 		driver.get(loginUrl);
@@ -153,22 +164,26 @@ public class RestapiHelper extends KeywordSuperHelper {
 		   }
 		}
 		
+		logTAFStep("Sending url request:'"+url+"'");
+		
+		driver.get(axUrl);
 		setSharedObj();
-		driver.get(url);
+		
 		return done;
-	}
-	
+	}	
 	public void submitCredential(){
         try{
 			WebElement username = driver.findElement(By.id("username"));
 			logTAFStep("Input username '"+dpUserName+"'");
 			
 			username.sendKeys(dpUserName);
+			//inputChars(username, dpUserName);
 			
 			WebElement password = driver.findElement(By.id("password"));
 			logTAFStep("Input password '"+dpPassword+"'");
 			password.sendKeys(dpPassword);
-
+			//inputChars(password, dpPassword);
+			
 			WebElement submit = driver.findElement(By
 					.xpath("//input[@name='submit']"));
             logTAFStep("Submit user credential");
@@ -192,11 +207,10 @@ public class RestapiHelper extends KeywordSuperHelper {
 		if(driver!=null){
 			try{
 				   WebElement msg = driver.findElement(By.className("success"));
-				   logTAFStep("User login sucess!");
 				   casAuthenticated = true;
 				   done = true;
 				}catch(Exception e){
-					logTAFDebug("Faile to login?");
+					logTAFDebug("Failed to login?");
 					done =  false;
 				}
 			
@@ -259,11 +273,15 @@ public class RestapiHelper extends KeywordSuperHelper {
 	}
 
 	public void closeBrowser(){
+		try{
 		driver.close();
 		driver = null;
 		casAuthenticated = false;
 		logTAFStep("Close test browser");
 		setSharedObj();
+		}catch(Exception e){
+			logTAFWarning("Exception during browser cleanup? b"+e.toString());
+		}
 	}
 	
 	public void killBrowser(){
@@ -310,10 +328,12 @@ public class RestapiHelper extends KeywordSuperHelper {
 		} else if (caseObj != null) {
 			driver = ((TestDriverExampleHelper) caseObj).currentDriver;
 			casAuthenticated = ((TestDriverExampleHelper) caseObj).casAuthenticated;
+
 		}
 	}
 
 	public void setSharedObj() {
+
 		if (suiteObj != null) {
 			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
 			((TestSuiteExampleHelper) suiteObj).casAuthenticated = casAuthenticated;
@@ -321,8 +341,40 @@ public class RestapiHelper extends KeywordSuperHelper {
 			((TestDriverExampleHelper) caseObj).currentDriver = driver;
 			((TestDriverExampleHelper) caseObj).casAuthenticated = casAuthenticated;
 		}
+
 	}
 
+	//***************  Part 7  *******************
+	// *******   Get info from Database   ********
+	// *******************************************	
+	public String getAuditItemUUID(String sql, String itemType,String itemName){
+		String uuid = getField(sql,"id",itemType,itemName);
+		return uuid;
+	}
+	public String getField(String sql, String fieldName,String itemType,String itemName){
+		if(itemName==""){
+			itemName = "AuditItem";
+		}
+		String field = itemName;
+    	ResultSet rs = queryDB(sql);
+//    	Vector vt = getResultVector(rs);
+//    	displayResultSet(vt);
+    	
+    	try {
+    		rs.next();
+    		field = rs.getString(fieldName);
+			logTAFInfo(itemType+" '"+itemName+"' - '"+ fieldName+"' is retrieved successfully '"+field+"'");
+    	} catch (SQLException e) {
+			logTAFInfo("Warning - Cannot find the "+itemType+" '"+itemName+"' - '"+ fieldName+"' by '"+sql+"', using '"+field+"' in query then");
+    	}
+    	 
+	    return field;
+    }
+
+	
+	// **********
+	// **************************** can these methods be changed to use getAuditItemUUID ? Steven     ********************************
+	// **********
     public String queryProjectID(String scope, String projectname){
     	String id = "";
     	String sql = SQLConf.getProjectID(scope, projectname);

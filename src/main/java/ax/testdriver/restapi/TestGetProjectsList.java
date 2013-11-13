@@ -17,10 +17,10 @@ public class TestGetProjectsList extends TestDriverExampleHelper implements Test
 	@Override
 	public void testMain(Object[] args) 
 	{		
-		//startFromLine = 2; // 4-9
-		//endAtLine = 3;     //
+		//startFromLine = 7; // 4-9
+		//endAtLine = 8;     //
 			
-		String poolFile = "testdata/ax/testdriver/restapi/GetProjectsList.xls";
+		String poolFile = "src/main/resources/testdata/ax/testdriver/restapi/GetProjectsList.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 	}
 	

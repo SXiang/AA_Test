@@ -19,20 +19,35 @@ public class GetTestSetUsersList extends RestapiHelper implements KeywordInterfa
 	// BEGIN of datapool variables declaration
 	protected String dpScope;          //@arg value for Scope
                                     	//@value = working/library/""
+	protected String dpProjectName;   	//@arg value for Project Name
+	protected String dpTestSetName;   	//@arg value for Test Set Name
+	protected String dpTestSetUuid;   	//@arg value for TestSet uuid
 	// END of datapool variables declaration
     
     private String url = "";
-    
+	private String uuid="";
+	
 	@Override
 	public boolean dataInitialization() {
 		super.dataInitialization();
      
 		//*** read in data from datapool
 		dpScope = getDpString("Scope");
+		
+		//*** read in data from datapool     
+		dpScope = getDpString("Scope");
+		dpProjectName = getDpString("ProjectName");
+		dpTestSetName = getDpString("TestSetName");
+		dpTestSetUuid = getDpString("TestSetUuid");
+		
+		//Rest API - Projects List in a Test: /api/testsets/{uuid}
+		if (!dpTestSetUuid.isEmpty())
+			uuid = dpTestSetUuid;
+		else uuid = queryTestSetID(dpScope,dpProjectName,dpTestSetName);
 
-		if ((dpScope != null) && (dpScope != ""))
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "projects?scope="+dpScope;
-		else url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "projects";
+		if ((uuid != null) && (uuid != ""))                                                                      
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "/testsets/"+uuid+"/users";
+		else System.out.println("Error:" + "Can not find the uuid for the specific test set");
 
 		return true;
 	}
@@ -79,7 +94,7 @@ public class GetTestSetUsersList extends RestapiHelper implements KeywordInterfa
 			String actualResult = UTF8Control.utf8decode(driver.getPageSource());
 		
 			if(casAuthenticated){
-				logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"...");
+				logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()))+"...");
 				// compare Json Result - exact master and actual files are handled by framework.
 				logTAFStep("File verification - "+dpMasterFiles[0]);
 				compareJsonResult(actualResult,dpMasterFiles[0]);

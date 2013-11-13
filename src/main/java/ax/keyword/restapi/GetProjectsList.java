@@ -5,6 +5,7 @@ import java.lang.Math;
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
+import conf.bean.DBConf;  
 
 import ax.lib.restapi.RestapiHelper;
 
@@ -20,7 +21,7 @@ public class GetProjectsList extends RestapiHelper implements KeywordInterface {
 
 	// BEGIN of datapool variables declaration
 	protected String dpScope;          //@arg value for Scope
-                                    	//@value = working/library/""
+                                       //@value = working/library/""
 	// END of datapool variables declaration
     
     private String url = "";

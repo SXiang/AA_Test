@@ -8,42 +8,42 @@ Rem ****************************************************
 Rem Set default values for properties
 Rem ****************************************************
 Rem 1.Set default values for project properties
-SET testerName = QA-Automation
-SET buildInfo = 5.0.***
-SET testProject = AX5
-SET unicodeTest = false
+SET testerName=QA-Automation
+SET buildInfo=5.0.***
+SET testProject=AX5
+SET unicodeTest=false
 
-SET webDriver = chrome
-SET imageName = chrome.exe
-SET driverName = chromedriver.exe
-SET casType = nonSSO
-SET axServerName = AUTOQAWIN2012.ACLQA.local
-SET axServerPort = 8443
-SET apiPrefix = /aclax/api/
+SET webDriver=chrome
+SET imageName=chrome.exe
+SET driverName=chromedriver.exe
+SET casType=nonSSO
+SET axServerName=AUTOQAWIN2012.ACLQA.local
+SET axServerPort=8443
+SET apiPrefix=/aclax/api/
 
-SET appLocale = En
-SET updateMasterFile = false
+SET appLocale=En
+SET updateMasterFile=false
 
-SET serverNetDir = Automation
-SET serverNetUser = Administrator
-SET serverNetPassword = Password99
+SET serverNetDir=Automation
+SET serverNetUser=Administrator
+SET serverNetPassword=Password99
 
-SET TestDataDir = TestData/
-SET localizationDir = l10n/LocalizationProperties/
-SET l10nPropertiesPrefix = AX5
-SET tempLocalDir = %user.dir%/Output/Temp/
+SET TestDataDir=TestData/
+SET localizationDir=l10n/LocalizationProperties/
+SET l10nPropertiesPrefix=AX5
+SET tempLocalDir=%user.dir%/Output/Temp/
 
-SET wikiLink = https://aclgrc.atlassian.net/wiki/display/ACD/
+SET wikiLink=https://aclgrc.atlassian.net/wiki/display/ACD/
 
-SET traceMemusage = true
-SET traceImageName = services.exe
-SET timeIntervalForMemusage = 10
+SET traceMemusage=true
+SET traceImageName=services.exe
+SET timeIntervalForMemusage=10
    
-SET inBriefModel = true
-SET jenkinsReport = true
-SET jenkinsReportDir =
-SET toolDir = taf/tool/
-SET localInputDataDir = %user.dir%/../SharedAutomationTestData/ACLProject/DataSource/
+SET inBriefModel=true
+SET jenkinsReport=true
+SET jenkinsReportDir=
+SET toolDir=taf/tool/
+SET localInputDataDir=%user.dir%/../SharedAutomationTestData/ACLProject/DataSource/
 
 Rem 2. Set default values for dbConf properties   DONE
 SET dbtype=PostgreSQL
@@ -54,13 +54,13 @@ SET userid=AclAuditExchangeRole
 SET passwd=Password00
 
 Rem 3. Set default values for logger properties    DONE
-SET logRoot = %user.dir%/Output/Result/
-SET logDirForPublic = //192.168.10.129/Automation/AX_Automation/AX5/
-SET recentBugList = //192.168.10.129/Automation/AX_Automation/AX5/RecentBugs/recentBugList.html
-SET openHtmlReport = true
-SET openLogFile = true
-SET openByApp = chrome
-SET filterLevel = 5
+SET logRoot=%user.dir%/Output/Result/
+SET logDirForPublic=//192.168.10.129/Automation/AX_Automation/AX5/
+SET recentBugList=//192.168.10.129/Automation/AX_Automation/AX5/RecentBugs/recentBugList.html
+SET openHtmlReport=true
+SET openLogFile=true
+SET openByApp=chrome
+SET filterLevel=5
 Rem ****************************************************
 
 Rem ****************************************************

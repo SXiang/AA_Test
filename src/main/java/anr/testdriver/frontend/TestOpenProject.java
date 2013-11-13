@@ -17,8 +17,8 @@ public class TestOpenProject extends FrontendTestDriverHelper implements TestDri
 	public void testMain(Object[] args) 
 	{		
 
-		//startFromLine = 2; // 4-9
-		//endAtLine = 8;     //
+		startFromLine = 2; // 4-9
+		endAtLine = 2;     //
 			
 		String poolFile = "testdata/anr/testdriver/frontend/OpenProject.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

@@ -22,6 +22,7 @@ public class GetProjectUsersList extends RestapiHelper implements KeywordInterfa
 	protected String dpScope;          	//@arg value for Scope
                                     	//@value = working/library/""
 	protected String dpProjectName;   	//@arg value for Project Name
+	protected String dpProjectUuid;   	//@arg value for Project uuid
 
 	// END of datapool variables declaration
 	private String url = "";
@@ -34,8 +35,12 @@ public class GetProjectUsersList extends RestapiHelper implements KeywordInterfa
 		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
+		dpProjectUuid = getDpString("ProjectUuid");
+
+		if (!dpProjectUuid.isEmpty())
+			uuid = dpProjectUuid;
+		else uuid = queryProjectID(dpScope,dpProjectName);
 		
-		uuid = queryProjectID(dpScope,dpProjectName);
 		if ((uuid != null) && (uuid != ""))
 			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "projects/"+uuid+"/users";
 		else System.out.println("Error:" + "Can not find the uuid for the specific project");

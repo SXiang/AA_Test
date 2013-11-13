@@ -7,16 +7,14 @@ import com.acl.qa.taf.helper.superhelper.DatabaseHelper;
 public class DBConf {
 	
 	public String url="",driver="",newUrl="",newDriver="";    					
-    public String serverip="192.168.10.183",
-    					port="1521",
-    					dbtype="ORACLE",
-    					dbname="xe",
-    					userid="DC_User_02",
-    					passwd="password";
+    public String serverip="192.168.10.83",
+    					port="5432",
+    					dbtype="PostgreSQL",
+    					dbname="AclAuditExchangeDB",
+    					userid="AclAuditExchangeRole",
+    					passwd="Password00";
 	
-    
-    
-	public String workingRoot = "WORKING";
+ 	public String workingRoot = "WORKING";
 	public String  libraryRoot = "LIBRARY";
 	
 	public String ax_userRole = "user",
@@ -38,6 +36,10 @@ public class DBConf {
 	
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+
+	public String getServerip() {
+		return(serverip);
 	}
 
 	public void setServerip(String serverip) {
