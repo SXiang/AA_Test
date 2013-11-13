@@ -3,6 +3,7 @@ package ax.lib.frontend;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -85,6 +86,7 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 	}
 	
 	public  String getAllProjects(String viewType) {
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		takeScreenshot();
 		if(viewType.equalsIgnoreCase("card")){
 			allProjects = driver.findElements(projectNameInCardTypeLocator);
@@ -103,6 +105,7 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 	}
 
 	public String getProjectHeader() {
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
 		return driver.findElement(projectHeaderLocator).getText();
