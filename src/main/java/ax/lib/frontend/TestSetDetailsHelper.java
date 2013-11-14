@@ -120,6 +120,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public void isTestsHeaderDisplayed(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testsHeaderLocator));
 		if(isElementDisplayed(testsHeaderLocator, "Tests list Header")){
@@ -149,24 +150,28 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getDataTablesLabel(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(rightPanelTitleLocator));
 		return driver.findElements(rightPanelTitleLocator).get(0).getText();
 	}
 	
 	public String getRelatedFilesLabel(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(rightPanelTitleLocator));
 		return driver.findElements(rightPanelTitleLocator).get(1).getText();
 	}
 	
 	public void clickDataTablesLink(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(rightPanelTitleLocator));
 		driver.findElements(rightPanelTitleLocator).get(0).click();
 	}
 	
 	public void clickRelatedFilesLink(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(rightPanelTitleLocator));
 		driver.findElements(rightPanelTitleLocator).get(1).click();
@@ -174,11 +179,13 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	
 	
 	public String getProjectHeader(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
 		return driver.findElement(projectHeaderLocator).getText();
 	}
 	public String getProjectName(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectNameLocator));
 		return driver.findElement(projectNameLocator).getText();
@@ -204,6 +211,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetName(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetNameLocator));
 		return driver.findElement(testSetNameLocator).getText();
@@ -269,6 +277,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestsList(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		takeScreenshot();
 		tests = driver.findElements(testsNameLocator);
 		if(tests.size()>0){
