@@ -1,4 +1,0 @@
-EXÉCUTER PAR:g2_admin (ACLQA\g2_admin)
-HEURE DE DÉBUT
-HEURE DE FIN
-STATUT:completed
