@@ -189,6 +189,21 @@ public class HttpRequestHelper extends RestapiHelper{
     	    }
     	return isJson;
     }
+    
+    public String getJsonValue(String text, String key){
+    	String value = "";
+	    
+    	try {
+    		JSONObject jObject  = new JSONObject(text);
+    		value = jObject.getString(key);
+    		
+	    }catch(Exception e){ //in case...
+	    	//
+	    }
+    	
+    	return value;
+    }
+
 	public void setRequestProperties(HttpURLConnection con){
         //Optional header ...  - Steven 
 		String http_agent = "Mozilla/5.0";

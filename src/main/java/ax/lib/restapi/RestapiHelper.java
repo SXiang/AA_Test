@@ -44,6 +44,7 @@ public class RestapiHelper extends KeywordSuperHelper {
 
 	protected WebDriver driver;
 	protected boolean casAuthenticated;
+	protected String scheduleid;
 	
 
 	//***************  Part 2  *******************
@@ -243,9 +244,9 @@ public class RestapiHelper extends KeywordSuperHelper {
 	
 	public boolean compareJsonResult(String result,String master)	{
 				
-        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
-        String[] ignoreName = {"$1u-u-i-d$2"};
-        String delimiterPattern = "\\},\\{";
+        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","\"startTime\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","\"endTime\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","\"createdAt\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","\"modifiedAt\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","[\\[\\{\\]\\}\\s]"};
+        String[] ignoreName = {"$1u-u-i-d$2","\"startTime\"","\"endTime\"","\"createdAt\"","\"modifiedAt\"",""};
+        String delimiterPattern = "\\}[\\s]*,[\\s]*\\{|[\\[\\]]";
         
         return compareResult(
         	master,result,
@@ -328,7 +329,8 @@ public class RestapiHelper extends KeywordSuperHelper {
 		} else if (caseObj != null) {
 			driver = ((TestDriverExampleHelper) caseObj).currentDriver;
 			casAuthenticated = ((TestDriverExampleHelper) caseObj).casAuthenticated;
-
+			scheduleid = ((TestDriverExampleHelper) caseObj).scheduleid;
+					
 		}
 	}
 
@@ -340,6 +342,8 @@ public class RestapiHelper extends KeywordSuperHelper {
 		} else if (caseObj != null) {
 			((TestDriverExampleHelper) caseObj).currentDriver = driver;
 			((TestDriverExampleHelper) caseObj).casAuthenticated = casAuthenticated;
+
+			((TestDriverExampleHelper) caseObj).scheduleid = scheduleid;
 		}
 
 	}
@@ -356,9 +360,8 @@ public class RestapiHelper extends KeywordSuperHelper {
 			itemName = "AuditItem";
 		}
 		String field = itemName;
+		
     	ResultSet rs = queryDB(sql);
-//    	Vector vt = getResultVector(rs);
-//    	displayResultSet(vt);
     	
     	try {
     		rs.next();

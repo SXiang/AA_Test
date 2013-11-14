@@ -25,6 +25,7 @@ public class TestDriverExampleHelper extends TestDriverSuperHelper {
 	
 	public WebDriver currentDriver = null;
 	public boolean casAuthenticated = false;
+	public String scheduleid = "";
 
 	
 	// ***********************************************

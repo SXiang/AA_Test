@@ -111,7 +111,7 @@ public class GetJobScheduleListByAnalytic extends RestapiHelper implements Keywo
 	
 	}
 	
-	public boolean compareJsonResult(String result,String master)	{
+/*	public boolean compareJsonResult(String result,String master)	{
 		
 		String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
         String[] ignoreName = {"$1u-u-i-d$2"};
@@ -123,5 +123,5 @@ public class GetJobScheduleListByAnalytic extends RestapiHelper implements Keywo
    			ignorePattern,ignoreName,  //Replacement
    			delimiterPattern);  // used to split
 	}
-
+*/
 }
