@@ -1,4 +1,4 @@
-﻿Users:
+Users:
 Users - 456Activity123456 NotInherit User02Full:
 (ACLQA\administrator)
 devtest (ACLQA\devtest)
