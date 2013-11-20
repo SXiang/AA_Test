@@ -21,10 +21,7 @@ public class TestCaseProjectDetails extends FrontendTestDriverHelper implements 
 		//endAtLine = 28;     //
 			
 		String poolFile = "testdata/ax/testdriver/frontend/ProjectDetails.xls";
-<<<<<<< HEAD
-=======
-		//String poolFile = "src/main/resources/testdata/ax/testdriver/frontend/ProjectDetails.xls";
->>>>>>> d4a1162293cd399ad1b1f505feb1f127c4234c40
+
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 		
 	}
