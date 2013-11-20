@@ -190,6 +190,8 @@ public class HttpRequestHelper extends RestapiHelper{
     	return isJson;
     }
     
+    
+    //Get JSON node value by node XPATH 
     public String getJsonValue(String text, String key){
     	String value = "";
 	    

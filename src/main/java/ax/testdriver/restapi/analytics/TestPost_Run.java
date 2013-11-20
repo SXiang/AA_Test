@@ -32,10 +32,10 @@ public class TestPost_Run extends TestDriverExampleHelper implements TestDriverI
 	public void testMain(Object[] args) 
 	{		
 
-		startFromLine = 2; // 4-9
-		endAtLine = 3;     //
+		//startFromLine = 11; // 4-9
+		//endAtLine = 11;     //
 			
-		String poolFile = "src/main/resources/testdata/ax/testdriver/restapi/analytics/TestPost_Run.xls";
+		String poolFile = "testdata/ax/testdriver/restapi/analytics/TestPost_Run.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 		
 	}

@@ -32,8 +32,8 @@ public class TestGet_Results  extends TestDriverExampleHelper implements TestDri
 	public void testMain(Object[] args) 
 	{		
 
-		startFromLine = 2; // 4-9
-		//endAtLine =2;     //
+		//startFromLine = 2; // 4-9
+		//endAtLine =3;     //
 			
 		String poolFile = "testdata/ax/testdriver/restapi/jobs/TestGet_Results.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

@@ -41,9 +41,9 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	@Override
 	public boolean dataInitialization() {
 		super.dataInitialization();
-     	
-		System.out.println("shared scheduleid:"+scheduleid);
 		
+		System.out.println("scheduledID:"+((TestDriverExampleHelper) caseObj).scheduleid);
+     	
 		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
@@ -55,6 +55,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		dpParameterSetName = getDpString("ParameterSetName");
 		dpApi_Path = getDpString("Api_Path");
 		dpJsonBody = getDpString("JsonBody");
+		dpWrongUUID = getDpString("WrongUUID");
 		//String gap, String an, String setName
 		//Rest API - Prepare path
 		//dpWebDriver="Firefox";
@@ -152,6 +153,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		return source;
 	}
 	
+	// Get API full path for each API
 	public String getApiFullPath(String path){
         String sqlstmt;
         String scope = dpScope;
@@ -186,14 +188,27 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		}
 		
 		if(path.contains("analytics/{uuid}")){
-			if (dpAnalyticName.isEmpty()){
-				sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
-			}else{
-				sqlstmt =  SQLConf.getAnalyticID(scope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
+			if (dpWrongUUID.isEmpty()) {
+				if (dpAnalyticName.isEmpty()){
+					sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
+				}else{
+					sqlstmt =  SQLConf.getAnalyticID(scope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
+				}
+			
+				uuid = getField(sqlstmt,"id","Analytics",dpAnalyticName);
+			}else {
+				uuid = dpWrongUUID;
 			}
-			uuid = getField(sqlstmt,"id","Analytics",dpAnalyticName);
 			
 			path = path.replaceAll("analytics/\\{uuid\\}", "analytics/"+uuid);
+			
+			//Analytic with specified ParameterSet name in ParameterSet variable 
+			if (!dpParameterSetName.isEmpty()){
+				sqlstmt = SQLConf.getParameterSetID(scope, dpProjectName, dpTestSetName, dpTestName,dpAnalyticName,dpParameterSetName);
+				uuid = getField(sqlstmt,"parametersetid","Parameter Set",dpParameterSetName);
+				
+				dpJsonBody = createParameterSetJsonBody(dpParameterSetName,uuid);
+			}
 					
 			//Clean the shared variable 'scheduleid' from last time run
 			if (path.contains("analytics/{uuid}/run")){
@@ -230,4 +245,12 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		text = FileUtil.getFileContents(file).replaceAll("[\\r\\n]", "");
 		return text;
 	}
+	
+	private String createParameterSetJsonBody(String parametersetname, String uuid){
+		String temp = "";
+		temp = "{\"parameterSet\": {\"name\": \""+parametersetname+"\",\"uuid\":\""+uuid+"\"}}";
+		
+		return temp;
+	}
+
  }

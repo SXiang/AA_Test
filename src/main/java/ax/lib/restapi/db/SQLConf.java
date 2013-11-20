@@ -131,8 +131,7 @@ public class SQLConf {
 		sql = "SELECT max(jobnumber) jobnumber "+
 				"FROM scriptjobs f "+ 
 				"WHERE f.scheduleid = '"+scheduleid+"' AND f.analyticid = (SELECT e.id "+
-				//"WHERE f.analyticid = (SELECT e.id "+
-				"FROM audititems a, audititems b, audititems c, audititems d, audititems e "+
+				  "FROM audititems a, audititems b, audititems c, audititems d, audititems e "+
 				  "WHERE a.programtype = '"+type.toUpperCase()+"' "+
 				     "AND a.name = '"+bc+"' AND a.itemtype = 'BC' AND a.id = b.parentid "+
 				     "AND b.name = '"+lc+"' AND b.itemtype = 'LC' AND b.id = c.parentid "+
