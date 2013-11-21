@@ -1,6 +1,6 @@
 REM @Echo OFF
 SET aclScriptRunner=..\..\..\implementation\resources\aclScriptRunner.robot
-SET doneFile=TestCompleted
+SET doneFile=Completed
 SET varFile=..\settings\user.py
 
 REM  FAIL, WARN, INFO, DEBUG, TRACE
@@ -14,6 +14,8 @@ IF Not Exist %sutDir%\%imageName% (
   Echo. Not found? %sutDir%\%imageName%
   GOTO END
 )
+
+rem IF Not '%tagInclude%'=='' SET tagInclude=AND%tagInclude%
 IF '%screenshotDir%'=='' SET screenshotDir=Screenshot
 
 IF /I '%Encoding%'=='Unicode' (
@@ -40,6 +42,8 @@ pybot --name %Test_Name% ^
 	  %nonCritical% ^
 	  --settag @%OS_NAME% ^
 	  --settag %sut%-%Encoding% ^
+	  --removekeywords passed ^
+      --removekeywords for ^
       %tagstatInclude% ^
 	  --tagstatinclude %sut%-%Encoding% ^
 	  %tagExclude% ^
@@ -47,7 +51,5 @@ pybot --name %Test_Name% ^
 	  -i %Encoding%AND%sut% ^
 	  -L %logLevel% ^
 	  %testSuite%
-	  
 
 :END
-:EOF

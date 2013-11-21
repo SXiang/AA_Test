@@ -26,7 +26,7 @@ SETLOCAL enabledelayedexpansion
 :INPUT
 ::SET SRCROOT=\\biollante02\DailyBuild\Silverstone\Desktop
 SET TEAM_NAME=AN_TestAutomation
-IF '%Project%'=='' SET Project=Zaxxon
+IF '%Project%'=='' SET Project=Frogger
 
 SET STANDALONG=TRUE
 IF "%SILENT_INSTALL%"=="" SET SILENT_INSTALL=TRUE
@@ -47,8 +47,8 @@ SET PASSWORD=Your ACL Password
 IF "%PIDKEY%"=="" SET PIDKEY=CAW1234567890
 SET COMPANYNAME=ACLQA Automation
 IF '%InstallIH%'=='' SET InstallIH=No
-IF '%INSTALL_DIR1%'=='' SET INSTALL_DIR1=C:\ACL\Analytics10.5
-IF '%INSTALL_DIR2%'=='' SET INSTALL_DIR2=C:\ACL\CI_Jenkins\Analytics10.5
+IF '%INSTALL_DIR1%'=='' SET INSTALL_DIR1=C:\ACL\Analytics11
+IF '%INSTALL_DIR2%'=='' SET INSTALL_DIR2=C:\ACL\CI_Jenkins\Analytics11
 
 IF NOT '%1'=='' SET _Version=%1
 ::IF NOT '%2'=='' SET VerPrefix=%2
@@ -116,7 +116,7 @@ SET IHINSTALLEXE=ACLIHSilentInstall.exe
 SET NUM_TOKENS=4
 SET INSTALL_DIR=%DESROOT%
 
-IF '%COPY_DIR1%'=='' SET COPY_DIR1=:\ACL\Analytics10.5_Binary\%Project%
+IF '%COPY_DIR1%'=='' SET COPY_DIR1=:\ACL\Analytics11_Binary\%Project%
 
 SET COPY_DIR=C%COPY_DIR1%
 rem SET COPY_DIR=D%COPY_DIR1%
@@ -148,8 +148,10 @@ SET ACL_DATA="C:\ACL DATA\Sample Data Files"
 SET VerPrefix=Build_
 SET VerPattern=%VerPrefix%*
 SET VerPrefixOld=9.3.0.
+REM ************ SHOULD BE UPDATED ACCORDINGLLY ***********
 SET Nameprefix=ACLv10
 SET Nameprefix_New=ACLAnalytics105
+REM ********************************************************
 SET Executable=ACLWin.exe
 
 SET ACLNonUni=Release
@@ -528,12 +530,12 @@ GOTO INSTALLER
 
 :GETBUILD
    SET ACLscriptdir=%FILE_SERVER%\%Team_Name%\taf\tool
-   SET ACLshortcutName="ACL Analytics 10.5"
+   SET ACLshortcutName="ACL Analytics 11"
    SET ACLdescription=%ACLExecutable%-%Version%[ACLQA_Automation]
 
 
    SET IHscriptdir=%FILE_SERVER%\%Team_Name%\taf\tool
-   SET IHshortcutName=ACL Ironhide 10.5
+   SET IHshortcutName=ACL Ironhide 11
    SET IHtargetPath=C:\WINDOWS\system32\cmd.exe
    IF NOT EXIST %IHtargetPath% SET IHtargetPath=C:\WINDOWS\syswow64\cmd.exe
    SET IHDESROOT=%DESROOT%\Ironhide

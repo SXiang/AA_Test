@@ -75,9 +75,10 @@ IF NOT EXIST %SRCROOT% NET USE %SRCROOT% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P
 IF NOT EXIST %MISSINGDLLSSRC% NET USE %MISSINGDLLSSRC% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P:Yes
 %ScriptDir%\sleep 2 /quiet
 
-::ScriptServer
-rem IF NOT EXIST %robotDir% NET USE %robotDir% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P:Yes
-rem %sCRIPTDir%\sleep 2 /quiet
+::Automation Project Server
+IF NOT EXIST %Maven_Project% NET USE %Maven_Project% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P:Yes 2>NUL
+%sCRIPTDir%\sleep 2 /quiet
+IF NOT EXIST %HistoryDir% NET USE %HistoryDir% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P:Yes 2>NUL
 
 IF NOT EXIST %testSuite% NET USE %testSuite% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P:Yes
 %ScriptDir%\sleep 2 /quiet
@@ -146,8 +147,9 @@ IF Exist %tFolder% (
    )
 
 :GetBuild
-Echo. 10.2. Get binary build %sut% %Which% To %WORKSPACE%\ACLAnalytics10.5_binary\%sutPrefix%%WHICH%
-SET DESROOT=%WORKSPACE%\ACLAnalytics10.5_binary\%sutPrefix%%WHICH%
+Echo. 10.2. Get binary build %sut% %Which% To C:\ACL\CI_Jenkins\Analytics_binary\%sutPrefix%%WHICH%
+SET DESROOT=C:\ACL\CI_Jenkins\Analytics_binary\%sutPrefix%%WHICH%
+rem %WORKSPACE%\ACLAnalytics10.5_binary\%sutPrefix%%WHICH%
 SET SUTDIR=%DESROOT%
 SET XCSWITCH=/Y /E /R /I
 IF NOT EXIST %SRCROOT%\%Version%\%sutPrefix%%WHICH%\%imageName% %ScriptDir%\sleep 30 /quiet
@@ -273,7 +275,10 @@ rem   ECHO. XCOPY %InstallerFolder%\%INSTALLEXE% %DESROOT%\%VerType%\%INSTALLEXE
    TYPE "%LOGDIR%\Installation.log" 2>NUL
 GOTO Run
 :Run
-
+IF EXIST "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe" (
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe %DESROOT%\ACLImex.dll /unregister > NUL
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe  %DESROOT%\ACLImex.dll /register > NUL
+)
 rem ECHO.START "Run Robot Test" /B /WAIT /D"%robotDir%" %robotDir%\%ROBOT_SCRIPT_NAME%
 Echo. Call %robotDir%\%ROBOT_SCRIPT_NAME%
 
@@ -357,14 +362,15 @@ IF /I '%RTABLETYPE%' == 'LOCALONLY' SET RTABLETYPE=Local
 IF /I '%RTABLETYPE%' == 'LOCAL' SET RTABLETYPE=Local
 IF /I '%RTABLETYPE%' == 'SERVER' SET RTABLETYPE=Server
 SET RTESTTYPE=%TEST_CATEGORY%
-rem SET RPS=
+SET RPS=...%testSuite:~-10%
 Echo.^<tr style="background-color:#F5F5F5"^>^
           ^<td^> %ROSTYPE% ^</td^>^
 		  ^<td^> %RLOCALE% ^</td^>^
 		  ^<td^> %RCHARSET% ^</td^>^
 		  ^<td^> %SUT% ^</td^>^
 		  ^<td^> ^<a href="%BUILD_URL%"^> %testName% ^</a^> ^</td^>^
-           > %HistoryDir%\%COMPUTERNAME% 2>NUL
+		  ^<td^> %RTESTTYPE% ^</td^>^
+		  ^<td^> ^<a href="file:///%testSuite%"^> %RPS% ^</a^>^</td^> > %HistoryDir%\%COMPUTERNAME% 2>NUL
 
 ECHO.%ReportDir%\output.xml> %HistoryDir%\%COMPUTERNAME%.robot
 

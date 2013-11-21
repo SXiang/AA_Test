@@ -1,0 +1,16 @@
+TAF_V10 Solution (Not implemented)
+Test suites are represented by excel data sheets with these fields:
+Run_Test	Script_Owner	Test_Scenario	UnicodeTest	ProjectName	ScriptName	TimeOut	MasterFiles
+T	Iryna Babak	Basic acl functionalities	FALSE	OldbatsDesktopEnglish\OLDBATSClient.acl	_AutoAllTest	10	File1|File2|File3
+T	Iryna Babak	Basic acl functionalities	TRUE	i18NBatchesUnicode\OldBats_i18n.acl	_AutoAllTest	25	
+*Run_Test, T|t as True, otherwise, as False, you can disable/enable any script testing by changing the value.
+*Script_Owner, who is responsible for the maintenance of the script and reporting/tracking bugs for the test
+*Test_Scenario, a brief introduction of the main purpose of the script 
+*UnicodeTest, if 'True', the script is only for Unicode desktop and ironhide.
+                       if 'False', NonUnicode only
+                       if empty, there will be 2 scripts with the same script name available for both Unicode and NonUnicode tests.
+*ProjectName, if it's a relative path, the root is 'path to your testSuite'/../Project/Unicode|NonUnicode/
+                       absolute path is valid but not recommanded.
+*ScriptName, Script you want to run
+*TimeOut, script runner detects the end of execution  by  checking the appearance of a 'done' file or timeout whichever comes first, default to 1 minute
+*MasterFiles, any text file created during testing could be requested for vitrification, separated by vertical bar '|'

@@ -46,7 +46,7 @@ IF /I '%BUILD_STATUS%' == 'Fail' (
  )
 
  Type %HistoryDir%\%thisID% >> %reportFile%
- IF /I "%TitlePrefix%" == "[Skipped]" Goto Prepare 
+ IF /I "%TitlePrefix%" == "[Skipped]" Goto Prepare
  IF NOT '%thisStrFileURL%' == '' Echo.^<td^> ^<a href="%thisStrFileURL%"^> TestSummary ^</a^> ^</td^>^
 		  ^<td^ bgcolor=%bgcolor%^> %RSTATUS% ^</td^>^
 	   ^</tr^> >> %reportFile% 2>NUL
@@ -79,9 +79,9 @@ IF "%Version_Suffix%" == "" SET buildInfo=%PROJECT%#%AA_BUILD%
 REM jobSubject is the partial name specified by upstream job
 IF NOT "%jobSubject%" == ""	SET subject=%buildInfo%-%jobSubject%
 REM thisSubject is a partial name from the properties 
-IF NOT "%thisSubject%" == "" SET subject=%buildInfo%%TABLE_TYPE% - Script Test[%thisSubject%]
+IF NOT "%thisSubject%" == "" SET subject=%buildInfo%%TABLE_TYPE% - %TEST_CATEGORY% Script Test[%thisSubject%]
 REM default subject, if there is no subject info from the ENV.
-IF "%subject%" == "" SET subject=%buildInfo%_%LOCALE%%TABLE_TYPE%- Script Test
+IF "%subject%" == "" SET subject=%buildInfo%_%LOCALE%%TABLE_TYPE%- %TEST_CATEGORY% Script Test
 SET subject=%TitlePrefix%%subject%
 REM thisStrHDLocation is the file URL of the report, if it's there, don't need to download / cleanup
 IF Not "%thisStrHDLocation%" == "" Goto SendReport
@@ -102,15 +102,6 @@ SET thisStrHDLocation=%strHDLocation%email.html
 :SendReport
 
 IF /I "%TitlePrefix%" == "[Skipped]" Goto Skip
-IF NOT EXIST %HistoryDir%\ReportReady GOTO Admin
-IF EXIST %HistoryDir%\JenkinsError (
-   SET subject=Check the test enviroment! - %subject%
-   Goto Admin
-)
-IF EXIST %HistoryDir%\Interrupted (
-   SET subject=Test was interrupted? - %subject%
-   Goto Admin
-)
 
 Rem ********************************** Debug ************************************
 Rem IF /I '%BUILD_STATUS%' == 'Fail' GOTO Admin
@@ -124,6 +115,15 @@ Rem **********************************End of debug *****************************
 
 IF /I "%Email_Report%" == "Admin" GOTO Admin
 IF /I "%Email_Report%" == "Debug" GOTO Debug
+IF NOT EXIST %HistoryDir%\ReportReady GOTO Admin
+IF EXIST %HistoryDir%\JenkinsError (
+   SET subject=Check the test enviroment! - %subject%
+   Goto Admin
+)
+IF EXIST %HistoryDir%\Interrupted (
+   SET subject=Test was interrupted? - %subject%
+   Goto Admin
+)
 IF NOT "%toThisAddress%" == "" SET toAddress=%toThisAddress%
 IF NOT "%ccThisAddress%" == "" SET ccAddress=%ccThisAddress%
 IF NOT "%bccThisAddress%" == "" SET bccAddress=%bccThisAddress%

@@ -7,6 +7,8 @@ SET ScriptDirTest=%WORKSPACE%\RFTBats
 %ScriptDir%\sleep 5 /quiet
 IF NOT EXIST %SRCROOT% NET USE %SRCROOT% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P:Yes
 IF NOT EXIST %MISSINGDLLSSRC% NET USE %MISSINGDLLSSRC% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P:Yes
+::Automation Project Server
+IF NOT EXIST %HistoryDir% NET USE %HistoryDir% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P:Yes 2>NUL
 
 REM IF "%WORKSPACE%"=="" SET WORKSPACE=%JENKINS_HOME%\userContent
 
@@ -108,7 +110,8 @@ REM IF NOT EXIST %MISSINGDLLSSRC% NET USE %MISSINGDLLSSRC% "%PASSWORD%" /USER:"A
 REM goto run
 :GetBuild
 
-SET DESROOT=%WORKSPACE%\ACLAnalytics
+rem SET DESROOT=%WORKSPACE%\ACLAnalytics
+SET DESROOT=C:\ACL\CI_Jenkins\Analytics_binary\%sutPrefix%%WHICH%
 SET XCSWITCH=/Y /E /R /I
 IF NOT EXIST %SRCROOT%\%Version%\%WHICH%\ACLWin.exe %ScriptDir%\sleep 30 /quiet
 
@@ -232,6 +235,10 @@ GOTO Run
 rem TASKKILL /F /T /IM java.exe 2>NUL
 rem IF EXIST %reportDir%.\FinishedTest rmdir /S /Q %reportDir%.\FinishedTest 2>NUL
 rem mkdir %ReportDir% 2>NUL
+IF EXIST "C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe" (
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe %tFolder%}\..\ACLImex.dll /unregister > NUL
+ CALL C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe  %tFolder%\..\ACLImex.dll /register > NUL
+)
 ECHO.START "Run Jenkins Job" /B /WAIT /D"%ScriptDirTest%" JenkinsTest.bat %USER_NAME% %PASSWORD% %DOMAIN_NAME% %TEST_BUILD% %TEST_UNICODE% %TEST_NONUNICODE% %TEST_CATEGORY% %PROJECT_TYPE% %tFolder%
 START "Run Jenkins Job" /B /WAIT /D"%ScriptDirTest%" JenkinsTest.bat %USER_NAME% %PASSWORD% %DOMAIN_NAME% %TEST_BUILD% %TEST_UNICODE% %TEST_NONUNICODE% %TEST_CATEGORY% %PROJECT_TYPE% %tFolder%
 REM goto DONE

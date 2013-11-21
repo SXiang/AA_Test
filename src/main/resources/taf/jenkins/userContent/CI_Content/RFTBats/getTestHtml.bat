@@ -1,5 +1,6 @@
 @ECHO OFF
 SET adminEmail=Iryna_Babak@ACL.com;Yousef_Aichour@ACL.com;Steven_Xiang@ACL.com
+SET debugEmail=QAMail@ACL.com
 REM thisID is specified in downstream jobs which needs to return/combine test result to a shared location,
 REM then the main job can grab it for final report
 REM if it's empty, means that job is not a specific test job, a trigger job instead.
@@ -101,6 +102,7 @@ IF /I NOT "%TEST_CATEGORY%"=="Daily" (
 Rem **********************************End of debug **********************************
 
 IF /I "%Email_Report%" == "Admin" GOTO Admin
+IF /I "%Email_Report%" == "Debug" GOTO Debug
 
 IF NOT "%toThisAddress%" == "" SET toAddress=%toThisAddress%
 IF NOT "%ccThisAddress%" == "" SET ccAddress=%ccThisAddress%
@@ -112,8 +114,14 @@ GOTO Email
 SET toAddress=%adminEmail%
 SET ccAddress=
 SET bccAddress=
-REM GOTO Skip
-
+GOTO Email
+:Debug
+SET toAddress=%debugEmail%
+SET ccAddress=
+SET bccAddress=
+:: SET ccAddress=Danny_Kusnardi@ACL.com;Rory_Emerson;Shane_Grimm
+:: SET bccAddress=#Desktop_QA@ACL.com
+Goto Email
 :Email
 IF NOT '%BUILD_STATUS%' == '' SET subject=%BUILD_STATUS% - %subject%
 SET strHDLocation=%thisStrHDLocation%

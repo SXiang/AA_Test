@@ -46,6 +46,7 @@ SanitizeLog
     Append To List    ${aclPattern}    [Uu]ser[: ].*    [sS]erial.*
     Append To List    ${aclPattern}    Total string space available:.*
     Append To List    ${aclPattern}    .*Switching to an alternate log file.*
+    Append To List    ${aclPattern}    .*TestCompleted.*
     : FOR    ${temp}    IN    @{pattern}    @{vxml}    @{aclPattern}
     \    ${text}=    Replace String Using Regexp    ${text}    ${temp}    -DTD-
     #    ${text}=    Replace String    ${text}    LINEFEED    \\n

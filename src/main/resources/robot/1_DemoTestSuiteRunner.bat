@@ -5,25 +5,29 @@
 ::Set DeleteWorkspace to true to reset projects.
 SET TestBy=Demo
 SET TestDir=\\nas2-dev\QA_A\AN\AutomationScriptRunner
-SET TestSuite=%TestDir%\TestSuite
+SET TestSuite=\\nas2-dev\QA_A\AN\AutomationScriptRunner\TestSuite
+SET TEST_CATEGORY=Daily
 SET DeleteWorkspace=False
-
+SET DisableProjectUpdate=False
+SET tagExclude=--exclude TBD
+rem SET tagExclude=--exclude Nothing
+REM SET OS_NAME=%computername%
+rem SET OS_NAME=JUN-WANG
 :Build info
-SET Project=Zaxxon
-SET Revision_Num=126
-rem SET Revision_Num=106
+SET Project=Frogger
+SET Revision_Num=32
 
 :Desktop info
 SET DesktopType=Unicode
-SET DesktopPath=C:\ACL\Analytics10.5_Binary\Zaxxon\Build_126\Unicode
+SET DesktopPath=C:\ACL\Analytics11_Binary\%Project%\Build_%Revision_Num%\Unicode
 rem SET DesktopType=NonUnicode
-rem SET DesktopPath=D:\ACL\Analytics10.5_Binary\Zaxxon\.\Build_106.\Release
+rem SET DesktopPath=C:\ACL\Analytics10.5_Binary\%Project%\Build_%Revision_Num%.\Release
 
 :Ironhide info
+rem SET IronhideType=Unicode
+rem SET IronhidePath=C:\ACL\Analytics10.5_Binary\%Project%\Build_%Revision_Num%\IronhideUnicode
 SET IronhideType=Unicode
-SET IronhidePath=C:\ACL\Analytics10.5_Binary\Zaxxon\Build_126\IronhideUnicode
-rem SET IronhideType=NonUnicode
-rem SET IronhidePath=D:\ACL\Analytics10.5_Binary\Zaxxon\.\Build_106.\IronhideRelease
+SET IronhidePath=C:\ACL\Analytics11_Binary\%Project%\Build_%Revision_Num%.\IronhideUnicode
 
 :Report info - use '_' instead of any single space
 ::Test Name is the name of this test suite
@@ -33,6 +37,12 @@ SET _Test_Name=Robot
 
 
 :Run
-SET pathToRun=bin\execution\local\scripts
+SET pathToRun=\\nas2-dev\QA_A\AN\AutomationScriptRunner\bin\execution\local\scripts\
+IF NOT EXIST %pathToRun% (
+   IF /I NOT "%USER_NAME%"=="" NET USE * %SRCROOT% "%PASSWORD%" /USER:"%UserFullName%" /P:Yes
+   IF /I "%USER_NAME%"=="" NET USE * %SRCROOT% /P:Yes
+   )
 pushd %pathToRun%
-Call StartRobotTest.bat
+Call %pathToRun%StartRobotTest.bat
+popd %pathToRun%
+pause

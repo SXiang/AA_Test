@@ -4,9 +4,9 @@ Resource	${ACLScriptRunner}
 							
 *Test Cases*	*ProjectName*	*ScriptName*	*Timeout*	*MasterFiles*			
 Ants_NonUnicode	[Documentation]	Test Ants on NonUnicode Desktop and Ironhide					
-	[Tags]	@Iryna_Babak	Desktop	Ironhide	NonUnicode	TBD	
+	[Tags]	@Iryna_Babak	Desktop	Ironhide	NonUnicode	Regression	
 	OtherProject\\OldbatsDesktopEnglish\\OLDBATSClient	_AutoAllTest	15 minutes 30 seconds				
 							
 Ants_Unicode	[Documentation]	Test Ants on Unicode Desktop and Ironhide					
-	[Tags]	@Iryna_Babak	Desktop	Ironhide	Unicode	TBD	
-	OtherProject\\i18NBatchesUnicode\\OldBats_i18n	_AutoAllTest	30 \ minutes				
+	[Tags]	@Iryna_Babak	Desktop	Ironhide	Unicode	Regression	
+	OtherProject\\i18NBatchesUnicode\\OldBats_i18n	_AutoAllTest	30 minutes				

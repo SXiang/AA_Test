@@ -1,0 +1,140 @@
+
+
+                          Ironhide returns codes:
+
+1.  ACL start-up returns code:
+
+    Preference file not exists                   1000
+    Error with preference file                   1001
+    Upgrading from previous version              1002
+    ( copy is saved with extension *.old)
+    Using last saved project                     1003
+    ( project with *.AC extension)
+
+    Project name is missing                      1004
+    Project file not exist ( not found )         1005
+    Project is read only                         1006
+    Project is in use                            1007
+    Trying to open project with extension *.OLD  1008
+    Project format is incorrect                  1009
+    Project is not an Unicode project            1010
+    Project was created by later ACL version     1011
+    Can't write to log file                      1012
+    ( read only attribute )
+    Script name is missing                       1013
+    Script not exists in the project             1014
+    No Licence                                   1015
+    Dll Not Found                                1016
+    UnkownError                                  1017 
+
+2. Command processing return codes:
+
+   SAMPLE						1
+   EXTRACT						2
+   LIST							3
+   TOTAL						4
+   DEFINE						5
+   COMMENT						6
+   QUIT							7
+   STOP							8
+   BYE							9
+   USE							10
+   OPEN							11
+   SAVE							12
+   DISPLAY						13
+   ACTIVATE						14
+   CLOSE						15
+   HELP							16
+   COUNT						17
+   STATISTICS						18
+   HISTOGRAM						19
+   STRATIFY						20
+   SUMMARIZE						21
+   EXPLAIN ( old help )					22
+   GROUP						23
+   ELSE							24
+   END							25
+   CANCEL ( only for script )				26
+   SUBMIT ( should work as do command, but doesn't)	27
+   DELETE						28
+   RANDOM						29
+   SORT							30
+   FIND							31
+   DIRECTORY						32
+   TYPE	( same as PRINT )				33
+   DUMP							34
+   INDEX						35
+   EXIT ( for Z\OS )					36
+   SET							37
+   EDIT	( for Z\OS )					38
+   RUN	( for Z\OS )					39
+   DO							40
+   TOP							41
+   EXPORT						42
+   VERIFY						43
+   SEEK							44
+   JOIN							45
+   MERGE						46
+   SEQUENCE						47
+   CALCULATE						48
+   PRINT						49
+   LOCATE						50
+   RENAME						51
+   SHOW	    ( for Z\OS )				52
+   PROCESS  ( for Z\OS )				53
+   COPY	 ( same as EXTRACT )				54
+   REPORT						55
+   EJECT  ( not implemented )				56
+   MENU	 ( for Z\OS )					57
+   LET							58
+   ACCUMULATE						59
+   CLS	  ( for Z\OS )					60
+   ANALYZE ( for Z\OS )					61
+   TAPE	 ( for Z\OS )					62
+   ACCEPT  ( not valid )				63
+   ASSIGN						64
+   AGE							65
+   CLASSIFY						66
+   PROFILE						67
+   DO REPORT						68
+   LOOP							69
+   PAUSE						70
+   SIZE							71
+   EVALUATE						72
+   DIALOG  ( not valid )				73
+   IF							74
+   GAPS							75
+   DUPS							76
+   SQLOPEN  ( internal command )			77
+   PASSWORD						78
+   IMPORT						79
+   REFRESH						80
+   NOTIFY						81
+   CONNECT						82
+   RETRIEVE ( SAP background queries )			83
+   FIELDSHIFT						84
+   BENFORD						85
+   CROSSTAB						86
+   CRYSTAL						87
+   ESCAPE						88
+   NOTES						89
+
+3. ACL Exit codes
+
+
+   Exit from Wizard for AS400					200
+   Exit from Wizard because of memory allocation problem(s)	201
+   ExitSystemErrorMessage					202
+   ( dll is missing, couldn't start Wizard,etc.Adds to log )
+   Exit from ACL because of time already is expired		203
+   Exit from ACL becase of time is expired			204
+   Exit bacause activation failed				205
+   Exit because of session numbers allowed already reached      206
+   Exit because of memory initialization problem(s)		207
+   Exit because offline mode canceled	( not called )		208
+   ExitUnknownScriptError exit from acl_fatal()                 209
+   Exit because database profile password is missing		210
+   ExitFailedConnectToServer					211
+   ExitNotValidCommand ( for DIALOG, ACCEPT )			212
+   ExitDialogPopUpped                                           213 dialog pop ups 
+   Exit because ACL failed to start				256

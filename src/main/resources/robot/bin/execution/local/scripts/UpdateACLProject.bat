@@ -3,6 +3,7 @@
 :: XCSWITCH /E: Copies directories and subdirectories, including empty ones. Same as /S /E. May be used to modify /T.
 :: XCSWITCH /D: Copies files changed on or after the specified date.If no date is given, copies only those files whose source time is newer than the destination time.
 :: XCSWITCH /R:  Overwrites read-only files
+IF /I '%DisableProjectUpdate%'=='True' Goto END
 :UpdateProject
 SET XCSWITCH=/Y /E /D /R /EXCLUDE:aclExclude
 SET XCSWITCH_=/Y /D /R /EXCLUDE:aclExclude

@@ -1,0 +1,28 @@
+@Echo OFF
+SET _testDir=%1
+SET _sutDir=%2
+SET _imageName=%3
+SET _sutfullname=%_sutDir%\%_imageName%
+SET _ProjectName=%4
+SET _doneFile=%5
+SET _ScriptName=%6
+
+::Echo. Call %_sutfullname% %_ProjectName% /x /vdoneFile="%_doneFile%" /b%_ScriptName%
+::pushd %_testDir%
+::Call %_sutfullname% %_ProjectName% /x /vdoneFile="%_doneFile%" /b%_ScriptName%
+::Echo.ironhideCode_%ERRORLEVEL% > %_imageName%_return.LOG
+::popd
+
+
+
+
+Echo. Start "ACLScriptRunner" /D%_testDir% /MAX /SEPARATE /B /WAIT %_sutfullname% %_ProjectName% /x /vdoneFile="%_doneFile%" /b%_ScriptName%
+pushd %_testDir%
+Start "ACLScriptRunner" /D%_testDir% /MAX /SEPARATE /B /WAIT %_sutfullname% %_ProjectName% /x /vdoneFile="%_doneFile%" /b%_ScriptName%
+Echo.ironhideCode_%ERRORLEVEL% > %_testDir%\%_imageName%_return.LOG
+popd
+
+::Echo. Start "ACLScriptRunner" /D%_testDir% /MAX /SEPARATE /B %_sutfullname% %_ProjectName% /x /vdoneFile="%_doneFile%" /b%_ScriptName%
+::pushd %_testDir%
+::Call Start "ACLScriptRunner" /D%_testDir% /MAX /SEPARATE /B %_sutfullname% %_ProjectName% /x /vdoneFile="%_doneFile%" /b%_ScriptName%
+::popd

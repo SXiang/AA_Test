@@ -1,10 +1,20 @@
 @ECHO OFF
+REM ############### Build test trigger  #######################
+REM #########   verType=Copy,Install
 
+REM REVISION_NUM_New=${REVISION_NUM}
+REM verType_New=Install
+REM Project_New=${JOB_NAME}
+REM SRCROOT_New=\\biollante02\DailyBuild\${JOB_NAME}
+REM ###########################################################
 SET TEAM_NAME=AN_Automation
-IF /I Not '%REVISION_NUM_New%' == '' (
-   SET REVISION_NUM=%REVISION_NUM_New%
-   SET TEST_BUILD=%REVISION_NUM_New%
-)
+rem IF /I Not '%REVISION_NUM_New%' == '' (
+rem   SET REVISION_NUM=%REVISION_NUM_New%
+rem   SET TEST_BUILD=%REVISION_NUM_New%
+rem   SET verType=%verType_New%
+rem   SET Project=%Project_New%
+rem   SET SRCROOT=%SRCROOT_New%
+rem )
 IF '%Project%'=='' SET Project=Zaxxon
 
 
@@ -120,14 +130,17 @@ SET reportDir="%WORKSPACE%"\TestReport
 SET strHDLocation=%ReportDir%\JenkinsReport.html
 
 SET uContDir=\\192.168.10.129\Automation\%Team_Name%\userContent
+IF NOT EXIST %uContDir% NET USE %uContDir% "%PASSWORD%" /USER:"ACL\%USER_NAME%" /P:Yes 2>NUL
+
+
 SET guiBuglist=%uContDir%\buglist\guiTestCoveredBugs.html
 SET batchBuglist=%uContDir%\buglist\batchTestCoveredBugs.html
 SET unicodeACLSE=\\192.168.10.95
 SET releaseACLSE=\\192.168.10.98
 SET missingdllDir=\\winrunner\winrunner\SharedFiles\ACL_missing_Files
-SET hisdir=%uContDir%\TestHistory\%Project%\%Version%.%Version_Suffix%-%LOCALE%-%WHICH%-%TEST_CATEGORY%-%PROJECT_TYPE%
+SET hisdir=%uContDir%\TestHistory\%Project%\%Version%.%Version_Suffix%-%LOCALE%-%WHICH%-%TEST_CATEGORY%-%PROJECT_TYPE%%ROBOT_SCRIPT_NAME%
 SET TEST_CATEGORY_final=Regression
-SET hisdir_final=%uContDir%\TestHistory\%Project%\%Version%.%Version_Suffix%-%LOCALE%-%WHICH%-%TEST_CATEGORY_final%-%PROJECT_TYPE%
+SET hisdir_final=%uContDir%\TestHistory\%Project%\%Version%.%Version_Suffix%-%LOCALE%-%WHICH%-%TEST_CATEGORY_final%-%PROJECT_TYPE%%ROBOT_SCRIPT_NAME%
 SET testLocker=%uContDir%\TestHistory\%Project%\user.locker
 SET TitlePrefix=
 

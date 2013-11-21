@@ -1,8 +1,10 @@
 @Echo OFF
 
 :: Rebot For Jenkins - Steven
-SET Test_Doc=Demo_the_usage_of_Robot_Framework_for_ACL_Script_testing
-SET Report_Title=%PROJECT%#%Revision_Num%_-_ACL_Script_Runner_-_Demo
+rem SET Test_Doc=Demo_the_usage_of_Robot_Framework_for_ACL_Script_testing
+rem SET Report_Title=%PROJECT%#%Revision_Num%_-_ACL_Script_Runner_-_Demo
+SET Test_Doc=ACL_Script_testing
+SET Report_Title=%PROJECT%#%Revision_Num%_-_ACL_Script_Runner_-_Robot
 SET Test_Name=Robot
 SET ReportDir=%workspace%\TestReport
 Set screenshotDir=Screenshot

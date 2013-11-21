@@ -4,9 +4,9 @@ Resource	${ACLScriptRunner}
 							
 *Test Cases*	*ProjectName*	*ScriptName*	*Timeout*	*MasterFiles*			
 CommandWithSpace	[Documentation]	"Bug tracking - CQID:11834 - Script: Blank space before Join command causes ""misspelled field error"""					
-	[Tags]	@Steven_Xiang	NonUnicode	Desktop	Ironhide		
+	[Tags]	@Steven_Xiang	NonUnicode	Desktop	Ironhide	Daily	
 	OtherProject\\JoinTestProject\\Metaphor_Employee_Data	New_Script	30 seconds				
 							
 Join Multi Fields	[Documentation]	Bug tracking - CQID:11570 - ManytoMany Join, using expression for PKEY and renaming it with AS, produces inaccurate results					
-	[Tags]	@Steven_Xiang	NonUnicode	Unicode	Desktop	Ironhide	
+	[Tags]	@Steven_Xiang	NonUnicode	Unicode	Desktop	Ironhide	Daily
 	OtherProject\\JoinMany\\JoinMany	New_Script	30 seconds	test1.fil	test2.fil	test3.fil	

@@ -9,12 +9,12 @@ table.bottomBorder td, table.bottomBorder th { border-bottom:1px dotted black;pa
 </head>
 <body style="font-family:sans-serif">
 
-<h3><a href="http://biollante02:8080/view/TestAdmin_En">
+<h3><a href="http://biollante02:8080/view/TestAdmin_En/job/ACLScriptRunner_ironhide/robot">
       <img height="48" style="margin: 2px;" alt="ACLScriptRunner" width="48" src="http://biollante02:8080/static/2bef2abf/plugin/robot/robot-large.png" />
 	</a>
 	&nbsp;
-	<a href="http://biollante02:8080/view/TestAdmin_En">
-       ACLQA Script Test
+	<a href="http://biollante02:8080/view/TestAdmin_En/job/ACLScriptRunner_ironhide/robot">
+       ACLQA Script Test (Ironhide)
 	</a>
 </h3>
 <hr />

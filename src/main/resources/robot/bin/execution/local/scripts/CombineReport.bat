@@ -13,4 +13,3 @@ Call Rebot --name %_Test_Name% ^
 --output output.xml ^
 %outputxml%
 :END
-:EOF
