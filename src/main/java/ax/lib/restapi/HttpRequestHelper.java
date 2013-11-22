@@ -122,7 +122,7 @@ public class HttpRequestHelper extends RestapiHelper{
             wr.close();
             con.connect();
 			//Test ...
-			logTAFStep("Sending 'POST' request to URL : " + url +" with JSON body '"+query+"'");
+			//logTAFStep("Sending 'POST' request to URL : " + url +" with JSON body '"+query+"'");
 			           //System.out.println("Post parameters : " + query);
 
 	        return getHttpResponse(con);

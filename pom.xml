@@ -224,6 +224,35 @@
 		   </configuration>
 		   
 	   </plugin>
+	   <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.10</version>
+        <configuration>
+            <skipTests>true</skipTests>
+            <exclude></exclude>
+            <parallel>classes</parallel>
+            <threadCount>10</threadCount>
+            <!-- 
+            <suiteXmlFiles>
+               <suiteXmlFile>src/test/java/testng/testng.xml</suiteXmlFile>
+            </suiteXmlFiles>
+            -->
+            <groups></groups> 
+            <properties>
+                  <property></property>
+            </properties>           
+        </configuration>
+      
+        <executions>
+          <execution>
+            <id>default-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
    </build>
    <reporting>
@@ -259,6 +288,11 @@
   		<groupId>ACLQA</groupId>
   		<artifactId>TAFDependencies</artifactId>
   		<version>10.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.testng</groupId>
+  		<artifactId>testng</artifactId>
+  		<version>6.8.7</version>
   	</dependency>
   </dependencies>
 </project>
