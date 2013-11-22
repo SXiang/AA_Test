@@ -72,7 +72,7 @@ public class SQLConf {
 			     "AND c.itemtype = 'AC' AND c.id = d.parentid "+
 			     "AND d.name like '%"+gap+"%' AND d.itemtype = 'GAP' AND d.id = e.parentid "+
 			     "AND e.name = '"+an+"' AND e.itemtype = 'AN'";
-			     		
+		
 		return sql;
 	}
 
@@ -124,9 +124,20 @@ public class SQLConf {
 		return sql;
 	}
 
-	public static String getJobID(){
+	public static String getJobID(String type, String bc, String lc, String gap, String an, String scheduleid){
 		
 		String sql="";
+
+		sql = "SELECT max(jobnumber) jobnumber "+
+				"FROM scriptjobs f "+ 
+				"WHERE f.scheduleid = '"+scheduleid+"' AND f.analyticid = (SELECT e.id "+
+				  "FROM audititems a, audititems b, audititems c, audititems d, audititems e "+
+				  "WHERE a.programtype = '"+type.toUpperCase()+"' "+
+				     "AND a.name = '"+bc+"' AND a.itemtype = 'BC' AND a.id = b.parentid "+
+				     "AND b.name = '"+lc+"' AND b.itemtype = 'LC' AND b.id = c.parentid "+
+				     "AND c.itemtype = 'AC' AND c.id = d.parentid "+
+				     "AND d.name like '%"+gap+"%' AND d.itemtype = 'GAP' AND d.id = e.parentid "+
+				     "AND e.name = '"+an+"' AND e.itemtype = 'AN')";
 
 		return sql;
 	}

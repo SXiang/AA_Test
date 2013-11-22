@@ -6,7 +6,7 @@ import com.acl.qa.taf.helper.superhelper.DatabaseHelper;
 
 public class DBConf {
 	
-	public String url="",driver="",newUrl="",newDriver="";    					
+	public String url="",driver="",newUrl="",newDriver="";				
     public String serverip="192.168.10.83",
     					port="5432",
     					dbtype="PostgreSQL",

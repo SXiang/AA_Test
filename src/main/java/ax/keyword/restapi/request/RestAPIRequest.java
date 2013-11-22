@@ -7,6 +7,7 @@ import com.acl.qa.taf.util.UTF8Control;
 
 import ax.lib.restapi.HttpRequestHelper;
 import ax.lib.restapi.RestapiHelper;
+import ax.lib.restapi.TestDriverExampleHelper;
 import ax.lib.restapi.db.SQLConf;
 
 public class RestAPIRequest extends HttpRequestHelper implements KeywordInterface {
@@ -40,18 +41,21 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	@Override
 	public boolean dataInitialization() {
 		super.dataInitialization();
+		
+		System.out.println("scheduledID:"+((TestDriverExampleHelper) caseObj).scheduleid);
      	
 		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
-		dpTableName = getDpString("TableName");
-		dpColumnName = getDpString("ColumnName");
 		dpTestSetName = getDpString("TestSetName");
 		dpTestName = getDpString("TestName");
+		dpTableName = getDpString("TableName");
+		dpColumnName = getDpString("ColumnName");
 		dpAnalyticName = getDpString("AnalyticName");
 		dpParameterSetName = getDpString("ParameterSetName");
 		dpApi_Path = getDpString("Api_Path");
 		dpJsonBody = getDpString("JsonBody");
+		dpWrongUUID = getDpString("WrongUUID");
 		//String gap, String an, String setName
 		//Rest API - Prepare path
 		//dpWebDriver="Firefox";
@@ -106,6 +110,12 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 				logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()+1))+"...");
 				// compare Json Result - exact master and actual files are handled by framework.
 				logTAFStep("File verification - "+dpMasterFiles[0]);
+				
+				if (dpApi_Path.contains("analytics/{uuid}/run")){
+					scheduleid = getJsonValue(actualResult,"scheduleId");
+					((TestDriverExampleHelper) caseObj).scheduleid = scheduleid;
+				}
+				
 				compareJsonResult(actualResult,dpMasterFiles[0]);
 			}else{							
 				logTAFError("Not a valid Json object? - Http Status:"+responseCode+" '"+FormatHtmlReport.getHtmlPrintable(actualResult,100)+"..."+"'"	);
@@ -115,9 +125,17 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 
 	public boolean compareJsonResult(String result,String master)	{
 		
-        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","[\\[\\{\\]\\}\\s]"};
-        String[] ignoreName = {"$1u-u-i-d$2",""};
+        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","\"startTime\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","\"endTime\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","\"createdAt\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","\"modifiedAt\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","[\\[\\{\\]\\}\\s]"};
+        String[] ignoreName = {"$1u-u-i-d$2","\"startTime\"","\"endTime\"","\"createdAt\"","\"modifiedAt\"",""};
         String delimiterPattern = "\\}[\\s]*,[\\s]*\\{|[\\[\\]]";
+        
+        //Testing regular expression
+        String[] textMaster = result.split(delimiterPattern);
+        for (int i=0; i <textMaster.length; i++) {
+        	textMaster[i] = stringReplaceAll(textMaster[i],ignorePattern,ignoreName);
+        	System.out.println("rg:"+textMaster[i]+":end");
+        }
+        //Test End
         
         return compareResult(
         	master,result,
@@ -127,6 +145,15 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		
 	}
 	
+	public static String stringReplaceAll(String source, String[] pattern,
+			String[] replacement) {
+		for (int i = 0; i < pattern.length && i < replacement.length; i++) {
+			source = source.replaceAll(pattern[i], replacement[i]);
+		}
+		return source;
+	}
+	
+	// Get API full path for each API
 	public String getApiFullPath(String path){
         String sqlstmt;
         String scope = dpScope;
@@ -159,7 +186,48 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		if(path.contains("{columnName}")){
 			path = path.replaceAll("\\{columnName\\}", dpColumnName);
 		}
-        // Adding more replacement based on url ...
+		
+		if(path.contains("analytics/{uuid}")){
+			if (dpWrongUUID.isEmpty()) {
+				if (dpAnalyticName.isEmpty()){
+					sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
+				}else{
+					sqlstmt =  SQLConf.getAnalyticID(scope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
+				}
+			
+				uuid = getField(sqlstmt,"id","Analytics",dpAnalyticName);
+			}else {
+				uuid = dpWrongUUID;
+			}
+			
+			path = path.replaceAll("analytics/\\{uuid\\}", "analytics/"+uuid);
+			
+			//Analytic with specified ParameterSet name in ParameterSet variable 
+			if (!dpParameterSetName.isEmpty()){
+				sqlstmt = SQLConf.getParameterSetID(scope, dpProjectName, dpTestSetName, dpTestName,dpAnalyticName,dpParameterSetName);
+				uuid = getField(sqlstmt,"parametersetid","Parameter Set",dpParameterSetName);
+				
+				dpJsonBody = createParameterSetJsonBody(dpParameterSetName,uuid);
+			}
+					
+			//Clean the shared variable 'scheduleid' from last time run
+			if (path.contains("analytics/{uuid}/run")){
+				((TestDriverExampleHelper) caseObj).scheduleid = "";
+			}
+		}
+
+		if(path.contains("jobs/{id}")){
+			if (dpAnalyticName.isEmpty()){
+				sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
+			}else{
+				sqlstmt =  SQLConf.getJobID(scope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName,((TestDriverExampleHelper) caseObj).scheduleid);
+			}
+			uuid = getField(sqlstmt,"jobnumber","Jobs",dpAnalyticName);
+			
+			path = path.replaceAll("jobs/\\{id\\}", "jobs/"+uuid);
+		}
+
+		// Adding more replacement based on url ...
 		// ..
 		// .
 		
@@ -177,4 +245,12 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		text = FileUtil.getFileContents(file).replaceAll("[\\r\\n]", "");
 		return text;
 	}
+	
+	private String createParameterSetJsonBody(String parametersetname, String uuid){
+		String temp = "";
+		temp = "{\"parameterSet\": {\"name\": \""+parametersetname+"\",\"uuid\":\""+uuid+"\"}}";
+		
+		return temp;
+	}
+
  }

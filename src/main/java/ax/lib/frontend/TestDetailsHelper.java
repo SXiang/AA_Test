@@ -41,7 +41,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	By analyticNameLocator = By.cssSelector("div.script-row > div.row-fluid > div.ng-binding");
 	//By analyticNameOfOpenDrawerLocator = By.cssSelector("div.drawer-opened > div > div.ng-binding");
 	By analyticRunIconLocator = By.cssSelector("div.script-row > div > a");
-	By analyticDescriptionLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span");
+	By analyticDescriptionLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > span[id=description]");
 	By analyticDrawerBtnLocator = By.cssSelector("div.drawer > div > a.action-btn");
 	By analyticJobsIconLocator = By.cssSelector("div.action-buttons > a.icon_list");
 	By analyticScheduleIconLocator = By.cssSelector("div.action-buttons a.icon_comment");
@@ -179,17 +179,20 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getProjectHeader(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
 		return driver.findElement(projectHeaderLocator).getText();
 	}
 	public String getProjectName(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectNameLocator));
 		return driver.findElement(projectNameLocator).getText();
 	}
 	
 	public String getProjectsListFromDropDown(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
@@ -208,12 +211,14 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetName(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetNameLocator));
 		return driver.findElement(testSetNameLocator).getText();
 	}
 	
 	public String getTestSetsListFromDropDown(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();
@@ -232,12 +237,14 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestName(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testNameLocator));
 		return driver.findElement(testNameLocator).getText();
 	}
 	
 	public String getTestsListFromDropDown(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testDropDownLocator));
 		driver.findElement(testDropDownLocator).click();
@@ -256,12 +263,14 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getAnalyticsHeader(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(analyticsHeaderLocator));
 		return driver.findElement(analyticsHeaderLocator).getText();
 	}
 
 	public String getAnalyticsList(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		takeScreenshot();
 		analytics = driver.findElements(analyticNameLocator);
 		if(analytics.size() >0){
@@ -304,6 +313,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}
 	
 	public String getCategoriesName(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(analyticsHeaderLocator));
 		categories = driver.findElements(analyticsHeaderLocator);

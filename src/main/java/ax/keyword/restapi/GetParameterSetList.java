@@ -6,25 +6,26 @@ import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
 
-import conf.bean.DBConf;
 import ax.lib.restapi.RestapiHelper;
 
-public class GetProjectDetail extends RestapiHelper implements KeywordInterface {
+public class GetParameterSetList extends RestapiHelper implements KeywordInterface {
 	/**
 	 * Script Name   : <b>GetProjectList</b>
-	 * Generated     : <b>Aug. 19, 2013 4:20:42 PM</b>
+	 * Generated     : <b>Sep. 06, 2013 4:20:42 PM</b>
 	 * Description   : Functional Test Script
 	 * 
-	 * @since  2013/08/19
+	 * @since  2013/11/06
 	 * @author Karen_Zou
 	 */
 
 	// BEGIN of datapool variables declaration
-	protected String dpuuid;   	        //@arg uuid for project
 	protected String dpScope;          	//@arg value for Scope
                                     	//@value = working/library/""
 	protected String dpProjectName;   	//@arg value for Project Name
-	protected String dpProjectUuid;   	//@arg value for Project uuid
+	protected String dpTestSetName;   	//@arg value for TestSet Name
+	protected String dpTestName;   	    //@arg value for Test Name
+	protected String dpAnalyticName;   	//@arg value for Analytic Name
+	protected String dpAnalyticUuid;   	//@arg value for Analytic Uuid
 	
 	// END of datapool variables declaration
 	private String url = "";
@@ -34,20 +35,24 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 	public boolean dataInitialization() {
 		super.dataInitialization();
      
-		//*** read in data from datapool   
-		dpuuid =  getDpString("uuid");
+		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
 		dpProjectName = getDpString("ProjectName");
-		dpProjectUuid = getDpString("ProjectUuid");
+		dpTestSetName = getDpString("TestSetName");
+		dpTestName = getDpString("TestName");
+		dpAnalyticName = getDpString("AnalyticName");
+		dpAnalyticUuid = getDpString("AnalyticUuid");
 		
-		//Rest API - Projects List in a Test: /api/projects/{uuid}
-		if (!dpProjectUuid.isEmpty())
-			uuid = dpProjectUuid;
-		else uuid = queryProjectID(dpScope,dpProjectName);
+		//Rest API - Analytics List in a Test: /api/analytics/<analytic_uuid>/parametersets
+		if (!dpAnalyticUuid.isEmpty())
+			uuid = dpAnalyticUuid;
+		else uuid = queryAnalyticID(dpScope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
 
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "projects/"+uuid;
-		else System.out.println("Error:" + "Can not find the uuid for the specific project");
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"analytics/"+uuid+"/jobs";
+		else System.out.println("Error:" + "Can not find the uuid for the specific analytic");
+		
+		System.out.println("url:"+url);
 
 		return true;
 	}
@@ -102,9 +107,9 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 	}
 	
 /*	public boolean compareJsonResult(String result,String master)	{
-			
-		String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","\"createdAt\":\"\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.\\d{3}\"","\"modifiedAt\":\"\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.\\d{3}\""};
-        String[] ignoreName = {"$1u-u-i-d$2","createdAt","modifiedAt"};
+		
+		String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")"};
+        String[] ignoreName = {"$1u-u-i-d$2"};
         String delimiterPattern = ",";
         
         return compareResult(
@@ -112,7 +117,6 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
    			true,          //Exact Match
    			ignorePattern,ignoreName,  //Replacement
    			delimiterPattern);  // used to split
-		
 	}
-*/    
+*/
 }

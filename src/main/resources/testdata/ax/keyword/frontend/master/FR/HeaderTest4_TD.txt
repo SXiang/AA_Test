@@ -1,5 +1,0 @@
-Projets
-123456 - NOT inherit User01,02Full
-Activity-with-dashes123456 NotInherit User02Read
-AllTypesResultsAnalytic.ACL
-Importation des données|Préparer|Analyser

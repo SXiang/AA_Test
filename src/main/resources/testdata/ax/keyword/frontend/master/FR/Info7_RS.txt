@@ -1,4 +1,0 @@
-EXÉCUTER PAR:g1_admin (ACLQA\g1_admin)
-HEURE DE DÉBUT
-HEURE DE FIN
-STATUT:error

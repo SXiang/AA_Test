@@ -1,4 +1,0 @@
-Projets
-123456 - inherit,NotInherit Mixed User01Full,User02Read
-456Activity123456 NotInherit User02Full
-Tests

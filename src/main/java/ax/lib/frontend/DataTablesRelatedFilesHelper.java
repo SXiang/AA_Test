@@ -90,6 +90,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTablesList(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		takeScreenshot();
 		columnHeaders = driver.findElements(listColHeaderLocator);
 		tableName = driver.findElements(tableNameLocator);
@@ -153,6 +154,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	}
 
 	public String getFilesList(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		takeScreenshot();
 		columnHeaders = driver.findElements(listColHeaderLocator);
 		fileName = driver.findElements(fileNameLocator);
@@ -172,17 +174,20 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	        return filesList;
 	}
 	public String getProjectHeader(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
 		return driver.findElement(projectHeaderLocator).getText();
 	}
 	public String getProjectName(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectNameLocator));
 		return driver.findElement(projectNameLocator).getText();
 	}
 	
 	public String getProjectsListFromDropDown(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectDropDownLocator));
 		driver.findElement(projectDropDownLocator).click();
@@ -201,12 +206,14 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	}
 	
 	public String getTestSetName(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetNameLocator));
 		return driver.findElement(testSetNameLocator).getText();
 	}
 	
 	public String getTestSetsListFromDropDown(){
+		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testSetDropDownLocator));
 		driver.findElement(testSetDropDownLocator).click();

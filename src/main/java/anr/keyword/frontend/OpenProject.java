@@ -54,7 +54,7 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 		super.testMain(onInitialize(args, getClass().getName()));
 		
 		//Start App
-		startApp();
+		//startApp();
 		
 		//Launch browser
 		launchBrowser();
