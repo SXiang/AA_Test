@@ -131,12 +131,12 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 		  } catch (AWTException e) {
 		   e.printStackTrace();
 		  }
-		  rb.keyPress(KeyCode);   // 按下按键
-		  rb.delay(100);     // 保持100毫秒
+		  rb.keyPress(KeyCode);   // Press key
+		  rb.delay(100);     // Keep 100ms
 
-		  rb.keyRelease(KeyCode);  // 释放按键
+		  rb.keyRelease(KeyCode);  // Release Key
 
-		  logTAFStep("Robot敲击键盘 " + KeyCode);
+		  logTAFStep("Press Key  " + KeyCode);
 	}
 
 }
