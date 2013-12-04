@@ -18,6 +18,8 @@
 *.dmp
 # Floder and Files
 null/
+src/test/
+test-output/
 screenShots/
 target/
 .gitmodules

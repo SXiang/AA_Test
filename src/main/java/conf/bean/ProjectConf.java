@@ -39,6 +39,9 @@ public class ProjectConf {
     public String anrapiPrefix = "localhost:10002/anr";
     public String anrProjectPath = "C:\\ANR\\DATA";
     public String localizationSnapshots = "\\\\192.168.10.129\\Automation\\LocalizationSnapshots\\";
+    public String hubHost="192.168.10.129";
+    public String hubPort="4444";
+    public String hubPath="/wd/hub";
 	// ********************************************************
 	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
 	// ********** Setters - Auto generated and dir addressed *****************
@@ -48,6 +51,14 @@ public class ProjectConf {
 	
 	public String getLocalizationSnapshots() {
 		return localizationSnapshots;
+	}
+
+	public void setHubHost(String hubHost) {
+		this.hubHost = hubHost;
+	}
+
+	public void setHubPort(String hubPort) {
+		this.hubPort = hubPort;
 	}
 
 	public void setLocalizationSnapshots(String localizationSnapshots) {
