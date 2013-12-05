@@ -3,12 +3,6 @@ package anr.lib.frontend;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.io.File;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -131,12 +125,12 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 		  } catch (AWTException e) {
 		   e.printStackTrace();
 		  }
-		  rb.keyPress(KeyCode);   // 按下按键
-		  rb.delay(100);     // 保持100毫秒
+		  rb.keyPress(KeyCode);   // Press the button
+		  rb.delay(100);     // delay of 100 ms
 
-		  rb.keyRelease(KeyCode);  // 释放按键
+		  rb.keyRelease(KeyCode);  // Release the button
 
-		  logTAFStep("Robot敲击键盘 " + KeyCode);
+		  logTAFStep("Robot Keystrokes " + KeyCode);
 	}
 
 }

@@ -1,17 +1,12 @@
 package anr.keyword.frontend;
 
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.chrome.ChromeDriver;
-
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
-
 import anr.lib.frontend.DataVisualizationHelper;
 
 public class DataVisualization extends DataVisualizationHelper implements KeywordInterface{
 	
 	/**
-	 * Script Name   : <b>Search</b>
+	 * Script Name   : <b>DataVisualization</b>
 	 * Generated     : <b>Oct 14, 2013</b>
 	 * Description   : OpenProject
 	 * @author Karen Zou
