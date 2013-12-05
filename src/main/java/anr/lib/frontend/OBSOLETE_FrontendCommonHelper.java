@@ -17,7 +17,7 @@ import ax.lib.restapi.TestSuiteExampleHelper;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
 
-public class FrontendCommonHelper extends KeywordSuperHelper{
+public class OBSOLETE_FrontendCommonHelper extends KeywordSuperHelper{
 	
 	/**
 	 * Script Name   : <b>FrontendCommonHelper</b>

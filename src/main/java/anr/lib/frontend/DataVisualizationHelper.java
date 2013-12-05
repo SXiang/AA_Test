@@ -7,9 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-
-import anr.lib.frontend.FrontendCommonHelper;
+import ax.lib.frontend.FrontendCommonHelper;
 
 public class DataVisualizationHelper extends FrontendCommonHelper{
 	/**
@@ -29,7 +27,7 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of DataVisualization page
-	By tableNameLocator = By.id("table-name");
+	By tableNameLocator = By.className("visualizer-page-header-title");
 	By recordCountLocator = By.id("record-count");
 	By tableHeaderLocator = By.cssSelector("div[id^='col']:nth-child(1)");
 	By tableDataLocator = By.cssSelector("div[class^='ngCellText ng-scope']");
@@ -97,7 +95,7 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
        	}
 
         //Continue to get the left table data by pressing ARROW_DOWN key one row by one row 
-        recordCount=getNumbers(getTableRecords());
+        recordCount=getNumbers(getTableRecords());  
     	initialDisplayRowCount = allTableData.size()/allTableColumns.size();
  
     	allTableData.get(allTableData.size()-1).click();

@@ -3,9 +3,7 @@ package anr.lib.frontend;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-
-import anr.lib.frontend.FrontendCommonHelper;
+import ax.lib.frontend.FrontendCommonHelper;
 
 public class QuickFilterHelper extends FrontendCommonHelper{
 	/**

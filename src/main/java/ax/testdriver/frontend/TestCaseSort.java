@@ -17,7 +17,7 @@ public class TestCaseSort extends FrontendTestDriverHelper implements TestDriver
 	{		
 
 		startFromLine = 2; // 4-9
-		//endAtLine =2;     //
+		endAtLine =20;     //
 			
 		String poolFile = "testdata/ax/testdriver/frontend/Sort.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

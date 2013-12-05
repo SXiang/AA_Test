@@ -36,6 +36,8 @@ public class ProjectConf {
     public String apiPrefix = "/aclax/api/";
     public String anrPrefix = "localhost:10002/ui";
     public String anrBatch = "C:\\ACL\\ANR\\AclRevolution.bat";
+    public String anrapiPrefix = "localhost:10002/anr";
+    public String anrProjectPath = "C:\\ANR\\DATA";
     public String localizationSnapshots = "\\\\192.168.10.129\\Automation\\LocalizationSnapshots\\";
     public String hubHost="192.168.10.129";
     public String hubPort="4444";
@@ -380,7 +382,7 @@ public class ProjectConf {
 			buildInfo = "",
 			testProject = "",
 			testerName = "Automation Demo Tester",
-			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
+			inputDataDir = "", jenkinsReportDir = "", appName = "ax";
 
 	public String AUT="", appLocale = "", startComm;
 
