@@ -35,7 +35,6 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 
 	// BEGIN locators of the web elements of OpenProject page
 	By projectFilePathLocator = By.id("projectFilePath");
-	//By projectOpenButtonLocator = By.id("projectOpenButton");
 	By projectOpenButtonLocator = By.id("projectOpenButton");
 	By projectTitleLocator = By.id("projectTitle");
 	By dataTablesButtonLocator = By.id("dataTables");
@@ -50,7 +49,7 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	By dataVisualizeIconLocator = By.cssSelector("div[class^='datatables-row'] > div.row-fluid:nth-child(2) > div.span1 > a > i");
 
 //END
-    
+     
     // BEGIN of other local variables declaration 
 	private DesiredCapabilities capability;
 	public String imageName;

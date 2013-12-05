@@ -33,8 +33,8 @@ import ax.lib.restapi.TestDriverExampleHelper;
 
 			//startFromLine = 8; // 4-9
 			//endAtLine =2;     //
-				
-			String poolFile = "testdata/ax/testdriver/restapi/parametersets/TestGet_Detail.xls";
+
+			String poolFile = "src/main/resources/testdata/ax/testdriver/restapi/parametersets/TestGet_Detail.xls";
 			exeTestCase(onInitialize(poolFile,getClass().getName()));
 			
 		}
