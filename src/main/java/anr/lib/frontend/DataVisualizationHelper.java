@@ -3,19 +3,11 @@ package anr.lib.frontend;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.io.File;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-
-import anr.lib.frontend.FrontendCommonHelper;
+import ax.lib.frontend.FrontendCommonHelper;
 
 public class DataVisualizationHelper extends FrontendCommonHelper{
 	/**
@@ -35,7 +27,7 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of DataVisualization page
-	By tableNameLocator = By.id("table-name");
+	By tableNameLocator = By.className("visualizer-page-header-title");
 	By recordCountLocator = By.id("record-count");
 	By tableHeaderLocator = By.cssSelector("div[id^='col']:nth-child(1)");
 	By tableDataLocator = By.cssSelector("div[class^='ngCellText ng-scope']");
@@ -103,7 +95,7 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
        	}
 
         //Continue to get the left table data by pressing ARROW_DOWN key one row by one row 
-        recordCount=getNumbers(getTableRecords());
+        recordCount=getNumbers(getTableRecords());  
     	initialDisplayRowCount = allTableData.size()/allTableColumns.size();
  
     	allTableData.get(allTableData.size()-1).click();
@@ -131,12 +123,12 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 		  } catch (AWTException e) {
 		   e.printStackTrace();
 		  }
-		  rb.keyPress(KeyCode);   // 按下按键
-		  rb.delay(100);     // 保持100毫秒
+		  rb.keyPress(KeyCode);   // Press the button
+		  rb.delay(100);     // delay of 100 ms
 
-		  rb.keyRelease(KeyCode);  // 释放按键
+		  rb.keyRelease(KeyCode);  // Release the button
 
-		  logTAFStep("Robot敲击键盘 " + KeyCode);
+		  logTAFStep("Robot Keystrokes " + KeyCode);
 	}
 
 }
