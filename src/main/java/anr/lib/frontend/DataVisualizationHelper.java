@@ -3,10 +3,14 @@ package anr.lib.frontend;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import ax.lib.frontend.FrontendCommonHelper;
 
 public class DataVisualizationHelper extends FrontendCommonHelper{
@@ -27,16 +31,47 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of DataVisualization page
+	By filterBtnLocator = By.cssSelector(".static-tabs.filers-tab");
+	By colHeaderLocator = By.cssSelector("div[id^='col']");
+	By quickFilterHeaderLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header']");
+	By closeQuickFilterMenuLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header'] > i.icon-remove");
+	By sortSectionLabelLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div.sort-header");
+	By ascendingLinkLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-ascending']");
+	By descendingLinkLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-descending']");
 	By tableNameLocator = By.className("visualizer-page-header-title");
 	By recordCountLocator = By.id("record-count");
 	By tableHeaderLocator = By.cssSelector("div[id^='col']:nth-child(1)");
 	By tableDataLocator = By.cssSelector("div[class^='ngCellText ng-scope']");
 	By rowSelectedLocator = By.cssSelector("div[class*='selected'] > div[class*='col']");
+	By tableViewTabLocator = By.cssSelector("tab-heading.chart-tabs > i.icon-table");
+	By addChartBtnLocator = By.className("addchart-tab-text");
+	By filterPanelHeaderLocator = By.cssSelector("div.filter-main-container-custom:not([style='display: none;']) > div > div > div > div > div.filter-panel-header > span");
+	By filterPanelColNamesLocator = By.className("filter-panel-row-header");
+	By filterPanelSortSectionLocator = By.cssSelector("div.filter-panel.sort-section > div > div >  div > span");
+	By filterPanelSortDropDownSelectedItemLocator = By.cssSelector("div.filter-panel.sort-section > div > div >  div > div > select.select-block > option[selected='selected']");
+	By filterPanelSortDropDownItemsLocator = By.cssSelector("div.filter-panel.sort-section > div > div >  div > div > select.select-block > option");
+	By filterPanelAscSortBtnInactiveLocator = By.cssSelector("button.sort-order-btn[btn-radio*='asc']:not([class$='active'])");
+	By filterPanelDescSortBtnInactiveLocator = By.cssSelector("button.sort-order-btn[btn-radio*='desc']:not([class$='active'])");
+	By filterPanelAscSortBtnActiveLocator = By.cssSelector("button.sort-order-btn.active[btn-radio*='asc']");
+	By filterPanelDescSortBtnActiveLocator = By.cssSelector("button.sort-order-btn.active[btn-radio*='desc']");
+	By filterPanelMinimizeIconLocator = By.cssSelector(".icon-minus:not([style='display: none;'])");
+	By filterPanelMaximizeIconLocator = By.cssSelector(".icon-plus:not([style='display: none;'])");
+	By filterPanelFilterToggledOffLocator = By.cssSelector(".filter-toggle.toggle-off");
+	By filterPanelFilterToggledOnLocator = By.cssSelector("div.filter-toggle:not([class$='toggle-off'])");
+	By filterPanelSearchFilterLocator = By.cssSelector("div.filter-panel-row-body > div.search-filter:not([style='display: none;']) > input.search-filter-value");
+	By filterPanelCheckboxCountLocator = By.cssSelector("div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value > span.value-count");
+	By filterPanelCheckboxTextLocator = By.cssSelector("div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value");
+	By filterPanelCheckedLocator = By.cssSelector("div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check:not([style='display: none;'])");
+	By filterPanelUncheckedLocator = By.cssSelector("div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check-empty:not([style='display: none;'])");
+	By filterPanelApplyFilterBtnLocator = By.className("action-btn-filter");
+	By filterPanelClearFilterBtnLocator = By.cssSelector("div.filter-panel-button > a.clear-quick-filter");
 	//END
     
     // BEGIN of other local variables declaration 
 	protected List<WebElement> allTableColumns,allTableData;
 	protected int recordCount;
+	protected List<WebElement> allColumnHeaders;
+	protected String allFilters;
 	//END
 	
 	//***************  Part 2  *******************
@@ -54,7 +89,9 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	public void testMain(Object[] args) {
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
-//		isElementEnabled(projectOpenButtonLocator, "Open Local Project");
+		isElementDisplayed(tableViewTabLocator, "Table View Tab");
+		isElementDisplayed(addChartBtnLocator, "Add Chart Button");
+		isElementDisplayed(filterBtnLocator, "Filter Button");
 	}
 
 	//***************  Part 3  *******************
@@ -129,6 +166,67 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 		  rb.keyRelease(KeyCode);  // Release the button
 
 		  logTAFStep("Robot Keystrokes " + KeyCode);
+	}
+	
+	public void clickColumnHeader(String columnName) {
+		allColumnHeaders = driver.findElements(colHeaderLocator);
+        for(int i = 0; i < allColumnHeaders.size(); i++) {
+        	if(allColumnHeaders.get(i).getText().equalsIgnoreCase(columnName)){
+        		allColumnHeaders.get(i).click();
+        		logTAFStep("Column: '"+columnName+"' found and clicked on to get Quick filter menu.");
+        	}
+        }
+	}	
+
+	public void clickDescendingLink() {
+		driver.findElement(descendingLinkLocator).click();
+	}
+	
+	public void clickAscendingLink() {
+		driver.findElement(ascendingLinkLocator).click();
+	}
+	
+	public String isFilterPanelClosed() {
+		List<WebElement> filterPanelHeader = driver.findElements(filterPanelHeaderLocator);
+		int i = filterPanelHeader.size();
+		if(i>0){
+			return "open";
+		}
+		return "close";
+	}
+	
+	public void clickFilterPanelBtn() {
+		driver.findElement(filterBtnLocator).click();
+	}
+	
+	public String getFilterPanelContents() {
+		int itemSize;
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(filterPanelHeaderLocator));
+		allFilters = "@" + driver.findElement(filterPanelHeaderLocator).getText() + "@";
+		allFilters = allFilters + "\r\n@" + driver.findElement(filterPanelSortSectionLocator).getText() + "@ ";
+		if(driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText().equals("")){
+			allFilters = allFilters + "\r\n" + "Sort not applied";
+		}else{
+			/* need to check with developers to find correct way of finding selected column name
+			allFilters = allFilters + "'" + driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText();
+			if(driver.findElements(filterPanelAscSortBtnActiveLocator).size()>0){
+				allFilters = allFilters + "' : in Ascending order";
+			}else if(driver.findElements(filterPanelDescSortBtnActiveLocator).size()>0){
+				allFilters = allFilters + "' : in Descending order";
+			}else{
+				logTAFError("Sort order buttons not enabled");
+			}
+			*/
+		}
+		itemSize = driver.findElements(filterPanelColNamesLocator).size();
+		if(itemSize>0){
+			for(int i = 0; i < itemSize/2;i++){
+				allFilters = allFilters + "\r\n" + driver.findElements(filterPanelColNamesLocator).get(i).getText();					
+			}
+		}
+		return allFilters;
+		
 	}
 
 }
