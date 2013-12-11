@@ -12,6 +12,8 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -69,7 +71,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	//END
 	
     // BEGIN of other local variables declaration
-	protected WebDriver driver;
+	public WebDriver driver;
 	//END
 	
 	public boolean dataInitialization() {
@@ -222,6 +224,15 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		captureScreen(getScreenshotPathAndName());
 		logTAFInfo("Screenshot taken");
 		*/
+	}
+	
+	public int getNumbers(String strNum) {
+		String regEx="[^0-9]";   
+		
+		Pattern p = Pattern.compile(regEx);   
+		Matcher m = p.matcher(strNum);   
+		
+		return Integer.parseInt(m.replaceAll("").trim());
 	}
 	
 	//*******************************************
