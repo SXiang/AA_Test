@@ -18,17 +18,21 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 	// *******************************************
 	// BEGIN of datapool variables declaration
 	protected String dpAnalyticName; //@arg Analytic Name whose link to be clicked for details
+	protected String dpParameterSet; //@arg Analytic Name whose link to be clicked for details
 	// END of datapool variables declaration
 	
 	
 	private String analyticOperation;
 	private String analyticName;
+	private String[] allParameters;
+	private String setName;
 	
 	@Override
 	public boolean dataInitialization() {
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpAnalyticName = getDpString("AnalyticName");
+		dpParameterSet = getDpString("ParameterSet");
 		//END
 		return true;
 	}	
@@ -104,7 +108,19 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 	
 	public void runAnalytic(String analyticName){
 		clickRunIcon(analyticName);
-		clickRunBtn();
+		if(dpParameterSet.equalsIgnoreCase("")){
+			clickRunBtn();
+		}else{
+			allParameters = dpParameterSet.split("\\|");
+			if(allParameters.length > 1){
+				runWithNewParameterSet(allParameters);
+			}else if(allParameters.length == 1){
+				runWithExistingParameterSet(allParameters);
+			}
+			
+		}
+		sleep(timerConf.waitToTakeScreenshot);
+		takeScreenshotWithoutScroll();
 	}
 	
 	public void viewResults(String analyticName){

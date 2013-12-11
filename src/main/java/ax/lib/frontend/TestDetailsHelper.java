@@ -42,7 +42,11 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	//By analyticNameOfOpenDrawerLocator = By.cssSelector("div.drawer-opened > div > div.ng-binding");
 	By analyticRunIconLocator = By.cssSelector("div.script-row > div > a");
 	By analyticDescriptionLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > span[id=description]");
-	By analyticDrawerBtnLocator = By.cssSelector("div.drawer > div > a.action-btn");
+	By analyticRunBtnLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > a.action-btn.button_r");
+	By analyticContinueBtnLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > a.action-btn.button_c");
+	By analyticParamSetDropDownLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div > div > a.select2-choice > span.select2-arrow");
+	By analyticParamSetDropDownItemsLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div > select.parameter-select > option[ng-repeat*='parameterSetList']");
+	By analyticNewParamSetBtnLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div > a.action-btn");
 	By analyticJobsIconLocator = By.cssSelector("div.action-buttons > a.icon_list");
 	By analyticScheduleIconLocator = By.cssSelector("div.action-buttons a.icon_comment");
 	By analyticJobDrawerHeaderLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='results'] > div > h3 > span");
@@ -406,6 +410,17 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}	
 	
 	public void clickRunBtn(){
+		driver.findElement(analyticRunBtnLocator).click();
+	}
+	public void runWithExistingParameterSet(String[] parameters){
+		driver.findElement(analyticContinueBtnLocator).click();
+		driver.findElement(analyticParamSetDropDownLocator).click();
+		
+	}
+	
+	public void runWithNewParameterSet(String[] parameters){
+		driver.findElement(analyticContinueBtnLocator).click();
+		driver.findElement(analyticNewParamSetBtnLocator).click();
 		
 	}
 	
@@ -420,7 +435,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		for(int i = 0; i < analytics.size(); i++) {
         	if(analytics.get(i).getText().equals(analyticName)){
         		logTAFStep("Analytic: "+analyticName+" found and clicked on Jobs icon.");
-        		jobsIcons.get(i).click();
+            	jobsIcons.get(i).click();
         		return true;
         	}
         }
