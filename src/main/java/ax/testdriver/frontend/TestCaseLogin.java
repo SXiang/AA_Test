@@ -17,7 +17,7 @@ public class TestCaseLogin extends FrontendTestDriverHelper implements TestDrive
 	public void testMain(Object[] args) 
 	{		
 
-		startFromLine = 2; // 4-9
+		startFromLine = 9; // 4-9
 		//endAtLine =2;     //
 			
 		String poolFile = "testdata/ax/testdriver/frontend/Login.xls";
