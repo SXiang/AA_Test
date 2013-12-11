@@ -3,10 +3,10 @@ package ax.testdriver.frontend;
 import ax.lib.frontend.FrontendTestDriverHelper;
 import com.acl.qa.taf.helper.Interface.TestDriverInterface;
 
-public class TestCaseSort extends FrontendTestDriverHelper implements TestDriverInterface{
+public class TestCaseFilterPanel extends FrontendTestDriverHelper implements TestDriverInterface{
 
 	public static void main(String[] args){
-		TestCaseSort test = new TestCaseSort();
+		TestCaseFilterPanel test = new TestCaseFilterPanel();
     	test.setMainScript(true);
     	test.testMain(args);
     }
@@ -17,9 +17,9 @@ public class TestCaseSort extends FrontendTestDriverHelper implements TestDriver
 	{		
 
 		startFromLine = 2; // 4-9
-		endAtLine =20;     //
+		//endAtLine =20;     //
 			
-		String poolFile = "testdata/ax/testdriver/frontend/Sort.xls";
+		String poolFile = "testdata/ax/testdriver/frontend/FilterPanel.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 		
 	}

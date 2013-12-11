@@ -1,14 +1,13 @@
-package ax.keyword.restapi.request;
+package anr.keyword.restapi;
 
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FileUtil;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.UTF8Control;
 
-import ax.lib.restapi.HttpRequestHelper;
-import ax.lib.restapi.RestapiHelper;
-import ax.lib.restapi.TestDriverExampleHelper;
-import ax.lib.restapi.db.SQLConf;
+import anr.lib.restapi.HttpRequestHelper;
+import anr.lib.restapi.RestapiHelper;
+import anr.lib.restapi.TestDriverExampleHelper;
 
 public class RestAPIRequest extends HttpRequestHelper implements KeywordInterface {
 	/**
@@ -16,51 +15,43 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	 * Generated     : <b>Oct. 29, 2013 1:20:22 PM</b>
 	 * Description : <b>ACL Test Automation</b>
 	 * 
-	 * @since  2013/10/29
-	 * @author Steven_Xiang
+	 * @since  2013/12/01
+	 * @author Karen_Zou
 	 */
 	// AX Server: autoqawin2012.aclqa.local - 10.83
 	// BEGIN of datapool variables declaration
-	protected String dpScope;          //@arg value for Scope
-                                    	//@value = working/library/""
 	protected String dpProjectName;   	//@arg value for Project Name
+
+	protected String dpApi_Path;   	    //@arg path of the request
 	protected String dpTableName;   	//@arg value for Table Name
-	protected String dpColumnName;   	//@arg value for Column Name
-	protected String dpTestSetName;   	//@arg value for TestSet Name
-	protected String dpTestName;   	    //@arg value for Test Name
 	protected String dpAnalyticName;   	//@arg value for Analytic Name
-	protected String dpApi_Path;   	//@arg path of the request
 	protected String dpParameterSetName; //@arg parameter set name
-	protected String dpWrongUUID = "InvalidUUID";   	//@arg invalid uuid for negative test
-	protected String dpJsonBody;   //@arg input for json post, could be string or file
+	protected String dpRequestBody;     //@arg input for json post, could be string or file
+	
+	protected String dpWrongID = "InvalidID";   	//@arg invalid uuid for negative test
 	// END of datapool variables declaration
-    
+
     private String url = "";
-	private String uuid="";
+	private String id="";
 	
 	@Override
 	public boolean dataInitialization() {
 		super.dataInitialization();
 		
-		System.out.println("scheduledID:"+((TestDriverExampleHelper) caseObj).scheduleid);
-     	
 		//*** read in data from datapool     
-		dpScope = getDpString("Scope");
-		dpProjectName = getDpString("ProjectName");
-		dpTestSetName = getDpString("TestSetName");
-		dpTestName = getDpString("TestName");
+		dpApi_Path = getDpString("Api_Path");
 		dpTableName = getDpString("TableName");
-		dpColumnName = getDpString("ColumnName");
 		dpAnalyticName = getDpString("AnalyticName");
 		dpParameterSetName = getDpString("ParameterSetName");
-		dpApi_Path = getDpString("Api_Path");
-		dpJsonBody = getDpString("JsonBody");
-		dpWrongUUID = getDpString("WrongUUID");
-		//String gap, String an, String setName
-		//Rest API - Prepare path
-		//dpWebDriver="Firefox";
+		dpRequestBody = getDpString("RequestBody");
+		
+		dpWrongID = getDpString("WrongID");
 		url = getApiFullPath(dpApi_Path);
-		dpJsonBody = loadJsonText(dpJsonBody);
+		if (!url.contains(OpenProject_API))
+			dpRequestBody = loadJsonText(dpRequestBody);
+		else {
+			dpRequestBody = FileUtil.getAbsDir(dpRequestBody, projectConf.anrProjectPath);
+		}
 		return true;
 	}
 	
@@ -87,7 +78,6 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		//@@Step Take a screenshot if anything wrong (it happens whenever there is a warring or error reported)
 		//@Step Execute the command specified in 'EndWith' such as 'Kill','Close' or 'Logout' 
 		
-		setConnection(url);
 		doVerification();
 		cleanUp(url);
 		
@@ -104,9 +94,9 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	//	for (int i=0; i<ConcurrentInstances; i++) {
 			String actualResult;// = UTF8Control.utf8decode(driver[i].getPageSource());
 //			actualResult = UTF8Control.utf8decode(driver.getPageSource());
-			actualResult = UTF8Control.utf8decode(sendApiRequest(driver,url,dpJsonBody));
+			actualResult = UTF8Control.utf8decode(sendApiRequest(driver,url,dpRequestBody));
 
-			if(casAuthenticated&&isJsonText(actualResult)){
+//1204			if(isJsonText(actualResult)){
 				logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()+1))+"...");
 				// compare Json Result - exact master and actual files are handled by framework.
 				logTAFStep("File verification - "+dpMasterFiles[0]);
@@ -117,9 +107,9 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 				}
 				
 				compareJsonResult(actualResult,dpMasterFiles[0]);
-			}else{							
+/*1204			}else{			
 				logTAFError("Not a valid Json object? - Http Status:"+responseCode+" '"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()+1))+"..."+"'"	);
-			}
+			}*/
 		}
 	//}
 
@@ -133,7 +123,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
         String[] textMaster = result.split(delimiterPattern);
         for (int i=0; i <textMaster.length; i++) {
         	textMaster[i] = stringReplaceAll(textMaster[i],ignorePattern,ignoreName);
-        	System.out.println("rg:"+textMaster[i]+":end");
+        	//1203 System.out.println("rg:"+textMaster[i]+":end");
         }
         //Test End
         
@@ -155,83 +145,9 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	
 	// Get API full path for each API
 	public String getApiFullPath(String path){
-        String sqlstmt;
-        String scope = dpScope;
-        if(!scope.equalsIgnoreCase("LIBRARY")){
-        	scope = "WORKING";
-        }
-		if(path.contains("{tableId}")){
-			if(dpTableName.equals("")){
-				sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
-			}else{
-				sqlstmt = SQLConf.getTableID(scope, dpProjectName, dpTestSetName, dpTableName);
-			}
-			uuid = getAuditItemUUID(sqlstmt,"Table",dpTableName);
-
-			path = path.replaceAll("\\{tableId\\}", uuid);
-
-		}
 		
-		if(path.contains("parametersets/{uuid}")){
-			if(dpParameterSetName.equals("")){
-				sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
-			}else{
-				sqlstmt = SQLConf.getParameterSetID(scope, dpProjectName, dpTestSetName, dpTestName,dpAnalyticName,dpParameterSetName);
-			}
-			uuid = getField(sqlstmt,"parametersetid","Parameter Set",dpParameterSetName);
+		path = "http://"+(projectConf.anrapiPrefix + path).replaceAll("//", "/");
 
-			path = path.replaceAll("parametersets/\\{uuid\\}", "parametersets/"+uuid);
-
-		}
-		if(path.contains("{columnName}")){
-			path = path.replaceAll("\\{columnName\\}", dpColumnName);
-		}
-		
-		if(path.contains("analytics/{uuid}")){
-			if (dpWrongUUID.isEmpty()) {
-				if (dpAnalyticName.isEmpty()){
-					sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
-				}else{
-					sqlstmt =  SQLConf.getAnalyticID(scope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
-				}
-			
-				uuid = getField(sqlstmt,"id","Analytics",dpAnalyticName);
-			}else {
-				uuid = dpWrongUUID;
-			}
-			
-			path = path.replaceAll("analytics/\\{uuid\\}", "analytics/"+uuid);
-			
-			//Analytic with specified ParameterSet name in ParameterSet variable 
-			if (!dpParameterSetName.isEmpty()){
-				sqlstmt = SQLConf.getParameterSetID(scope, dpProjectName, dpTestSetName, dpTestName,dpAnalyticName,dpParameterSetName);
-				uuid = getField(sqlstmt,"parametersetid","Parameter Set",dpParameterSetName);
-				
-				dpJsonBody = createParameterSetJsonBody(dpParameterSetName,uuid);
-			}
-					
-			//Clean the shared variable 'scheduleid' from last time run
-			if (path.contains("analytics/{uuid}/run")){
-				((TestDriverExampleHelper) caseObj).scheduleid = "";
-			}
-		}
-
-		if(path.contains("jobs/{id}")){
-			if (dpAnalyticName.isEmpty()){
-				sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
-			}else{
-				sqlstmt =  SQLConf.getJobID(scope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName,((TestDriverExampleHelper) caseObj).scheduleid);
-			}
-			uuid = getField(sqlstmt,"jobnumber","Jobs",dpAnalyticName);
-			
-			path = path.replaceAll("jobs/\\{id\\}", "jobs/"+uuid);
-		}
-
-		// Adding more replacement based on url ...
-		// ..
-		// .
-		
-		path = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + (projectConf.apiPrefix + path).replaceAll("//", "/");
 		return path;
 	}
 	

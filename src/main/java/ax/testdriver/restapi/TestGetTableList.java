@@ -19,7 +19,7 @@ public class TestGetTableList  extends TestDriverExampleHelper implements TestDr
 		//startFromLine = 16; // 4-9
 		//endAtLine = 16;     //
 			
-		String poolFile = "src/main/resources/testdata/ax/testdriver/restapi/GetTableList.xls";
+		String poolFile = "testdata/ax/testdriver/restapi/GetTableList.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 	}
 	

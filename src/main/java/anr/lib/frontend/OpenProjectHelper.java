@@ -1,26 +1,16 @@
 package anr.lib.frontend;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.io.File;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.acl.qa.taf.util.FileUtil;
-
-import anr.lib.frontend.FrontendCommonHelper;
+import ax.lib.frontend.FrontendCommonHelper;
 
 public class OpenProjectHelper extends FrontendCommonHelper{
 	/**
@@ -45,7 +35,6 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 
 	// BEGIN locators of the web elements of OpenProject page
 	By projectFilePathLocator = By.id("projectFilePath");
-	//By projectOpenButtonLocator = By.id("projectOpenButton");
 	By projectOpenButtonLocator = By.id("projectOpenButton");
 	By projectTitleLocator = By.id("projectTitle");
 	By dataTablesButtonLocator = By.id("dataTables");
@@ -60,7 +49,7 @@ public class OpenProjectHelper extends FrontendCommonHelper{
 	By dataVisualizeIconLocator = By.cssSelector("div[class^='datatables-row'] > div.row-fluid:nth-child(2) > div.span1 > a > i");
 
 //END
-    
+     
     // BEGIN of other local variables declaration 
 	private DesiredCapabilities capability;
 	public String imageName;

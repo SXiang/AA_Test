@@ -3,12 +3,12 @@ package anr.keyword.frontend;
 import anr.lib.frontend.DataVisualizationHelper;
 
 
-public class Sort  extends DataVisualizationHelper{
+public class SortOnFilterPanel  extends DataVisualizationHelper{
 
 	/**
-	 * Script Name   : <b>Sort</b>
-	 * Generated     : <b>Dec 2, 2013</b>
-	 * Description   : Sort keyword
+	 * Script Name   : <b>SortOnFilterPanel</b>
+	 * Generated     : <b>Dec 5, 2013</b>
+	 * Description   : SortOnFilterPanel keyword
 	 * 
 	 * @author Ramneet Kaur
 	 */
@@ -41,7 +41,7 @@ public class Sort  extends DataVisualizationHelper{
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
 		if(!dpColumnName.isEmpty()){
-			openQuickFilterMenu();
+			
 		}
 		if(!dpSortDirection.isEmpty()){
 			if(dpSortDirection.equalsIgnoreCase("desc")){
@@ -61,9 +61,7 @@ public class Sort  extends DataVisualizationHelper{
 	// *** Implementation of test functions ******
 	// *******************************************
 	
-	public void openQuickFilterMenu(){
-		clickColumnHeader(dpColumnName);
-	}
+
 	
 	public void sortDescending(){
 		clickDescendingLink();
