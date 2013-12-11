@@ -27,7 +27,8 @@ SETLOCAL enabledelayedexpansion
 ::SET SRCROOT=\\biollante02\DailyBuild\Silverstone\Desktop
 SET TEAM_NAME=AN_TestAutomation
 IF '%Project%'=='' SET Project=Frogger
-
+::SET Project=Zaxxon
+SET SILENT_INSTALL=FALSE
 SET STANDALONG=TRUE
 IF "%SILENT_INSTALL%"=="" SET SILENT_INSTALL=TRUE
 if NOT '%5'=='' SET STANDALONG=FALSE

@@ -14,6 +14,11 @@ IF '%TEST_CATEGORY%'=='' SET %TEST_CATEGORY%=Daily
 IF '%pathToRun%'=='' SET pathToRun=\\nas2-dev\QA_A\AN\AutomationScriptRunner\bin\execution\local\scripts\
 SET UPDATE_PROJECTS=%DeleteWorkspace%
 
+rem IF "%tagExclude%"=="" SET tagExclude=--exclude TBD
+
+IF /I '%TEST_CATEGORY%'=='Daily' SET tagExclude=%tagExclude% --exclude Regression --exclude Smoke
+
+IF /I '%TEST_CATEGORY%'=='Smoke' SET tagExclude=%tagExclude% --exclude Regression
 :Server
 
 IF '%DOMAIN_NAME%'=='' SET DOMAIN_NAME=ACL

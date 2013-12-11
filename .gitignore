@@ -17,7 +17,8 @@
 *.zip
 *.dmp
 # Floder and Files
-null/
+null/src/test/
+test-output/
 target/
 .gitmodules
 submodule_taf

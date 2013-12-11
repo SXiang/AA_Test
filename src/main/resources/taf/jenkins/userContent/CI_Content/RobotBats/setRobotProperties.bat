@@ -153,7 +153,11 @@ Rem IF /I "%BUILD_CAUSE%" == "TIMERTRIGGER" GOTO goon
 IF /I "%BUILD_CAUSE%" == "" GOTO goon
 IF /I Not '%NewBuildOnly%'=='Yes' GOTO goon
 
-
+IF /I Not '%PROJECT%'=='Frogger' (
+  SET TitlePrefix=[Skipped]
+  Echo.Robot automation doesn't handle version warnings, only the latest version will be tested, '%Project%' Test Skipped! > %hisdir%\reportBody 2>NUL
+  Goto PROPFILE
+  )
 IF EXIST %hisdir% (
   SET TitlePrefix=[Skipped]
   Echo.This build had been tested before, Test Skipped! > %hisdir%\reportBody 2>NUL

@@ -12,5 +12,5 @@ FuzzyDuplicates	[Documentation]	Test FuzzyDuplicates command
 	Fuzzydup\\Auto_Regression_Fuzzy_Local	Regression_Fuzzydup	5 m				
 							
 ExportXMLWithSchema	[Documentation]	Export XML With Schema					
-	[Tags]	@Iryna_Babak	NonUnicode	Unicode	Desktop	Ironhide	Daily
+	[Tags]	@Iryna_Babak	NonUnicode	Unicode	Desktop	Ironhide	Daily	Debug
 	OtherProject\\SpecailCases\\ExpXML\\Special_Cases	exp_xmls	4 minutes				

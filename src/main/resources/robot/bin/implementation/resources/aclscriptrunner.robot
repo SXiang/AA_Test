@@ -22,6 +22,7 @@ ACLScriptRunner
     Run Keyword Unless    '${Encoding}'=='Unicode'    Set Test Variable    ${fileEncoding}    UTF-8
     cleanup    ${sutDir}    ${imageName}    ${testDir}\\${doneFile}    ${ProjectName}    ${ProjectName_ori}    ${master}
     ...    ${effectiveMaster}    ${testDir}\\${imageName}_return
+    Log    *HTML*<a href="file:///${projectDir}">Path to Project '${ProjectName}'-Script '${ScriptName}'</a>
     Start Process    ScriptExecute.bat    ${testDir}    ${sutDir}    ${imageName}    ${ProjectName}    ${doneFile}
     ...    ${ScriptName}
     # Wait Until Created    ${testDir}\\${doneFile}.LOG    ${Timeout}
@@ -45,10 +46,10 @@ cleanup
     ...    ${effectiveMaster}    ${returnFile}
     File Should Exist    ${sutDir}\\${imageName}
     ${path}    ${pName}=    Split Path    ${ProjectName}
-    Run Keyword If    '${updateMasterFile}'=='True'    Copy File    ${ProjectName_ori}\\..\\${pName}.ACL    ${path}\\${pName}.ACL
+    #Run Keyword If    '${updateMasterFile}'=='True'    Copy File    ${ProjectName_ori}\\..\\${pName}.ACL    ${path}\\${pName}.ACL
     Create Directory    ${path}\\${master}\\
     Create Directory    ${path}\\${effectiveMaster}\\
-    Run Keyword And Ignore Error    OperatingSystem.Run    xcopy ${path}\\${pName}.ACL ${path}\\${master}\\${pName}.ACL /Y /E /D /R
+    Run Keyword And Ignore Error    OperatingSystem.Run    xcopy ${ProjectName_ori}\\..\\${pName}.ACL ${path}\\${master}\\${pName}.ACL /Y /E /D /R
     ${status}    ${value}=    Run Keyword And Ignore Error    File Should Exist    ${path}\\${master}\\${pName}.ACL
     Run Keyword Unless    '${status}'=='PASS'    Copy File    ${path}\\${pName}.ACL    ${path}\\${master}\\${pName}.ACL
     Run Keyword If    '${status}'=='PASS'    Copy File    ${path}\\${master}\\${pName}.ACL    ${path}\\${pName}.ACL
@@ -68,5 +69,5 @@ cleanup
 closeapp
     [Arguments]    ${status}    ${ScriptName}    ${ImageName}
     Run Keyword Unless    '${status}'=='PASS'    Get Screen Image    ${screenshotDir}_Timeout.jpeg
-    Run Keyword Unless    '${status}'=='PASS'    Fail    *HTML*<a href="${screenshotDir}_Timeout.jpeg"><img src="${screenshotDir}_Timeout.jpeg" alt="Timeout" width="700px"></a>
     Run Keyword And Ignore Error    OperatingSystem.Run    taskkill /F /T /IM ${imageName}
+    Run Keyword Unless    '${status}'=='PASS'    Fail    *HTML*<a href="${screenshotDir}_Timeout.jpeg"><img src="${screenshotDir}_Timeout.jpeg" alt="Timeout" width="700px"></a>
