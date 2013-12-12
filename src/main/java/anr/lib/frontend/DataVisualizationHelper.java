@@ -38,6 +38,13 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	By sortSectionLabelLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div.sort-header");
 	By ascendingLinkLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-ascending']");
 	By descendingLinkLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-descending']");
+	By quickFilterUniqueItemsLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span[ng-show^='item.value']");
+	By quickFilterUniqueItemsCountLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span.value-count");
+	By quickFilterUniqueItemsCheckedCheckboxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > i.icon-check:not([style='display: none;'])");
+	By quickFilterUniqueItemsUncheckedCheckboxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > i.icon-check-empty:not([style='display: none;'])");
+	By quickFilterSearchUniqueItemsBoxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > input.search-filter-value");
+	By quickFilterApplyBtnLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.apply-quick-filter > span");
+	By quickFilterClearBtnLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.clear-quick-filter > span");
 	By tableNameLocator = By.className("visualizer-page-header-title");
 	By recordCountLocator = By.id("record-count");
 	By tableHeaderLocator = By.cssSelector("div[id^='col']:nth-child(1)");
@@ -72,6 +79,9 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	protected int recordCount;
 	protected List<WebElement> allColumnHeaders;
 	protected String allFilters;
+	protected List<WebElement> allUniqueItemsCount;
+	protected List<WebElement> allUniqueItems;
+	protected String allFilterValues;
 	//END
 	
 	//***************  Part 2  *******************
@@ -179,10 +189,12 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	}	
 
 	public void clickDescendingLink() {
+		takeScreenshotWithoutScroll();
 		driver.findElement(descendingLinkLocator).click();
 	}
 	
 	public void clickAscendingLink() {
+		takeScreenshotWithoutScroll();
 		driver.findElement(ascendingLinkLocator).click();
 	}
 	
@@ -197,12 +209,14 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	
 	public void clickFilterPanelBtn() {
 		driver.findElement(filterBtnLocator).click();
+		takeScreenshotWithoutScroll();
 	}
 	
 	public String getFilterPanelContents() {
 		int itemSize;
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(filterPanelHeaderLocator));
+		takeScreenshotWithoutScroll();
 		allFilters = "@" + driver.findElement(filterPanelHeaderLocator).getText() + "@";
 		allFilters = allFilters + "\r\n@" + driver.findElement(filterPanelSortSectionLocator).getText() + "@ ";
 		if(driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText().equals("")){
@@ -227,6 +241,21 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 		}
 		return allFilters;
 		
+	}
+	
+	public String getUniqueValuesFromQuickFilter(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(quickFilterSearchUniqueItemsBoxLocator));
+		takeScreenshotWithoutScroll();
+		allUniqueItems = driver.findElements(quickFilterUniqueItemsLocator);
+		allUniqueItemsCount = driver.findElements(quickFilterUniqueItemsCountLocator);
+		for(int i =0;i < allUniqueItems.size();i++){
+			if(i==0){
+				allFilterValues = allUniqueItems.get(i).getText() + allUniqueItemsCount.get(i).getText();
+			}
+			allFilterValues = allFilterValues + "\r\n" + allUniqueItems.get(i).getText() + allUniqueItemsCount.get(i).getText();
+		}
+		return allFilterValues;
 	}
 
 }

@@ -42,7 +42,11 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	//By analyticNameOfOpenDrawerLocator = By.cssSelector("div.drawer-opened > div > div.ng-binding");
 	By analyticRunIconLocator = By.cssSelector("div.script-row > div > a");
 	By analyticDescriptionLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > span[id=description]");
-	By analyticDrawerBtnLocator = By.cssSelector("div.drawer > div > a.action-btn");
+	By analyticRunBtnLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > a.action-btn.button_r");
+	By analyticContinueBtnLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > a.action-btn.button_c");
+	By analyticParamSetDropDownLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div > div > a.select2-choice > span.select2-arrow");
+	By analyticParamSetDropDownItemsLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div > select.parameter-select > option[ng-repeat*='parameterSetList']");
+	By analyticNewParamSetBtnLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div > a.action-btn");
 	By analyticJobsIconLocator = By.cssSelector("div.action-buttons > a.icon_list");
 	By analyticScheduleIconLocator = By.cssSelector("div.action-buttons a.icon_comment");
 	By analyticJobDrawerHeaderLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='results'] > div > h3 > span");
@@ -160,7 +164,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 
 	public String getDescription(){
 		
-		return driver.findElements(rightPanelTitleLocator).get(0).getText()+":"+driver.findElement(descriptionLocator).getText();
+		return "@"+driver.findElements(rightPanelTitleLocator).get(0).getText()+"@"+":"+driver.findElement(descriptionLocator).getText();
 	}
 	
 	public String getInfo(){
@@ -168,11 +172,11 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(infoContentLabelLocator));
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
-        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
-        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
+        		infoPanelContent="@"+driver.findElements(infoContentLabelLocator).get(i).getText()+"@"+":"+"#"+driver.findElements(infoContentDataLocator).get(i).getText()+"#";
+        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
         	}else{
         		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
-        		infoPanelContent=infoPanelContent+"\r\n"+driver.findElements(infoContentLabelLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"\r\n"+"@"+driver.findElements(infoContentLabelLocator).get(i).getText()+"@"+":"+"#"+driver.findElements(infoContentDataLocator).get(i).getText()+"#";
         	}
         }
 		return infoPanelContent;
@@ -182,7 +186,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
-		return driver.findElement(projectHeaderLocator).getText();
+		return "@"+driver.findElement(projectHeaderLocator).getText()+"@";
 	}
 	public String getProjectName(){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
@@ -319,9 +323,9 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		categories = driver.findElements(analyticsHeaderLocator);
         for(int i = 0; i < categories.size(); i++) {
         	if(i==0){
-        		categoriesList=categories.get(i).getText();
+        		categoriesList="@"+categories.get(i).getText()+"@";
         	}else{
-        		categoriesList=categoriesList+"|"+categories.get(i).getText();
+        		categoriesList=categoriesList+"|"+"@"+categories.get(i).getText()+"@";
         	}
         }
 		return categoriesList;
@@ -341,22 +345,22 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 			jobParamSet = driver.findElements(analyticJobParameterSetLocator);
 		}else{
 			logTAFInfo("No analytic jobs found");
-			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText()+"|"+columnHeaders.get(4).getText()+"|"+columnHeaders.get(5).getText();
+			return "@"+columnHeaders.get(0).getText()+"@"+"|"+"@"+columnHeaders.get(1).getText()+"@"+"|"+"@"+columnHeaders.get(2).getText()+"@"+"|"+"@"+columnHeaders.get(3).getText()+"@"+"|"+"@"+columnHeaders.get(4).getText()+"@"+"|"+"@"+columnHeaders.get(5).getText()+"@";
 		}
 		if(jobParamSet.size()==0){
 			for(int i = 0; i < jobRunBy.size(); i++) {
 	        	if(i==0){
-	        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":No Parameter set used|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
+	        		jobsList="@"+columnHeaders.get(0).getText()+"@"+":"+jobRunBy.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":No Parameter set used|"+"@"+columnHeaders.get(2).getText()+"@"+":"+"#"+jobStartTime.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(3).getText()+"@"+":"+"#"+jobEndTime.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(4).getText()+"@"+":"+jobStatus.get(i).getText()+"|"+"@"+columnHeaders.get(5).getText()+"@"+":"+"@"+jobResultsLink.get(i).getText()+"@";
 	        	}else{
-	        		jobsList=jobsList+"\r\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":No Parameter set used|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
+	        		jobsList=jobsList+"\r\n"+"@"+columnHeaders.get(0).getText()+"@"+":"+jobRunBy.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":No Parameter set used|"+"@"+columnHeaders.get(2).getText()+"@"+":"+"#"+jobStartTime.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(3).getText()+"@"+":"+"#"+jobEndTime.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(4).getText()+"@"+":"+jobStatus.get(i).getText()+"|"+"@"+columnHeaders.get(5).getText()+"@"+":"+"@"+jobResultsLink.get(i).getText()+"@";
 	        	}
 	        }
 		}else{
 			for(int i = 0; i < jobRunBy.size(); i++) {
 	        	if(i==0){
-	        		jobsList=columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobParamSet.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
+	        		jobsList="@"+columnHeaders.get(0).getText()+"@"+":"+jobRunBy.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+jobParamSet.get(i).getText()+"|"+"@"+columnHeaders.get(2).getText()+"@"+":"+"#"+jobStartTime.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(3).getText()+"@"+":"+"#"+jobEndTime.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(4).getText()+"@"+":"+jobStatus.get(i).getText()+"|"+"@"+columnHeaders.get(5).getText()+"@"+":"+"@"+jobResultsLink.get(i).getText()+"@";
 	        	}else{
-	        		jobsList=jobsList+"\r\n"+columnHeaders.get(0).getText()+":"+jobRunBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+jobParamSet.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+jobStartTime.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+jobEndTime.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+jobStatus.get(i).getText()+"|"+columnHeaders.get(5).getText()+":"+jobResultsLink.get(i).getText();
+	        		jobsList=jobsList+"\r\n"+"@"+columnHeaders.get(0).getText()+"@"+":"+jobRunBy.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+jobParamSet.get(i).getText()+"|"+"@"+columnHeaders.get(2).getText()+"@"+":"+"#"+jobStartTime.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(3).getText()+"@"+":"+"#"+jobEndTime.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(4).getText()+"@"+":"+jobStatus.get(i).getText()+"|"+"@"+columnHeaders.get(5).getText()+"@"+":"+"@"+jobResultsLink.get(i).getText()+"@";
 	        	}
 	        }
 		}
@@ -374,13 +378,13 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 			scheduleParamSet = driver.findElements(scheduleParamSetLocator);
 		}else{
 			logTAFInfo("No analytic schedules found");
-			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText()+"|"+columnHeaders.get(4).getText();
+			return "@"+columnHeaders.get(0).getText()+"@"+"|"+"@"+columnHeaders.get(1).getText()+"@"+"|"+"@"+columnHeaders.get(2).getText()+"@"+"|"+"@"+columnHeaders.get(3).getText()+"@"+"|"+"@"+columnHeaders.get(4).getText()+"@";
 		}
         for(int i = 0; i < scheduledBy.size(); i++) {
         	if(i==0){
-        		scheduleList=columnHeaders.get(0).getText()+":"+scheduledBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+scheduleType.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+scheduleRepeat.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+scheduleNext.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+scheduleParamSet.get(i).getText();
+        		scheduleList="@"+columnHeaders.get(0).getText()+"@"+":"+scheduledBy.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+scheduleType.get(i).getText()+"|"+"@"+columnHeaders.get(2).getText()+"@"+":"+scheduleRepeat.get(i).getText()+"|"+"@"+columnHeaders.get(3).getText()+"@"+":"+"#"+scheduleNext.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(4).getText()+"@"+":"+scheduleParamSet.get(i).getText();
         	}else{
-        		scheduleList=scheduleList+"\r\n"+columnHeaders.get(0).getText()+":"+scheduledBy.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+scheduleType.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+scheduleRepeat.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+scheduleNext.get(i).getText()+"|"+columnHeaders.get(4).getText()+":"+scheduleParamSet.get(i).getText();
+        		scheduleList=scheduleList+"\r\n"+"@"+columnHeaders.get(0).getText()+"@"+":"+scheduledBy.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+scheduleType.get(i).getText()+"|"+"@"+columnHeaders.get(2).getText()+"@"+":"+scheduleRepeat.get(i).getText()+"|"+"@"+columnHeaders.get(3).getText()+"@"+":"+"#"+scheduleNext.get(i).getText()+"#"+"|"+"@"+columnHeaders.get(4).getText()+"@"+":"+scheduleParamSet.get(i).getText();
         	}
         }
 		return scheduleList;
@@ -406,6 +410,17 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	}	
 	
 	public void clickRunBtn(){
+		driver.findElement(analyticRunBtnLocator).click();
+	}
+	public void runWithExistingParameterSet(String[] parameters){
+		driver.findElement(analyticContinueBtnLocator).click();
+		driver.findElement(analyticParamSetDropDownLocator).click();
+		
+	}
+	
+	public void runWithNewParameterSet(String[] parameters){
+		driver.findElement(analyticContinueBtnLocator).click();
+		driver.findElement(analyticNewParamSetBtnLocator).click();
 		
 	}
 	
@@ -420,7 +435,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 		for(int i = 0; i < analytics.size(); i++) {
         	if(analytics.get(i).getText().equals(analyticName)){
         		logTAFStep("Analytic: "+analyticName+" found and clicked on Jobs icon.");
-        		jobsIcons.get(i).click();
+            	jobsIcons.get(i).click();
         		return true;
         	}
         }
