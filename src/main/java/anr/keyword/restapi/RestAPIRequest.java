@@ -1,5 +1,7 @@
 package anr.keyword.restapi;
 
+import java.net.URLEncoder;
+
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FileUtil;
 import com.acl.qa.taf.util.FormatHtmlReport;
@@ -8,6 +10,7 @@ import com.acl.qa.taf.util.UTF8Control;
 import anr.lib.restapi.HttpRequestHelper;
 import anr.lib.restapi.RestapiHelper;
 import anr.lib.restapi.TestDriverExampleHelper;
+import ax.lib.restapi.db.SQLConf;
 
 public class RestAPIRequest extends HttpRequestHelper implements KeywordInterface {
 	/**
@@ -18,12 +21,12 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	 * @since  2013/12/01
 	 * @author Karen_Zou
 	 */
-	// AX Server: autoqawin2012.aclqa.local - 10.83
 	// BEGIN of datapool variables declaration
 	protected String dpProjectName;   	//@arg value for Project Name
 
 	protected String dpApi_Path;   	    //@arg path of the request
 	protected String dpTableName;   	//@arg value for Table Name
+	protected String dpColumnName;   	//@arg value for Column Name
 	protected String dpAnalyticName;   	//@arg value for Analytic Name
 	protected String dpParameterSetName; //@arg parameter set name
 	protected String dpRequestBody;     //@arg input for json post, could be string or file
@@ -41,6 +44,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		//*** read in data from datapool     
 		dpApi_Path = getDpString("Api_Path");
 		dpTableName = getDpString("TableName");
+		dpColumnName = getDpString("ColumnName");
 		dpAnalyticName = getDpString("AnalyticName");
 		dpParameterSetName = getDpString("ParameterSetName");
 		dpRequestBody = getDpString("RequestBody");
@@ -94,7 +98,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	//	for (int i=0; i<ConcurrentInstances; i++) {
 			String actualResult;// = UTF8Control.utf8decode(driver[i].getPageSource());
 //			actualResult = UTF8Control.utf8decode(driver.getPageSource());
-			actualResult = UTF8Control.utf8decode(sendApiRequest(driver,url,dpRequestBody));
+			actualResult = UTF8Control.utf8decode(sendApiRequest(driver,url,dpRequestBody,dpApi_Path));
 
 //1204			if(isJsonText(actualResult)){
 				logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()+1))+"...");
@@ -115,10 +119,10 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 
 	public boolean compareJsonResult(String result,String master)	{
 		
-        String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","\"startTime\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","\"endTime\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","\"createdAt\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","\"modifiedAt\":\"\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}.\\d{1,3}\"","[\\[\\{\\]\\}\\s]"};
-        String[] ignoreName = {"$1u-u-i-d$2","\"startTime\"","\"endTime\"","\"createdAt\"","\"modifiedAt\"",""};
+        String[] ignorePattern ={"(\"jobId\":\")[0-9]{1,15}(\")","\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\+0000\""};
+        String[] ignoreName = {"$1u-u-i-d$2","\"DateTimeFormat\""};
         String delimiterPattern = "\\}[\\s]*,[\\s]*\\{|[\\[\\]]";
-        
+
         //Testing regular expression
         String[] textMaster = result.split(delimiterPattern);
         for (int i=0; i <textMaster.length; i++) {
@@ -145,11 +149,33 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	
 	// Get API full path for each API
 	public String getApiFullPath(String path){
+		if (path.contains("{analytic_name}")) {
+			path = path.replaceAll("\\{analytic_name\\}",UrlEncode(dpAnalyticName));
+		}
 		
 		path = "http://"+(projectConf.anrapiPrefix + path).replaceAll("//", "/");
-
+		
 		return path;
 	}
+	
+	//Encode string in url  
+	public String UrlEncode(String str) {
+
+		String retVal = "";
+
+		try {
+			//Encode extended or unicode characters
+		    retVal = URLEncoder.encode(str, "utf-8");
+		} catch (Exception e) {
+			logTAFWarning("Encoding string '" + str + "' encounters Exception:"+ str + e.toString());	
+		}
+
+		//Encode Space char
+		//retVal=retVal.replace(" ", "%20");
+
+		return retVal;
+	}
+ 
 	
 	public String loadJsonText(String oriText){
 		String jsonPattern = "^[\\s]*[\\[\\{].*";
