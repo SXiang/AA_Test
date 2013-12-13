@@ -244,7 +244,6 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
         String[] ignorePattern ={""};
         String[] ignoreName = {""};
         String delimiterPattern = "\r\n";
-        
         return compareResult(
         	master,result,
    			ignorePattern,ignoreName,  //Replacement
@@ -258,9 +257,9 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean isElementEnabled(By locator, String elementName) {
 		boolean done = false;
-		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.elementToBeClickable(locator));
 		try{
+		    WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		    wait.until(ExpectedConditions.elementToBeClickable(locator));
 			done = driver.findElement(locator).isEnabled();
 			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
@@ -271,9 +270,9 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
-		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 		try{
+			WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			done = driver.findElement(locator).isDisplayed();
 			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
@@ -354,5 +353,14 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 			((FrontendTestDriverHelper) caseObj).currentDriver = driver;
 		}
 	}	
+		
+	
+	//**********************************************
+	// ******* Methods on Objects sharing ********
+	// *******************************************
 
+	public void logout() {
+	
+	}
+		
 }
