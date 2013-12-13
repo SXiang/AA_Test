@@ -3,16 +3,13 @@
  */
 package anr.lib.restapi;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
  
-import java.net.URLEncoder;
+
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 
@@ -25,10 +22,7 @@ import javax.net.ssl.X509TrustManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-
-import com.acl.qa.taf.util.UTF8Control;
  
 /**
  * Script Name   : <b>HttpRequest</b>
@@ -217,7 +211,7 @@ public class HttpRequestHelper extends RestapiHelper{
 	public void setRequestProperties(HttpURLConnection con,String contenttype){
         //Optional header ...  - Steven 
 		String http_agent = "Mozilla/5.0";
-		String http_lang = "en-US,en;q=0.5";
+		//String http_lang = "en-US,en;q=0.5";
 		//String http_content = "application/json;charset=utf-8";
 		String http_content = "application/json";
 		if (!contenttype.isEmpty())

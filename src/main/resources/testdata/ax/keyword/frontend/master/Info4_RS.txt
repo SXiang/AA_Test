@@ -1,4 +1,0 @@
-RUN BY:g2_admin (ACLQA\g2_admin)
-START TIME
-END TIME
-STATUS:completed
