@@ -32,12 +32,14 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
  * @author steven_xiang
  * 
  */
-public class DataVisualizationPage extends FrontendCommonHelper{
+public class DataVisualizationPage extends WebPage{
 
 	//*** Final varialbes	
-//	 private  final WebDriver pageDriver=driver;
-//	 private  final Actions actionDriver=new Actions(driver);
+	 private  final WebDriver pageDriver;
+	 private  final Actions actionDriver;
 	 private final int chartLoadTime = 3;
+	 private final int windowWidth = 1000;
+	 private final int windowHeight = 700;
     //*** Common elements
 	  @FindBy(xpath = "//div[@class='tabbable']/ul[@class='nav nav-tabs']/li[@active='t.active']")
 	  private List<WebElement> navTabs;
@@ -97,7 +99,8 @@ public class DataVisualizationPage extends FrontendCommonHelper{
 	  public WebElement activateChart(int tabIndex){
 		  WebElement currentTab = navTabs.get(tabIndex);
 		  logTAFStep("Activate chart - tab "+tabIndex);
-		  currentTab.click();
+		  //currentTab.click();
+		  click(currentTab,"Tab-"+tabIndex);
 		  sleep(chartLoadTime);
 		  return currentTab;
 	  }
@@ -147,7 +150,8 @@ public class DataVisualizationPage extends FrontendCommonHelper{
 	  }
 	  public void deleteConf(){
 		  logTAFStep("Delete chart configuration");
-		  deleteChartConf.click();
+		  click(deleteChartConf,"Delete Chart");
+		  //deleteChartConf.click();
 	  }
 	  
 	  public void saveChartImage(WebDriver pageDriver, String fileName){
@@ -158,7 +162,7 @@ public class DataVisualizationPage extends FrontendCommonHelper{
 		  Point winpt = win.getPosition();
 		  Dimension windi = win.getSize();
 		  Point pt = new Point(winpt.x+200,winpt.y+200);
-		  Dimension di = new Dimension(windi.width-400,windi.height-150);
+		  Dimension di = new Dimension(windi.width-400,windi.height-200);
 		  try{//debugging... 
 		   // pt = chartWarp.getLocation();
 		   // di = chartWarp.getSize();
@@ -185,12 +189,14 @@ public class DataVisualizationPage extends FrontendCommonHelper{
 		  
 		  if(exclusive){
 			  nvs = nvSeries.get(nvSeries.size()/2);
-			  logTAFStep("Double click series '"+nvs.getText());
-			  new Actions(driver).doubleClick(nvs).perform();
+			  //logTAFStep("Double click series '"+nvs.getText());
+			  doubleClick(driver,nvs,nvs.getText());
+			  //new Actions(driver).doubleClick(nvs).perform();
 		  }else{
 			  nvs = nvSeries.get(0);
-		      logTAFStep("Click series '"+nvs.getText());
-			  nvs.click();
+		     // logTAFStep("Click series '"+nvs.getText());
+			 // nvs.click();
+			  click(nvs,nvs.getText());
 		  }
 		  
 	  }
@@ -213,22 +219,31 @@ public class DataVisualizationPage extends FrontendCommonHelper{
 	  
 	  
 	  public void addNewChart(String type){
-		  addNewChart.click();
-		  sleep(chartLoadTime);
+		  //addNewChart.click();
+		  //sleep(chartLoadTime);
+		  click(pageDriver,addNewChart,"Add a chart",By.xpath("//div[@ng-click='pickChart(chartType)' and @tooltip='Pie Chart']"));
 		  if(type.equals("BarChart")){
-			  barChart.click();
+			 // barChart.click();
+			  click(barChart);
 		  }else if(type.equals("PieChart")){
-			  pieChart.click();
+			  //pieChart.click();
+			  click(pieChart);
 		  }else if(type.equals("AreaChart")){
-			  areaChart.click();
+			  //areaChart.click();
+			  click(areaChart);
 		  }else{
-			  pieChart.click();
+			  //pieChart.click();
+			  click(pieChart);
 		  }
 		  sleep(chartLoadTime);
 	  }
 	  
-	 // public DataVisualizationPage(WebDriver driver){
-		  //this.pageDriver = driver; 
-		  //this.actionDriver = new Actions(driver);
-	 // }
+	  public DataVisualizationPage(WebDriver driver){
+		  
+		    this.pageDriver = driver; 
+		    
+		    this.actionDriver = new Actions(driver);
+		    
+		    driver.manage().window().setSize(new Dimension(windowWidth,windowHeight));
+	  }
 }

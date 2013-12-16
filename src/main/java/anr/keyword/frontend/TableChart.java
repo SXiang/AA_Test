@@ -15,19 +15,18 @@ package anr.keyword.frontend;
 
 
 import org.openqa.selenium.support.PageFactory;
+<<<<<<< HEAD
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 
+=======
+>>>>>>> 386c6d3421566e3fc55180f59cb1d0c1ddb12f9f
 import anr.apppage.DataVisualizationPage;
 import anr.lib.frontend.*;
-import ax.lib.frontend.ResultsHelper;
-
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
-import com.acl.qa.taf.util.FileUtil;
-import com.acl.qa.taf.util.FormatHtmlReport;
-import com.acl.qa.taf.util.UTF8Control;
+
 
 
 
@@ -81,7 +80,7 @@ public class TableChart extends DataVisualizationHelper implements KeywordInterf
 		//@Step Create/Delete charts
 		//@Step ...
 		
-		sleep(2);
+		//sleep(2);
 		dvpage = PageFactory.initElements(driver, DataVisualizationPage.class);
 		if(dpChartAction.equalsIgnoreCase("Add")){
 			logTAFStep("Click adding new chart");
@@ -116,7 +115,8 @@ public class TableChart extends DataVisualizationHelper implements KeywordInterf
 		dvpage.selectChartValue("Category",dpCategory);
 		dvpage.selectChartValue("Sub-Category",dpSubCategory);
 		dvpage.selectChartValue("Value",dpValue);
-		dvpage.applyChartConf.click();
+		dvpage.click(dvpage.applyChartConf,"Apply");
+		//dvpage.applyChartConf.click();
 		//dvpage.expandConfPanel(false);
 	}
 	
@@ -129,6 +129,11 @@ public class TableChart extends DataVisualizationHelper implements KeywordInterf
 
 
 	public void doVerification(){
+		
+		//As browsers render charts in diff size, we use diff master for diff browsers now, disable this line if we expecting exact same charts from diff browsers.
+		           dpMasterFiles[0] = dpMasterFiles[0].replaceFirst("\\.jpeg", projectConf.webDriver+".jpeg");
+		//********************************************************************************************************************************************************
+		           
 		String _masterImage = setupMasterFile(dpMasterFiles[0]);
 		String _actualImage = thisActualFile;
 		String extendedImage = "";
