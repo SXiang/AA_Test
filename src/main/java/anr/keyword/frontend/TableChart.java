@@ -15,12 +15,8 @@ package anr.keyword.frontend;
 
 
 import org.openqa.selenium.support.PageFactory;
-
-
 import anr.apppage.DataVisualizationPage;
 import anr.lib.frontend.*;
-
-
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 
 
@@ -76,7 +72,7 @@ public class TableChart extends DataVisualizationHelper implements KeywordInterf
 		//@Step Create/Delete charts
 		//@Step ...
 		
-		sleep(2);
+		//sleep(2);
 		dvpage = PageFactory.initElements(driver, DataVisualizationPage.class);
 		if(dpChartAction.equalsIgnoreCase("Add")){
 			logTAFStep("Click adding new chart");
@@ -111,7 +107,8 @@ public class TableChart extends DataVisualizationHelper implements KeywordInterf
 		dvpage.selectChartValue("Category",dpCategory);
 		dvpage.selectChartValue("Sub-Category",dpSubCategory);
 		dvpage.selectChartValue("Value",dpValue);
-		dvpage.applyChartConf.click();
+		dvpage.click(dvpage.applyChartConf,"Apply");
+		//dvpage.applyChartConf.click();
 		//dvpage.expandConfPanel(false);
 	}
 	
@@ -124,6 +121,11 @@ public class TableChart extends DataVisualizationHelper implements KeywordInterf
 
 
 	public void doVerification(){
+		
+		//As browsers render charts in diff size, we use diff master for diff browsers now, disable this line if we expecting exact same charts from diff browsers.
+		           dpMasterFiles[0] = dpMasterFiles[0].replaceFirst("\\.jpeg", projectConf.webDriver+".jpeg");
+		//********************************************************************************************************************************************************
+		           
 		String _masterImage = setupMasterFile(dpMasterFiles[0]);
 		String _actualImage = thisActualFile;
 		String extendedImage = "";
