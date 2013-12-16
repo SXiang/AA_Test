@@ -40,8 +40,6 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	By descendingLinkLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-descending']");
 	By quickFilterUniqueItemsLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span[ng-show^='item.value']");
 	By quickFilterUniqueItemsCountLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span.value-count");
-	By quickFilterUniqueItemsCheckedCheckboxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > i.icon-check:not([style='display: none;'])");
-	By quickFilterUniqueItemsUncheckedCheckboxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > i.icon-check-empty:not([style='display: none;'])");
 	By quickFilterSearchUniqueItemsBoxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > input.search-filter-value");
 	By quickFilterApplyBtnLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.apply-quick-filter > span");
 	By quickFilterClearBtnLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.clear-quick-filter > span");
@@ -52,26 +50,25 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	By rowSelectedLocator = By.cssSelector("div[class*='selected'] > div[class*='col']");
 	By tableViewTabLocator = By.cssSelector("tab-heading.chart-tabs > i.icon-table");
 	By addChartBtnLocator = By.className("addchart-tab-text");
-	By filterPanelHeaderLocator = By.cssSelector("div.filter-main-container-custom:not([style='display: none;']) > div > div > div > div > div.filter-panel-header > span");
-	By filterPanelColNamesLocator = By.className("filter-panel-row-header");
-	By filterPanelSortSectionLocator = By.cssSelector("div.filter-panel.sort-section > div > div >  div > span");
-	By filterPanelSortDropDownSelectedItemLocator = By.cssSelector("div.filter-panel.sort-section > div > div >  div > div > select.select-block > option[selected='selected']");
-	By filterPanelSortDropDownItemsLocator = By.cssSelector("div.filter-panel.sort-section > div > div >  div > div > select.select-block > option");
-	By filterPanelAscSortBtnInactiveLocator = By.cssSelector("button.sort-order-btn[btn-radio*='asc']:not([class$='active'])");
-	By filterPanelDescSortBtnInactiveLocator = By.cssSelector("button.sort-order-btn[btn-radio*='desc']:not([class$='active'])");
-	By filterPanelAscSortBtnActiveLocator = By.cssSelector("button.sort-order-btn.active[btn-radio*='asc']");
-	By filterPanelDescSortBtnActiveLocator = By.cssSelector("button.sort-order-btn.active[btn-radio*='desc']");
-	By filterPanelMinimizeIconLocator = By.cssSelector(".icon-minus:not([style='display: none;'])");
-	By filterPanelMaximizeIconLocator = By.cssSelector(".icon-plus:not([style='display: none;'])");
-	By filterPanelFilterToggledOffLocator = By.cssSelector(".filter-toggle.toggle-off");
-	By filterPanelFilterToggledOnLocator = By.cssSelector("div.filter-toggle:not([class$='toggle-off'])");
-	By filterPanelSearchFilterLocator = By.cssSelector("div.filter-panel-row-body > div.search-filter:not([style='display: none;']) > input.search-filter-value");
-	By filterPanelCheckboxCountLocator = By.cssSelector("div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value > span.value-count");
-	By filterPanelCheckboxTextLocator = By.cssSelector("div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value");
-	By filterPanelCheckedLocator = By.cssSelector("div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check:not([style='display: none;'])");
-	By filterPanelUncheckedLocator = By.cssSelector("div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check-empty:not([style='display: none;'])");
-	By filterPanelApplyFilterBtnLocator = By.className("action-btn-filter");
-	By filterPanelClearFilterBtnLocator = By.cssSelector("div.filter-panel-button > a.clear-quick-filter");
+	By filterPanelHeaderLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div > div >div > div.filter-panel-header > span");
+	By filterPanelColNamesLocator = By.className("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div.filter-column-name");
+	By filterPanelSortSectionLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div >  div > span");
+	By filterPanelSortDropDownItemsLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div >  div > div > select.select-block > option");
+	By filterPanelAscSortBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn[btn-radio*='asc']");
+	By filterPanelDescSortBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn[btn-radio*='desc']");
+	By filterPanelAscSortBtnActiveLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn.active[btn-radio*='asc']");
+	By filterPanelDescSortBtnActiveLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn.active[btn-radio*='desc']");
+	//By filterPanelMinimizeIconLocator = By.cssSelector(".icon-minus:not([style='display: none;'])");
+	//By filterPanelMaximizeIconLocator = By.cssSelector(".icon-plus:not([style='display: none;'])");
+	By filterPanelFilterToggledOffLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div > div.filter-toggle.toggle-off");
+	By filterPanelFilterToggledOnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div > div.filter-toggle:not([class$='toggle-off'])");
+	By filterPanelSearchFilterLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.search-filter:not([style='display: none;']) > input.search-filter-value");
+	By filterPanelCheckboxCountLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value > span.value-count");
+	By filterPanelCheckboxTextLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value");
+	By filterPanelCheckedLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check:not([style='display: none;'])");
+	By filterPanelUncheckedLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check-empty:not([style='display: none;'])");
+	By filterPanelApplyFilterBtnLocator = By.className("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.action-btn-filter");
+	By filterPanelClearFilterBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.clear-quick-filter");
 	//END
     
     // BEGIN of other local variables declaration 
@@ -82,6 +79,7 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	protected List<WebElement> allUniqueItemsCount;
 	protected List<WebElement> allUniqueItems;
 	protected String allFilterValues;
+	protected String allColumns;
 	//END
 	
 	//***************  Part 2  *******************
@@ -198,6 +196,14 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 		driver.findElement(ascendingLinkLocator).click();
 	}
 	
+	public void clickSidePanelDescendingLink() {
+		driver.findElement(filterPanelDescSortBtnLocator).click();
+	}
+	
+	public void clickSidePanelAscendingLink() {
+		driver.findElement(filterPanelAscSortBtnLocator).click();
+	}
+	
 	public String isFilterPanelClosed() {
 		List<WebElement> filterPanelHeader = driver.findElements(filterPanelHeaderLocator);
 		int i = filterPanelHeader.size();
@@ -219,10 +225,11 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 		takeScreenshotWithoutScroll();
 		allFilters = "@" + driver.findElement(filterPanelHeaderLocator).getText() + "@";
 		allFilters = allFilters + "\r\n@" + driver.findElement(filterPanelSortSectionLocator).getText() + "@ ";
+		/*need to fix
 		if(driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText().equals("")){
 			allFilters = allFilters + "\r\n" + "Sort not applied";
 		}else{
-			/* need to check with developers to find correct way of finding selected column name
+			
 			allFilters = allFilters + "'" + driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText();
 			if(driver.findElements(filterPanelAscSortBtnActiveLocator).size()>0){
 				allFilters = allFilters + "' : in Ascending order";
@@ -231,8 +238,9 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 			}else{
 				logTAFError("Sort order buttons not enabled");
 			}
-			*/
+			
 		}
+	*/
 		itemSize = driver.findElements(filterPanelColNamesLocator).size();
 		if(itemSize>0){
 			for(int i = 0; i < itemSize/2;i++){
@@ -256,6 +264,15 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 			allFilterValues = allFilterValues + "\r\n" + allUniqueItems.get(i).getText() + allUniqueItemsCount.get(i).getText();
 		}
 		return allFilterValues;
+	}
+	
+	public String getAllColumnsFromDropDown(){
+		//driver.findElements(filterPanelSortDropDownItemsLocator).
+		return allColumns;
+	}
+	
+	public void selectSortColumnFromSidePanelDropDown( String columnName){
+		
 	}
 
 }
