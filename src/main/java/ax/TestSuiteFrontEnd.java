@@ -29,6 +29,5 @@ public class TestSuiteFrontEnd extends TestSuiteExampleHelper implements TestSui
     	String poolFile = "testdata/ax/TestSuiteFrontEnd.xls";
 		exeBatchRun(onInitialize(poolFile, getClass().getName()));
 	}
-		
-	
+			
 }

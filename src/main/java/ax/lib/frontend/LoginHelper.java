@@ -224,7 +224,12 @@ public class LoginHelper extends FrontendCommonHelper{
 	        driver.findElement(passwordLocator).click();
 	        driver.findElement(passwordLocator).sendKeys(password);
 	        driver.findElement(loginButtonLocator).click();
+	        //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		}
+		
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		logTAFStep(driver.getTitle());
+		
 		isUserLoggedIn();
     }
 	

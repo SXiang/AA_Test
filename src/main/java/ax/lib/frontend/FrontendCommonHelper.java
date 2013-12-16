@@ -123,7 +123,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public String getFooter() {
-		return driver.findElement(copyrightFooter).getText();
+		return "@"+driver.findElement(copyrightFooter).getText()+"@";
 	}	
 	
 	public void filterList(){
@@ -241,9 +241,9 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean compareTxtResult(String result,String master)	{
 		
-        String[] ignorePattern ={""};
-        String[] ignoreName = {""};
-        String delimiterPattern = "\r\n";
+        String[] ignorePattern ={"@[\\s\\S]*@","#[\\s\\S]*#"};
+        String[] ignoreName = {"@LabelMasked@","#VaryingDataMasked#"};
+        String delimiterPattern = "";
         
         return compareResult(
         	master,result,
@@ -324,7 +324,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public boolean casLogout(String url){
-		/**
+		/** no idea if it works, please verify first. acc to Steven, it should work.
 		String infoText = "You have successfully logged out";
 		
 		String logoutUrl = url.substring(0,url.indexOf("/aclax/")) + "/cas/logout";// "/cas/login"
