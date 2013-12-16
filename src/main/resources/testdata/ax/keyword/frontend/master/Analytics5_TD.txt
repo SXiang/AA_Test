@@ -1,2 +1,0 @@
-an11_2
-GenerateAllTypesAnalytics

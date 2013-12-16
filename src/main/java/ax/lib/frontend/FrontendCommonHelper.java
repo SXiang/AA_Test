@@ -294,14 +294,22 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
           killBrowser();
 		} else if (dpEndWith.equals("logout")) {	
 			//casLogout(url);						
-		} else {
+		}  else if (dpEndWith.equals("quit")) {	
+			closeBrowser(true)	;			
+		}else {
 			return;
 		}		
 	}
-
-	public void closeBrowser(){
-		driver.close();
-		killProcess(projectConf.driverName);
+    public void closeBrowser(){
+    	closeBrowser(false);
+    }
+	public void closeBrowser(boolean quit){
+		if(quit){
+		  driver.quit();
+		  killProcess(projectConf.driverName);
+		}else{
+			driver.close();
+		}
 		driver = null;
 		logTAFStep("Close test browser");
 		setSharedObj();
@@ -355,4 +363,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		}
 	}	
 
+	public static org.testng.log4testng.Logger nglog;
+	public FrontendCommonHelper(){
+		nglog = org.testng.log4testng.Logger.getLogger(this.getClass());
+	}
 }
