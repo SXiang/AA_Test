@@ -32,7 +32,6 @@ public class LogOutHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public boolean dataInitialization() {
-		getSharedObj();
 		super.dataInitialization();
 		dpAXServerName = projectConf.axServerName;
 		dpAXServerPort = projectConf.axServerPort;
@@ -59,7 +58,6 @@ public class LogOutHelper extends FrontendCommonHelper{
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.get("https://"+dpAXServerName+":"+dpAXServerPort+"/aclax");
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-	
     }
 
 }

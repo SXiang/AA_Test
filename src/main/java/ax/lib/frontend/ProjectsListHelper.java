@@ -45,7 +45,6 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public boolean dataInitialization() {
-		getSharedObj();
 		super.dataInitialization();
 		return true;
 	}
