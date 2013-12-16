@@ -41,7 +41,11 @@ public class SortOnFilterPanel  extends DataVisualizationHelper{
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
 		if(!dpColumnName.isEmpty()){
-			
+			if(isFilterPanelClosed().equalsIgnoreCase("close")){
+				clickFilterPanelBtn();
+			}
+			verifyColumnsDropDownList();
+			selectColumnFromDropDown(dpColumnName);
 		}
 		if(!dpSortDirection.isEmpty()){
 			if(dpSortDirection.equalsIgnoreCase("desc")){
@@ -61,14 +65,29 @@ public class SortOnFilterPanel  extends DataVisualizationHelper{
 	// *** Implementation of test functions ******
 	// *******************************************
 	
-
+	public void verifyColumnsDropDownList(){
+		String allColumns = getAllColumnsFromDropDown();
+		if(allColumns.isEmpty()){
+			logTAFError("Sort drop down column list is empty");
+		}else{
+			logTAFStep("Verify Sort dropdown column list - " + dpMasterFiles[0]);
+			//System.out.println("All columns from Sort dropdown: "+allColumns);
+			result[0] = allColumns; // You need to get actual result for
+											// each comparison
+			compareTxtResult(result[0], dpMasterFiles[0]);
+		}
+	}	
+	
+	public void selectColumnFromDropDown( String columnName){
+		selectSortColumnFromSidePanelDropDown(columnName);
+	}	
 	
 	public void sortDescending(){
-		clickDescendingLink();
+		clickSidePanelDescendingLink();
 	}
 	
 	public void sortAscending(){
-		clickAscendingLink();
+		clickSidePanelAscendingLink();
 	}
 		
 
