@@ -70,7 +70,7 @@ public class LoginHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public boolean dataInitialization() {
-		getSharedObj();
+		//getSharedObj();
 		super.dataInitialization();
 		/* Commented code is for running using Selenium grid
 		dpDriverPath = projectConf.getDriverPath();

@@ -19,8 +19,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import testng.keyword.example.pages.LoginPage;
-import testng.keyword.example.pages.MailPage;
 import anr.apppage.DataVisualizationPage;
 import anr.lib.frontend.*;
 import ax.lib.frontend.ResultsHelper;
