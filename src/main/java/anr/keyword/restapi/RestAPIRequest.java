@@ -30,6 +30,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	protected String dpAnalyticName;   	//@arg value for Analytic Name
 	protected String dpParameterSetName; //@arg parameter set name
 	protected String dpRequestBody;     //@arg input for json post, could be string or file
+	protected String dpFieldType;     //@arg input for get classify, could be string or file
 	
 	protected String dpWrongID = "InvalidID";   	//@arg invalid uuid for negative test
 	// END of datapool variables declaration
@@ -48,7 +49,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		dpAnalyticName = getDpString("AnalyticName");
 		dpParameterSetName = getDpString("ParameterSetName");
 		dpRequestBody = getDpString("RequestBody");
-		
+		dpFieldType = getDpString("FieldType");
 		dpWrongID = getDpString("WrongID");
 		url = getApiFullPath(dpApi_Path);
 		if (!url.contains(OpenProject_API))
@@ -151,6 +152,17 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	public String getApiFullPath(String path){
 		if (path.contains("{analytic_name}")) {
 			path = path.replaceAll("\\{analytic_name\\}",UrlEncode(dpAnalyticName));
+		}
+		if (path.contains("{tableId}")) {
+			path = path.replaceAll("\\{tableId\\}",UrlEncode(dpTableName));
+		}
+		
+		if (path.contains("{columnName}")) {
+			path = path.replaceAll("\\{columnName\\}",UrlEncode(dpColumnName));
+		}
+		
+		if (path.contains("{fieldType}")) {
+			path = path.replaceAll("\\{fieldType\\}",UrlEncode(dpFieldType));
 		}
 		
 		path = "http://"+(projectConf.anrapiPrefix + path).replaceAll("//", "/");
