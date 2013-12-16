@@ -15,30 +15,35 @@
         {
             "browserName": "chrome",
             "maxInstances": 5,
+            "browser-version": "31.0", 
             "seleniumProtocol": "WebDriver",
             "platform": "ANY"
         },
         {
             "browserName": "internet explorer",
             "maxInstances": 1,
+            "browser-version": "11.0", 
             "seleniumProtocol": "WebDriver",
             "platform": "WINDOWS"
         },
 		{
             "browserName": "htmlunit",
             "maxInstances": 1,
+            "browser-version": "00.0", 
             "seleniumProtocol": "WebDriver",
             "platform": "ANY"
         },
 		{
             "browserName": "iphone",
             "maxInstances": 1,
+            "browser-version": "00.0", 
             "seleniumProtocol": "WebDriver",
             "platform": "MAC"
         },
 		{
             "browserName": "android",
             "maxInstances": 1,
+            "browser-version": "Unknown", 
             "seleniumProtocol": "WebDriver",
             "platform": "ANDROID"
         }

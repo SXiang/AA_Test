@@ -1,5 +1,0 @@
-456Activity123456 NotInherit User02Full
-567890 Inherit User01Full
-Activity-with-dashes123456 NotInherit User02Read
-Long Name Activity with spaces To Test WidthHandling having 70 Chars Inherit User02Read
-æÆôöòûùÿÖÜáíóúñÑº¿° NotInherit User01,02Full

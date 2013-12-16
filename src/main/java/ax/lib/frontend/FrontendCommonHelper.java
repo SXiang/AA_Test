@@ -12,6 +12,8 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -69,7 +71,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	//END
 	
     // BEGIN of other local variables declaration
-	protected WebDriver driver;
+	public WebDriver driver;
 	//END
 	
 	public boolean dataInitialization() {
@@ -121,7 +123,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public String getFooter() {
-		return driver.findElement(copyrightFooter).getText();
+		return "@"+driver.findElement(copyrightFooter).getText()+"@";
 	}	
 	
 	public void filterList(){
@@ -224,15 +226,24 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		*/
 	}
 	
+	public int getNumbers(String strNum) {
+		String regEx="[^0-9]";   
+		
+		Pattern p = Pattern.compile(regEx);   
+		Matcher m = p.matcher(strNum);   
+		
+		return Integer.parseInt(m.replaceAll("").trim());
+	}
+	
 	//*******************************************
 	// ******* Methods on compare results **************
 	// *******************************************
 	
 	public boolean compareTxtResult(String result,String master)	{
 		
-        String[] ignorePattern ={""};
-        String[] ignoreName = {""};
-        String delimiterPattern = "\r\n";
+        String[] ignorePattern ={"@[\\s\\S]*@","#[\\s\\S]*#"};
+        String[] ignoreName = {"@LabelMasked@","#VaryingDataMasked#"};
+        String delimiterPattern = "";
         
         return compareResult(
         	master,result,
@@ -283,14 +294,22 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
           killBrowser();
 		} else if (dpEndWith.equals("logout")) {	
 			//casLogout(url);						
-		} else {
+		}  else if (dpEndWith.equals("quit")) {	
+			closeBrowser(true)	;			
+		}else {
 			return;
 		}		
 	}
-
-	public void closeBrowser(){
-		driver.close();
-		killProcess(projectConf.driverName);
+    public void closeBrowser(){
+    	closeBrowser(false);
+    }
+	public void closeBrowser(boolean quit){
+		if(quit){
+		  driver.quit();
+		  killProcess(projectConf.driverName);
+		}else{
+			driver.close();
+		}
 		driver = null;
 		logTAFStep("Close test browser");
 		setSharedObj();
@@ -305,7 +324,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public boolean casLogout(String url){
-		/**
+		/** no idea if it works, please verify first. acc to Steven, it should work.
 		String infoText = "You have successfully logged out";
 		
 		String logoutUrl = url.substring(0,url.indexOf("/aclax/")) + "/cas/logout";// "/cas/login"
@@ -344,4 +363,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		}
 	}	
 
+	public static org.testng.log4testng.Logger nglog;
+	public FrontendCommonHelper(){
+		nglog = org.testng.log4testng.Logger.getLogger(this.getClass());
+	}
 }

@@ -45,7 +45,6 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public boolean dataInitialization() {
-		getSharedObj();
 		super.dataInitialization();
 		return true;
 	}
@@ -108,7 +107,7 @@ public class ProjectsListHelper extends FrontendCommonHelper{
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
-		return driver.findElement(projectHeaderLocator).getText();
+		return "@"+driver.findElement(projectHeaderLocator).getText()+"@";
 	}	
 	
 	public boolean clickProjectName(String viewType, String projectName) {

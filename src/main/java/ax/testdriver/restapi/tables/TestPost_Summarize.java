@@ -45,8 +45,8 @@ public class TestPost_Summarize extends TestDriverExampleHelper implements TestD
 	public void testMain(Object[] args) 
 	{		
 
-		startFromLine = 6; // 4-9
-		endAtLine =6;     //
+		startFromLine = 10; // 4-9
+		endAtLine =10;     //
 			
 		String poolFile = "testdata/ax/testdriver/restapi/tables/TestPost_Summarize.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

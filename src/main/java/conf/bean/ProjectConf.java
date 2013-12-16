@@ -382,7 +382,7 @@ public class ProjectConf {
 			buildInfo = "",
 			testProject = "",
 			testerName = "Automation Demo Tester",
-			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
+			inputDataDir = "", jenkinsReportDir = "", appName = "ax";
 
 	public String AUT="", appLocale = "", startComm;
 

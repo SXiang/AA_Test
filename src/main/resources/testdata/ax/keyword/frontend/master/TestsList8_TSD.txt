@@ -1,3 +1,0 @@
-AllTypesResultsAnalytic.ACL
-AllTypesResultsAnalytic_FAIL.ACL
-ProjetDeCaractères_étendu.ACL

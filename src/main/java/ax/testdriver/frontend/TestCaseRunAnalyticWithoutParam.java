@@ -1,13 +1,12 @@
 package ax.testdriver.frontend;
 
 import ax.lib.frontend.FrontendTestDriverHelper;
-
 import com.acl.qa.taf.helper.Interface.TestDriverInterface;
 
-public class TestCaseProjectDetails extends FrontendTestDriverHelper implements TestDriverInterface{
+public class TestCaseRunAnalyticWithoutParam extends FrontendTestDriverHelper implements TestDriverInterface{
 
 	public static void main(String[] args){
-		TestCaseProjectDetails test = new TestCaseProjectDetails();
+		TestCaseRunAnalyticWithoutParam test = new TestCaseRunAnalyticWithoutParam();
     	test.setMainScript(true);
     	test.testMain(args);
     }
@@ -18,10 +17,9 @@ public class TestCaseProjectDetails extends FrontendTestDriverHelper implements 
 	{		
 
 		startFromLine = 2; // 4-9
-		//endAtLine = 4;     //
+		//endAtLine =20;     //
 			
-		String poolFile = "testdata/ax/testdriver/frontend/ProjectDetails.xls";
-
+		String poolFile = "testdata/ax/testdriver/frontend/RunAnalyticWithoutParam.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 		
 	}
