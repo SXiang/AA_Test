@@ -287,14 +287,17 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	// *******************************************
 	
 	public void cleanUp() {
-
-		if (dpEndWith.equals("close")) {
+		String url = "https://"+projectConf.axServerName +":"+projectConf.axServerPort+"/aclax/";
+		cleanUp(url);
+	}
+    public void cleanUp(String url){
+		if (dpEndWith.equalsIgnoreCase("close")) {
            closeBrowser();
-		}else if (dpEndWith.equals("kill")) { // if image name is available
+		}else if (dpEndWith.equalsIgnoreCase("kill")) { // if image name is available
           killBrowser();
-		} else if (dpEndWith.equals("logout")) {	
-			//casLogout(url);						
-		}  else if (dpEndWith.equals("quit")) {	
+		} else if (dpEndWith.equalsIgnoreCase("logout")) {	
+			casLogout(url);						
+		}  else if (dpEndWith.equalsIgnoreCase("quit")) {	
 			closeBrowser(true)	;			
 		}else {
 			return;
@@ -306,9 +309,10 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public void closeBrowser(boolean quit){
 		if(quit){
 		  driver.quit();
-		  killProcess(projectConf.driverName);
+		    killProcess(projectConf.driverName);
 		}else{
 			driver.close();
+			killProcess(projectConf.driverName);
 		}
 		driver = null;
 		logTAFStep("Close test browser");
@@ -324,7 +328,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public boolean casLogout(String url){
-		/** no idea if it works, please verify first. acc to Steven, it should work.
+		//** no idea if it works, please verify first. acc to Steven, it should work.
 		String infoText = "You have successfully logged out";
 		
 		String logoutUrl = url.substring(0,url.indexOf("/aclax/")) + "/cas/logout";// "/cas/login"
@@ -338,7 +342,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 			return false;
 		}
 		setSharedObj();
-		**/
+		
 		return true;
 	}
 	
