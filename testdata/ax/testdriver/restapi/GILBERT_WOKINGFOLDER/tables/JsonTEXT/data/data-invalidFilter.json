@@ -1,0 +1,11 @@
+{  
+  "filterList": [
+    {
+      "name": "ADDRESS",
+      "values": [
+        "107 MAINE AVENUE"
+      ],
+      "operator": "X"
+    }
+  ]
+}
