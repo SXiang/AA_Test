@@ -15,14 +15,18 @@ package anr.keyword.frontend;
 
 
 import org.openqa.selenium.support.PageFactory;
+
+import anr.apppage.CommonWebHelper;
 import anr.apppage.DataVisualizationPage;
 import anr.lib.frontend.*;
+import ax.lib.frontend.FrontendCommonHelper;
+
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 
 
 
 
-public class TableChart extends DataVisualizationHelper implements KeywordInterface {
+public class TableChart  extends CommonWebHelper implements KeywordInterface {
 
 	// AX Server: autoqawin2012.aclqa.local - 10.83
 	// BEGIN of datapool variables declaration
@@ -78,11 +82,11 @@ public class TableChart extends DataVisualizationHelper implements KeywordInterf
 			logTAFStep("Click adding new chart");
 			//dvpage.addNewChart.click();
 			dvpage.addNewChart(dpChartType);
-			//dvpage.expandConfPanel(true);
+			dvpage.expandConfPanel(true);
 			configChart();
 		}else{
 			dvpage.activateChart(dpChartIndex);
-			//dvpage.expandConfPanel(true);
+			dvpage.expandConfPanel(true);
 			if(dpChartAction.equalsIgnoreCase("Delete")){
 				dvpage.deleteConf();
 		    }else if(dpChartAction.equalsIgnoreCase("Modify")){
@@ -143,18 +147,22 @@ public class TableChart extends DataVisualizationHelper implements KeywordInterf
 		extendedImage = "_toggle1.jpeg";
 		masterImage = modifyMasterFile(extendedImage);
 		actualImage = thisActualFile;
-		//dvpage.selectSeries(driver,false);
-		//dvpage.saveChartImage(driver,actualImage);
-		//verifyImage(masterImage,actualImage);
+		if(dpChartType.equalsIgnoreCase("AreaChart"))
+		    dvpage.selectArea(driver,"Stream");
+		dvpage.selectSeries(driver,false);
+		dvpage.saveChartImage(driver,actualImage);
+		verifyImage(masterImage,actualImage);
 		
 		logTAFStep("Verify chart by double click one series");
 		
 		extendedImage = "_toggle2.jpeg";
 		masterImage = modifyMasterFile(extendedImage);
 		actualImage = thisActualFile;
-		//dvpage.selectSeries(driver,true);
-		//dvpage.saveChartImage(driver,actualImage);
-		//verifyImage(masterImage,actualImage);
+		if(dpChartType.equalsIgnoreCase("AreaChart"))
+		     dvpage.selectArea(driver,"Expanded");
+		dvpage.selectSeries(driver,true);
+		dvpage.saveChartImage(driver,actualImage);
+		verifyImage(masterImage,actualImage);
 		
 		}
 

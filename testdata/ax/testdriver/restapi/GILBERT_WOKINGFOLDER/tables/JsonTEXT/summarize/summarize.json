@@ -1,0 +1,17 @@
+{
+  "chartConfig": {
+    "chartCategory": {
+      "name": "Location",
+      "type": "string"
+    },
+    "chartSubcategory": {
+      "name": "ProdNo",
+      "type": "string"
+    },
+    "chartValue": {
+      "summarizedType": "string",
+      "name": "QtyOH",
+      "type": "string"
+    }
+  }
+}
