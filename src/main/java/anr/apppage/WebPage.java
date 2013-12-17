@@ -18,7 +18,7 @@ import ax.lib.frontend.FrontendCommonHelper;
  * @author steven_xiang
  * 
  */
-public class WebPage extends FrontendCommonHelper{
+public class WebPage extends CommonWebHelper{
 
 	
 	public void click(WebElement node){
