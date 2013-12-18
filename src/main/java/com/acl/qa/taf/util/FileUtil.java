@@ -87,14 +87,17 @@ public class FileUtil extends ibm.util.FileOps {
     	return exeComm(comm,false);
     }
     public static String delFile(String source,String path){	
-    	//String comm = "DEL \"" + getAbsDir(source,path) + "\" /S /Q";
-    	String comm = "DEL,\"" + getAbsDir(source,path) + "\",/S,/Q";
+    	String file = getAbsDir(source,path);
+    	if(new File(file).delete()){
+    		//return "Done";
+    	}
+    	String comm = "DEL \"" + file + "\" /S /Q";
     	return exeComm(comm,false);
     }
     public static String delFile(String source){	
     	//String comm = "DEL \"" + getAbsDir(source) + "\" /S /Q";
-    	String comm = "DEL,\"" + getAbsDir(source) + "\",/S,/Q";
-    	return exeComm(comm,false);
+    	//String comm = "DEL,\"" + getAbsDir(source) + "\",/S,/Q";
+    	return delFile(source,"");
     }
     
     public static String removeDir(String path){	
@@ -153,6 +156,7 @@ public class FileUtil extends ibm.util.FileOps {
 //    	command = command.replaceAll("/,", "\\,");
 //    	command = command.replaceAll("/", "\\");
     	try {
+    		
     		if(usPB&&command.contains(",")){
     			ps = processComm(command.split(","));    			
         	}else{
@@ -215,6 +219,13 @@ public class FileUtil extends ibm.util.FileOps {
 		return file;
 	}
     //**************   Fils operations ***************************
+	 public static String _getAbsDir(String inputDir){
+		    return _getAbsDir(inputDir,"");
+		 }
+		 
+     public static String _getAbsDir(String inputDir,String root){
+    	 return getAbsDir(inputDir,root).replaceAll("/", "\\\\");
+     }
 	 public static String getAbsDir(String inputDir){
 	    return getAbsDir(inputDir,"");
 	 }
@@ -264,7 +275,7 @@ public class FileUtil extends ibm.util.FileOps {
 					&&isDir)
 				absDir += "/";
 			
-
+        
     	return absDir;
     }
 

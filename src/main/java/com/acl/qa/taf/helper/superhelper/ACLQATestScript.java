@@ -39,11 +39,11 @@ public class ACLQATestScript {
 	public static TestSuiteSuperHelper suiteObj;
 	public static TestDriverSuperHelper caseObj;
 	public static Object app;
-
 	protected HSSFSheet datapool = null;
 	protected Iterator dpi = null;
 	protected HSSFRow dpw = null;
 	protected ArrayList<String> dph = null;
+
 
 	protected static int getCurrentLogFilter() {
 		return currentLogFilter;
@@ -75,13 +75,25 @@ public class ACLQATestScript {
 		this.scriptName = scriptName;
 	}
 
-	public static void captureScreen(String fileName) {
+	
+	public static void captureScreen(String fileName){
 		try {
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			Rectangle screenRectangle = new Rectangle(screenSize);
+			captureScreen(fileName,screenRectangle);
+		} catch (Exception e) {
+
+		}
+	}
+	public static void captureScreen(String fileName,Rectangle screenRectangle) {
+		try {
 			Robot robot = new Robot();
 			BufferedImage image = robot.createScreenCapture(screenRectangle);
 			String absPath = FileUtil.getAbsDir(fileName);
+			File file = new File(absPath);
+			if(file.exists()){
+				file.delete();
+			}
 			FileUtil.mkDirs(absPath);
 			LoggerHelper.logTAFDebug("captured screen '" + absPath);
 			ImageIO.write(image, "jpeg", new File(absPath));
@@ -265,6 +277,7 @@ public class ACLQATestScript {
 		return Toolkit.getDefaultToolkit().getSystemClipboard();
 	}
 	
+	@SuppressWarnings("serial")
 	class UnhandledException extends Exception {
 		public UnhandledException(String message) {
 			super(message);

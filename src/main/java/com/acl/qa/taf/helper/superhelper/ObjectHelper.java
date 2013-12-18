@@ -11,6 +11,7 @@ import java.util.Collections;
 
 
 
+
 //import org.apache.poi.hssf.usermodel.HSSFCell;
 //import org.apache.poi.hssf.usermodel.HSSFRow;
 //import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -22,6 +23,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.acl.qa.taf.util.FileUtil;
+import com.acl.qa.taf.util.ImageCompare;
 import com.acl.qa.taf.util.UnicodeUtil;
 
 
@@ -506,7 +508,47 @@ public class ObjectHelper extends GuiFinderHelper {
 
 		return success;
 	}
+    public boolean compareImage(
+		String masterImage,
+		String actualImage,
+		boolean updateMasterFile,
+		String label,
+        boolean exactMatch){
+    	
+		boolean success = true;
+		
+		File temp = new File(FileUtil.getAbsDir(actualImage));
+		if (!temp.exists()) {
+			logTAFWarning("File not found - '" + actualImage + "'");
+			return true;
+		} else if (!temp.isFile()) {
+			logTAFWarning("Not a file - '" + actualImage + "'");
+			return true;
+		} 
 
+        if(new File(superMasterFile).exists()){
+        	logTAFInfo("Get user provided master file from - "+superMasterFile);
+        	FileUtil.delFile(masterImage);
+        	//FileUtil.copyFile(superMasterFile, masterImage,false);
+        	FileUtil.exeComm("copy /b /y \""+superMasterFile.replaceAll("/", "\\\\")
+					+"\" \""+masterImage.replaceAll("/", "\\\\")+"\"",false);
+        }else if (updateMasterFile || !new File(masterImage).exists()) {
+			logTAFInfo("Save/Update master file with current contents '" + masterImage
+					+ "' ");
+			FileUtil.delFile(masterImage);
+			//FileUtil.copyFile(actualImage, masterImage,false);	
+			FileUtil.exeComm("copy /b /y \""+actualImage.replaceAll("/", "\\\\")
+					+"\" \""+masterImage.replaceAll("/", "\\\\")+"\"",false);
+			return true;
+		}
+        FileUtil.delFile(actualImage+"_diff.jpeg");
+        try{
+		    success = ImageCompare.isSimilarImage(masterImage, actualImage,actualImage+"_diff.jpeg");
+        }catch(Exception e){
+        	logTAFWarning(autoIssue+"exception on image comparison '"+e.toString()+"'");
+        }
+		return success; 
+    }
 	public boolean isCompareable(String fname) {
 		String exts = ".+[Ll][oO][gG]\\]?\\s$|.+VIEW\\]\\s$?|.+GRAPH\\]?\\s$|.+[Tt][Xx][Tt]|[Ff][iI][Ll]\\s$";
 		if (fname.matches(exts))

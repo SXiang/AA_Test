@@ -106,23 +106,38 @@ public abstract class KeywordSuperHelper extends InitializeTerminateHelper
 		        );
 	}
 	
+	public boolean verifyImage(String masterImage, String actualImage){
+		boolean pass = compareImage(
+			masterImage,
+			actualImage,
+			projectConf.updateMasterFile, "Image",
+	        true
+	        );
+		if(pass){
+			logTAFInfo("Passed, masterImage: '"+masterImage+"'");
+			logTAFInfo("\t actualImage: '"+actualImage+"'");
+		}else{
+			//logTAFError("Failed, masterImage: '"+masterImage+"'");
+			//logTAFError("/t actualImage: '"+actualImage+"'");
+		}
+		return pass;
+		
+	}
+	public String modifyMasterFile(String appendStr){
+		superMasterFile += appendStr;
+		thisMasterFile += appendStr;
+		thisActualFile += appendStr;
+		 if(delFile){  // in the case the existences of files will prevent App functioning properly
+         	FileUtil.delFile(thisActualFile);  
+         }
+		return thisMasterFile;
+	}
 	public String setupMasterFile(String masterFile) {
         String masterFileOri = masterFile;
 		if (masterFile == null || masterFile.equals("")) {
 			return "";
 		}
-//			++fileIndex;
-//			if (!dpMasterFile.endsWith(fileExt)) {
-//				thisMasterFile = dpMasterFile.trim() + "[" + fileIndex + "]"
-//						+ fileExt;
-//				superMasterFile = dpSuperMasterFile.trim() + "[" + fileIndex
-//						+ "]" + fileExt;
-//			}
-//
-//			if (!dpActualFile.endsWith(fileExt)) {
-//				thisActualFile = dpActualFile.trim() + "[" + fileIndex + "]"
-//						+ fileExt;
-//			}
+
 		   String name = "";
 		   
 		   if(!masterFile.contains("/")&&!masterFile.contains("\\")){
