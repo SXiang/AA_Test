@@ -1,0 +1,2 @@
+@NAME@:Employee_List_EXTR|@TYPE@:@TABLE@|@RECORDS@:10|@SIZE@:830 B
+@NAME@:Test Field param combinations.log|@TYPE@:@LOG@|@RECORDS@:|@SIZE@:4.73 KB

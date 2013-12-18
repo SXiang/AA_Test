@@ -22,6 +22,7 @@ public class QuickFilter  extends DataVisualizationHelper{
 	protected String dpFilterValues; //@arg type of filter: whether typing in and then selecting values or selecting directly from checkbox
 	                                  // value = check|value1|value2|value3..
 	                                  // value = type|Text to type|value1|value2|value3...
+                                        // value = drop|option to select|value
 	// END of datapool variables declaration
 	
 	private String actionType;
@@ -44,11 +45,15 @@ public class QuickFilter  extends DataVisualizationHelper{
 	@Override
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
+		
 		if(!dpColumnName.isEmpty()){
 			openQuickFilterMenu();
 		}
-		if(!dpFilterValues.isEmpty()){
+		if(!dpMasterFiles[0].isEmpty()){
 			verifyUniqueValuesList();
+		}
+		if(!dpFilterValues.isEmpty()){
+			
 			actionType = dpFilterValues.split("\\|")[0];
 			if(actionType.equalsIgnoreCase("check")){
 				checkItems = dpFilterValues.split("\\|")[1];
@@ -75,7 +80,7 @@ public class QuickFilter  extends DataVisualizationHelper{
 	}
 	
 	public void verifyUniqueValuesList(){
-		String allUniqueValues = getUniqueValuesFromQuickFilter();
+		String allUniqueValues = getUniqueValuesFromQuickFilter();  // to-do
 		if(allUniqueValues.isEmpty()){
 			logTAFError("Unable to read Unique Values from QuickFilter");
 		}else{

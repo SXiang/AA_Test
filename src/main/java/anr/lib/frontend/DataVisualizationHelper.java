@@ -51,7 +51,7 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	By tableViewTabLocator = By.cssSelector("tab-heading.chart-tabs > i.icon-table");
 	By addChartBtnLocator = By.className("addchart-tab-text");
 	By filterPanelHeaderLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div > div >div > div.filter-panel-header > span");
-	By filterPanelColNamesLocator = By.className("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div.filter-column-name");
+	By filterPanelColNamesLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div.filter-column-name");
 	By filterPanelSortSectionLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div >  div > span");
 	By filterPanelSortDropDownItemsLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div >  div > div > select.select-block > option");
 	By filterPanelAscSortBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn[btn-radio*='asc']");
@@ -67,7 +67,7 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	By filterPanelCheckboxTextLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value");
 	By filterPanelCheckedLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check:not([style='display: none;'])");
 	By filterPanelUncheckedLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check-empty:not([style='display: none;'])");
-	By filterPanelApplyFilterBtnLocator = By.className("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.action-btn-filter");
+	By filterPanelApplyFilterBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.action-btn-filter");
 	By filterPanelClearFilterBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.clear-quick-filter");
 	//END
     
@@ -176,14 +176,15 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 		  logTAFStep("Robot Keystrokes " + KeyCode);
 	}
 	
-	public void clickColumnHeader(String columnName) {
+	public boolean clickColumnHeader(String columnName) {
 		allColumnHeaders = driver.findElements(colHeaderLocator);
         for(int i = 0; i < allColumnHeaders.size(); i++) {
         	if(allColumnHeaders.get(i).getText().equalsIgnoreCase(columnName)){
         		allColumnHeaders.get(i).click();
-        		logTAFStep("Column: '"+columnName+"' found and clicked on to get Quick filter menu.");
+        		return true;
         	}
         }
+        return false;
 	}	
 
 	public void clickDescendingLink() {

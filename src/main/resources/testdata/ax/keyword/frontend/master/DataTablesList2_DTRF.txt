@@ -1,0 +1,12 @@
+@NAME@:AllReservedWordTable|@SIZE@:112.26 KB|@RECORDS@:53 records
+@NAME@:AllReservedWordTableLCase|@SIZE@:112.26 KB|@RECORDS@:53 records
+@NAME@:EBCDIC_Inventory|@SIZE@:14.4 KB|@RECORDS@:152 records
+@NAME@:Inventory|@SIZE@:14.4 KB|@RECORDS@:152 records
+@NAME@:Inventory_01_an11|@SIZE@:14.4 KB|@RECORDS@:152 records
+@NAME@:Inventory_01_an12|@SIZE@:14.4 KB|@RECORDS@:152 records
+@NAME@:Inventory_01_an14|@SIZE@:14.4 KB|@RECORDS@:152 records
+@NAME@:Metaphor_Inventory_2002|@SIZE@:24.05 KB|@RECORDS@:152 records
+@NAME@:Metaphor_Inventory_2002_an11|@SIZE@:24.05 KB|@RECORDS@:152 records
+@NAME@:Metaphor_Inventory_2002_an12|@SIZE@:24.05 KB|@RECORDS@:152 records
+@NAME@:Metaphor_Inventory_2002_an14|@SIZE@:24.05 KB|@RECORDS@:152 records
+@NAME@:SampleTable|@SIZE@:11.96 KB|@RECORDS@:50 records
