@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver.Window;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -60,7 +61,7 @@ public class DataVisualizationPage extends WebPage{
 	  ///html/body/div/div/div/div/div[2]/div/section/div[2]/div/div[3]/div/div[2]/div/div[1]/i
 	  public WebElement configurePanel;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//i[@ng-click='toggleChartConfigPanel()']/div[@class='chartconfig-btn ng-binding' and text()='Configure']") 
-	  public WebElement configureButton;
+	  public List<WebElement> configureButtons;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[@tooltip='Category']") 
 	  public WebElement categorySelect;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[@tooltip='Sub-Category']")
@@ -85,15 +86,20 @@ public class DataVisualizationPage extends WebPage{
 	  
 	  
      //*** Chart Details
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//g[@class='nv-series' or @class='nv-series disabled']")
-	  ///text[@text-anchor='start' and @class='nv-legend-text']")
-	  public List<WebElement> nvSeries;
-	  
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']/svg//g[@class='nv-pieWarp']"
-	  		//+ " or @class='nv-barsWarp' or @class='nv-areaWarp']"
-			  )
-	  //@FindBy(xpath = "//svg[@id='chartcontainer2']/g/g/g[@class='nv-pieWarp' or @class='nv-barsWarp' or @class='nv-areaWarp']")
-
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//*[local-name()='g' and @class='nv-series']"+
+              "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start']")
+      public List<WebElement> nvSeries;
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//*[local-name()='g' and @class]"+
+                         "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start' and text()='Stacked']")
+	  public WebElement stacked;
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//*[local-name()='g' and @class]"+
+              "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start' and text()='Stream']")
+      public WebElement stream;
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//*[local-name()='g' and @class]"+
+              "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start' and text()='Expanded']")
+      public WebElement expanded;
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//*[local-name()='svg']")
+		 
 	  public WebElement chartWarp;
 	  
 	  public WebElement activateChart(int tabIndex){
@@ -111,20 +117,31 @@ public class DataVisualizationPage extends WebPage{
 	  
 	  public void expandConfPanel(boolean expand){
 		  try{
-		  if(!configurePanel.getText().contains("before")){
-			  if(expand){
-			    logTAFStep("Expand configuration panel by clicking 'Configure' button");
-			    configureButton.click();
-			  }
-		  }else{
-			  if(!expand){
-				    logTAFStep("Hide configuration panel by clicking 'Configure' button");
-				    configureButton.click();
+			  if(!applyChartConf.isDisplayed()){
+				  if(expand){
+					  logTAFStep("Expand configuration panel by clicking 'Configure' button");
+					  for(WebElement conf:configureButtons){
+						  if(conf.isDisplayed()){
+							  click(conf);
+							  break;
+						  }
+					  }
 				  }
-		  }
-		  }catch(Exception e){
-			  logTAFWarning(e.toString());
-		  }
+			  }else{
+					  if(!expand){
+						  logTAFStep("Hide configuration panel by clicking 'Configure' button");
+						  for(WebElement conf:configureButtons){
+							  if(conf.isDisplayed()){
+								  click(conf);
+								  break;
+							  }
+						  }
+					  }
+				  }
+			  
+				  }catch(Exception e){
+					  logTAFWarning(e.toString());
+				  }
 	  }
 	  
 	  public void selectChartValue(String type, String option){
@@ -156,22 +173,22 @@ public class DataVisualizationPage extends WebPage{
 	  
 	  public void saveChartImage(WebDriver pageDriver, String fileName){
 		  sleep(chartLoadTime);
-		  
+		  expandConfPanel(false);
 		  Window win = pageDriver.manage().window();
-		  
+		  int removeEdge = 0;
 		  Point winpt = win.getPosition();
 		  Dimension windi = win.getSize();
 		  Point pt = new Point(winpt.x+200,winpt.y+200);
 		  Dimension di = new Dimension(windi.width-400,windi.height-200);
 		  try{//debugging... 
-		   // pt = chartWarp.getLocation();
-		   // di = chartWarp.getSize();
+		    pt = chartWarp.getLocation();
+		    di = chartWarp.getSize();
 		  }catch(Exception e){
 			  logTAFWarning("ChartWarp not found?"+e.toString().substring(0,10)+"...");
 		  }
 		  
-		  int width = di.width+pt.x > windi.width + winpt.x ? (windi.width - pt.x -20):di.width;
-		  int height = di.height+pt.y > windi.height + winpt.y ? (windi.height - pt.y -20):di.height;
+		  int width = di.width+pt.x > windi.width + winpt.x ? (windi.width - pt.x -removeEdge):di.width-removeEdge;
+		  int height = di.height+pt.y > windi.height + winpt.y ? (windi.height - pt.y -removeEdge):(di.height-removeEdge);
 		  
 		  Rectangle rec = new Rectangle(pt.x, pt.y, width, height);
 		  logTAFStep("Take screenshot on current chart rectangle '"+rec+"'");
@@ -179,7 +196,15 @@ public class DataVisualizationPage extends WebPage{
 		  logTAFInfo("Chart image is saved to  '"+fileName+"'");
 		  
 	  }
-	  
+	  public void selectArea(WebDriver driver,String select){
+		  if(select.equalsIgnoreCase("Stream")){
+			  click(driver,stream,"Stream");			  
+		  }else if(select.equalsIgnoreCase("Expanded")){
+			  click(driver,expanded,"Expanded");			  
+		  }else if(select.equalsIgnoreCase("Stacked")){
+			  click(driver,stacked,"Stacked");			  
+		  }
+	  }
 	  public void selectSeries(WebDriver driver, boolean exclusive){
 		  if(nvSeries.size()==0){
 			  logTAFWarning("nv-series not found?");
@@ -222,6 +247,7 @@ public class DataVisualizationPage extends WebPage{
 		  //addNewChart.click();
 		  //sleep(chartLoadTime);
 		  click(pageDriver,addNewChart,"Add a chart",By.xpath("//div[@ng-click='pickChart(chartType)' and @tooltip='Pie Chart']"));
+		  sleep(chartLoadTime);
 		  if(type.equals("BarChart")){
 			 // barChart.click();
 			  click(barChart);

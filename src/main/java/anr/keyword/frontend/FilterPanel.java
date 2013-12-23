@@ -70,7 +70,7 @@ public class FilterPanel  extends DataVisualizationHelper{
 	// *******************************************
 	
 	public void verifyFilterPanelContents(){
-		String filterPanelContents = getFilterPanelContents();
+		String filterPanelContents = getFilterPanelContents();  //to -do
 		if(filterPanelContents.isEmpty()){
 			logTAFError("Unable to read Filter Panel Contents");
 		}else{

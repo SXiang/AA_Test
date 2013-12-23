@@ -23,6 +23,8 @@ public class Sort  extends DataVisualizationHelper{
 	                                  // value = asc | desc
 	// END of datapool variables declaration
 	
+	private boolean foundIt = false;
+	
 	@Override
 	public boolean dataInitialization() {
 		super.dataInitialization();
@@ -44,10 +46,10 @@ public class Sort  extends DataVisualizationHelper{
 			openQuickFilterMenu();
 		}
 		if(!dpSortDirection.isEmpty()){
-			if(dpSortDirection.equalsIgnoreCase("desc")){
+			if(dpSortDirection.equalsIgnoreCase("desc") && foundIt){
 				sortDescending();
 			}
-			else{
+			else if(dpSortDirection.equalsIgnoreCase("asc") && foundIt){
 				sortAscending();
 			}
 		}
@@ -62,7 +64,12 @@ public class Sort  extends DataVisualizationHelper{
 	// *******************************************
 	
 	public void openQuickFilterMenu(){
-		clickColumnHeader(dpColumnName);
+		foundIt = clickColumnHeader(dpColumnName);
+		if(foundIt){
+			logTAFStep("Column '"+dpColumnName+"' found and clicked on");
+		}else{
+			logTAFError("Column '"+dpColumnName+"' NOT found");
+		}
 	}
 	
 	public void sortDescending(){

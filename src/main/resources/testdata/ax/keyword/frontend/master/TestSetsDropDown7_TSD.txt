@@ -1,0 +1,9 @@
+456ActivityÇüéâäàåçêëèïîìÄÅÉæÆô
+567890
+_Activity_with_UnderscoresÇüéâäàåçêëèïîìÄÅÉæÆô
+Activity With SpaceÇüéâäàåçêëèïîìÄÅÉæÆô
+Activity-with-dashesÇüéâäàåçêëèïîìÄÅÉæÆô
+ActivityWithoutSpaceÇüéâäàåçêëèïîìÄÅÉæÆô
+Long Name Activity with spaces To Test WidthHandling having 70 Chars
+VeryLongNamedActivityToTestWidthHandlingOfNewWebAppHavngInTotal70Chars
+æÆôöòûùÿÖÜáíóúñÑº¿°ÇüéâäàåçêëèïîìÄÅÉæÆô
