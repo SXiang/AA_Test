@@ -15,14 +15,13 @@ package anr.keyword.frontend;
 
 
 import org.openqa.selenium.support.PageFactory;
-<<<<<<< HEAD
+
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 
-=======
->>>>>>> 386c6d3421566e3fc55180f59cb1d0c1ddb12f9f
+
 import anr.apppage.DataVisualizationPage;
 import anr.lib.frontend.*;
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
