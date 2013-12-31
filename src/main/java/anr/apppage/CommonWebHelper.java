@@ -291,17 +291,20 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		// *******************************************
 		
 		public void cleanUp() {
-			String url = "https://"+projectConf.axServerName +":"+projectConf.axServerPort+"/aclax/";
-			cleanUp(url);
+			cleanUp(dpEndWith);
 		}
-	    public void cleanUp(String url){
-			if (dpEndWith.equalsIgnoreCase("close")) {
+		public void cleanUp(String comm){
+			String url = "https://"+projectConf.axServerName +":"+projectConf.axServerPort+"/aclax/";
+			cleanUp(url,comm);
+		}
+	    public void cleanUp(String url,String comm){
+			if (comm.equalsIgnoreCase("close")) {
 	           closeBrowser();
-			}else if (dpEndWith.equalsIgnoreCase("kill")) { // if image name is available
+			}else if (comm.equalsIgnoreCase("kill")) { // if image name is available
 	          killBrowser();
-			} else if (dpEndWith.equalsIgnoreCase("logout")) {	
+			} else if (comm.equalsIgnoreCase("logout")) {	
 				casLogout(url);						
-			}  else if (dpEndWith.equalsIgnoreCase("quit")) {	
+			}  else if (comm.equalsIgnoreCase("quit")) {	
 				closeBrowser(true)	;			
 			}else {
 				return;
