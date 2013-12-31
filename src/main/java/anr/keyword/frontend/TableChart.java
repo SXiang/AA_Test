@@ -15,7 +15,7 @@ package anr.keyword.frontend;
 
 
 import org.openqa.selenium.support.PageFactory;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 
 
 
-=======
+//=======
 
 import anr.apppage.CommonWebHelper;
 >>>>>>> ce82e502115dcfe64b5edf131ace667d2cc32a76
