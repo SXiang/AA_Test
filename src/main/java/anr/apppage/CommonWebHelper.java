@@ -27,7 +27,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ax.lib.frontend.FrontendTestDriverHelper;
-	import ax.lib.restapi.TestSuiteExampleHelper;
+import ax.lib.frontend.FrontendTestSuiteHelper;
+import ax.lib.restapi.TestSuiteExampleHelper;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
 
@@ -76,6 +77,7 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		
 	    // BEGIN of other local variables declaration
 		public WebDriver driver;
+		public String driverName = "";
 		//END
 		
 		public boolean dataInitialization() {
@@ -309,6 +311,7 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 			}else {
 				return;
 			}		
+			
 		}
 	    public void closeBrowser(){
 	    	closeBrowser(false);
@@ -361,16 +364,20 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		public void getSharedObj() {
 			if (suiteObj != null) {
 				driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
+				driverName = ((FrontendTestSuiteHelper) suiteObj).currentDriverName;
 			} else if (caseObj != null) {
 				driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
+				driverName = ((FrontendTestDriverHelper) caseObj).currentDriverName;
 			}
 		}
 
 		public void setSharedObj() {
 			if (suiteObj != null) {
-				((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
+				((FrontendTestSuiteHelper) suiteObj).currentDriver = driver;
+				((FrontendTestSuiteHelper) suiteObj).currentDriverName= projectConf.driverName;
 			} else if (caseObj != null) {
 				((FrontendTestDriverHelper) caseObj).currentDriver = driver;
+				((FrontendTestDriverHelper) caseObj).currentDriverName = projectConf.driverName;
 			}
 		}	
 
