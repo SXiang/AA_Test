@@ -27,7 +27,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ax.lib.frontend.FrontendTestDriverHelper;
-	import ax.lib.restapi.TestSuiteExampleHelper;
+import ax.lib.frontend.FrontendTestSuiteHelper;
+import ax.lib.restapi.TestSuiteExampleHelper;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
 
@@ -76,6 +77,7 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		
 	    // BEGIN of other local variables declaration
 		public WebDriver driver;
+		public String driverName = "";
 		//END
 		
 		public boolean dataInitialization() {
@@ -291,21 +293,25 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		// *******************************************
 		
 		public void cleanUp() {
-			String url = "https://"+projectConf.axServerName +":"+projectConf.axServerPort+"/aclax/";
-			cleanUp(url);
+			cleanUp(dpEndWith);
 		}
-	    public void cleanUp(String url){
-			if (dpEndWith.equalsIgnoreCase("close")) {
+		public void cleanUp(String comm){
+			String url = "https://"+projectConf.axServerName +":"+projectConf.axServerPort+"/aclax/";
+			cleanUp(url,comm);
+		}
+	    public void cleanUp(String url,String comm){
+			if (comm.equalsIgnoreCase("close")) {
 	           closeBrowser();
-			}else if (dpEndWith.equalsIgnoreCase("kill")) { // if image name is available
+			}else if (comm.equalsIgnoreCase("kill")) { // if image name is available
 	          killBrowser();
-			} else if (dpEndWith.equalsIgnoreCase("logout")) {	
+			} else if (comm.equalsIgnoreCase("logout")) {	
 				casLogout(url);						
-			}  else if (dpEndWith.equalsIgnoreCase("quit")) {	
+			}  else if (comm.equalsIgnoreCase("quit")) {	
 				closeBrowser(true)	;			
 			}else {
 				return;
 			}		
+			
 		}
 	    public void closeBrowser(){
 	    	closeBrowser(false);
@@ -358,16 +364,20 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		public void getSharedObj() {
 			if (suiteObj != null) {
 				driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
+				driverName = ((FrontendTestSuiteHelper) suiteObj).currentDriverName;
 			} else if (caseObj != null) {
 				driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
+				driverName = ((FrontendTestDriverHelper) caseObj).currentDriverName;
 			}
 		}
 
 		public void setSharedObj() {
 			if (suiteObj != null) {
-				((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
+				((FrontendTestSuiteHelper) suiteObj).currentDriver = driver;
+				((FrontendTestSuiteHelper) suiteObj).currentDriverName= projectConf.driverName;
 			} else if (caseObj != null) {
 				((FrontendTestDriverHelper) caseObj).currentDriver = driver;
+				((FrontendTestDriverHelper) caseObj).currentDriverName = projectConf.driverName;
 			}
 		}	
 

@@ -52,7 +52,7 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 	                                  //value = PieChart|BarChart|AreaChart
 	// END of datapool variables declaration
 
-	protected DataVisualizationPage dvpage;
+	protected DataVisualizationPage dvPage;
 	
 	@Override
 	public boolean dataInitialization() {
@@ -87,18 +87,18 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 		//@Step ...
 		
 		//sleep(2);
-		dvpage = PageFactory.initElements(driver, DataVisualizationPage.class);
+		dvPage = PageFactory.initElements(driver, DataVisualizationPage.class);
 		if(dpChartAction.equalsIgnoreCase("Add")){
 			logTAFStep("Click adding new chart");
 			//dvpage.addNewChart.click();
-			dvpage.addNewChart(dpChartType);
-			dvpage.expandConfPanel(true);
+			dvPage.addNewChart(dpChartType);
+			dvPage.expandConfPanel(true);
 			configChart();
 		}else{
-			dvpage.activateChart(dpChartIndex);
-			dvpage.expandConfPanel(true);
+			dvPage.activateChart(dpChartIndex);
+			dvPage.expandConfPanel(true);
 			if(dpChartAction.equalsIgnoreCase("Delete")){
-				dvpage.deleteConf();
+				dvPage.deleteConf();
 		    }else if(dpChartAction.equalsIgnoreCase("Modify")){
 		    	configChart();
 		    }else if(dpChartAction.equalsIgnoreCase("Verify")){
@@ -118,18 +118,18 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 	// *******************************************
 	
 	private void configChart(){
-		dvpage.selectChartValue("Category",dpCategory);
-		dvpage.selectChartValue("Sub-Category",dpSubCategory);
-		dvpage.selectChartValue("Value",dpValue);
-		dvpage.click(dvpage.applyChartConf,"Apply");
+		dvPage.selectChartValue("Category",dpCategory);
+		dvPage.selectChartValue("Sub-Category",dpSubCategory);
+		dvPage.selectChartValue("Value",dpValue);
+		dvPage.click(dvPage.applyChartConf,"Apply");
 		//dvpage.applyChartConf.click();
 		//dvpage.expandConfPanel(false);
 	}
 	
 	private void verifyChart(){
-		dvpage.verifyChartConf("Category",dpCategory);
-		dvpage.verifyChartConf("Sub-Category",dpSubCategory);
-		dvpage.verifyChartConf("Value",dpValue);
+		dvPage.verifyChartConf("Category",dpCategory);
+		dvPage.verifyChartConf("Sub-Category",dpSubCategory);
+		dvPage.verifyChartConf("Value",dpValue);
 	}
 	
 
@@ -150,7 +150,7 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 			return;
 		//dvpage.expandConfPanel(false);
 		logTAFStep("Verify original chart...");
-		dvpage.saveChartImage(driver,actualImage);
+		dvPage.saveChartImage(driver,actualImage);
 		verifyImage(masterImage,actualImage);
 		
 		logTAFStep("Verify chart by click one series");
@@ -158,9 +158,9 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 		masterImage = modifyMasterFile(extendedImage);
 		actualImage = thisActualFile;
 		if(dpChartType.equalsIgnoreCase("AreaChart"))
-		    dvpage.selectArea(driver,"Stream");
-		dvpage.selectSeries(driver,false);
-		dvpage.saveChartImage(driver,actualImage);
+		    dvPage.selectArea(driver,"Stream");
+		dvPage.selectSeries(driver,false);
+		dvPage.saveChartImage(driver,actualImage);
 		verifyImage(masterImage,actualImage);
 		
 		logTAFStep("Verify chart by double click one series");
@@ -169,9 +169,9 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 		masterImage = modifyMasterFile(extendedImage);
 		actualImage = thisActualFile;
 		if(dpChartType.equalsIgnoreCase("AreaChart"))
-		     dvpage.selectArea(driver,"Expanded");
-		dvpage.selectSeries(driver,true);
-		dvpage.saveChartImage(driver,actualImage);
+		     dvPage.selectArea(driver,"Expanded");
+		dvPage.selectSeries(driver,true);
+		dvPage.saveChartImage(driver,actualImage);
 		verifyImage(masterImage,actualImage);
 		
 		}

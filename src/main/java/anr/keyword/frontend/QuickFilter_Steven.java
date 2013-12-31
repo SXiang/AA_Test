@@ -1,0 +1,128 @@
+/**
+ * 
+ */
+package anr.keyword.frontend;
+
+import org.bouncycastle.util.Arrays;
+import org.openqa.selenium.support.PageFactory;
+
+import anr.apppage.CommonWebHelper;
+import anr.apppage.FilterPanelPage;
+import anr.apppage.QuickFilterPage;
+import anr.apppage.DataVisualizationPage;
+
+import com.acl.qa.taf.helper.Interface.KeywordInterface;
+
+/**
+ * Script Name   : <b>QuickFilter_Steven.java</b>
+ * Generated     : <b>9:25:51 AM</b> 
+ * Description   : <b>ACL Test Automation</b>
+ * 
+ * @since  Dec 20, 2013
+ * @author steven_xiang
+ * 
+ */
+public class QuickFilter_Steven  extends CommonWebHelper implements KeywordInterface {
+
+	// *************** Part 1 *******************
+	// ******* Declaration of variables **********
+	// *******************************************
+	// BEGIN of datapool variables declaration
+	protected String dpColumnName; //@arg Name of the column that should be clicked on to open Quick filter
+	protected String dpFilterValues; //@arg type of filter: whether typing in and then selecting values or selecting directly from checkbox
+	                                  // value = on(off)|check|All|value1|value2|value3..
+	                                  // value = on(off)|type|Text to type|All|value1|value2|value3...
+                                        // value = on(off)|drop|option to select|value
+	// END of datapool variables declaration
+	
+	// private String endWith for this filter: Apply|Clear|Dismiss
+	// private String endWith for filter panel Apply|Clear|Dismiss|Delete
+	private String actionType;
+	private boolean on;
+	//private String checkItems;
+	private String[] filterValues;
+	private String[] endValues;
+
+	protected QuickFilterPage qfPage;
+	
+	@Override
+	public boolean dataInitialization() {
+		super.dataInitialization();
+		// BEGIN read datapool
+		dpColumnName = getDpString("ColumnName");
+		dpFilterValues = getDpString("FilterValues");
+		filterValues = dpFilterValues.split("\\|");
+		//END
+		return true;
+	}	
+	
+	// *************** Part 2 *******************
+	// *********** Test logic ********************
+	// *******************************************
+	
+	@Override
+	public void testMain(Object[] args) {
+		super.testMain(onInitialize(args, getClass().getName()));
+		
+		qfPage = PageFactory.initElements(driver, QuickFilterPage.class);
+		
+		qfPage.activateTable();
+		
+		if(!dpColumnName.isEmpty()){
+			openQuickFilterMenu();
+		}
+		
+		if(!dpFilterValues.isEmpty()){
+			
+			on = filterValues[0].equalsIgnoreCase("off")?false:true;
+			actionType = filterValues[1];
+			if(actionType.equalsIgnoreCase("check")){
+				qfPage.selectCheckBox(filterValues,2,on);
+			}else if(actionType.equalsIgnoreCase("type")){
+				qfPage.searchValue(filterValues[2]);
+				qfPage.selectCheckBox(filterValues,3,on);
+			}else if(actionType.equalsIgnoreCase("drop")){
+				if(on){
+				   qfPage.fillExpression(filterValues[2],filterValues[3]);
+				}else{
+					
+				}
+			}
+		}
+		qfPage.endWith(dpEndWith);
+
+		if(!dpMasterFiles[0].isEmpty()){
+			verifyResultTable();
+		}	
+		
+		endValues = dpEndWith.split("\\|");
+		cleanUp(endValues[endValues.length-1]);
+		
+		// *** cleanup by framework ***
+		onTerminate();
+	}
+	
+	// *************** Part 3 *******************
+	// *** Implementation of test functions ******
+	// *******************************************
+	
+	
+	public void openQuickFilterMenu(){
+		qfPage.clickColumnHeader(dpColumnName);
+	}
+	
+
+
+		
+	public void verifyResultTable(){
+		String result = qfPage.getTableData(20);  // to-do
+			logTAFStep("Verify resulted table from QuickFilter(first 20 records - " + dpMasterFiles[0]);			
+			compareTxtResult(result, dpMasterFiles[0]);
+
+	}
+	
+	public QuickFilter_Steven() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

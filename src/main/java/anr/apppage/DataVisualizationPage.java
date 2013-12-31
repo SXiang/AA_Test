@@ -16,13 +16,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import ax.lib.frontend.FrontendCommonHelper;
-
-import com.acl.qa.taf.helper.KeywordSuperHelper;
 
 /**
  * Script Name   : <b>DataVisualizationPage.java</b>
@@ -37,7 +30,6 @@ public class DataVisualizationPage extends WebPage{
 
 	//*** Final varialbes	
 	 private  final WebDriver pageDriver;
-	 private  final Actions actionDriver;
 	 private final int chartLoadTime = 3;
 	 private final int windowWidth = 1000;
 	 private final int windowHeight = 700;
@@ -120,22 +112,12 @@ public class DataVisualizationPage extends WebPage{
 			  if(!applyChartConf.isDisplayed()){
 				  if(expand){
 					  logTAFStep("Expand configuration panel by clicking 'Configure' button");
-					  for(WebElement conf:configureButtons){
-						  if(conf.isDisplayed()){
-							  click(conf);
-							  break;
-						  }
-					  }
+					  toggleConfPanel();
 				  }
 			  }else{
 					  if(!expand){
 						  logTAFStep("Hide configuration panel by clicking 'Configure' button");
-						  for(WebElement conf:configureButtons){
-							  if(conf.isDisplayed()){
-								  click(conf);
-								  break;
-							  }
-						  }
+                          toggleConfPanel();
 					  }
 				  }
 			  
@@ -144,27 +126,29 @@ public class DataVisualizationPage extends WebPage{
 				  }
 	  }
 	  
+	  private void toggleConfPanel(){
+		  for(WebElement conf:configureButtons){
+			  if(conf.isDisplayed()){
+				  click(conf);
+				  break;
+			  }
+		  }
+	  }
 	  public void selectChartValue(String type, String option){
 		  if(option==null||option.trim().equals(""))
 			  return;
-		  Select select = getSelect(type);
-          logTAFStep("Select '"+type+"' - '"+option+"'");
-		  select.selectByVisibleText(option);
-		  //select.selectByValue(option);
+		  Select sel = getSelect(type);
+		  selectItem(sel,option);
+
 	  }
 	  
 	  public void verifyChartConf(String type, String option){
 		  if(option==null||option.trim().equals(""))
 			  return;
 		  Select select = getSelect(type);		
-		  String selectedOption = select.getFirstSelectedOption().getText().trim();
-		  if( selectedOption.equals(option)){
-			  logTAFInfo(type+" value '"+option+"' is selected correctly");
-		  }else{
-			  logTAFError(type+" value '"+option +"' is not selected, current selected value is '"+selectedOption+"'");
-		  }
-		  
+		  selectItem(select,option,"Verify");
 	  }
+	  
 	  public void deleteConf(){
 		  logTAFStep("Delete chart configuration");
 		  click(deleteChartConf,"Delete Chart");
@@ -246,7 +230,8 @@ public class DataVisualizationPage extends WebPage{
 	  public void addNewChart(String type){
 		  //addNewChart.click();
 		  //sleep(chartLoadTime);
-		  click(pageDriver,addNewChart,"Add a chart",By.xpath("//div[@ng-click='pickChart(chartType)' and @tooltip='Pie Chart']"));
+		  By pieChartLocator = By.xpath("//div[@ng-click='pickChart(chartType)' and @tooltip='Pie Chart']");
+		  click(pageDriver,addNewChart,"Add a chart",pieChart);
 		  sleep(chartLoadTime);
 		  if(type.equals("BarChart")){
 			 // barChart.click();
@@ -267,9 +252,7 @@ public class DataVisualizationPage extends WebPage{
 	  public DataVisualizationPage(WebDriver driver){
 		  
 		    this.pageDriver = driver; 
-		    
-		    this.actionDriver = new Actions(driver);
-		    
+		    		    
 		    driver.manage().window().setSize(new Dimension(windowWidth,windowHeight));
 	  }
 }
