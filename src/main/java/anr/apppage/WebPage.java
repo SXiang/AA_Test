@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.internal.Coordinates;
+import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.ui.*;
 
 import ax.lib.frontend.FrontendCommonHelper;
@@ -51,7 +53,22 @@ public class WebPage extends CommonWebHelper{
 		node.click();
 		waitUntil(driver,untilBy,displayed);
 	}
-  
+	
+	public void toggleElementByClick(WebElement expectedElement, WebElement node, String label,boolean expectedStatus){
+		
+		boolean currentStatus = false;
+		
+		try{
+				currentStatus = expectedElement.isDisplayed();
+		}catch(Exception e){
+			
+		}
+		
+		if(expectedStatus==currentStatus) return;
+		
+        click(driver,node,label,expectedElement,expectedStatus);
+	}
+	
   //*** Double click element and optionally wait until ***
 	public void doubleClick(WebElement node){
 		doubleClick(node,"");
@@ -115,6 +132,7 @@ public class WebPage extends CommonWebHelper{
 	}
 	
 	public void toggleItem(WebDriver driver,WebElement box,boolean on, String label, String type, Object untilBy){
+
 		if(box.isSelected()==on){
 			logTAFInfo("Item '"+label+"' is "+(on?"selected":"unSelected")+" ");
 		}else{
@@ -139,7 +157,7 @@ public class WebPage extends CommonWebHelper{
 		waitUntil(driver,untilBy,true);
 	}
 	@SuppressWarnings("unchecked")
-	public void waitUntil(WebDriver driver,Object untilBy,boolean displayed){
+	public void waitUntil(WebDriver driver,final Object untilBy,boolean displayed){
 		if (untilBy==null||driver==null) return;
 		WebDriverWait wait = new WebDriverWait(driver,30);
 		
@@ -148,7 +166,14 @@ public class WebPage extends CommonWebHelper{
 				if(displayed){
 		           wait.until(ExpectedConditions.visibilityOf((WebElement)untilBy));
 				}else{
-				   wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf((WebElement)untilBy)));
+				   wait.until( new ExpectedCondition<Boolean>(){
+					   public Boolean apply(WebDriver driver){
+						   return !((WebElement)untilBy).isDisplayed();
+					   }
+				   }
+				   );
+						   
+					//	   ExpectedConditions.not(ExpectedConditions.visibilityOf((WebElement)untilBy)));
 				}
 			}else if(untilBy instanceof By){
 				if(displayed){
@@ -171,7 +196,47 @@ public class WebPage extends CommonWebHelper{
 			logTAFInfo("Warning: "+e.toString());
 		}
 	}
+
+	public  void inputChars(WebElement we, String text, String type){
+		inputChars(null,we,text,type);
+	}
+	public  void inputChars(WebDriver driver, WebElement we, String text,String type){
+			text = text.trim();
+			//scrollToElement(we);
+			if(type.equalsIgnoreCase("Verify")){
+				String curText =  we.getText();
+				if(curText.equalsIgnoreCase(text)){
+					logTAFInfo("Text value '"+curText+"' is correct as expected '"+text+"'");
+				}else{
+					logTAFError("Text value '"+curText+"' is incorrect? - expected '"+text+"'");
+				}
+				
+				return;
+			}
+			super.inputChars(driver,we,text);
+		}
+	// ******* Other methods ****************
 	
+    public Point scrollToElement(WebElement element){
+    	Point elementPoint = new Point(0,0);
+    	try{
+    	    Coordinates coor = ((Locatable)element).getCoordinates();
+    	    elementPoint = coor.inViewPort();
+    	}catch(Exception e){
+    		logTAFInfo("Warning: faile to scroll to element ?'"+element.getText()+"'");
+    	}
+    	return elementPoint;
+    }
+    
+    public int getElementIndex(List<WebElement> element,String columnName){
+    	for(int i=0;i<element.size();i++){
+    		if(columnName.equalsIgnoreCase("")||
+    				columnName.equalsIgnoreCase(element.get(i).getText())){
+    			return i;
+    		}
+    	}
+    	return 0;
+    }
 	public WebPage() {
 		// TODO Auto-generated constructor stub
 	}

@@ -30,15 +30,15 @@ public class QuickFilter_Steven  extends CommonWebHelper implements KeywordInter
 	// BEGIN of datapool variables declaration
 	protected String dpColumnName; //@arg Name of the column that should be clicked on to open Quick filter
 	protected String dpFilterValues; //@arg type of filter: whether typing in and then selecting values or selecting directly from checkbox
-	                                  // value = on(off)|check|All|value1|value2|value3..
-	                                  // value = on(off)|type|Text to type|All|value1|value2|value3...
-                                        // value = on(off)|drop|option to select|value
+	                                  // value = on(off)(verify)|check|All|value1|value2|value3..
+	                                  // value = on(off)(verify)|type|Text to type|All|value1|value2|value3...
+                                        // value = on(off)(verify)|drop|option to select|value
 	// END of datapool variables declaration
 	
 	// private String endWith for this filter: Apply|Clear|Dismiss
 	// private String endWith for filter panel Apply|Clear|Dismiss|Delete
 	private String actionType;
-	private boolean on;
+	private String action;
 	//private String checkItems;
 	private String[] filterValues;
 	private String[] endValues;
@@ -74,16 +74,16 @@ public class QuickFilter_Steven  extends CommonWebHelper implements KeywordInter
 		
 		if(!dpFilterValues.isEmpty()){
 			
-			on = filterValues[0].equalsIgnoreCase("off")?false:true;
+			action = filterValues[0];
 			actionType = filterValues[1];
 			if(actionType.equalsIgnoreCase("check")){
-				qfPage.selectCheckBox(filterValues,2,on);
+				qfPage.selectCheckBox(filterValues,2,action);
 			}else if(actionType.equalsIgnoreCase("type")){
-				qfPage.searchValue(filterValues[2]);
-				qfPage.selectCheckBox(filterValues,3,on);
+				qfPage.searchValue(filterValues[2],action);
+				qfPage.selectCheckBox(filterValues,3,action);
 			}else if(actionType.equalsIgnoreCase("drop")){
-				if(on){
-				   qfPage.fillExpression(filterValues[2],filterValues[3]);
+				if(!action.equalsIgnoreCase("off")){
+				   qfPage.setCriteria(filterValues,2,action);
 				}else{
 					
 				}

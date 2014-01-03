@@ -31,285 +31,253 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 		//*** Final varialbes ***	
 		 private  final WebDriver pageDriver;
 		 private final int pageLoadTime = 3;
+		 private final QuickFilterPage qfPage;
+		 
+		 //*** Search context ***
+		 private int filterIndex = 0;
+		 private int criteriaIndex = 0;
+		 
+
 		 
 	    //*** Common elements ***
 		    @FindBy(css = ".static-tabs.filers-tab")
 			private WebElement filterBtn;
-
-	      
-	    //*** Quick filter ***
-			@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header']")
-			private WebElement quickFilterHeader;
-			@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header'] > i.icon-remove")
-			private WebElement closeQuickFilterMenu;
 			
-			//***** Sort *****
-			@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div.sort-header")
-			private WebElement sortSectionLabel;
-			@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-ascending']")
-			private WebElement ascendingLink;
-			@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-descending']")
-			private WebElement descendingLink;
-			
-					
-			//*** Table Data ***
-			//@FindBy(css = "#table-data div[id^='col']:nth-child(1)")
-			@FindBy(css = "#table-data div[class^='ngHeaderText']:nth-child(1)")
-			private List<WebElement> tableHeader;
-			@FindBy(css = "#table-data div[class^='ngCellText']")
-			private List<WebElement> tableData;
-			
-			@FindBy(css = "tab-heading.chart-tabs > i.icon-table")
-			private WebElement tableViewTab;
-
-		
-			@FindBy(css = ".addchart-tab-text")
-			private WebElement addChartBtn;
-			
-			//*** Filter Panel ***
+		//*** Filter Panel ***
+		    //***** Driver context *****
 			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div > div >div > div.filter-panel-header > span")
-			private List<WebElement> filterPanelHeader;
+			private WebElement filterPanelHeader;			
 			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div.filter-column-name")
 			private List<WebElement> filterPanelColNames;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div >  div > span")
-			private WebElement filterPanelSortSection;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div >  div > div > select.select-block > option")
-			private WebElement filterPanelSortDropDownItems;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn[btn-radio*='asc']")
-			private WebElement filterPanelAscSortBtn;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn[btn-radio*='desc']")
-			private WebElement filterPanelDescSortBtn;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn.active[btn-radio*='asc']")
-			private WebElement filterPanelAscSortBtnActive;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn.active[btn-radio*='desc']")
-			private WebElement filterPanelDescSortBtnActive;
-			//By filterPanelMinimizeIconLocator = By.cssSelector(".icon-minus:not([style='display: none;'])");
-			//By filterPanelMaximizeIconLocator = By.cssSelector(".icon-plus:not([style='display: none;'])");
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div > div.filter-toggle.toggle-off")
-			private WebElement filterPanelFilterToggledOff;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div > div.filter-toggle:not([class$='toggle-off'])")
-			private WebElement filterPanelFilterToggledOn;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.search-filter:not([style='display: none;']) > input.search-filter-value")
+			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row)")
+			private List<WebElement> filters;
+			
+ 			//***** Panel filter context - criteria *****
+			
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters "
+					+ "div.filter-connecor > button.filter-connector-btn[btn-radio='and']")
+			List<WebElement> andBtns;
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters "
+					+ "div.filter-connecor > button.filter-connector-btn[btn-radio='or']")
+			List<WebElement> orBtns;
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters a.select2-choice > apan.select2-chosen")
+			List<WebElement>	criteriaSelectors;
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters div > input.criteria-value")
+			List<WebElement>	criteriaValues ;
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters")
+			List<WebElement>	criterias;
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters div.criteria-filter-remove-btn > i.icon-remove")
+			private List<WebElement> criteriaRemoveBtn;
+			
+			//***** Panel filter context - checkbox *****
+			@FindBy(css = " div > div > div.filter-panel-row-body > div.search-filter:not([style='display: none;']) > input.search-filter-value")
 			private WebElement filterPanelSearchFilter;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value > span.value-count")
-			private WebElement filterPanelCheckboxCount;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value")
-			private WebElement filterPanelCheckboxText;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check:not([style='display: none;'])")
-			private WebElement filterPanelChecked;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check-empty:not([style='display: none;'])")
-			private WebElement filterPanelUnchecked;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.action-btn-filter")
-			private WebElement filterPanelApplyFilterBtn;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.clear-quick-filter")
-			private WebElement filterPanelClearFilterBtn;
-		  
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value > span.value-count")
+			private List<WebElement> filterPanelCheckboxCount;
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value")
+			private List<WebElement> filterPanelCheckboxText;
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value > i:nth-child(1)")
+			private List<WebElement> filterPanelCheckbox;
+			
+			
+
+			//***** Panel filter context - end with *****
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.filter-panel-button > a.action-btn-filter")
+			private WebElement filterPanelApplyBtn;
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.filter-panel-button > a.clear-quick-filter")
+			private WebElement filterPanelClearBtn;
+			
+			@FindBy(css = "div > div > div.filter-panel-row-header > div > div > i.icon-remove.pull-right.margin_half")
+			private WebElement filterPanelDeleteBtn;
+			@FindBy(css = "div > div > div.filter-panel-row-header > div > div > i.icon-minus:not([style='display: none;'])")
+			private WebElement filterPanelMinusBtn;
+			@FindBy(css = "div > div > div.filter-panel-row-header > div > div > i.icon-plus:not([style='display: none;'])")
+			private WebElement filterPanelPlusBtn;
+			@FindBy(css = "div > div > div.filter-panel-row-header > div > div > div.filter-toggle.toggle-off") //ng-class="{'toggle-off': !filter.active}"
+			private WebElement filterPanelEnableBtn;
+			@FindBy(css = "div > div > div.filter-panel-row-header > div > div > div.filter-toggle:not([class$='toggle-off'])")
+			private List<WebElement> filterPanelDisableBtn;
+
 			//***************  Part 3  *******************
 			// ******* Methods           ****************
 			// *******************************************
-
+            
+			/*****     shared with quick filter *****/
 			public void activateTable(){
-				By untilTableHeaderDisplayed = By.cssSelector("tab-heading.chart-tabs > i.icon-table");
-				click(tableViewTab,"Table View",untilTableHeaderDisplayed);
+				qfPage.activateTable();
+                
 			}
-//			public boolean clickColumnHeader(String columnName) {
-//				By untilSearchBoxDisplayed = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;'])"+
-//			                                     " > div[id='filter-section'] > div > input.search-filter-value");
-//		        for(int i = 0; i < colHeader.size(); i++) {
-//		        	if(colHeader.get(i).getText().equalsIgnoreCase(columnName)){
-//		        		click(pageDriver,colHeader.get(i),columnName,untilSearchBoxDisplayed);
-//		        		return true;
-//		        	}
-//		        }
-//		        return false;
-//			}
-//			
-//	        public void selectCheckBox(String[] item){
-//				selectCheckBox(item,true);
-//			}
-//			public void selectCheckBox(String[] item, boolean on){
-//				List<WebElement> labels,counts,boxs;
-//				WebElement label,count,box;
-//
-//					labels = quickFilterUniqueItems;
-//					counts = quickFilterUniqueItemsCount;
-//					boxs = quickFilterUniqueItemsCheckBox;
-//		
-//				
-//				for(int j=0;j<item.length;j++){
-//				   for(int i=0;i<boxs.size();i++){
-//					label = labels.get(i);
-//					count = counts.get(i);
-//					if((label.getText()+count.getText()).equals(item[j])){
-//						box = boxs.get(i);
-//						//toggleItem(box,on,item[j]);
-//					}
-//				  }
-//			}
-//			
-//			}	
-//			public String getTableName() {
-//				return tableName.getText();
-//			}	
-//
-//			public String getTableRecords() {
-//				return recordCount.getText();
-//			}
-//
-//			public String getTableData() {
-//				String alltabledata="";
-//				int initialDisplayRowCount = 0;
-//				List <WebElement> nextRow;
-//
-//			    logTAFStep("Get the Table Data");
-//			    
-//		 		//First get all table columns
-//
-//		        for(int i = 0; i < tableHeader.size(); i++) {
-//		        	alltabledata +=" " + tableHeader.get(i).getText();
-//		       	}
-//
-//		        //Get the initial displayed table data since all table data cannot be loaded at one time for performance limits
-//
-//		        for(int i = 0; i < tableData.size(); i++) {
-//		        	int mod = i % (tableHeader.size());
-//		        	if (mod == 0) 
-//		        		alltabledata += "\r\n" + tableData.get(i).getText();
-//		        	else
-//		        		alltabledata += tableData.get(i).getText() + " ";
-//		       	}
-//
-//		        //Continue to get the left table data by pressing ARROW_DOWN key one row by one row 
-//		        int recordCount=getNumbers(getTableRecords());  
-//		    	initialDisplayRowCount = tableData.size()/tableHeader.size();
-//		 
-//		    	click(tableData.get(tableData.size()-1),"");
-//		    	Actions actions = new Actions(driver); 
-//		    	actions.sendKeys(tableData.get(tableData.size()-1), Keys.ARROW_DOWN).perform();
-//
-//		        logTAFStep("Press ARROW_DOWN key to get the left table data");
-//		        for (int j = initialDisplayRowCount; j < recordCount; j++) {
-//		        	
-//		        	alltabledata +="\r\n";
-//		        	for (int k =0; k < rowSelected.size(); k++ ) {
-//		        		alltabledata += rowSelected.get(k).getText() + " " ;
-//		    	    }
-//		        	actions.sendKeys(rowSelected.get(0), Keys.ARROW_DOWN).perform();
-//		        }
-//		        
-//		        return alltabledata;
-//			}
-//			
-//			public void pressKeyboard(int KeyCode) {
-//				  Robot rb = null;
-//				  try {
-//				   rb = new Robot();
-//				  } catch (AWTException e) {
-//				   e.printStackTrace();
-//				  }
-//				  rb.keyPress(KeyCode);   // Press the button
-//				  rb.delay(100);     // delay of 100 ms
-//
-//				  rb.keyRelease(KeyCode);  // Release the button
-//
-//				  logTAFStep("Robot Keystrokes " + KeyCode);
-//			}
-//			
-//
-//
-//			public void clickDescendingLink() {
-//				takeScreenshotWithoutScroll();
-//				click(descendingLink,"");
-//			}
-//			
-//			public void clickAscendingLink() {
-//				takeScreenshotWithoutScroll();
-//				click(ascendingLink,"");
-//			}
-//			
-//			public void clickSidePanelDescendingLink() {
-//				click(filterPanelDescSortBtn,"");
-//			}
-//			
-//			public void clickSidePanelAscendingLink() {
-//				click(filterPanelAscSortBtn,"");
-//			}
-//			
-//			public Boolean isFilterPanelClosed() {			
-//				 return filterPanelHeader.size()>0;
-//			}
-//			
-//			public void clickFilterPanelBtn() {
-//				click(filterBtn,"");
-//				takeScreenshotWithoutScroll();
-//			}
-//			
-//			public String getFilterPanelContents() {
-//				int itemSize;
-//				String allFilters;
-//				WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-//				wait.until(ExpectedConditions.presenceOfElementLocated(
-//						By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div.filter-column-name")));
-//				takeScreenshotWithoutScroll();
-//				allFilters = "@" + filterPanelHeader.get(1).getText() + "@";
-//				allFilters = allFilters + "\r\n@" + filterPanelSortSection.getText() + "@ ";
-//				/*need to fix
-//				if(driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText().equals("")){
-//					allFilters = allFilters + "\r\n" + "Sort not applied";
-//				}else{
-//					
-//					allFilters = allFilters + "'" + driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText();
-//					if(driver.findElements(filterPanelAscSortBtnActiveLocator).size()>0){
-//						allFilters = allFilters + "' : in Ascending order";
-//					}else if(driver.findElements(filterPanelDescSortBtnActiveLocator).size()>0){
-//						allFilters = allFilters + "' : in Descending order";
-//					}else{
-//						logTAFError("Sort order buttons not enabled");
-//					}
-//					
-//				}
-//			*/
-//				itemSize = filterPanelColNames.size();
-//				if(itemSize>0){
-//					for(int i = 0; i < itemSize/2;i++){
-//						allFilters = allFilters + "\r\n" + filterPanelColNames.get(i).getText();					
-//					}
-//				}
-//				return allFilters;
-//				
-//			}
-//			
-//			public String getUniqueValuesFromQuickFilter(){
-//				String allFilterValues="";
-//				
-//				WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-//				wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(
-//						"div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.apply-quick-filter > span")));
-//				takeScreenshotWithoutScroll();
-//
-//				for(int i =0;i < quickFilterUniqueItems.size();i++){
-//					if(i==0){
-//						allFilterValues = quickFilterUniqueItems.get(i).getText() + quickFilterUniqueItemsCount.get(i).getText();
-//					}
-//					allFilterValues = allFilterValues + "\r\n" + quickFilterUniqueItems.get(i).getText() + quickFilterUniqueItemsCount.get(i).getText();
-//				}
-//				return allFilterValues;
-//			}
-			
-			public String getAllColumnsFromDropDown(){
-				//driver.findElements(filterPanelSortDropDownItemsLocator).
-				return "";
+			public String getTableData(){
+				return getTableData(20);
 			}
 			
-			public void selectSortColumnFromSidePanelDropDown( String columnName){
+			public String getTableData(int numRecords){
+				return qfPage.getTableData(numRecords);
+			}
+			/****************************************/
+			
+			/********** Filter Locator (Column) **********/
+			public WebElement openFilterPanel(){
+				return openFilterPanel("");
+			}	
+			public WebElement openFilterPanel(boolean expand){
+				return openFilterPanel("",expand);
+			}	
+			public WebElement openFilterPanel(String columnName){
+				return openFilterPanel(columnName,true);
+			}
+	
+			public WebElement openFilterPanel(String columnName,boolean expand){
+				activateTable();
+				toggleElementByClick(filterPanelHeader,filterBtn,"Filters",expand);				
+				filterIndex = getElementIndex(filterPanelColNames,columnName);
+				WebElement filterElement = filters.get(filterIndex);
+				//filterName = filterElement.getText();
+				return filterElement;
+			}
+
+			/*************************************************/
+			public void scrollToFilter(){
+				scrollToElement(filterPanelDeleteBtn);
+				toggleElementByClick(filterPanelMinusBtn, filterPanelPlusBtn, "Expand(+)",true);
+				if(filterPanelDisableBtn.size()<1){
+					click(filterPanelEnableBtn,"Toggle on filter",filterPanelEnableBtn,false);
+				}
+				scrollToElement(filterPanelApplyBtn);
+			}
+			//setCriteria(_filterValues,2,_action,_filterValues[0],"",-1,"")
+			public void verifyCriteria(String[] _option,int _start,String _connector){
+
+				List<WebElement>    workingConnectors = andBtns;
+				String cValues = "span > input.criteria-value";
+				List<WebElement>    criteriaBetweenValues = criterias.get(criteriaIndex).findElements(By.cssSelector(cValues));
+				if(_connector.equalsIgnoreCase("or")){
+					workingConnectors = orBtns;
+				}
+				boolean found = false;
+				String value = "",expectedValue = "";
+				for(int i=0;i<criteriaSelectors.size();i++){
+					String selection = criteriaSelectors.get(i).getText().trim();
+					
+					if(selection.equalsIgnoreCase("Between")){
+					       value = criteriaBetweenValues.get(0).getText().trim()+
+					    		   "-"+criteriaBetweenValues.get(1).getText().trim();
+					       expectedValue =  _option[_start+1]+"-"+ _option[_start+2];
+					}else{
+					        value = criteriaValues.get(i).getText().trim();
+					        expectedValue = _option[_start+1];
+					}
+
+					boolean activeConnector = false;
+					activeConnector = workingConnectors.get(i).getAttribute("class").endsWith("active");
+					if(selection.equalsIgnoreCase(_option[_start])
+							&&value.equalsIgnoreCase(expectedValue)
+							&&activeConnector){
+						criteriaIndex = i;
+						found = true;
+					}
+				}
+				if(found){
+					logTAFInfo("Criteria found: '"+_option[_start]+" " +expectedValue+"' with connector '"+_connector+"'");
+				}else{
+					logTAFError("Criteria not found: '"+_option[_start]+" " +expectedValue+"' with connector '"+_connector+"'");
+				}
+			}	
+			
+			public void setCriteria(String[] option,int start,String connector){
+				String cValues = "span > input.criteria-value";
+				List<WebElement>    workingConnectors = andBtns;			
+				if(connector.equalsIgnoreCase("or")){
+					workingConnectors = orBtns;
+				}
+				boolean activeConnector = false;
 				
+				if(option[start].equalsIgnoreCase("Between"))
+				selectItem(new Select(criteriaSelectors.get(criteriaIndex)),option[start]);
+				if(option[start].equalsIgnoreCase("Between")){
+					List<WebElement>    criteriaBetweenValues = criterias.get(criteriaIndex).findElements(By.cssSelector(cValues));
+				   inputChars(criteriaBetweenValues.get(0),option[start+1]);
+				   inputChars(criteriaBetweenValues.get(1),option[start+2]);
+				}else{
+					inputChars(criteriaValues.get(criteriaIndex),option[start+1]);
+				}
+				activeConnector = workingConnectors.get(criteriaIndex).getAttribute("class").endsWith("active");
+				if(!activeConnector){
+					click(workingConnectors.get(criteriaIndex),connector.toUpperCase());
+				}else{
+					logTAFInfo("Connector '"+connector.toUpperCase()+"' was selected ");
+				}
 			}
+			
+			public void searchValue(String value){
+				searchValue(value,"input");
+			}
+			public void searchValue(String value,String type){
+				
+				inputChars(filterPanelSearchFilter,value,type);
+				sleep(pageLoadTime);
+			}
+			
+	        public void selectCheckBox(String[] item){
+				selectCheckBox(item,0);
+			}
+	        public void selectCheckBox(String[] item, int start){
+				selectCheckBox(item,start, "on");
+			}
+			public void selectCheckBox(String[] item, int start, String type){
+				List<WebElement> labels,counts,boxs;
+				WebElement label,count,box;
+	            boolean on = type.equalsIgnoreCase("off")?false:true;
+	            
+					labels = filterPanelCheckboxText;
+					counts = filterPanelCheckboxCount;
+					boxs = filterPanelCheckbox;
+				
+				boolean selectAll = false;
+				for(int j=start;j<item.length&&!selectAll;j++){
+				   selectAll = item[j].equalsIgnoreCase("All")?true:false;
+				   for(int i=0;i<boxs.size();i++){
+					label = labels.get(i);
+					count = counts.get(i);
+					if(selectAll
+							||(label.getText()+count.getText()).equals(item[j])){
+						box = boxs.get(i);
+						toggleItem(box,on,item[j],type);
+						if(!selectAll)
+						   break;
+					}
+				  }
+				}
+			}
+			
+		   public void endWith(String command){
+			   String[] comms = command.split("\\|");
+			   for(String comm:comms){
+				   if(comm.equalsIgnoreCase("Apply")){
+					   click(filterPanelApplyBtn,"Apply");
+				   }else if(comm.equalsIgnoreCase("Clear")){
+					   click(filterPanelClearBtn,"Clear");
+				   }else if(comm.equalsIgnoreCase("Delete")){
+					   click(filterPanelDeleteBtn,"Delete(X)");
+				   }else if(comm.equalsIgnoreCase("Minimize")){
+					   click(filterPanelMinusBtn,"Minimize(-)",filterPanelApplyBtn,false);
+				   }else if(comm.equalsIgnoreCase("Expand")){
+					   click(filterPanelPlusBtn,"Expand(+)",filterPanelApplyBtn,true);
+				   }else if(comm.equalsIgnoreCase("Disable")){
+						if(filterPanelDisableBtn.size()>0){
+							click(filterPanelDisableBtn.get(0),"Toggle off filter",filterPanelEnableBtn,false);
+						}
+				   }else if(comm.equalsIgnoreCase("Enable")){
+					   click(filterPanelEnableBtn,"Enable");
+				   }
+			   }
+		   }
 
 		  
 		  public FilterPanelPage(WebDriver driver){
 			  
 			    this.pageDriver = driver; 
-			    
+			    qfPage = PageFactory.initElements(driver, QuickFilterPage.class);
 		  }
 
 
