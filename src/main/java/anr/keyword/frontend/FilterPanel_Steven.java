@@ -82,7 +82,7 @@ public class FilterPanel_Steven extends CommonWebHelper implements KeywordInterf
 		super.testMain(onInitialize(args, getClass().getName()));
 		fpPage = PageFactory.initElements(driver, FilterPanelPage.class);
 		fp = PageFactory.initElements(driver, FilterPanelPage.class);
-		sc = fpPage.openFilterPanel();
+		sc = fpPage.openFilterPanel(dpColumnName);
 		PageFactory.initElements(new DefaultElementLocatorFactory(sc), fp);
 		
 		fp.scrollToFilter();

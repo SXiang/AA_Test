@@ -221,6 +221,7 @@ public class LoginHelper extends FrontendCommonHelper{
 		capability.setPlatform(org.openqa.selenium.Platform.ANY);
 		capability.setCapability("chrome.switches", Arrays.asList("--start-maximized"));
 		capability.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
+		//capability.setCapability("chrome.switches", Arrays.asList("--no-sandbox"));
 	}
 
 	

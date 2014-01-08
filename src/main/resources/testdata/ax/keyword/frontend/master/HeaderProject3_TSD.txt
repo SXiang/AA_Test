@@ -1,3 +1,0 @@
-@Projects@
-123456 - NOT inherit User01,02Full
-@Test Sets@

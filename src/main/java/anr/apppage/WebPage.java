@@ -51,7 +51,8 @@ public class WebPage extends CommonWebHelper{
 	public void click(WebDriver driver,WebElement node, String label, Object untilBy,boolean displayed){
 		
 		node.click();
-		logTAFStep("Click element "+label+"");
+		if(!label.equals(""))
+		   logTAFStep("Click element "+label+"");
 		waitUntil(driver,untilBy,displayed);
 	}
 	
@@ -171,7 +172,13 @@ public class WebPage extends CommonWebHelper{
 			if(untilBy instanceof WebElement){
 				if(displayed){
 		           //wait.until(ExpectedConditions.elementToBeClickable((WebElement)untilBy));
-		          wait.until(ExpectedConditions.visibilityOf((WebElement)untilBy));
+		           //wait.until(ExpectedConditions.visibilityOf((WebElement)untilBy));
+				   wait.until( new ExpectedCondition<Boolean>(){
+					   public Boolean apply(WebDriver driver){
+						   return ((WebElement)untilBy).isDisplayed();
+					   }
+				   }
+				   );
 				}else{
 				   wait.until( new ExpectedCondition<Boolean>(){
 					   public Boolean apply(WebDriver driver){

@@ -134,6 +134,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 				filterIndex = getElementIndex(filterPanelColNames,columnName);
 				WebElement filterElement = filters.get(filterIndex);
 				//filterName = filterElement.getText();
+				logTAFInfo("Working filter: '"+columnName+"'");
 				return filterElement;
 			}
 
@@ -141,9 +142,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 			public void scrollToFilter(){
 				scrollToElement(filterPanelDeleteBtn);
 				toggleElementByClick(filterPanelMinusBtn, filterPanelPlusBtn, "Expand(+)",true);
-				if(filterPanelDisableBtn.size()<1){
-					click(filterPanelEnableBtn,"Toggle on filter",filterPanelEnableBtn,false);
-				}
+//				if(filterPanelDisableBtn.size()<1){
+//					click(filterPanelEnableBtn,"Toggle on filter",filterPanelEnableBtn,false);
+//				}
 				scrollToElement(filterPanelApplyBtn);
 			}
 			//setCriteria(_filterValues,2,_action,_filterValues[0],"",-1,"")
@@ -179,7 +180,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 					    		   "-"+criteriaBetweenValues.get(1).getAttribute("value").trim();
 					       expectedValue =  _option[_start+1]+"-"+ _option[_start+2];
 					}else{
-					        value = criterias.get(i).findElement(By.cssSelector(cValues)).getAttribute("value").trim();
+					        value = criterias.get(i).findElement(By.cssSelector("div > "+cValues)).getAttribute("value").trim();
 					        //value = criteriaValues.get(i).getText().trim();
 					        expectedValue = _option[_start+1];
 					       
@@ -235,13 +236,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 				   inputChars(criteriaBetweenValues.get(1),option[start+2]);
 				   
 				}else{
-					WebElement criteriaValue = criterias.get(criteriaIndex).findElement(By.cssSelector(cValues));
+					WebElement criteriaValue = criterias.get(criteriaIndex).findElement(By.cssSelector("div > "+cValues));
+					waitUntil(criteriaValue);
+
 					inputChars(criteriaValue,option[start+1]);
 				}
 				click(filterPanelColNames.get(filterIndex));
 				if(!activeConnector){
 					click(workingConnector,connector.toUpperCase());
-				}else{
+				}else if(workingConnector!=null){
 					logTAFInfo("Connector '"+connector.toUpperCase()+"' was selected ");
 				}
 			}
@@ -310,7 +313,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 							click(filterPanelDisableBtn.get(0),"Toggle off filter",filterPanelEnableBtn,false);
 						}
 				   }else if(comm.equalsIgnoreCase("Enable")){
-					   click(filterPanelEnableBtn,"Enable");
+					   //click(filterPanelEnableBtn,"Enable");
+						if(filterPanelDisableBtn.size()<1){
+							click(filterPanelEnableBtn,"Toggle on filter",filterPanelEnableBtn,false);
+						}else{
+							logTAFWarning("Filter was enabled? Toggle on skiped");
+						}
 				   }
 			   }
 		   }

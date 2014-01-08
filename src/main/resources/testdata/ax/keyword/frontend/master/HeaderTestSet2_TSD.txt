@@ -1,4 +1,0 @@
-@Projects@
-123456 - inherit,NotInherit Mixed User01Full,User02Read
-Long Name Activity with spaces To Test WidthHandling having 70 Chars Inherit User02Read
-@Tests@
