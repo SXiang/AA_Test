@@ -49,24 +49,25 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 			private WebElement filterPanelHeader;			
 			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div.filter-column-name")
 			private List<WebElement> filterPanelColNames;
-			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row)")
+			@FindBy(css = "div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row")
 			private List<WebElement> filters;
 			
  			//***** Panel filter context - criteria *****
 			
-			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters "
-					+ "div.filter-connecor > button.filter-connector-btn[btn-radio='and']")
-			List<WebElement> andBtns;
-			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters "
-					+ "div.filter-connecor > button.filter-connector-btn[btn-radio='or']")
-			List<WebElement> orBtns;
-			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters a.select2-choice > apan.select2-chosen")
+//			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters "
+//					+ "div.filter-connecor > button.filter-connector-btn[btn-radio='and']")
+//			List<WebElement> andBtns;
+//			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters "
+//					+ "div.filter-connecor > button.filter-connector-btn[btn-radio='or']")
+//			List<WebElement> orBtns;
+//			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters a.select2-choice > span.select2-chosen")
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters > div.criteria-filter select.criteria-operator[ui-select2|='criteriaOperatorSelectOptions']")
 			List<WebElement>	criteriaSelectors;
-			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters div > input.criteria-value")
-			List<WebElement>	criteriaValues ;
-			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters")
+//			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters input.criteria-value")
+//			List<WebElement>	criteriaValues ;
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters > div.criteria-filter")
 			List<WebElement>	criterias;
-			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters div.criteria-filter-remove-btn > i.icon-remove")
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.criteria-filters > div.criteria-filter div.criteria-filter-remove-btn > i.icon-remove")
 			private List<WebElement> criteriaRemoveBtn;
 			
 			//***** Panel filter context - checkbox *****
@@ -76,7 +77,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 			private List<WebElement> filterPanelCheckboxCount;
 			@FindBy(css = "div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value")
 			private List<WebElement> filterPanelCheckboxText;
-			@FindBy(css = "div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value > i:nth-child(1)")
+			@FindBy(css = "div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value > i.icon-check")
 			private List<WebElement> filterPanelCheckbox;
 			
 			
@@ -104,7 +105,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
             
 			/*****     shared with quick filter *****/
 			public void activateTable(){
-				qfPage.activateTable();
+				//qfPage.activateTable();
                 
 			}
 			public String getTableData(){
@@ -148,28 +149,46 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 			//setCriteria(_filterValues,2,_action,_filterValues[0],"",-1,"")
 			public void verifyCriteria(String[] _option,int _start,String _connector){
 
-				List<WebElement>    workingConnectors = andBtns;
-				String cValues = "span > input.criteria-value";
-				List<WebElement>    criteriaBetweenValues = criterias.get(criteriaIndex).findElements(By.cssSelector(cValues));
-				if(_connector.equalsIgnoreCase("or")){
-					workingConnectors = orBtns;
-				}
+				WebElement    workingConnector = null;
+				String cValues = "input.criteria-value";
+				String orBtn = "div.filter-connector > button.filter-connector-btn[btn-radio='\\'or\\'']";
+				String andBtn = "div.filter-connector > button.filter-connector-btn[btn-radio='\\'and\\'']";
+				
+			
 				boolean found = false;
-				String value = "",expectedValue = "";
+				String value = "";
+				String expectedValue = "";
 				for(int i=0;i<criteriaSelectors.size();i++){
-					String selection = criteriaSelectors.get(i).getText().trim();
+					Select criteriaSelect = new Select(criteriaSelectors.get(i));
+					//String selection = criteriaSelectors.get(i).getText().trim();
+					//String selection = criteriaSelect.getFirstSelectedOption().getAttribute("value").trim();
+					String selection = criteriaSelect.getFirstSelectedOption().getText().trim();
+					
+					List<WebElement>  criteriaBetweenValues;
+					if(_connector.equalsIgnoreCase("or")){
+						workingConnector = criterias.get(i).findElement(By.cssSelector(orBtn));
+					}else if(_connector.equalsIgnoreCase("and")){
+						workingConnector = criterias.get(i).findElement(By.cssSelector(andBtn));
+					}
 					
 					if(selection.equalsIgnoreCase("Between")){
-					       value = criteriaBetweenValues.get(0).getText().trim()+
-					    		   "-"+criteriaBetweenValues.get(1).getText().trim();
+						   criteriaBetweenValues = criterias.get(i).findElements(By.cssSelector("span > "+cValues));
+						   if(criteriaBetweenValues.size()<2)
+							   break;
+					       value = criteriaBetweenValues.get(0).getAttribute("value").trim()+
+					    		   "-"+criteriaBetweenValues.get(1).getAttribute("value").trim();
 					       expectedValue =  _option[_start+1]+"-"+ _option[_start+2];
 					}else{
-					        value = criteriaValues.get(i).getText().trim();
+					        value = criterias.get(i).findElement(By.cssSelector(cValues)).getAttribute("value").trim();
+					        //value = criteriaValues.get(i).getText().trim();
 					        expectedValue = _option[_start+1];
+					       
 					}
 
-					boolean activeConnector = false;
-					activeConnector = workingConnectors.get(i).getAttribute("class").endsWith("active");
+					boolean activeConnector = true;
+					if(workingConnector!=null){
+					 activeConnector = workingConnector.getAttribute("class").endsWith("active");
+				    }
 					if(selection.equalsIgnoreCase(_option[_start])
 							&&value.equalsIgnoreCase(expectedValue)
 							&&activeConnector){
@@ -178,32 +197,50 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 					}
 				}
 				if(found){
-					logTAFInfo("Criteria found: '"+_option[_start]+" " +expectedValue+"' with connector '"+_connector+"'");
+					logTAFInfo("Criteria found: '"+_option[_start]+" " +expectedValue+"'");
 				}else{
-					logTAFError("Criteria not found: '"+_option[_start]+" " +expectedValue+"' with connector '"+_connector+"'");
+					logTAFError("Criteria not found: '"+_option[_start]+" " +expectedValue+"'");
 				}
 			}	
 			
 			public void setCriteria(String[] option,int start,String connector){
-				String cValues = "span > input.criteria-value";
-				List<WebElement>    workingConnectors = andBtns;			
-				if(connector.equalsIgnoreCase("or")){
-					workingConnectors = orBtns;
-				}
-				boolean activeConnector = false;
 				
-				if(option[start].equalsIgnoreCase("Between"))
-				selectItem(new Select(criteriaSelectors.get(criteriaIndex)),option[start]);
-				if(option[start].equalsIgnoreCase("Between")){
-					List<WebElement>    criteriaBetweenValues = criterias.get(criteriaIndex).findElements(By.cssSelector(cValues));
-				   inputChars(criteriaBetweenValues.get(0),option[start+1]);
-				   inputChars(criteriaBetweenValues.get(1),option[start+2]);
-				}else{
-					inputChars(criteriaValues.get(criteriaIndex),option[start+1]);
+				if(connector.equalsIgnoreCase("off")){
+					  click(criteriaRemoveBtn.get(criteriaIndex),"RemoveCriteal(x)");
+					  return;
 				}
-				activeConnector = workingConnectors.get(criteriaIndex).getAttribute("class").endsWith("active");
+				
+				String cValues = "input.criteria-value";
+				String orBtn = "div.filter-connector > button.filter-connector-btn[btn-radio='\\'or\\'']";
+				String andBtn = "div.filter-connector > button.filter-connector-btn[btn-radio='\\'and\\'']";
+				WebElement    workingConnector = null;			
+				if(connector.equalsIgnoreCase("or")){
+					workingConnector = criterias.get(criteriaIndex).findElement(By.cssSelector(orBtn));
+				}else if(connector.equalsIgnoreCase("and")){
+					workingConnector = criterias.get(criteriaIndex).findElement(By.cssSelector(andBtn));
+				}
+				boolean activeConnector = true;
+				if(workingConnector!=null){
+				 activeConnector = workingConnector.getAttribute("class").endsWith("active");
+			    }
+				
+				Select criteriaSelect = new Select(criteriaSelectors.get(criteriaIndex));
+				selectItem(criteriaSelect,option[start]);
+				
+				if(option[start].equalsIgnoreCase("Between")){
+					List<WebElement>    criteriaBetweenValues = criterias.get(criteriaIndex).findElements(By.cssSelector("span > "+cValues));
+				   waitUntil(criteriaBetweenValues);
+				   inputChars(criteriaBetweenValues.get(0),option[start+1]);
+                   //click(filterPanelColNames.get(filterIndex));
+				   inputChars(criteriaBetweenValues.get(1),option[start+2]);
+				   
+				}else{
+					WebElement criteriaValue = criterias.get(criteriaIndex).findElement(By.cssSelector(cValues));
+					inputChars(criteriaValue,option[start+1]);
+				}
+				click(filterPanelColNames.get(filterIndex));
 				if(!activeConnector){
-					click(workingConnectors.get(criteriaIndex),connector.toUpperCase());
+					click(workingConnector,connector.toUpperCase());
 				}else{
 					logTAFInfo("Connector '"+connector.toUpperCase()+"' was selected ");
 				}
@@ -234,6 +271,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 					boxs = filterPanelCheckbox;
 				
 				boolean selectAll = false;
+				
 				for(int j=start;j<item.length&&!selectAll;j++){
 				   selectAll = item[j].equalsIgnoreCase("All")?true:false;
 				   for(int i=0;i<boxs.size();i++){
@@ -242,9 +280,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 					if(selectAll
 							||(label.getText()+count.getText()).equals(item[j])){
 						box = boxs.get(i);
-						toggleItem(box,on,item[j],type);
-						if(!selectAll)
-						   break;
+						
+						if(!selectAll){
+							toggleItem(box,on,item[j],type);
+							break;
+						}else{
+							toggleItem(box,on,"item "+(i+1),type);
+						}
 					}
 				  }
 				}

@@ -135,7 +135,7 @@ public class FilterPanel_Steven extends CommonWebHelper implements KeywordInterf
 	
 	public void verifyResultTable(){
 		String result = fpPage.getTableData(20);  // to-do
-			logTAFStep("Verify resulted table with filter panel (first 20 records - " + dpMasterFiles[0]);			
+			logTAFStep("Verify resulted table with filter panel (first 20 records - " + dpMasterFiles[0]+")");			
 			compareTxtResult(result, dpMasterFiles[0]);
 
 	}

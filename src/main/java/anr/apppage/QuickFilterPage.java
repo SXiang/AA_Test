@@ -101,7 +101,8 @@ public class QuickFilterPage extends WebPage{
 		// *******************************************
 
 		public void activateTable(){
-			click(tableViewTab,"Table View",tableData);
+			//click(tableViewTab,"Table View",tableData);
+			//click(tableViewTab,"Table View");
 		}
 		
 		public boolean clickColumnHeader(String columnName){
@@ -132,7 +133,7 @@ public class QuickFilterPage extends WebPage{
 				inputChars(quickFilterCriteriaValues.get(0),option[start+1],type);
 				inputChars(quickFilterCriteriaValues.get(1),option[start+2],type);
 			}else{
-			 inputChars(quickFilterCriteriaValue,option[start+1],type);
+			      inputChars(quickFilterCriteriaValue,option[start+1],type);
 			}
 		}
 		public void searchValue(String value){
@@ -167,9 +168,12 @@ public class QuickFilterPage extends WebPage{
 				if(selectAll
 						||(label.getText()+count.getText()).equals(item[j])){
 					box = boxs.get(i);
-					toggleItem(box,on,item[j],type);
-					if(!selectAll)
-					   break;
+					if(!selectAll){
+						toggleItem(box,on,item[j],type);
+						break;
+					}else{
+						toggleItem(box,on,"item "+(i+1),type);
+					}
 				}
 			  }
 			}

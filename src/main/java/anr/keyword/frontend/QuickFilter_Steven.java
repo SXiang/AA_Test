@@ -115,8 +115,9 @@ public class QuickFilter_Steven  extends CommonWebHelper implements KeywordInter
 
 		
 	public void verifyResultTable(){
-		String result = qfPage.getTableData(20);  // to-do
-			logTAFStep("Verify resulted table from QuickFilter(first 20 records - " + dpMasterFiles[0]);			
+		int numRecords = 20;
+		String result = qfPage.getTableData(numRecords);  // to-do
+			logTAFStep("Verify resulted table from QuickFilter(first "+numRecords+" records - " + dpMasterFiles[0]+")");			
 			compareTxtResult(result, dpMasterFiles[0]);
 
 	}

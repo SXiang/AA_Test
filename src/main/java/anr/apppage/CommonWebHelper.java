@@ -363,7 +363,7 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		
 		public void getSharedObj() {
 			if (suiteObj != null) {
-				driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
+				driver = ((FrontendTestSuiteHelper) suiteObj).currentDriver;
 				driverName = ((FrontendTestSuiteHelper) suiteObj).currentDriverName;
 			} else if (caseObj != null) {
 				driver = ((FrontendTestDriverHelper) caseObj).currentDriver;

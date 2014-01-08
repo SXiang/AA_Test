@@ -13,8 +13,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 //import ax.lib.util.FileUtil;
 
@@ -165,7 +169,28 @@ public class LoginHelper extends FrontendCommonHelper{
 			driver = new ChromeDriver(capability);
 			//driver = new ChromeDriver();
 		}else{
-				//other browser's code
+				//other browser's code  -- Steven debugging ...
+			if (browserType.equalsIgnoreCase("HtmlUnit")) {
+				driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+				imageName = "";
+			} else if (browserType.equalsIgnoreCase("FireFox")) {
+				driver = new FirefoxDriver();
+				imageName = "firefox.exe";
+			} else if (browserType.equalsIgnoreCase("Chrome")) {
+				System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
+				driver = new ChromeDriver();
+				imageName = "chrome.exe";
+			} else if (browserType.equalsIgnoreCase("InternetExplorer")) {
+				System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer32.exe");
+				DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
+				ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+				driver = new InternetExplorerDriver(ieCapabilities);
+				imageName = "iexploere.exe";
+			} else {
+				driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+				imageName = "";
+			}
+			
 		}
 		
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -223,7 +248,8 @@ public class LoginHelper extends FrontendCommonHelper{
 			driver.findElement(usernameLocator).sendKeys(username);
 	        driver.findElement(passwordLocator).click();
 	        driver.findElement(passwordLocator).sendKeys(password);
-	        driver.findElement(loginButtonLocator).click();
+	        //driver.findElement(loginButtonLocator).click();
+	        driver.findElement(usernameLocator).submit();
 	        //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		}
 		

@@ -49,8 +49,9 @@ public class WebPage extends CommonWebHelper{
 		click(driver,node,label,untilBy,true);
 	}
 	public void click(WebDriver driver,WebElement node, String label, Object untilBy,boolean displayed){
-		logTAFStep("Click element "+label+"");
+		
 		node.click();
+		logTAFStep("Click element "+label+"");
 		waitUntil(driver,untilBy,displayed);
 	}
 	
@@ -132,18 +133,23 @@ public class WebPage extends CommonWebHelper{
 	}
 	
 	public void toggleItem(WebDriver driver,WebElement box,boolean on, String label, String type, Object untilBy){
-
-		if(box.isSelected()==on){
-			logTAFInfo("Item '"+label+"' is "+(on?"selected":"unSelected")+" ");
-		}else{
-			if(type.equalsIgnoreCase("Verify")){
-				logTAFError("Item '"+label +"' is not in the correct state as expected - "+(on?"selected":"unSelected")+"? ");
-			}else{
-			  logTAFStep("Click '"+label+"' to "+(on?"select":"unSelecte ")+ " the item");
-			  box.click();
-			  waitUntil(driver,untilBy);
-			}
+		if(!type.equalsIgnoreCase("Verify")){
+		     box.click();
+		     waitUntil(driver,untilBy);
 		}
+		  
+		// Following need to be enhanced in order to check the status ... Steven
+//		if(box.isSelected()==on){
+//			logTAFInfo("Item '"+label+"' is "+(on?"selected":"unSelected")+" ");
+//		}else{
+//			if(type.equalsIgnoreCase("Verify")){
+//			logTAFError("Item '"+label +"' is not in the correct state as expected - "+(on?"selected":"unSelected")+"? ");
+//			}else{
+//			  logTAFStep("Click '"+label+"' to "+(on?"select":"unSelecte ")+ " the item");
+//			  box.click();
+//			  waitUntil(driver,untilBy);
+//			}
+//		}
 	}
 	
 	// *** Wait until methods ***
@@ -164,7 +170,8 @@ public class WebPage extends CommonWebHelper{
 		try{
 			if(untilBy instanceof WebElement){
 				if(displayed){
-		           wait.until(ExpectedConditions.visibilityOf((WebElement)untilBy));
+		           //wait.until(ExpectedConditions.elementToBeClickable((WebElement)untilBy));
+		          wait.until(ExpectedConditions.visibilityOf((WebElement)untilBy));
 				}else{
 				   wait.until( new ExpectedCondition<Boolean>(){
 					   public Boolean apply(WebDriver driver){
@@ -177,7 +184,8 @@ public class WebPage extends CommonWebHelper{
 				}
 			}else if(untilBy instanceof By){
 				if(displayed){
-		    	   wait.until(ExpectedConditions.visibilityOfElementLocated((By)untilBy));
+		    	   //wait.until(ExpectedConditions.visibilityOfElementLocated((By)untilBy));
+		    	   wait.until(ExpectedConditions.elementToBeClickable((By)untilBy));
 				}else{
 				   wait.until(ExpectedConditions.invisibilityOfElementLocated((By)untilBy));
 				}
@@ -204,8 +212,11 @@ public class WebPage extends CommonWebHelper{
 			text = text.trim();
 			//scrollToElement(we);
 			if(type.equalsIgnoreCase("Verify")){
+				String curValue = we.getAttribute("value");
 				String curText =  we.getText();
-				if(curText.equalsIgnoreCase(text)){
+				if(curValue.equalsIgnoreCase(text)){
+					logTAFInfo("Text value '"+curValue+"' is correct as expected '"+text+"'");
+				}else if(curText.equalsIgnoreCase(text)){
 					logTAFInfo("Text value '"+curText+"' is correct as expected '"+text+"'");
 				}else{
 					logTAFError("Text value '"+curText+"' is incorrect? - expected '"+text+"'");
@@ -213,6 +224,7 @@ public class WebPage extends CommonWebHelper{
 				
 				return;
 			}
+			logTAFStep("Input value '"+text+"'");
 			super.inputChars(driver,we,text);
 		}
 	// ******* Other methods ****************
