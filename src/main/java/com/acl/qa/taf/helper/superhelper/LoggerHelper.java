@@ -502,7 +502,12 @@ public class LoggerHelper extends ACLQATestScript {
 	public static void killProcess() {
 	   killProcess(imageName);
 	}
-	public static void killProcess(String imageName) {
+	public static void killProcess(String imageNames) {
+		if(imageNames==null||imageNames.isEmpty()){
+			return;
+		}
+		String[] images = imageNames.split("\\|");
+		for(String imageName:images){
 		try {
 			// In case of the app could not be closed normally, we force to kill
 			// the process form OS
@@ -513,6 +518,7 @@ public class LoggerHelper extends ACLQATestScript {
 			sleep(1);
 		} catch (Exception e) {
 
+		}
 		}
 	}
 

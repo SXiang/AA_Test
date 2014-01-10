@@ -203,6 +203,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
     public void onTerminate(){
     	onTerminate("");
     }
+
 	public String onTerminate(String Output_Report) {
 		boolean appClosed = true;
         // if single test, don't logout, you can verify the contents then
@@ -221,8 +222,8 @@ public class InitializeTerminateHelper extends ObjectHelper {
 			   mt.stopTracing();
 			logInfo(FormatHtmlReport.addReportFooter("Test Log"));
 			
-
-	        if(batchRun){
+			 killProcess(projectConf.driverName);
+	        if(batchRun){	        	
 	            if(Output_Report!=""){
 	                Output_Report = createHtmlReport(Output_Report);	                
 	              }

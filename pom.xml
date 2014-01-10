@@ -1,0 +1,368 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ACLQA</groupId>
+  <artifactId>TAFDependencies</artifactId>
+  <version>10.0.1-SNAPSHOT</version>
+  <name>ACLQA Automation Framework in Java</name>
+  <properties>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <testDeployServerDir>\\192.168.10.129\Automation\MavenTest</testDeployServerDir>
+      <testDeployLocalDir>${project.basedir}/src/test/resources/taf/deploytest</testDeployLocalDir>
+      <aclqaNexusUrl>http://192.168.10.129:8081/nexus/content</aclqaNexusUrl>
+  </properties>
+  <distributionManagement>
+      <repository>
+         <id>development</id>
+	     <name>TAF Releases</name>
+	     <url>${aclqaNexusUrl}/repositories/releases</url>
+      </repository>
+      <snapshotRepository>
+         <id>development</id>
+	     <name>TAF Snapshots</name>
+	     <url>${aclqaNexusUrl}/repositories/snapshots</url>
+      </snapshotRepository>
+      
+  </distributionManagement>
+  <pluginRepositories>
+   <pluginRepository>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>http://repo.maven.apache.org/maven2</url>
+    </pluginRepository>
+    <pluginRepository>
+      <releases>
+         <enabled>true</enabled>
+         <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+         <enabled>true</enabled>
+      </snapshots>
+      <id>Nexus</id>
+      <name>Nexus Public Repository</name>
+      <url>${aclqaNexusUrl}/groups/public</url>
+     </pluginRepository>
+   </pluginRepositories> 
+   <repositories>
+       <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>http://repo.maven.apache.org/maven2</url>
+    </repository>
+      <repository>
+        <id>Nexus</id>
+        <name>Nexus Public Repository</name>
+        <url>${aclqaNexusUrl}/groups/public</url>
+        <releases>
+              <enabled>true</enabled>
+              <updatePolicy>never</updatePolicy>
+         </releases>
+         <snapshots>
+              <enabled>true</enabled>
+         </snapshots>
+        </repository>    
+       <repository>
+         <id>Nexus-Snapshots</id>
+	     <name>Nexus Public Snapshots</name>
+	     <url>${aclqaNexusUrl}/groups/public-snapshots</url>
+         <releases>
+              <enabled>true</enabled>
+              <updatePolicy>never</updatePolicy>
+         </releases>
+         <snapshots>
+                <enabled>true</enabled>
+         </snapshots>
+        </repository>
+       <repository>
+         <id>Releases</id>
+	     <name>ACLQA Automation Repository</name>
+	     <url>${aclqaNexusUrl}/repositories/releases</url>
+         <releases>
+              <enabled>true</enabled>
+              <updatePolicy>always</updatePolicy>
+         </releases>
+         <snapshots>
+                <enabled>false</enabled>
+         </snapshots>
+        </repository>
+       <repository>
+         <id>Snapshots</id>
+	     <name>ACLQA Automation Snapshots</name>
+	     <url>${aclqaNexusUrl}/repositories/snapshots</url>
+         <releases>
+              <enabled>false</enabled>
+         </releases>
+         <snapshots>
+               <enabled>true</enabled>
+               <updatePolicy>always</updatePolicy>
+         </snapshots>
+        </repository>
+    </repositories>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>org.apache.maven.plugins</groupId>
+  		<artifactId>maven-source-plugin</artifactId>
+  		<version>2.2.1</version>
+  		<type>maven-plugin</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>Jawin</groupId>
+  		<artifactId>jawin2alpha</artifactId>
+  		<version>1.0</version>
+  		<type>pom</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>IBM</groupId>
+  		<artifactId>testlib</artifactId>
+  		<version>1.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>postgresql</groupId>
+  		<artifactId>postgresql</artifactId>
+  		<version>9.1-901-1.jdbc4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>Cache</groupId>
+  		<artifactId>cache4j</artifactId>
+  		<version>0.4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.poi</groupId>
+  		<artifactId>poi-ooxml</artifactId>
+  		<version>3.9</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.poi</groupId>
+  		<artifactId>poi</artifactId>
+  		<version>3.9</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>Oracle</groupId>
+  		<artifactId>JDBC</artifactId>
+  		<version>4.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>IBM</groupId>
+  		<artifactId>DB2.JDBC4</artifactId>
+  		<version>4.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>IBM</groupId>
+  		<artifactId>DB2.JDBC</artifactId>
+  		<version>4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>SQLServer</groupId>
+  		<artifactId>JDBC</artifactId>
+  		<version>4.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.maven.plugins</groupId>
+  		<artifactId>maven-antrun-plugin</artifactId>
+  		<version>1.7</version>
+  		<type>maven-plugin</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>info.bliki.wiki</groupId>
+  		<artifactId>bliki</artifactId>
+  		<version>3.0.17</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.codehaus.mojo</groupId>
+  		<artifactId>exec-maven-plugin</artifactId>
+  		<version>1.2.1</version>
+  		<type>maven-plugin</type>
+  	</dependency>
+  	<dependency>
+         <groupId>org.seleniumhq.selenium</groupId>
+         <artifactId>selenium-server</artifactId>
+                <version>2.35.0</version>
+                <exclusions>
+                        <exclusion>
+                            <groupId>xml-apis</groupId>
+                            <artifactId>xml-apis</artifactId>
+                        </exclusion>
+                </exclusions>
+    </dependency>
+    <dependency>
+                <groupId>com.opera</groupId>
+                <artifactId>operadriver</artifactId>
+            </dependency>
+            <dependency>
+            	<groupId>xml-apis</groupId>
+            	<artifactId>xml-apis</artifactId>
+            	<version>1.4.01</version>
+            </dependency>
+  </dependencies>
+ 
+  <dependencyManagement>
+  	<dependencies>
+  	   <dependency>
+                    <groupId>com.opera</groupId>
+                    <artifactId>operadriver</artifactId>
+                    <version>1.3</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.seleniumhq.selenium</groupId>
+                            <artifactId>selenium-remote-driver</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+  	</dependencies>
+  </dependencyManagement>
+  
+  <build>
+    <resources>
+       <resource>
+          <directory>src/main/java</directory>
+          <includes>
+             <include>**/*.java</include>
+          </includes>          
+       </resource>
+       <resource>
+          <directory>src/main/resources</directory>
+       </resource>
+    </resources>
+    <plugins>
+          <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <!-- executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${testDeployServerDir}\${project.artifactId}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${testDeployLocalDir}</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions-->
+      </plugin>   
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-shade-plugin</artifactId>
+		  <version>2.1</version>
+		  <executions>
+			 <execution>
+					<phase>package</phase>
+					<goals>
+						<goal>shade</goal>
+					</goals>
+			 </execution>
+		  </executions>
+		  <configuration>
+		     <includeSources>true</includeSources>
+		     <outputDirectory>${project.basedir}/src/main/resources/deployment</outputDirectory>
+		     <shadeSourcesContent>true</shadeSourcesContent>
+		     <shadedArtifactId>TAFDependencies</shadedArtifactId>
+		     <!-- createSourcesJar>true</createSourcesJar-->
+		     <!-- minimizeJar>true</minimizeJar-->
+		     <artifactSet>
+                 <excludes>
+                    <exclude>*:maven-core</exclude>
+                 </excludes>
+             </artifactSet>
+			 <filters>
+                      <filter>
+                         <artifact>*:*</artifact>
+                         <includes>
+                             <include>**/*.java</include>
+                             <include>**/*.class</include>
+                             <include>**/*.properties</include>
+                         
+                         </includes>
+                         <excludes>
+                              <exclude>META-INF/*.SF</exclude>
+                              <exclude>META-INF/*.DSA</exclude>
+                              <exclude>META-INF/*.RSA</exclude>
+                         </excludes>
+                      </filter>
+              </filters>
+			  <!-- finalName>dependencies-${project.version}</finalName-->
+			  
+			  <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"></transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
+                    <addHeader>false</addHeader>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer"/>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.PluginXmlResourceTransformer"/>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/spring.handlers</resource>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/spring.schemas</resource>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.XmlAppendingTransformer">
+                  <resource>META-INF/magic.xml</resource>
+                  <!-- Add this to enable loading of DTDs
+                  <ignoreDtd>false</ignoreDtd>
+                  -->
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
+                    <resource>.txt</resource>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                    <resource>META-INF/README</resource>
+                    <file>README.txt</file>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <manifestEntries>
+                    <Main-Class>${app.main.class}</Main-Class>
+                    <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
+                    <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
+                  </manifestEntries>
+                </transformer>
+              </transformers>
+		   </configuration>
+		   
+	   </plugin>
+    </plugins>
+   </build>
+   <reporting>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.9.1</version>
+            <configuration>
+               <show>public</show>
+               <nohelp>true</nohelp>
+            </configuration>
+         </plugin>
+      </plugins>
+  </reporting>
+ 
+  <organization>
+  	<name>ACLQA Automation</name>
+  	<url>https://aclgrc.atlassian.net/wiki/display/ACD/Analytics+Continuous+Delivery</url>
+  </organization>
+  <ciManagement>
+  	<system>Jenkins</system>
+  	<url>http://biollante02:8080/view/TestUtilities/</url>
+  </ciManagement>
+  <issueManagement>
+  	<system>JIRA</system>
+  	<url>https://aclgrc.atlassian.net/</url>
+  </issueManagement>
+</project>

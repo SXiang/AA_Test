@@ -3,6 +3,7 @@
 !/*.bat
 .*
 !.gitignore
+!pom.xml
 *.[oa]
 *~
 *.class

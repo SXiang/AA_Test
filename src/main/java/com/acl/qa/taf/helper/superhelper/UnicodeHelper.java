@@ -92,13 +92,18 @@ public abstract class UnicodeHelper extends DatabaseHelper
 	// *****************************************************************************************
 	// ****** Implemented for selenium2 webdriver  -- Steven 
 	// ******************************************************************************************
-	
 	public static void inputChars(WebElement we, String text){
 		inputChars(null,we,text);
-	}
+	}	
+
 		public static void inputChars(WebDriver driver, WebElement we, String text){
 			text = text.trim();
-			
+			try{
+				we.click();
+			}catch(Exception e){
+				
+			}
+			we.clear();
 			if(isAscii(text)){
 				we.sendKeys(text);
 				//we.sendKeys(Keys.ENTER);
@@ -106,7 +111,7 @@ public abstract class UnicodeHelper extends DatabaseHelper
 				sleep(1);
 				return;
 			}else{
-				we.clear();
+
 				inputUnicodeChars(driver,we, text);
 				//inputUnicodeChars(text);
 			}

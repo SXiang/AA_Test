@@ -12,8 +12,9 @@ import com.acl.qa.taf.util.*;
 public class ProjectConf {
 
 	// **** User defined parameters - declared on demand *****
-	public String unicodeServerIP = "192.168.10.95",
-			nonUnicodeServerIP = "192.168.10.98",
+	public String 
+	        //20130923 clean parameters unicodeServerIP = "192.168.10.95",
+			//20130923 clean parameters nonUnicodeServerIP = "192.168.10.98",
 			serverPrefix = "C:/ACL/Automation/RFT_DATA/",
 			serverNetDir = ":/ACL/Automation/",
 			serverNetUser = "Administrator", serverNetPassword = "Password00",
@@ -22,7 +23,30 @@ public class ProjectConf {
 			localInputDataDir = "",
 			testDataDir = "",
 			toolDir = "";
-
+	public String webDriver = "chrome";
+	public String imageName = "chrome.exe";
+	public String driverName = "";
+	public String driverPath = "C:\\Selenium";
+	public String nodeName = "localhost";
+	public String nodePort = "4444";
+	public String executionType = "local";
+	public String casType = "nonSSO";
+	public String axServerName = "AUTOQAWIN2012.ACLQA.local";
+	public String axServerPort = "8443";
+    public String apiPrefix = "/aclax/api/";
+    public String anrPrefix = "localhost:10002/ui";
+    public String anrBatch = "C:\\ACL\\ANR\\AclRevolution.bat";
+    public String anrapiPrefix = "localhost:10002/anr";
+    public String anrProjectPath = "C:\\ANR\\DATA";
+    public String localizationSnapshots = "\\\\192.168.10.129\\Automation\\LocalizationSnapshots\\";
+    public String hubHost="192.168.10.129";
+    public String hubPort="4444";
+    public String hubPath="/wd/hub";
+    
+    //** Tend to add testNg report ... Steven
+    public String TestNg=LoggerHelper.getSystemProperty(
+    		InitializeTerminateHelper.sysPropPrefix+"TestNG","No");
+    
 	// ********************************************************
 	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
 	// ********** Setters - Auto generated and dir addressed *****************
@@ -157,13 +181,13 @@ public class ProjectConf {
 		this.hostIP = hostIP;
 	}
 
-	public void setUnicodeServerIP(String unicodeServerIP) {
-		this.unicodeServerIP = unicodeServerIP;
-	}
-
-	public void setNonUnicodeServerIP(String nonUnicodeServerIP) {
-		this.nonUnicodeServerIP = nonUnicodeServerIP;
-	}
+//	public void setUnicodeServerIP(String unicodeServerIP) {
+//		this.unicodeServerIP = unicodeServerIP;
+//	}
+//
+//	public void setNonUnicodeServerIP(String nonUnicodeServerIP) {
+//		this.nonUnicodeServerIP = nonUnicodeServerIP;
+//	}
 
 	public void setServerPrefix(String serverPrefix) {
 		this.serverPrefix = serverPrefix;
@@ -245,7 +269,7 @@ public class ProjectConf {
 			testerName = "Automation Demo Tester",
 			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
 
-	public String AUT="", appLocale = "", startComm, imageName;
+	public String AUT="", appLocale = "", startComm;
 
 	// Getter & Setter
 
