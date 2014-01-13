@@ -1,4 +1,0 @@
-@RUN BY@:g1_admin (ACLQA\g1_admin)
-@START TIME@:#Oct 4, 2013 9:35:03 AM#
-@END TIME@:#Oct 4, 2013 9:35:06 AM#
-@STATUS@:@error@

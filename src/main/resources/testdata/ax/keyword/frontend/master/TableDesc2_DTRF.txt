@@ -1,4 +1,0 @@
-@Description@:C'est la description de la table "étenduCaractères". C'est la description du texte créé par l'utilisateur de l'article.
-Le simple ajout des lignes suivantes pour augmenter sa longueur:
-C'est la description de activity actuel æÆôöòûùÿÖÜáíóúñÑº¿° C'est la description du texte créé par l'utilisateur de l'article. Depuis qu'il a été nommé pour activity à long, je voudrais créer une longue description de mon engagement æÆôöòûùÿÖÜáíóúñÑº¿°.
-Depuis chaînes japonaises sont plus courtes, je suis en ajoutant plus de texte pour trouver la longueur réelle

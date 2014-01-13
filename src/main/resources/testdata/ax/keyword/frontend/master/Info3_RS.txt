@@ -1,4 +1,0 @@
-@RUN BY@:g2_admin (ACLQA\g2_admin)
-@START TIME@:#Oct 4, 2013 9:43:28 AM#
-@END TIME@:#Oct 4, 2013 9:43:41 AM#
-@STATUS@:@completed@
