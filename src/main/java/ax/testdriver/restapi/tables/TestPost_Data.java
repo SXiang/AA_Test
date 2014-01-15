@@ -32,8 +32,8 @@ public class TestPost_Data extends TestDriverExampleHelper implements TestDriver
 	public void testMain(Object[] args) 
 	{		
 
-		//startFromLine = 4; // 4-9
-		//endAtLine =4;     //
+		startFromLine = 2; // 4-9
+		endAtLine =3;     //
 			
 		String poolFile = "testdata/ax/testdriver/restapi/tables/TestPost_Data.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

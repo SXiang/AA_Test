@@ -68,7 +68,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public boolean dataInitialization() {
-		getSharedObj();
+		//getSharedObj();
 		super.dataInitialization();
 		return true;
 	}
@@ -99,13 +99,13 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 			tableRecords = driver.findElements(tableRecordsLocator);
 		}else{
 			logTAFInfo("No tables found");
-			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText();
+			return "@"+columnHeaders.get(0).getText()+"@"+"|"+"@"+columnHeaders.get(1).getText()+"@"+"|"+"@"+columnHeaders.get(2).getText()+"@"+"|"+"@"+columnHeaders.get(3).getText()+"@";
 		}
 		for(int i = 0; i < tableName.size(); i++) {
 	        	if(i==0){
-	        		tablesList=columnHeaders.get(0).getText()+":"+tableName.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+tableSize.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+tableRecords.get(i).getText();
+	        		tablesList="@"+columnHeaders.get(0).getText()+"@"+":"+tableName.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+tableSize.get(i).getText()+"|"+"@"+columnHeaders.get(2).getText()+"@"+":"+tableRecords.get(i).getText();
 	        	}else{
-	        		tablesList=tablesList+"\r\n"+columnHeaders.get(0).getText()+":"+tableName.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+tableSize.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+tableRecords.get(i).getText();
+	        		tablesList=tablesList+"\r\n"+"@"+columnHeaders.get(0).getText()+"@"+":"+tableName.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+tableSize.get(i).getText()+"|"+"@"+columnHeaders.get(2).getText()+"@"+":"+tableRecords.get(i).getText();
 	        	}
 	        }
 	        return tablesList;
@@ -124,7 +124,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	        		logTAFStep("Table: "+table+" found and clicked on its Description icon.");
 	        		descIcon.get(i).click();
 	        		takeScreenshotWithoutScroll();
-	        		desc = driver.findElements(descHeaderLocator).get(i).getText()+":"+driver.findElements(descLocator).get(i).getText();
+	        		desc = "@"+driver.findElements(descHeaderLocator).get(i).getText()+"@"+":"+driver.findElements(descLocator).get(i).getText();
 	        		descIcon.get(i).click();
 	        		return desc;
 	        	}
@@ -145,7 +145,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	        		logTAFStep("File: "+file+" found and clicked on its Description icon.");
 	        		descIcon.get(i).click();
 	        		takeScreenshotWithoutScroll();
-	        		desc = driver.findElements(descHeaderLocator).get(i).getText()+":"+driver.findElements(descLocator).get(i).getText();
+	        		desc = "@"+driver.findElements(descHeaderLocator).get(i).getText()+"@"+":"+driver.findElements(descLocator).get(i).getText();
 	        		descIcon.get(i).click();
 	        		return desc;
 	        	}
@@ -162,13 +162,13 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 			fileSize = driver.findElements(fileSizeLocator);
 		}else{
 			logTAFInfo("No files found");
-			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText();
+			return "@"+columnHeaders.get(0).getText()+"@"+"|"+"@"+columnHeaders.get(1).getText()+"@";
 		}
 		for(int i = 0; i < fileName.size(); i++) {
 	        	if(i==0){
-	        		filesList=columnHeaders.get(0).getText()+":"+fileName.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+fileSize.get(i).getText();
+	        		filesList="@"+columnHeaders.get(0).getText()+"@"+":"+fileName.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+fileSize.get(i).getText();
 	        	}else{
-	        		filesList=filesList+"\r\n"+columnHeaders.get(0).getText()+":"+fileName.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+fileSize.get(i).getText();
+	        		filesList=filesList+"\r\n"+"@"+columnHeaders.get(0).getText()+"@"+":"+fileName.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+fileSize.get(i).getText();
 	        	}
 	        }
 	        return filesList;
@@ -177,7 +177,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
-		return driver.findElement(projectHeaderLocator).getText();
+		return "@"+driver.findElement(projectHeaderLocator).getText()+"@";
 	}
 	public String getProjectName(){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
@@ -232,7 +232,7 @@ public class DataTablesRelatedFilesHelper extends FrontendCommonHelper{
 	}
 	
 	public String getListHeader(){
-		return driver.findElement(listHeaderLocator).getText();
+		return "@"+driver.findElement(listHeaderLocator).getText()+"@";
 	}
 	
 	public Boolean clickTestSetNameFromDropDown(String testSetName){

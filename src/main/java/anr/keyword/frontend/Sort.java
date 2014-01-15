@@ -1,9 +1,6 @@
 package anr.keyword.frontend;
-
-import anr.lib.frontend.DataVisualizationHelper;
-
-
-public class Sort  extends DataVisualizationHelper{
+import anr.lib.frontend.QuickFilterHelper;
+public class Sort  extends QuickFilterHelper {
 
 	/**
 	 * Script Name   : <b>Sort</b>
@@ -22,6 +19,9 @@ public class Sort  extends DataVisualizationHelper{
 	protected String dpSortDirection; //@arg whether want to sort Ascending or Descending
 	                                  // value = asc | desc
 	// END of datapool variables declaration
+	protected String dpMasterFile;
+	
+	private boolean foundIt = false;
 	
 	@Override
 	public boolean dataInitialization() {
@@ -29,6 +29,7 @@ public class Sort  extends DataVisualizationHelper{
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
 		dpSortDirection = getDpString("SortDirection");
+		dpMasterFile = getDpString("MasterFiles");
 		//END
 		return true;
 	}	
@@ -43,13 +44,16 @@ public class Sort  extends DataVisualizationHelper{
 		if(!dpColumnName.isEmpty()){
 			openQuickFilterMenu();
 		}
-		if(!dpSortDirection.isEmpty()){
-			if(dpSortDirection.equalsIgnoreCase("desc")){
+		if(!dpSortDirection.isEmpty() && foundIt){
+			/*if(dpSortDirection.equalsIgnoreCase("desc")){
 				sortDescending();
 			}
-			else{
+			else if(dpSortDirection.equalsIgnoreCase("asc")){
 				sortAscending();
-			}
+			}*/
+			
+			quickSort(dpSortDirection);
+			
 		}
 		cleanUp();
 	
@@ -62,7 +66,12 @@ public class Sort  extends DataVisualizationHelper{
 	// *******************************************
 	
 	public void openQuickFilterMenu(){
-		clickColumnHeader(dpColumnName);
+		foundIt = clickColumnHeader(dpColumnName);
+		if(foundIt){
+			logTAFStep("Column '"+dpColumnName+"' found and clicked on");
+		}else{
+			logTAFError("Column '"+dpColumnName+"' NOT found");
+		}
 	}
 	
 	public void sortDescending(){

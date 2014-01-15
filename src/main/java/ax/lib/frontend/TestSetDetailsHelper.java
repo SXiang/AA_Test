@@ -64,7 +64,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public boolean dataInitialization() {
-		getSharedObj();
+		//getSharedObj();
 		super.dataInitialization();
 		return true;
 	}
@@ -131,7 +131,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	}
 
 	public String getDescription(){
-		return driver.findElements(rightPanelTitleLocator).get(2).getText()+":"+driver.findElement(descriptionLocator).getText();
+		return "@"+driver.findElements(rightPanelTitleLocator).get(2).getText()+"@"+":"+driver.findElement(descriptionLocator).getText();
 	}
 	
 	public String getInfo(){
@@ -139,10 +139,10 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(infoContentLabelLocator));
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
-        		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
-        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
+        		infoPanelContent="@"+driver.findElements(infoContentLabelLocator).get(i).getText()+"@"+":"+"#"+driver.findElements(infoContentDataLocator).get(i).getText()+"#";
+        		//infoPanelContent="@"+driver.findElements(infoContentLabelLocator).get(i).getText()+"@";
         	}else{
-        		infoPanelContent=infoPanelContent+"\r\n"+driver.findElements(infoContentLabelLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"\r\n"+"@"+driver.findElements(infoContentLabelLocator).get(i).getText()+"@"+":"+"#"+driver.findElements(infoContentDataLocator).get(i).getText()+"#";
         		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         	}
         }
@@ -153,14 +153,14 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(rightPanelTitleLocator));
-		return driver.findElements(rightPanelTitleLocator).get(0).getText();
+		return "@"+driver.findElements(rightPanelTitleLocator).get(0).getText()+"@";
 	}
 	
 	public String getRelatedFilesLabel(){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(rightPanelTitleLocator));
-		return driver.findElements(rightPanelTitleLocator).get(1).getText();
+		return "@"+driver.findElements(rightPanelTitleLocator).get(1).getText()+"@";
 	}
 	
 	public void clickDataTablesLink(){
@@ -182,7 +182,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
-		return driver.findElement(projectHeaderLocator).getText();
+		return "@"+driver.findElement(projectHeaderLocator).getText()+"@";
 	}
 	public String getProjectName(){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
@@ -239,7 +239,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	public String getTestHeader(){
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(testsHeaderLocator));
-		return driver.findElement(testsHeaderLocator).getText();
+		return "@"+driver.findElement(testsHeaderLocator).getText()+"@";
 	}
 	
 	public String getUsersPanelTitle() {
@@ -256,7 +256,8 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 		sleep(timerConf.itemClickTime);
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(usersPopupHeaderLocator));
-		return driver.findElement(usersPopupHeaderLocator).getText();
+		String[] usersHeader  = driver.findElement(usersPopupHeaderLocator).getText().split(" - ");
+		return "@"+usersHeader[0]+"@ - "+usersHeader[1];
 	}
 	public String getUsersList(){
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);

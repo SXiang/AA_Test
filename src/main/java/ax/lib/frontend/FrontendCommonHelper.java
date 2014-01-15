@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,6 +68,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
     // BEGIN of other local variables declaration
 	protected String[] searchItemsArr;
 	protected List<WebElement> searchItems;
+	protected List<WebElement> elements;
 	protected String allSearchItems;
 	//END
 	
@@ -123,7 +125,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public String getFooter() {
-		return driver.findElement(copyrightFooter).getText();
+		return "@"+driver.findElement(copyrightFooter).getText()+"@";
 	}	
 	
 	public void filterList(){
@@ -241,9 +243,9 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public boolean compareTxtResult(String result,String master)	{
 		
-        String[] ignorePattern ={""};
-        String[] ignoreName = {""};
-        String delimiterPattern = "\r\n";
+        String[] ignorePattern ={"@[\\s\\S]*@","#[\\s\\S]*#"};
+        String[] ignoreName = {"@LabelMasked@","#VaryingDataMasked#"};
+        String delimiterPattern = "";
         
         return compareResult(
         	master,result,
@@ -259,8 +261,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public boolean isElementEnabled(By locator, String elementName) {
 		boolean done = false;
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.elementToBeClickable(locator));
 		try{
+			wait.until(ExpectedConditions.elementToBeClickable(locator));
 			done = driver.findElement(locator).isEnabled();
 			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
@@ -272,8 +274,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 		try{
+			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			done = driver.findElement(locator).isDisplayed();
 			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
@@ -287,21 +289,33 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	// *******************************************
 	
 	public void cleanUp() {
-
-		if (dpEndWith.equals("close")) {
+		String url = "https://"+projectConf.axServerName +":"+projectConf.axServerPort+"/aclax/";
+		cleanUp(url);
+	}
+    public void cleanUp(String url){
+		if (dpEndWith.equalsIgnoreCase("close")) {
            closeBrowser();
-		}else if (dpEndWith.equals("kill")) { // if image name is available
+		}else if (dpEndWith.equalsIgnoreCase("kill")) { // if image name is available
           killBrowser();
-		} else if (dpEndWith.equals("logout")) {	
-			//casLogout(url);						
-		} else {
+		} else if (dpEndWith.equalsIgnoreCase("logout")) {	
+			casLogout(url);						
+		}  else if (dpEndWith.equalsIgnoreCase("quit")) {	
+			closeBrowser(true)	;			
+		}else {
 			return;
 		}		
 	}
-
-	public void closeBrowser(){
-		driver.close();
-		killProcess(projectConf.driverName);
+    public void closeBrowser(){
+    	closeBrowser(false);
+    }
+	public void closeBrowser(boolean quit){
+		if(quit){
+		  driver.quit();
+		    killProcess(projectConf.driverName);
+		}else{
+			driver.close();
+			killProcess(projectConf.driverName);
+		}
 		driver = null;
 		logTAFStep("Close test browser");
 		setSharedObj();
@@ -316,7 +330,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	}
 	
 	public boolean casLogout(String url){
-		/**
+		//** no idea if it works, please verify first. acc to Steven, it should work.
 		String infoText = "You have successfully logged out";
 		
 		String logoutUrl = url.substring(0,url.indexOf("/aclax/")) + "/cas/logout";// "/cas/login"
@@ -330,7 +344,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 			return false;
 		}
 		setSharedObj();
-		**/
+		
 		return true;
 	}
 	
@@ -355,4 +369,16 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		}
 	}	
 
+	public static org.testng.log4testng.Logger nglog;
+	public FrontendCommonHelper(){
+		nglog = org.testng.log4testng.Logger.getLogger(this.getClass());
+	}
+	
+	public void sleepAndWait(int seconds) {
+		try {
+		TimeUnit.SECONDS.sleep(seconds);
+		} catch (InterruptedException ie) {
+		    //Handle exception
+		}
+	}
 }

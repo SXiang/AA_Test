@@ -45,7 +45,7 @@ public class ResultsHelper extends FrontendCommonHelper{
 	By resultSizeLocator = By.cssSelector("div.result-row > div > div > span:nth-child(1)");
 	By resultTypeLocator = By.cssSelector("div.result-row > div > div:nth-child(2)");
 	By resultRecordsLocator = By.cssSelector("div.result-row > div > div:nth-child(3)");
-	By tableDownloadIconLocator = By.cssSelector("div.result-row > div > div > a > i.icon_download");
+	By tableDownloadIconLocator = By.cssSelector("div.result-row > div a > i.icon_download");
 	By rightPanelTitleLocator = By.className("right-panel-block-title");
 	By rightPanelIconLocator = By.className("right-panel-block-icon");
 	By infoContentLabelLocator = By.cssSelector("div.right-panel-block-content > dl > dt > span");
@@ -126,36 +126,38 @@ public class ResultsHelper extends FrontendCommonHelper{
 			resultRecords = driver.findElements(resultRecordsLocator);
 		}else{
 			logTAFError("No job results available");
-			return columnHeaders.get(0).getText()+"|"+columnHeaders.get(1).getText()+"|"+columnHeaders.get(2).getText()+"|"+columnHeaders.get(3).getText();
+			return "@"+columnHeaders.get(0).getText()+"@"+"|"+"@"+columnHeaders.get(1).getText()+"@"+"|"+"@"+columnHeaders.get(2).getText()+"@"+"|"+"@"+columnHeaders.get(3).getText()+"@";
 		}
 		for(int i = 0; i < resultName.size(); i++) {
 	        	if(i==0){
 	        		if(isCheckboxChecked()){
 	        			logTAFError("The result "+resultName.get(i).getText()+"has checked checkbox");
 	        		}
-	        		resultsList=columnHeaders.get(0).getText()+":"+resultName.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+resultType.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+resultRecords.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+resultSize.get(i).getText();
+	        		resultsList="@"+columnHeaders.get(0).getText()+"@"+":"+resultName.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+"@"+resultType.get(i).getText()+"@"+"|"+"@"+columnHeaders.get(2).getText()+"@"+":"+resultRecords.get(i).getText()+"|"+"@"+columnHeaders.get(3).getText()+"@"+":"+resultSize.get(i).getText();
 	        	}else{
 	        		if(isCheckboxChecked()){
 	        			logTAFError("The result "+resultName.get(i).getText()+"has checked checkbox");
 	        		}
-	        		resultsList=resultsList+"\r\n"+columnHeaders.get(0).getText()+":"+resultName.get(i).getText()+"|"+columnHeaders.get(1).getText()+":"+resultType.get(i).getText()+"|"+columnHeaders.get(2).getText()+":"+resultRecords.get(i).getText()+"|"+columnHeaders.get(3).getText()+":"+resultSize.get(i).getText();
+	        		resultsList=resultsList+"\r\n"+"@"+columnHeaders.get(0).getText()+"@"+":"+resultName.get(i).getText()+"|"+"@"+columnHeaders.get(1).getText()+"@"+":"+"@"+resultType.get(i).getText()+"@"+"|"+"@"+columnHeaders.get(2).getText()+"@"+":"+resultRecords.get(i).getText()+"|"+"@"+columnHeaders.get(3).getText()+"@"+":"+resultSize.get(i).getText();
 	        	}
 	        }
 	        return resultsList;
 	}
 	
 	public boolean isCheckboxChecked(){
-		if(driver.findElements(resultCheckboxLocator).get(1).getAttribute("style").contains("display: none")){
-			return false;
+		/* not used
+		if(!driver.findElements(resultCheckboxLocator).get(1).getAttribute("style").contains("display: none")){
+			return true;
 		}
-		return true;
+		*/
+		return false;
 	}
 
 	public String getProjectHeader(){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
-		return driver.findElement(projectHeaderLocator).getText();
+		return "@"+driver.findElement(projectHeaderLocator).getText()+"@";
 	}
 	public String getProjectName(){
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
@@ -239,7 +241,7 @@ public class ResultsHelper extends FrontendCommonHelper{
 		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		wait.until(ExpectedConditions.presenceOfElementLocated(listHeaderLocator));
-		return driver.findElement(listHeaderLocator).getText();
+		return "@"+driver.findElement(listHeaderLocator).getText()+"@";
 	}
 	
 	public String getInfo(){
@@ -247,13 +249,13 @@ public class ResultsHelper extends FrontendCommonHelper{
 		wait.until(ExpectedConditions.presenceOfElementLocated(infoContentDataLocator));
 		for(int i = 0; i < 4; i++) {
         	if(i==0){
-        		infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent="@"+driver.findElements(infoContentLabelLocator).get(i).getText()+"@"+":"+driver.findElements(infoContentDataLocator).get(i).getText();
         		//infoPanelContent=driver.findElements(infoContentLabelLocator).get(i).getText();
         	}else if(i<3){
         		//infoPanelContent=infoPanelContent+"|"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
-        		infoPanelContent=infoPanelContent+"\r\n"+driver.findElements(infoContentLabelLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"\r\n"+"@"+driver.findElements(infoContentLabelLocator).get(i).getText()+"@"+":"+"#"+driver.findElements(infoContentDataLocator).get(i).getText()+"#";
         	}else{
-        		infoPanelContent=infoPanelContent+"\r\n"+driver.findElements(infoContentLabelLocator).get(i).getText()+":"+driver.findElements(infoContentDataLocator).get(i).getText();
+        		infoPanelContent=infoPanelContent+"\r\n"+"@"+driver.findElements(infoContentLabelLocator).get(i).getText()+"@"+":"+"@"+driver.findElements(infoContentDataLocator).get(i).getText()+"@";
         	}
         }
 		return infoPanelContent;

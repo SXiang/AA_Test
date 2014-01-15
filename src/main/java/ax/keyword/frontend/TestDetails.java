@@ -32,6 +32,8 @@ public class TestDetails  extends TestDetailsHelper{
 		dpProjectName = getDpString("ProjectName");
 		dpTestSetName = getDpString("TestSetName");
 		dpTestName = getDpString("TestName");
+		
+		//logTAFStep("Test Name" + dpTestName);
 		//END
 		return true;
 	}	

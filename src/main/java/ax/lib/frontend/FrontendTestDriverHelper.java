@@ -11,7 +11,8 @@ public class FrontendTestDriverHelper extends TestDriverSuperHelper{
 		public WebDriver currentDriver = null;
 		public String currentImageName = "";
 		public String browserType = "";
-		
+		public boolean casAuthenticated = false;
+		public String currentDriverName = "";		
 		// ***********************************************
 		public FrontendTestDriverHelper() {
 			// TODO Auto-generated constructor stub
