@@ -1,32 +1,18 @@
 package anr.lib.frontend;
 
-import java.awt.Toolkit;
-
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-
-
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.io.File;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.thoughtworks.selenium.Selenium;
+import ax.lib.frontend.FrontendCommonHelper;
 
-import anr.lib.frontend.ANR_FrontendCommonHelper;
-
-public class OpenProjectHelper extends ANR_FrontendCommonHelper{
+public class OpenProjectHelper extends FrontendCommonHelper{
 	/**
 	 * Script Name   : <b>OpenProjectsHelper</b>
 	 * Generated     : <b>Oct 4, 2013</b>
@@ -43,32 +29,17 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 	// BEGIN of datapool variables declaration
 	protected String dpWebDriver; //@arg Selenium webdriver type
     							  //@value = HtmlUnit|Firefox|IE|Chrome
-	//1225 protected String dpAXServerName; //@arg AX Server name or IP address
-	//1225 protected String dpAXServerPort; //@arg AX Server port
+	protected String dpAXServerName; //@arg AX Server name or IP address
+	protected String dpAXServerPort; //@arg AX Server port
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of OpenProject page
 	By projectFilePathLocator = By.id("projectFilePath");
 	By projectOpenButtonLocator = By.id("projectOpenButton");
-
-	By projectHeaderLocator = By.cssSelector("span[key^='_Anr.Product.Navbar_'");  //Header:AN Revolution
-    By chevronIconLocator = By.className("icon-chevron-left");
-	By searchIconLocator = By.className("icon-search");
-	
 	By projectTitleLocator = By.id("projectTitle");
-	By descriptionButtonLocator = By.id("description");
 	By dataTablesButtonLocator = By.id("dataTables");
-	By relatedFilesButtonLocator = By.id("relatedFiles");
-	
-	By importLocator = By.cssSelector("span[key^='_Anr.Project.Import_'");
-	By prepareLocator = By.cssSelector("span[key^='_Anr.Project.Prepare_'");
-	By analyzeLocator = By.cssSelector("span[key^='_Anr.Project.Analyze_'");
 
-	By descriptionHeaderLocator = By.cssSelector("div[id='descriptionModal'] > div > div > div[class='modal-header'] > div > span");
-	By descriptionBodyLocator = By.cssSelector("div[id='descriptionModal'] > div > div > div[class='modal-body']");
-	By scriptGroupLocator = By.cssSelector("div[class^='script-group'] > div[class='ng-scope'] > div > div > div > div");
-	By closeButtonLocator = By.cssSelector("button[class='close']");
-	
+	By analyzeLocator = By.className("script-group");
 	By titleRowLocator = By.cssSelector("div[class='row-fluid datatables-title-row']");
 	
 	By tableNameLocator = By.cssSelector("div[class^='datatables-row'] > div.row-fluid:nth-child(2) > div[class^='span7']");
@@ -95,7 +66,9 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		super.dataInitialization();
 		
 		dpWebDriver = projectConf.getWebDriver();
-//1225		imageName = projectConf.getImageName();
+		dpAXServerName = projectConf.getAxServerName();
+		dpAXServerPort = projectConf.getAxServerPort();
+		imageName = projectConf.getImageName();
 
 		return true;
 	}
@@ -104,19 +77,59 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 	public void testMain(Object[] args) {
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
+//		isElementEnabled(projectOpenButtonLocator, "Open Local Project");
 	}
 
 	//***************  Part 3  *******************
 	// ******* Methods           ****************
 	// *******************************************
+	
+	public  String getAllTables(String projectfolder, String projectfile) {
+		String tables = "";
+		
+		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
+			clickdataTablesButton();
+			allTableNames = driver.findElements(tableNameLocator);
+			allTableRecords = driver.findElements(tableRecordsLocator);
+			allTableSizes = driver.findElements(tableSizeLocator);
+			allTableSizeUnits = driver.findElements(tableSizeUnitLocator);
+		}
+
+		//Locate the cursor to the first line
+		driver.findElement(titleRowLocator).getText(); 
+		tables = driver.findElement(titleRowLocator).getText(); 
+		tables.replace("\n", " ");
+        for(int i = 0; i < allTableNames.size(); i++) {
+        	tables=tables+"\r\n"+allTableNames.get(i).getText()+" "+allTableRecords.get(i).getText()+" "+allTableSizes.get(i).getText();
+        }
+        return tables;
+	}
+
+	public  String getAllAnalytics(String projectfolder, String projectfile) {
+		String analytics = "";
+		
+		if(((projectfolder != null) && (projectfolder!="")) && ((projectfile != null)||(projectfile!=""))) {
+			allAnalytics = driver.findElements(analyzeLocator);
+		}
+		
+//		analytics += analyticsTag.getText();
+        for(int i = 0; i < allAnalytics.size(); i++) {
+        	//analytics=analytics+"\r\n"+allAnalytics.get(i).getText();
+        	analytics=analytics+allAnalytics.get(i).getText();
+        }
+        return analytics;
+	}
+
+	public String getProjectTitle() {
+		return driver.findElement(projectTitleLocator).getText();
+	}	
+	
 	public boolean clickProjectOpenButton(String projectfolder, String projectfile) {
 		//Enter ACL Project file folder
 	    logTAFStep("Enter the full path of an ACL project file...");
-		if(!projectfolder.isEmpty() && !projectfolder.isEmpty()) {
+		if(((projectfolder != null) && (projectfolder!="")) && ((projectfolder != null)||(projectfolder!=""))) {
 			WebElement element = driver.findElement(projectFilePathLocator);
 			element.sendKeys(projectfolder+"\\" + projectfile);
-		} else {
-			logTAFWarning("");
 		}
 		
 		//Click Open Local Project button
@@ -127,78 +140,38 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		return true;
 	}
 	
-	public void verifyElementsEnabledOrDisplayed(){
-		isElementEnabled(relatedFilesButtonLocator, "Related Files Button");
-		isElementEnabled(dataTablesButtonLocator, "Data Tables Button");
-		isElementEnabled(descriptionButtonLocator, "Project Description Button");
-		isElementDisplayed(importLocator, "Import");
-		isElementDisplayed(prepareLocator, "Prepare");
-		isElementDisplayed(chevronIconLocator, "Go Back");
-		isElementDisplayed(searchIconLocator, "Search");
-	}
-
-	public String getProjectTitle() {
-		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(projectTitleLocator));
-		return driver.findElement(projectTitleLocator).getText();
-	}	
-
-	public String getDescription() {
-		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
-		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(descriptionButtonLocator));
-
-		//Click Description
-		logTAFStep("Click Description button");
-		
-		driver.findElement(descriptionButtonLocator).click();
-
-		String header=driver.findElement(descriptionHeaderLocator).getText();
-		String body=driver.findElement(descriptionBodyLocator).getText();
-		
-		//Return Description Header&Bodyof project
-		return header+"\r\n"+body;
-	
-	}
-	
-	public  String getAllAnalytics(String projectfolder, String projectfile) {
-		String analytics = "";
-
-		allAnalytics = driver.findElements(scriptGroupLocator);
-			
-        for(int i = 0; i < allAnalytics.size(); i++) {
-        	if (i==0)
-        		analytics=allAnalytics.get(i).getText();
-        	else
-        		analytics=analytics+"\r\n"+allAnalytics.get(i).getText();
-        }
-		
-        return analytics;
-	}
-
-	public String getProjectHeader() {
-		((JavascriptExecutor) driver).executeScript("scroll(250,0);");
-		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(projectHeaderLocator));
-
-		return "@"+driver.findElement(projectHeaderLocator).getText()+"@";
-	}
-
-	public void clickDataTablesButton() {
-		//Click Data Tables Icon Button
-	    logTAFStep("Click Data Tables Icon Button");
+	public boolean clickdataTablesButton() {
+		//Enter ACL Project file folder
+	    logTAFStep("Click Data Tables button");
 		driver.findElement(dataTablesButtonLocator).click();
-	}
-	
-	public void clickRelatedFilesButton(){
-		//Click Related Files Link
-	    logTAFStep("Click Related Files Button");
-		driver.findElement(relatedFilesButtonLocator).click();
+		
+		return true;
 	}
 
-	public void closeLayer() {
-		new Actions(driver).moveToElement(driver.findElement(closeButtonLocator)).click().perform();
-	}	
+	public boolean clickTableName(String tablename) {
+		List<WebElement> allTables;
+		List<WebElement> allDataVisualizeIcons;
+		
+	    logTAFStep("Find the table name");
+		
+	    //Find the table list
+	    allTables = driver.findElements(tableNameLocator);
+	    allDataVisualizeIcons = driver.findElements(dataVisualizeIconLocator);
+	    		
+		for(int i = 0; i < allTables.size(); i++) {
+		    String temp = allTables.get(i).getText();
+        	if (temp.equalsIgnoreCase(tablename)) {
+        	    logTAFStep("Table name has been found successfully!");
+        	    logTAFStep("Click the related data visualize icon");
+        	    allDataVisualizeIcons.get(i).click();
+        		
+        		sleep(1);
+        		return true;
+        	}
+		}
+
+        return false;
+	}
 
 	public void launchBrowser() {
 		if (dpWebDriver.equals("")) {
@@ -208,7 +181,7 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		}
 	}
 	
-	public void setupNewDriver(String browserType) {
+/*	public void setupNewDriver(String browserType) {
 		if (browserType.equalsIgnoreCase("chrome")) {
 			logTAFStep("Recognized Chrome browser, about to intiate...");
 			InitiateChromeBrowser();
@@ -216,8 +189,7 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		}
 
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		String url=projectConf.getanrPrefix()+"/index.html";
-		driver.get(url);
+		driver.get(projectConf.getanrPrefix()+"/index.html");
 		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 	    Dimension screenResolution = new Dimension((int)
@@ -229,50 +201,20 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		setSharedObj();
 		logTAFStep("Browser initiated successfully");
 	}
+*/
 
+	public void setupNewDriver(String browserType) {
 
-	public void setupNewDriverCEF(String browserType) {
-
-		File chromium = new File("C:\\ACL\\ANR\\ANR.exe");
+		File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR.exe");
 		//File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR-Shortcut.shortcut");
  		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
-		
-//		options.addArguments("--start-maximized");
-//		options.setBinary(chromium);
-		options.setBinary("C:\\ACL\\ANR\\ANR.exe");
-		//options.addArguments("/staticport","C:\\ANR\\DATA\\NonUnicode\\AllTypesACLProjects\\Analytics.ACL");
-		driver = new ChromeDriver(options);
-
-		driver.manage().timeouts().implicitlyWait(130, TimeUnit.SECONDS);
-		
-//		Toolkit toolkit = Toolkit.getDefaultToolkit();
-//	    Dimension screenResolution = new Dimension((int)
-//	    toolkit.getScreenSize().getWidth(), (int)
-//	    toolkit.getScreenSize().getHeight());
-//	    driver.manage().window().maximize();
-//	    driver.manage().window().setPosition(new Point(0, 0));
-		//driver.manage().window().setSize(screenResolution);
-		//((JavascriptExecutor) driver).executeScript("window.resizeTo(1024, 768);");
-		
-		setSharedObj();
-		logTAFStep("Browser initiated successfully");
-	}
-
-	public void setupNewDriverJohn(String browserType) {
-
-		File chromium = new File("C:\\ACL\\ANR\\ANR.exe");
-		//File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR-Shortcut.shortcut");
- 		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
-		ChromeOptions options = new ChromeOptions();
-		
 //		options.addArguments("--start-maximized");
 		options.setBinary(chromium);
-		options.addArguments("--start-maximized");
-		options.addArguments("/staticport","C:\\ANR\\DATA\\NonUnicode\\AllTypesACLProjects\\Analytics.ACL");
+		 		
 		driver = new ChromeDriver(options);
 
-		driver.manage().timeouts().implicitlyWait(130, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
 //		Toolkit toolkit = Toolkit.getDefaultToolkit();
 //	    Dimension screenResolution = new Dimension((int)

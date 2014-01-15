@@ -1,14 +1,17 @@
 package anr.keyword.frontend;
 
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.chrome.ChromeDriver;
+
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
+
 import anr.lib.frontend.OpenProjectHelper;
 
 public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 	
 	/**
-	 * Script Name   : <b>OpenProject</b>
+	 * Script Name   : <b>Search</b>
 	 * Generated     : <b>Oct 4, 2013</b>
 	 * Description   : OpenProject
 	 * @author Karen Zou
@@ -19,10 +22,9 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 	// *******************************************
 	
 	// BEGIN of datapool variables declaration
-	private String dpProjectFolder;     //@arg the project folder to open
-	private String dpProjectFile;       //@arg the project file name to open 
-	private String dpOpenTablesOrFiles; //@arg select whether open Data Tables or Related Files
-	//1225 private String dpTableName;
+	private String dpProjectFolder;
+	private String dpProjectFile;
+	private String dpTableName;
 	// END of datapool variables declaration
 
     // BEGIN of other local variables declaration
@@ -38,7 +40,7 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 		
 		dpProjectFolder = getDpString("ProjectFolder");
 		dpProjectFile = getDpString("ProjectFile");
-		dpOpenTablesOrFiles = getDpString("OpenTablesOrFiles");
+		dpTableName = getDpString("TableName");
 		
 		return true;
 	}
@@ -58,32 +60,20 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 		launchBrowser();
 		
 		//Enter Project File with the full path
-		if(!(dpProjectFolder.isEmpty()) && !(dpProjectFile.isEmpty())) {
-			clickProjectOpenButton(dpProjectFolder,dpProjectFile);
-			
-			verifyElementsEnabledOrDisplayed();
+		clickProjectOpenButton(dpProjectFolder,dpProjectFile);
+		
+		if(((dpProjectFolder != null) && (dpProjectFolder!="")) && ((dpProjectFile != null)||(dpProjectFile!=""))) {
 			verifyProjectName(dpProjectFolder,dpProjectFile);
-
-			if(!dpMasterFiles[0].isEmpty()){
-				verifyDescription();
-				closeLayer();
-			}
-
-			if(!dpMasterFiles[1].isEmpty()){
-				verifyAllAnalyticsList();
-			}
-			
-			if (!dpMasterFiles[2].isEmpty()) {
-				verifyHeaderFooter();
-			}
-
-			if (dpOpenTablesOrFiles.contains("table")){
-				openDataTables();
-			}else if (dpOpenTablesOrFiles.contains("file")){ 
-				openRelatedFiles();
-			}
 		}
-			
+		if(!dpMasterFiles[0].isEmpty()){
+			verifyAllAnalyticsList();
+			verifyAllTablesList();
+		}
+
+		if ((dpTableName != null) && (dpTableName != "")) {
+			OpenTable(dpTableName);
+		}
+		
 		cleanUp();
 	
 		// *** cleanup by framework ***
@@ -96,54 +86,45 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 	public void verifyProjectName(String projectfolder, String projectfile){
 		String projecttitle = getProjectTitle();
 		if(projecttitle.isEmpty()){
-			logTAFError("No Project title Found!!!");
+			logTAFError("No Project title Found!!");
 		}else{
 			logTAFStep("Verify Project Name");
-			if ((projectfile.replaceAll(".[a|A][c|C][l|L][x|X|]*", "")).equalsIgnoreCase(projecttitle))
+			if ((projectfile.replaceAll(".[a|A][c|C][l|L]", "")).equalsIgnoreCase(projecttitle))
 				logTAFInfo("Project name is echo-displayed successfully");
 			else
 				logTAFError("Project name is echo-displayed unsuccessfully!!");
 		}
 	}
-
-	public void verifyDescription(){
-		String projectDescrption = getDescription();
+	
+	public void verifyAllTablesList(){
+		String allTables = getAllTables(dpProjectFolder,dpProjectFile);
 		
-		logTAFStep("Verify Project Description");
-		if(projectDescrption.isEmpty()){
-			logTAFWarning("No Project Description Found. Please check your data.");
+		if(allTables.isEmpty()){
+			logTAFError("No Table Found!!");
+		}else{
+			logTAFStep("Verify list of Tables - " + dpMasterFiles[0]);
+			result[0] = allTables; // You need to get actual result for
+											// each comparison
+			compareTxtResult(result[0], dpMasterFiles[0]);
 		}
-
-		result[0] = projectDescrption;
-		compareTxtResult(result[0],dpMasterFiles[0]);
 	}
-
+	
 	public void verifyAllAnalyticsList(){
 		String allAnalytics = getAllAnalytics(dpProjectFolder,dpProjectFile);
 		
-		logTAFStep("Verify list of Analytics - " + dpMasterFiles[1]);
 		if(allAnalytics.isEmpty()){
-			logTAFWarning("This project has no analytics. Please double check your data.");
+			logTAFError("No Table Found!!");
+		}else{
+			logTAFStep("Verify list of Analytics - " + dpMasterFiles[1]);
+			result[0] = allAnalytics; // You need to get actual result for
+											// each comparison
+			compareTxtResult(result[0], dpMasterFiles[1]);
 		}
-		
-		result[0] = allAnalytics; // You need to get actual result for each comparison
-		compareTxtResult(result[0], dpMasterFiles[1]);
 	}
 	
-	public void verifyHeaderFooter(){
-		String header = getProjectHeader();
-		logTAFStep("verify Page Header - "+dpMasterFiles[2]);
-		
-		result[0] = header; // You need to get actual result for each comparison
-		compareTxtResult(result[0], dpMasterFiles[2]);
-	}
 	
-	public void openDataTables(){
-		clickDataTablesButton();
-	}
-	
-	public void openRelatedFiles(){
-		clickRelatedFilesButton();
+	public void OpenTable(String tablename){
+		clickTableName(tablename);
 	}
 
 	public static void main(String args) {
