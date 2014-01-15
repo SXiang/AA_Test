@@ -253,18 +253,6 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 		int itemSize = filteredColumns.size();
 			
 		for(int i = 0; i < itemSize;i++){
-		/*	
-			logTAFStep("filteredColumns.get(i).getText() = " + filteredColumns.get(i).getText());
-			logTAFStep("column name = " + columnName);
-			
-			logTAFStep("Chosen option = " + chosenOption.get(i).getText());
-			logTAFStep("From Option = " + criteriaFilterFromOption);
-			
-			logTAFStep("Value (0) = " + filterValues.get(0).getAttribute("value"));
-			logTAFStep("size = " + filterValues.get(1).getAttribute("value"));
-			
-			logTAFStep("Value = " + filterValues.get(i).getAttribute("value"));
-			logTAFStep("From Value = " + criteriaFilterFromValue); */
 
 				if(filteredColumns.get(i).getText().equals(columnName) && chosenOption.get(i).getText().equals(criteriaFilterFromOption) && filterValues.get(i).getAttribute("value").equals(criteriaFilterFromValue)){
 					
