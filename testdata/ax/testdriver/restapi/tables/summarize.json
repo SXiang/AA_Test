@@ -1,0 +1,36 @@
+{
+  "params": {
+    "fields": "string",
+    "count": "integer",
+    "start": "integer"
+  },
+  "jobId": "string",
+  "sortField": {
+    "field": "string",
+    "order": "string"
+  },
+  "filterList": [
+    {
+      "name": "string",
+      "values": [
+        "string"
+      ],
+      "operator": "string"
+    }
+  ],
+  "globalSearch": "string",
+  "chartConfig": {
+    "chartValue": {
+      "summarizedType": "string",
+      "name": "string",
+      "type": "string"
+    },
+    "chartSubcategory": {
+      "name": "string",
+      "type": "string"
+    },
+    "chartCategory": {
+      "name": "string",
+      "type": "string"
+    }
+  }

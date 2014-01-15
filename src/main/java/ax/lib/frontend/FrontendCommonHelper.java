@@ -12,7 +12,6 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,7 +67,6 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
     // BEGIN of other local variables declaration
 	protected String[] searchItemsArr;
 	protected List<WebElement> searchItems;
-	protected List<WebElement> elements;
 	protected String allSearchItems;
 	//END
 	
@@ -261,8 +259,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public boolean isElementEnabled(By locator, String elementName) {
 		boolean done = false;
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.elementToBeClickable(locator));
 		try{
-			wait.until(ExpectedConditions.elementToBeClickable(locator));
 			done = driver.findElement(locator).isEnabled();
 			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
@@ -274,8 +272,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 		try{
-			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			done = driver.findElement(locator).isDisplayed();
 			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
@@ -372,13 +370,5 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	public static org.testng.log4testng.Logger nglog;
 	public FrontendCommonHelper(){
 		nglog = org.testng.log4testng.Logger.getLogger(this.getClass());
-	}
-	
-	public void sleepAndWait(int seconds) {
-		try {
-		TimeUnit.SECONDS.sleep(seconds);
-		} catch (InterruptedException ie) {
-		    //Handle exception
-		}
 	}
 }

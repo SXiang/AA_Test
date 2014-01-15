@@ -1,6 +1,9 @@
 package anr.keyword.frontend;
-import anr.lib.frontend.QuickFilterHelper;
-public class Sort  extends QuickFilterHelper {
+
+import anr.lib.frontend.DataVisualizationHelper;
+
+
+public class Sort  extends DataVisualizationHelper{
 
 	/**
 	 * Script Name   : <b>Sort</b>
@@ -19,7 +22,6 @@ public class Sort  extends QuickFilterHelper {
 	protected String dpSortDirection; //@arg whether want to sort Ascending or Descending
 	                                  // value = asc | desc
 	// END of datapool variables declaration
-	protected String dpMasterFile;
 	
 	private boolean foundIt = false;
 	
@@ -29,7 +31,6 @@ public class Sort  extends QuickFilterHelper {
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
 		dpSortDirection = getDpString("SortDirection");
-		dpMasterFile = getDpString("MasterFiles");
 		//END
 		return true;
 	}	
@@ -44,16 +45,13 @@ public class Sort  extends QuickFilterHelper {
 		if(!dpColumnName.isEmpty()){
 			openQuickFilterMenu();
 		}
-		if(!dpSortDirection.isEmpty() && foundIt){
-			/*if(dpSortDirection.equalsIgnoreCase("desc")){
+		if(!dpSortDirection.isEmpty()){
+			if(dpSortDirection.equalsIgnoreCase("desc") && foundIt){
 				sortDescending();
 			}
-			else if(dpSortDirection.equalsIgnoreCase("asc")){
+			else if(dpSortDirection.equalsIgnoreCase("asc") && foundIt){
 				sortAscending();
-			}*/
-			
-			quickSort(dpSortDirection);
-			
+			}
 		}
 		cleanUp();
 	

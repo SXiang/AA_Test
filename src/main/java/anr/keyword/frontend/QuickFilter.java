@@ -1,9 +1,9 @@
 package anr.keyword.frontend;
 
-import anr.lib.frontend.QuickFilterHelper;
+import anr.lib.frontend.DataVisualizationHelper;
 
 
-public class QuickFilter  extends QuickFilterHelper{
+public class QuickFilter  extends DataVisualizationHelper{
 
 	/**
 	 * Script Name   : <b>QuickFilter</b>
@@ -23,17 +23,10 @@ public class QuickFilter  extends QuickFilterHelper{
 	                                  // value = check|value1|value2|value3..
 	                                  // value = type|Text to type|value1|value2|value3...
                                         // value = drop|option to select|value
-	protected String dpClearFilters; //If T, all filters will be removed
 	// END of datapool variables declaration
 	
 	private String actionType;
 	private String checkItems;
-	
-	
-	private String criteriaFilterValue;
-	private String criteriaFilterOption;
-	private String criteriaFilterValueHalf1;
-	private String criteriaFilterValueHalf2;
 	
 	@Override
 	public boolean dataInitialization() {
@@ -41,7 +34,6 @@ public class QuickFilter  extends QuickFilterHelper{
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
 		dpFilterValues = getDpString("FilterValues");
-		dpClearFilters = getDpString("ClearFilters");
 		//END
 		return true;
 	}	
@@ -54,12 +46,12 @@ public class QuickFilter  extends QuickFilterHelper{
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
 		
-		logTAFStep("Number of records - " + recordCount());
-		
 		if(!dpColumnName.isEmpty()){
 			openQuickFilterMenu();
 		}
-
+		if(!dpMasterFiles[0].isEmpty()){
+			verifyUniqueValuesList();
+		}
 		if(!dpFilterValues.isEmpty()){
 			
 			actionType = dpFilterValues.split("\\|")[0];
@@ -71,23 +63,6 @@ public class QuickFilter  extends QuickFilterHelper{
 				findFilteredValues(dpFilterValues.split("\\|")[1]);
 				checkItems = dpFilterValues.split("\\|")[2];
 				filterUsingCheckboxes(checkItems);
-			}
-			else {
-				criteriaFilterOption = dpFilterValues.split("\\|")[1];
-				criteriaFilterValue = dpFilterValues.split("\\|")[2];			
-				if(criteriaFilterOption.equals("Between")) {
-				criteriaFilterValueHalf1 = criteriaFilterValue;
-				criteriaFilterValueHalf2 = dpFilterValues.split("\\|")[3];
-				applyCriteriaFilter(criteriaFilterOption, criteriaFilterValueHalf1, criteriaFilterValueHalf2);	
-				}
-				else {
-				applyCriteriaFilter(criteriaFilterOption, criteriaFilterValue);
-				}
-				logTAFStep("Number of records - " + recordCount());
-				
-			}
-			if (dpClearFilters.equalsIgnoreCase("T")) {
-			removeAllFilters();
 			}
 		}
 		cleanUp();

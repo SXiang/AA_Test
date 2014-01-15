@@ -62,7 +62,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	// *******************************************
 	
 	public boolean dataInitialization() {
-		//getSharedObj();
+		getSharedObj();
 		super.dataInitialization();
 		return true;
 	}

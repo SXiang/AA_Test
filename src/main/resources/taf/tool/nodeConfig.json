@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "capabilities":
     [
@@ -59,4 +60,67 @@
         "hubHost": "192.168.10.129",
         "maxSessions": 5
     }
+=======
+{
+    "capabilities":
+    [
+        {
+            "browserName": "firefox",
+            "acceptSslCerts": true,
+            "javascriptEnabled": true,
+            "takesScreenshot": false,
+            "firefox_profile": "",
+            "browser-version": "19.0", 
+            "seleniumProtocol": "WebDriver",
+            "platform": "VISTA", 
+            "maxInstances": 5
+        },
+        {
+            "browserName": "chrome",
+            "maxInstances": 5,
+            "browser-version": "31.0", 
+            "seleniumProtocol": "WebDriver",
+            "platform": "ANY"
+        },
+        {
+            "browserName": "internet explorer",
+            "maxInstances": 1,
+            "browser-version": "11.0", 
+            "seleniumProtocol": "WebDriver",
+            "platform": "WINDOWS"
+        },
+		{
+            "browserName": "htmlunit",
+            "maxInstances": 1,
+            "browser-version": "00.0", 
+            "seleniumProtocol": "WebDriver",
+            "platform": "ANY"
+        },
+		{
+            "browserName": "iphone",
+            "maxInstances": 1,
+            "browser-version": "00.0", 
+            "seleniumProtocol": "WebDriver",
+            "platform": "MAC"
+        },
+		{
+            "browserName": "android",
+            "maxInstances": 1,
+            "browser-version": "Unknown", 
+            "seleniumProtocol": "WebDriver",
+            "platform": "ANDROID"
+        }
+    ],
+    "configuration":
+    {
+        "_comment" : "ACLQA Automation - Configuration for Node",
+        "cleanUpCycle": 2000,
+        "timeout": 30000,
+        "port": 5555,
+        "register": true,
+        "hubPort": 4444,
+        "hubHost": "192.168.10.129",
+        "maxSessions": 5
+    }
+>>>>>>> a7f968b11d86902996535ee41b74b1f99919bc8b
 }
