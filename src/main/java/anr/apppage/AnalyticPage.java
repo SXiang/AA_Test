@@ -61,15 +61,15 @@ public class AnalyticPage  extends WebPage{
 		
 		@FindBy(css = "div.analyticParamInputView form[name$='InputForm'] input")
 		private WebElement pSetValueBox;
-		@FindBy(css = "div[ng-show*='startNewParameterSet'] div > form[name$='ParamSetNameForm'] > div > input[name*='paramSetNameInput']")
+		@FindBy(css = "form[name$='ParamSetNameForm'] > div > input[name*='paramSetNameInput']")
 		private WebElement pSetNameBox;
 		
-		@FindBy(css = "div[ng-show*='startNewParameterSet'] div > form[name$='ParamSetNameForm'] a.action-btn > span[key='_Button.Continue.Label_']")
+		@FindBy(css = "form[name$='ParamSetNameForm'] a.action-btn > span[key='_Button.Continue.Label_']")
 		private WebElement formNameContinueBtn;	
 			
 		@FindBy(css = "div.analyticParamInputView form[name$='InputForm'] a.action-btn > span[key='_Button.Continue.Label_']")
 		private WebElement formInputContinueBtn;	
-		@FindBy(css = "div[ng-show*='startNewParameterSet'] a.action-btn > span[key='_Button.Run.Label_']")
+		@FindBy(css = "a.action-btn > span[key='_Button.Run.Label_']")
 		private WebElement formRunBtn;
 		
 		@FindBy(css = "div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div span[key='_AX_RunJob.NewParameterSet.Label_']")
@@ -236,7 +236,7 @@ public class AnalyticPage  extends WebPage{
 		sleep(2);
 		click(newPSetBtn,"New");
 		
-		for(int i=startIndex+1;i<setValues.length;i++){
+		for(int i=startIndex+1;i<setValues.length&&!setValues.equals("");i++){
 			waitUntil(formInputContinueBtn);
 			String value = setValues[i];
 			inputChars(pSetValueBox, value);
@@ -251,6 +251,7 @@ public class AnalyticPage  extends WebPage{
 			}
 			click(formInputContinueBtn,"Continue");
 		}
+		
 		
 		waitUntil(pSetNameBox);
 		inputChars(pSetNameBox,setValues[startIndex]);
