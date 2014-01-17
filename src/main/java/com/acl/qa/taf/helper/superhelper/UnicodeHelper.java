@@ -107,7 +107,7 @@ public abstract class UnicodeHelper extends DatabaseHelper
 			if(isAscii(text)){
 				we.sendKeys(text);
 				//we.sendKeys(Keys.ENTER);
-				logTAFDebug("Use inputChars directly for '"+text+"'");
+				logTAFStep("Input '"+text+"'");
 				sleep(1);
 				return;
 			}else{

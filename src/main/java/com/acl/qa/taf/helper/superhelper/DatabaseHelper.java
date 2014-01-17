@@ -39,6 +39,16 @@ public class DatabaseHelper extends LoggerHelper {
 			
 			return executeSQL(newDBStmt, sql);
 		}		
+
+		public int updateDB(String sql){
+			return updateSQL(getDBStatement(), sql);
+		}
+
+		public int updateNewDB(String sql){
+			
+			return updateSQL(newDBStmt, sql);
+		}		
+		
 		public static String getUserSID(String username){
 			String searchName=username.replace("\\", "/");
 			if(username.equals(thisUserName)){
@@ -78,6 +88,16 @@ public class DatabaseHelper extends LoggerHelper {
 			return rs;
 		}
 
+		protected  int updateSQL(Statement stmt, String sql){
+			int rs = -1;
+			try {
+				rs = stmt.executeUpdate(sql);
+			} catch (SQLException e) {
+				logTAFWarning(e.toString());
+			}
+			return rs;
+		}
+		
 	    protected  Statement getDBStatement() 
 	    {
 	    	if(!validDBStmt(dbStmt)){
