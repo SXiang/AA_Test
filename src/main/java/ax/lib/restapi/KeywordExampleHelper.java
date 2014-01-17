@@ -1,12 +1,16 @@
 package ax.lib.restapi;
 
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -43,10 +47,13 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 								//@value = logout|quit|kill, or empty
 	// END of datapool variables declaration
 
+    protected String dpAXServerName; //@arg AX Server name or IP address
+    protected String dpAXServerPort; //@arg AX Server port
+
 	protected WebDriver driver;
 	protected boolean casAuthenticated;
 
-	
+	private DesiredCapabilities capability;
 	//***************  Part 2  *******************
 	// ******* Methods on initialization *********
 	// *******************************************
@@ -74,50 +81,96 @@ public class KeywordExampleHelper extends KeywordSuperHelper {
 	
 
 	public void activateBrowser() {
-		if (dpWebDriver.equals("")) {
-
-		} else {
-			setupNewDriver(dpWebDriver);
-
+		dpWebDriver = projectConf.webDriver;
+		dpAXServerName = projectConf.axServerName;
+		dpAXServerPort = projectConf.axServerPort;
+		imageName = projectConf.imageName;
+		getSharedObj();
+		
+		if(driver==null){
+			//logTAFWarning("Driver not found: "+projectConf.webDriver);
+			setupNewDriver(projectConf.webDriver);
 		}
 
 	}
 	
-	public void setupNewDriver(String Browser) {
+	public void setupNewDriver(String browserType) {
 		//Browser="Chrome";
 		//Browser="InternetExplorer";
 		//Browser="fireFox";
-        String imageName = "";
-		logTAFStep("Start a new browser for testing - " + Browser);
-		if (Browser.equalsIgnoreCase("HtmlUnit")) {
-			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
-			imageName = "";
-		} else if (Browser.equalsIgnoreCase("FireFox")) {
-			driver = new FirefoxDriver();
-			imageName = "firefox.exe";
-		} else if (Browser.equalsIgnoreCase("Chrome")) {
-			System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
-			driver = new ChromeDriver();
-			imageName = "chrome.exe";
-		} else if (Browser.equalsIgnoreCase("InternetExplorer")) {
-			System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer32.exe");
-			DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
-			ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			driver = new InternetExplorerDriver(ieCapabilities);
-			imageName = "iexploere.exe";
-		} else {
-			driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
-			imageName = "";
+		if((browserType.startsWith("IE")) || (browserType.startsWith("ie"))){
+			logTAFStep("Recognized IE browser, about to intiate...");
+			InitiateIEBrowser();
+			/*String comm = "java -jar selenium-server-standalone-2.34.0.jar "+
+				         "-role node -hub http://localhost:4444/grid/register "+
+						"-Dwebdriver.ie.driver="+projectConf.toolDir+
+						"IEDriverServer.exe";
+				FileUtil.exeComm(comm);
+			*/
+			driver = new InternetExplorerDriver(capability);
+		}else if((browserType.startsWith("Chrome"))||(browserType.startsWith("chrome"))){
+			logTAFStep("Recognized Chrome browser, about to intiate...");
+			InitiateChromeBrowser();
+			driver = new ChromeDriver(capability);
+			//driver = new ChromeDriver();
+		}else{
+				//other browser's code  -- Steven debugging ...
+			if (browserType.equalsIgnoreCase("HtmlUnit")) {
+				driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+				imageName = "";
+			} else if (browserType.equalsIgnoreCase("FireFox")) {
+				driver = new FirefoxDriver();
+				imageName = "firefox.exe";
+			} else if (browserType.equalsIgnoreCase("Chrome")) {
+				System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
+				driver = new ChromeDriver();
+				imageName = "chrome.exe";
+			} else if (browserType.equalsIgnoreCase("InternetExplorer")) {
+				System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer32.exe");
+				DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
+				ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+				driver = new InternetExplorerDriver(ieCapabilities);
+				imageName = "iexploere.exe";
+			} else {
+				driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+				imageName = "";
+			}
+			
 		}
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+		
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.get("https://"+dpAXServerName+":"+dpAXServerPort+"/aclax");
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+	    Dimension screenResolution = new Dimension((int)
+	    toolkit.getScreenSize().getWidth(), (int)
+	    toolkit.getScreenSize().getHeight());
+	    driver.manage().window().setPosition(new Point(0, 0));
+		driver.manage().window().setSize(screenResolution);
+		
 		casAuthenticated = false;
         projectConf.imageName = imageName;
 		setSharedObj();
 
 	}
 
-
+	public void InitiateIEBrowser(){
+		// Commented code is for running using Selenium grid
+		System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer.exe");
+		capability = DesiredCapabilities.internetExplorer();
+		capability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+		capability.setBrowserName("internetExplorer");
+		capability.setPlatform(org.openqa.selenium.Platform.ANY);
+	}
+	public void InitiateChromeBrowser(){
+		// Commented code is for running using Selenium grid
+		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
+		capability = DesiredCapabilities.chrome();
+		capability.setBrowserName("chrome");
+		capability.setPlatform(org.openqa.selenium.Platform.ANY);
+		capability.setCapability("chrome.switches", Arrays.asList("--start-maximized"));
+		capability.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
+		//capability.setCapability("chrome.switches", Arrays.asList("--no-sandbox"));
+	}
 
 	//***************  Part 3  *******************
 	// ******* Methods on login   ****************

@@ -42,6 +42,8 @@ public class ProjectConf {
     public String hubHost="192.168.10.129";
     public String hubPort="4444";
     public String hubPath="/wd/hub";
+    //** Tend to add testNg report ... Steven
+    public String TestNg="No";
 	// ********************************************************
 	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
 	// ********** Setters - Auto generated and dir addressed *****************

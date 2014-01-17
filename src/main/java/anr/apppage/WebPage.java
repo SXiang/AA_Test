@@ -3,6 +3,8 @@
  */
 package anr.apppage;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.openqa.selenium.*;
@@ -23,7 +25,9 @@ import ax.lib.frontend.FrontendCommonHelper;
  * 
  */
 public class WebPage extends CommonWebHelper{
-
+	 protected  WebDriver pageDriver;
+	 protected WebDriverWait pageDriverWait;
+	 
   //*** Click element and optionally wait until ***	
 	public void click(WebElement node){
 		click(node,"");
@@ -43,7 +47,7 @@ public class WebPage extends CommonWebHelper{
 		click(node,label,untilBy,true);
 	}
 	public void click(WebElement node, String label, Object untilBy, boolean displayed ){
-		click(driver,node,label,untilBy,displayed);
+		click(pageDriver,node,label,untilBy,displayed);
 	}	
 	public void click(WebDriver driver,WebElement node, String label, Object untilBy){
 		click(driver,node,label,untilBy,true);
@@ -68,9 +72,21 @@ public class WebPage extends CommonWebHelper{
 		
 		if(expectedStatus==currentStatus) return;
 		
-        click(driver,node,label,expectedElement,expectedStatus);
+        click(pageDriver,node,label,expectedElement,expectedStatus);
 	}
-	
+	public void toggleElementByClick(List<WebElement> expectedElements, WebElement node, String label,boolean expectedStatus){
+		
+		boolean currentStatus = false;	
+		if(expectedElements.size()>0){
+		    try{
+				currentStatus = expectedElements.get(0).isDisplayed();
+		    }catch(Exception e){			
+		  }
+		}
+		if(expectedStatus==currentStatus) return;
+		
+        click(driver,node,label,expectedElements,expectedStatus);
+	}	
   //*** Double click element and optionally wait until ***
 	public void doubleClick(WebElement node){
 		doubleClick(node,"");
@@ -88,7 +104,7 @@ public class WebPage extends CommonWebHelper{
 	}
 	
 	public void doubleClick(WebElement node, String label, Object untilBy, boolean displayed ){
-		doubleClick(driver,node,label,untilBy,displayed);
+		doubleClick(pageDriver,node,label,untilBy,displayed);
 	}
 	public void doubleClick(WebDriver driver,WebElement node, String label, Object untilBy,boolean displayed){
 		Actions actionDriver = new Actions(driver);
@@ -97,6 +113,7 @@ public class WebPage extends CommonWebHelper{
 		waitUntil(driver,untilBy,displayed);
 	}	
 	
+
 	//*** Select ***
 	
 	public void selectItem(Select selObj, String item){
@@ -158,7 +175,7 @@ public class WebPage extends CommonWebHelper{
 		waitUntil(untilBy,true);
 	}
 	public void waitUntil(Object untilBy,boolean displayed){
-		waitUntil(driver,untilBy,displayed);
+		waitUntil(pageDriver,untilBy,displayed);
 	}
 	public void waitUntil(WebDriver driver, Object untilBy){
 		waitUntil(driver,untilBy,true);
@@ -166,8 +183,12 @@ public class WebPage extends CommonWebHelper{
 	@SuppressWarnings("unchecked")
 	public void waitUntil(WebDriver driver,final Object untilBy,boolean displayed){
 		if (untilBy==null||driver==null) return;
-		WebDriverWait wait = new WebDriverWait(driver,30);
 		
+		WebDriverWait wait = new WebDriverWait(driver,30);
+		waitUntil(wait,untilBy,displayed);
+	}
+	
+	public void waitUntil(WebDriverWait wait,final Object untilBy,boolean displayed){
 		try{
 			if(untilBy instanceof WebElement){
 				if(displayed){
@@ -197,6 +218,7 @@ public class WebPage extends CommonWebHelper{
 				   wait.until(ExpectedConditions.invisibilityOfElementLocated((By)untilBy));
 				}
 		    }else if(untilBy instanceof List){
+
 		    	if(((List<?>)untilBy).get(0) instanceof WebElement){
 		    		if(displayed){
 		    		   wait.until(ExpectedConditions.visibilityOfAllElements((List<WebElement>)untilBy));
@@ -235,16 +257,26 @@ public class WebPage extends CommonWebHelper{
 			super.inputChars(driver,we,text);
 		}
 	// ******* Other methods ****************
-	
-    public Point scrollToElement(WebElement element){
+	public java.awt.Point scrollToElement(WebElement element){	
+		return scrollToElement(element,new java.awt.Point(0,50));
+	}
+    public java.awt.Point scrollToElement(WebElement element, java.awt.Point pt){
     	Point elementPoint = new Point(0,0);
+
     	try{
     	    Coordinates coor = ((Locatable)element).getCoordinates();
     	    elementPoint = coor.inViewPort();
+    	    //((JavascriptExecutor) pageDriver).executeScript("scrollBy("+0+","+250+");");
+    	    if(pt.y>0&&elementPoint.y>pt.y){
+    	    	
+    	       ((JavascriptExecutor) pageDriver).executeScript("scrollBy("+pt.x+","+pt.y+");");
+    	       //((JavascriptExecutor) pageDriver).executeScript("scroll(0,250);");
+    	    }
     	}catch(Exception e){
     		logTAFInfo("Warning: faile to scroll to element ?'"+element.getText()+"'");
     	}
-    	return elementPoint;
+    	
+    	return pt;
     }
     
     public int getElementIndex(List<WebElement> element,String columnName){
@@ -255,6 +287,37 @@ public class WebPage extends CommonWebHelper{
     		}
     	}
     	return 0;
+    }
+    
+    public String getCurrentUUID(WebDriver driver){
+    	//sleep(0);
+    	String[] ids = getCurrentUUIDs(driver);
+//    	if(ids.length>1)
+//    	  return ids[ids.length-2];
+    	return ids[ids.length-1];
+    }
+    
+    public String[] getCurrentUUIDs(WebDriver driver){
+    	String pathSep = "/";
+    	String url = driver.getCurrentUrl();
+//    	String fileName = "";
+//		try {
+//			fileName = new URL(url).getPath();
+//		} catch (MalformedURLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+    	StringBuffer sb = new StringBuffer();
+    	String uuidPattern = "[a-z0-9]{8}\\-[a-z0-9]{4}\\-[a-z0-9]{4}\\-[a-z0-9]{4}\\-[a-z0-9]{12}";
+    	String[] names = url.split(pathSep);
+    	
+    	for(String n:names){
+    		if(n.matches(uuidPattern)){
+    			sb.append(n+pathSep);
+    		}
+    	}
+    	
+    	return sb.toString().split(pathSep);
     }
 	public WebPage() {
 		// TODO Auto-generated constructor stub
