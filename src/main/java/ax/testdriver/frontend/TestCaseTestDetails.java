@@ -11,8 +11,7 @@ public class TestCaseTestDetails extends FrontendTestDriverHelper implements Tes
     	test.setMainScript(true);
     	test.testMain(args);
     }
-    
-    
+       
 	@Override
 	public void testMain(Object[] args) 
 	{		
