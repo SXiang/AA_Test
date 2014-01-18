@@ -266,12 +266,17 @@ public class WebPage extends CommonWebHelper{
     	try{
     	    Coordinates coor = ((Locatable)element).getCoordinates();
     	    elementPoint = coor.inViewPort();
-    	    //((JavascriptExecutor) pageDriver).executeScript("scrollBy("+0+","+250+");");
-    	    if(pt.y>0&&elementPoint.y>pt.y){
+    	    
+    	    pt.x = elementPoint.x - pt.x;
+    	    pt.y = elementPoint.y - pt.y;
+    	    
+    	    ((JavascriptExecutor) pageDriver).executeScript(
+    	    		"scrollBy("+pt.x+","+pt.y+");");
+//    	    if(pt.y>0&&elementPoint.y>pt.y){
     	    	
-    	       ((JavascriptExecutor) pageDriver).executeScript("scrollBy("+pt.x+","+pt.y+");");
+//    	       ((JavascriptExecutor) pageDriver).executeScript("scrollBy("+pt.x+","+pt.y+");");
     	       //((JavascriptExecutor) pageDriver).executeScript("scroll(0,250);");
-    	    }
+//    	    }
     	}catch(Exception e){
     		logTAFInfo("Warning: faile to scroll to element ?'"+element.getText()+"'");
     	}

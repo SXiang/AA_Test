@@ -310,7 +310,7 @@ public class AnalyticPage  extends WebPage{
 		   final String skiped = "skiped";
 		   
 		   final int maxWait = 300;
-		   final int sleepPeriod = 30;
+		   final int sleepPeriod = 5;
 		   
 		   String currentJob;
 		  // click(formRunBtn,"Run");
@@ -318,9 +318,31 @@ public class AnalyticPage  extends WebPage{
 		   click(runBtn,"Run");
 		   
 		   WebDriverWait runWait = new WebDriverWait(pageDriver, maxWait,  sleepPeriod*1000);
+		   //waitUntil(runWait,jobIconBtn,true);
 		   
-		   waitUntil(runWait,jobIconBtn,true);
+		   //** wrokaround **
+
+		   try{
+			   runWait.until( new ExpectedCondition<Boolean>(){
+				   public Boolean apply(WebDriver driver){
+					   // refresh to solve the problem
+					   sleep(2);
+					   click(runIconBtn,"WORKAROUND - REFRESH status");
+					   sleep(2);
+					   // remove this workaroun after problem solved.
+					   return (jobIconBtn).isDisplayed();
+				   }
+			   }
+			   );
+			   
+		       waitUntil(runWait,jobIconBtn,true);
+		       toggleElementByClick(resultsHistory,jobIconBtn,"Open results - automation workaround",true);
+		   }catch(Exception e){
+			   click(loadingIconBtn);
+			   sleep(2);
+		   }
 		   
+		   //** end workaround **
 		   currentJob = getJobRecord(jobIndex);
 		   if(!currentJob.equals(lastJob)){
 			   String currentStatus = jobStatus.get(jobIndex).getText().trim();
@@ -334,34 +356,6 @@ public class AnalyticPage  extends WebPage{
 			   logTAFError("Analytic is not running?");
 		   }
 		   
-//		   currentJob = runWait.until(new ExpectedCondition<String>(){
-//			   public String apply(WebDriver driver){
-//				   
-//				   boolean done = false;
-//                   String returnJob = null;
-//				   String currentJob = getJobRecord(jobIndex);
-//
-//				   if(!currentJob.equals(lastJob)){
-//					   String currentStatus = jobStatus.get(jobIndex).getText().trim();
-//					   if(!currentStatus.equals("")
-//							   &&currentStatus.matches(completed+"|"
-//							   +stoped+"|"
-//							   +skiped+"|"
-//							   +error)){
-//						   done = true;
-//						   returnJob = currentJob;
-//						   if(!currentStatus.matches(completed)){
-//							   logTAFWarning("Run Analytic not completed sucessfully - '"+currentStatus+"'");
-//						   }
-//					   }
-//					   
-//					
-//				   }
-//				   return returnJob;
-//			   } 
-//		   });  
-		   
-//		   logTAFInfo("Job status: '"+currentJob+"'");
 	   }
   
 	public AnalyticPage(WebDriver driver) {
