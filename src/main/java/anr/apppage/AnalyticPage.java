@@ -239,7 +239,8 @@ public class AnalyticPage  extends WebPage{
 		for(int i=startIndex+1;i<setValues.length&&!setValues.equals("");i++){
 			waitUntil(formInputContinueBtn);
 			String value = setValues[i];
-			inputChars(pSetValueBox, value);
+			if(!value.trim().equals(""))
+			    inputChars(pSetValueBox, value);
 			if(inputValueError.size()>0){
 			  if(inputValueError.get(0).isDisplayed()){
 				String error = inputValueError.get(0).getText()	;
@@ -249,12 +250,19 @@ public class AnalyticPage  extends WebPage{
 				}
 			  }
 			}
-			click(formInputContinueBtn,"Continue");
+			if(formInputContinueBtn.isDisplayed()){
+			   click(formInputContinueBtn,"Continue");
+			}
 		}
 		
 		
-		waitUntil(pSetNameBox);
-		inputChars(pSetNameBox,setValues[startIndex]);
+
+		String name = setValues[startIndex];
+		if(!name.trim().equals("")){
+		  waitUntil(pSetNameBox);		
+		  inputChars(pSetNameBox,name);
+     	}
+		
 		if(inputNameError.size()>0){
 			if(inputNameError.get(0).isDisplayed()){
 			  String error = inputNameError.get(0).getText()	;
@@ -264,7 +272,10 @@ public class AnalyticPage  extends WebPage{
 			  }
 			}
 		}
-		click(formNameContinueBtn,"Continue");
+		
+		if(formNameContinueBtn.isDisplayed()){
+		    click(formNameContinueBtn,"Continue");
+		}
 		return true;
 	}
 	
