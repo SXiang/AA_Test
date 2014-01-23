@@ -10,6 +10,7 @@ import anr.apppage.CommonWebHelper;
 import anr.apppage.FilterPanelPage;
 import anr.apppage.QuickFilterPage;
 import anr.apppage.DataVisualizationPage;
+import anr.apppage.SaveVisualizationPage;
 
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 
@@ -33,7 +34,13 @@ public class QuickFilter  extends CommonWebHelper implements KeywordInterface {
 	                                  // value = on(off)(verify)|check|All|value1|value2|value3..
 	                                  // value = on(off)(verify)|type|Text to type|All|value1|value2|value3...
                                         // value = on(off)(verify)|drop|option to select|value
+	protected String dpLoadFrom;  //@arg load saved visulization - title
+	protected String dpSaveTo;    //@arg save to title
+	                              //value = title|link<true,false>
+
 	// END of datapool variables declaration
+
+	protected SaveVisualizationPage svPage;
 	
 	// private String endWith for this filter: Apply|Clear|Dismiss
 	// private String endWith for filter panel Apply|Clear|Dismiss|Delete
@@ -52,6 +59,8 @@ public class QuickFilter  extends CommonWebHelper implements KeywordInterface {
 		dpColumnName = getDpString("ColumnName");
 		dpFilterValues = getDpString("FilterValues");
 		filterValues = dpFilterValues.split("\\|");
+        dpLoadFrom = getDpString("LoadFrom");
+        dpSaveTo = getDpString("SaveTo");
 		//END
 		return true;
 	}	
@@ -91,6 +100,7 @@ public class QuickFilter  extends CommonWebHelper implements KeywordInterface {
 		}
 		qfPage.endWith(dpEndWith);
 
+		svPage.saveVisualization(dpSaveTo);
 		if(!dpMasterFiles[0].isEmpty()){
 			verifyResultTable();
 		}	

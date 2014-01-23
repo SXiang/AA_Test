@@ -13,7 +13,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -82,10 +84,12 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 		protected String allSearchItems;
 		//END
 		
+
 	    // BEGIN of other local variables declaration
 		public WebDriver driver;
 		public String driverName = "";
 		//END
+		
 		
 		public boolean dataInitialization() {
 			getSharedObj();
@@ -435,10 +439,12 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 				((FrontendTestDriverHelper) caseObj).currentDriverName = projectConf.driverName;
 			}
 		}	
+		
 
 		public static org.testng.log4testng.Logger nglog;
 		public CommonWebHelper(){
 			nglog = org.testng.log4testng.Logger.getLogger(this.getClass());
+
 		}
 	}
 

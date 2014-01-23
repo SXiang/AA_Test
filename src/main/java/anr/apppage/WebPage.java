@@ -5,7 +5,11 @@ package anr.apppage;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -14,6 +18,7 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.ui.*;
 
 import ax.lib.frontend.FrontendCommonHelper;
+import ax.lib.restapi.db.SQLQuery;
 
 /**
  * Script Name   : <b>WebPage.java</b>
@@ -27,6 +32,7 @@ import ax.lib.frontend.FrontendCommonHelper;
 public class WebPage extends CommonWebHelper{
 	 protected  WebDriver pageDriver;
 	 protected WebDriverWait pageDriverWait;
+     static protected Map<String,String> axItems;
 	 
   //*** Click element and optionally wait until ***	
 	public void click(WebElement node){
@@ -293,16 +299,19 @@ public class WebPage extends CommonWebHelper{
     	}
     	return 0;
     }
+    public static String getCurrentUUID(WebDriver driver){
+    	return getCurrentUUID(driver,"");
+    }
     
-    public String getCurrentUUID(WebDriver driver){
+    public static String getCurrentUUID(WebDriver driver,String childItemName){
     	//sleep(0);
-    	String[] ids = getCurrentUUIDs(driver);
+    	String[] ids = getCurrentUUIDs(driver,childItemName);
 //    	if(ids.length>1)
 //    	  return ids[ids.length-2];
     	return ids[ids.length-1];
     }
-    
-    public String[] getCurrentUUIDs(WebDriver driver){
+
+    public static String[] getCurrentUUIDs(WebDriver driver,String childItemName){
     	String pathSep = "/";
     	String url = driver.getCurrentUrl();
 //    	String fileName = "";
@@ -315,17 +324,59 @@ public class WebPage extends CommonWebHelper{
     	StringBuffer sb = new StringBuffer();
     	String uuidPattern = "[a-z0-9]{8}\\-[a-z0-9]{4}\\-[a-z0-9]{4}\\-[a-z0-9]{4}\\-[a-z0-9]{12}";
     	String[] names = url.split(pathSep);
-    	
-    	for(String n:names){
-    		if(n.matches(uuidPattern)){
-    			sb.append(n+pathSep);
+    	int currentItemIndex = 0;
+    	for(int i=0;i<names.length;i++){
+    		if(names[i].matches(uuidPattern)){
+    			sb.append(names[i]+pathSep);
+    			currentItemIndex = i;
     		}
     	}
     	
+		if(axItems==null){
+			axItems = new HashMap<String,String>();
+		}
+		if(currentItemIndex>0){
+		    axItems.put(names[currentItemIndex-1], names[currentItemIndex]);
+			if(!childItemName.equals("")){
+				if(names[currentItemIndex-1].equalsIgnoreCase("tests")){
+                   axItems.put("analytic", childItemName);
+
+				}
+			}
+		}
+		
+
     	return sb.toString().split(pathSep);
     }
+    
+
+    //Static workaround - 
+	 public static String axNameHandle(String itemName){
+		 return axNameHandle(null,itemName);
+	 }
+	 
+    public static String axNameHandle(WebDriver driver,String itemName){
+    	String ori = "_";
+    	String rep = " ";
+    	
+    	retriveUUID(driver, itemName);
+	    		 
+    	String uiName = itemName.replaceAll("(?i)\\.aCL$", "");
+    	// AX issue, replaced all '_' with ' '
+    	// disable this line when fixed
+    	uiName= uiName.replaceAll(ori, rep);
+    	return uiName;
+    }
+    
+    public static void retriveUUID(WebDriver driver, String itemName){
+    	if(driver==null)
+    		return;
+    	 getCurrentUUID(driver,itemName);
+    }
+    
 	public WebPage() {
 		// TODO Auto-generated constructor stub
+
 	}
 
 }

@@ -29,7 +29,7 @@ public class TestSetDetails  extends TestSetDetailsHelper{
 		// BEGIN read datapool
 		dpProjectName = getDpString("ProjectName");
 		dpTestSetName = getDpString("TestSetName");
-		dpTestName = getDpString("TestName");
+		dpTestName = axNameHandle(getDpString("TestName"));
 		dpOpenTablesOrFiles = getDpString("OpenTablesOrFiles");
 		//END
 		return true;

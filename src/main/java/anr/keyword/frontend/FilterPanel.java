@@ -8,8 +8,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 
 import anr.apppage.CommonWebHelper;
+import anr.apppage.DataVisualizationPage;
 import anr.apppage.FilterPanelPage;
 import anr.apppage.QuickFilterPage;
+import anr.apppage.SaveVisualizationPage;
 
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 
@@ -41,7 +43,13 @@ public class FilterPanel extends CommonWebHelper implements KeywordInterface{
                                            // value = check|All|value1|value2|value3..
                                            // value = type|Text to type|All|value1|value2|value3...
                                            // value = and(or)|drop|option to select|value
+	protected String dpLoadFrom;  //@arg load saved visulization - title
+	protected String dpSaveTo;    //@arg save to title
+	                              //value = title|link<true,false>
+
 	// END of datapool variables declaration
+
+	protected SaveVisualizationPage svPage;
 	
 	// private String endWith for filter panel Apply|Clear|Dismiss|Delete|Minimize|Disable|Enable|Delete
 	private String actionType;
@@ -68,6 +76,8 @@ public class FilterPanel extends CommonWebHelper implements KeywordInterface{
 		dpCurrentFilterValues = getDpString("CurrentFilterValues");
 		filterValues = dpFilterValues.split("\\|");
 		_filterValues = dpCurrentFilterValues.split("\\|");
+        dpLoadFrom = getDpString("LoadFrom");
+        dpSaveTo = getDpString("SaveTo");
 		//dpOpenCloseVerifyFilters = getDpString("OpenCloseVerifyFilters");
 		//END
 		return true;
@@ -118,6 +128,7 @@ public class FilterPanel extends CommonWebHelper implements KeywordInterface{
 		//*** Ending ... ***
 		fpPage.endWith(dpEndWith);
 
+		svPage.saveVisualization(dpSaveTo);
 		if(!dpMasterFiles[0].isEmpty()){
 			verifyResultTable();
 		}	

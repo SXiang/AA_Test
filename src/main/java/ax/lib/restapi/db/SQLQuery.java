@@ -71,6 +71,7 @@ public class SQLQuery {
 			 * AC === Analytic Container
 			 * AN Analytic
 			 * RF, RFC, RS; TB, TD, DMC  ----- checke the type table
+			 * Result table - BC-LC-RC-RS-TB
 			 */
 		
 			public static String getUserPermissionOnItem(String type, String bc, String lc, String userSID){
@@ -178,6 +179,30 @@ public class SQLQuery {
 				return sql;
 				
 			}
+			
+			
+			public static String getVizID(String id, String an, String vTitle ){
+				
+				String sql="";
+				  sql = "SELECT b.id "+
+					  "FROM audititems a, audititems b, audititems c "+
+					  "WHERE a.itemtype = 'AN' AND a.name = '"+an+"' "+
+					     "AND b.name = '"+vTitle+"' AND b.itemtype = 'VR' " +
+					     "AND b.parentid = a.id "+
+					     "AND a.parentid = '"+id+"' ";
+					     		
+				return sql;
+			}
+			
+			public static String deleteAuditItem(String id){
+				String sql="";
+				sql = "DELETE "+
+				      "FROM audititems "+
+					  "WHERE id = '"+id+"'"
+					  ;
+				return sql;
+				
+			}
 			public static String getAnalyticID(String type, String bc, String lc, String gap, String an){
 				
 				String sql="";
@@ -193,7 +218,18 @@ public class SQLQuery {
 					     		
 				return sql;
 			}
-			
+			public static String getAnalyticID(String testSetID, String an){
+				
+				String sql="";
+
+				sql = "SELECT b.id "+
+					  "FROM audititems a, audititems b "+
+					  "WHERE a.itemtype = 'GAP' AND a.id = '"+testSetID+"' "+
+					     "AND b.name = '"+an+"' AND b.itemtype = 'AN' " +
+					     "AND b.parentid = a.id ";
+					     		
+				return sql;
+			}			
 			public static String getUserRoles(String dbtype,String name, String sid){
 				String sql="";
 				

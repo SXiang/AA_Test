@@ -381,4 +381,8 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 		    //Handle exception
 		}
 	}
+	
+	protected String axNameHandle(String itemName){
+        return anr.apppage.WebPage.axNameHandle(driver,itemName);
+	}
 }

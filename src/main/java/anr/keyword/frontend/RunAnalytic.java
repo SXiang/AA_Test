@@ -10,6 +10,7 @@ import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import anr.apppage.AnalyticPage;
 import anr.apppage.CommonWebHelper;
 import anr.apppage.QuickFilterPage;
+import anr.apppage.WebPage;
 
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 
@@ -33,6 +34,7 @@ public class RunAnalytic extends CommonWebHelper implements KeywordInterface {
 	                                 // value = New(Exist)|SetName[|value1|value2|value3..]                              
 	// END of datapool variables declaration
 	
+	private String analyticName_space;
 	// private String endWith for filter panel Run|Cancel|Verify;
 	private String[] setValues;
 	private String[] endValues;
@@ -47,6 +49,7 @@ public class RunAnalytic extends CommonWebHelper implements KeywordInterface {
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpAnalyticName = getDpString("AnalyticName");
+		   analyticName_space = WebPage.axNameHandle(dpAnalyticName);
 		dpParameterSet = getDpString("ParameterSet");
 		  setValues = dpParameterSet.split("\\|");
 
@@ -68,7 +71,7 @@ public class RunAnalytic extends CommonWebHelper implements KeywordInterface {
 			super.testMain(onInitialize(args, getClass().getName()));
 			anPage = PageFactory.initElements(driver, AnalyticPage.class);
 			an = PageFactory.initElements(driver, AnalyticPage.class);
-			sc = anPage.locateAnalytic(dpAnalyticName);
+			sc = anPage.locateAnalytic(analyticName_space);
 			
 			PageFactory.initElements(new DefaultElementLocatorFactory(sc), an);			
            
@@ -99,7 +102,7 @@ public class RunAnalytic extends CommonWebHelper implements KeywordInterface {
 		
 		public boolean setParameterSet(){	
 			boolean done = true;
-			an.openAnalytic(dpAnalyticName);
+			an.openAnalytic(analyticName_space);
 			if(startIndex<0)
 				return done;
 			if(action.equalsIgnoreCase("New")){
