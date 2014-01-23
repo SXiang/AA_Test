@@ -1,8 +1,6 @@
 package anr.lib.frontend;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.io.File;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -15,7 +13,7 @@ public class DataTablesHelper extends ANR_FrontendCommonHelper{
 	/**
 	 * Script Name   : <b>OpenProjectsHelper</b>
 	 * Generated     : <b>Oct 4, 2013</b>
-	 * Description   : OpenProjectsHelper
+	 * Description   : DataTablesHelper
 	 * 
 	 * @since  Oct 4, 2013
 	 * @author Karen Zou

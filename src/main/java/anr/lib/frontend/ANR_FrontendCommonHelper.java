@@ -16,8 +16,9 @@ import org.openqa.selenium.WebDriver;
 import ax.lib.restapi.TestSuiteExampleHelper;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
+import ax.lib.frontend.FrontendCommonHelper;
 
-public class OBSOLETE_FrontendCommonHelper extends KeywordSuperHelper{
+public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	
 	/**
 	 * Script Name   : <b>FrontendCommonHelper</b>
@@ -34,10 +35,10 @@ public class OBSOLETE_FrontendCommonHelper extends KeywordSuperHelper{
 
 	// BEGIN of datapool variables declaration
 	protected String dpExpectedErr; //@arg error message for negative test
-	protected String dpKnownBugs; //@arg infomation for known bugs (won't be
+	protected String dpKnownBugs;   //@arg infomation for known bugs (won't be
 									//fixed in this relase)
-	protected String dpEndWith; //@arg actions after test
-                                //@value = logout|quit|kill, or empty
+	protected String dpEndWith;     //@arg actions after test
+                                    //@value = logout|quit|kill, or empty
 
 	// END of datapool variables declaration
 	

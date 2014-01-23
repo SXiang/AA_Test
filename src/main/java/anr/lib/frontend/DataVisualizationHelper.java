@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import anr.lib.frontend.ANR_FrontendCommonHelper;
+import ax.lib.frontend.FrontendCommonHelper;
 
 public class DataVisualizationHelper extends ANR_FrontendCommonHelper{
 	/**
@@ -75,7 +76,7 @@ public class DataVisualizationHelper extends ANR_FrontendCommonHelper{
 	By filterPanelClearFilterBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.clear-quick-filter");
 	//END
     
-    // BEGIN of other local variables declaration 
+    // BEGIN of other local variables declaration
 	protected List<WebElement> allTableColumns,allTableData;
 	protected int recordCount;
 	protected List<WebElement> allColumnHeaders;

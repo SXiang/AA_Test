@@ -85,6 +85,7 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 		}
 	}
 
+	//This method is obsolete and will be removed
 	public void verifyTableRecords(){
 		String tablerecords = getTableRecords();
 		
