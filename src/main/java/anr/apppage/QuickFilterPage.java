@@ -3,21 +3,15 @@
  */
 package anr.apppage;
 
-import java.awt.AWTException;
-import java.awt.Rectangle;
-import java.awt.Robot;
 import java.util.List;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.WebDriver.Window;
+
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.CacheLookup;
+
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 /**
  * Script Name   : <b>DataVisualizationPage.java</b>

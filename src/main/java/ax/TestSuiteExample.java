@@ -24,6 +24,12 @@ public class TestSuiteExample extends TestSuiteExampleHelper implements TestSuit
 	public void testMain(Object[] args) 
 	{
 		//testCategory = "Daily";
+		// 2 : testDrivrExample
+		// 3 - 8: API Get and Post
+		// 9 -  : Chart
+		// 10 : Filter
+		// 11 : Run Analytics (New parameter set)
+		
 		startFromLine = 3; // 4-9
 		endAtLine =8;     //
 		//logTAFInfo(System.getProperty("user.dir"));

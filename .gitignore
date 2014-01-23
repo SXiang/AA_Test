@@ -4,6 +4,7 @@
 !/*.bat
 .*
 !.gitignore
+!pom.xml
 !testdata/.gitignore
 #!.project
 #!.classpath

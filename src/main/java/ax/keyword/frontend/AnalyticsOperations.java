@@ -32,6 +32,8 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpAnalyticName = getDpString("AnalyticName");
+		   //analyticName_space = dpAnalyticName;
+
 		dpParameterSet = getDpString("ParameterSet");
 		//END
 		return true;
@@ -45,7 +47,7 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
 		if(!dpAnalyticName.isEmpty()){
-			analyticName = dpAnalyticName.split("\\|")[0];
+			analyticName = axNameHandle(dpAnalyticName.split("\\|")[0]);
 			if(dpAnalyticName.contains("|")){
 				analyticOperation = dpAnalyticName.split("\\|")[1];
 				if("run".equalsIgnoreCase(analyticOperation)){
