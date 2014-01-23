@@ -3,6 +3,7 @@ package anr.lib.frontend;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -74,6 +75,17 @@ public class DataVisualizationHelper extends ANR_FrontendCommonHelper{
 	By filterPanelUncheckedLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check-empty:not([style='display: none;'])");
 	By filterPanelApplyFilterBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.action-btn-filter");
 	By filterPanelClearFilterBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.clear-quick-filter");
+	
+	//0123 Solve merge problem
+	//0123 By filterBtnLocator = By.cssSelector(".static-tabs.filers-tab");
+	By quickSortPlusLocator = By.cssSelector("i.icon-plus");
+	By quickSortDropDown = By.cssSelector("select[ng-model='table.sort.field']");
+	By optionsLocator = By.cssSelector("select[ng-model='table.sort.field'] > option");
+	By quickSortAscButtonLocator = By.cssSelector("div#sort-ascending");
+	By quickSortDescButtonLocator = By.cssSelector("div#sort-descending");
+	By quickSortPanelContent = By.cssSelector(".collapse.in");
+	By recordCountLocator = By.id("record-count");
+	By firstColumnValues = By.cssSelector(".ngCell.col0.colt0");	
 	//END
     
     // BEGIN of other local variables declaration
@@ -85,6 +97,10 @@ public class DataVisualizationHelper extends ANR_FrontendCommonHelper{
 	protected List<WebElement> allUniqueItems;
 	protected String allFilterValues;
 	protected String allColumns;
+	
+	//0123 solve merge problem
+	protected List<WebElement> options;
+	protected List<WebElement> firstColumnCells;
 	//END
 	
 	//***************  Part 2  *******************
@@ -113,6 +129,11 @@ public class DataVisualizationHelper extends ANR_FrontendCommonHelper{
 	//***************  Part 3  *******************
 	// ******* Methods           ****************
 	// *******************************************
+	
+	public int numberOfRecords() {
+		firstColumnCells = driver.findElements(firstColumnValues);
+		return firstColumnCells.size();
+	}
 	
 	public String getTableNameRecordsNum() {
 		String tablenamerecordsnum = "";
@@ -232,9 +253,24 @@ public class DataVisualizationHelper extends ANR_FrontendCommonHelper{
 		return "close";
 	}
 	
+	public String isSortPanelClosed() {
+		List<WebElement> sortPanelHeader = driver.findElements(quickSortPanelContent);
+		int i = sortPanelHeader.size();
+		if(i>0){
+			return "open";
+		}
+		return "close";
+	}
+	
 	public void clickFilterPanelBtn() {
 		driver.findElement(filtersBtnLocator).click();
 		takeScreenshotWithoutScroll();
+	}
+	
+	public void clickSortOnPlusSign() {
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(filtersBtnLocator));
+		driver.findElement(quickSortPlusLocator).click();
 	}
 	
 	public String getFilterPanelContents() {
@@ -290,8 +326,58 @@ public class DataVisualizationHelper extends ANR_FrontendCommonHelper{
 		return allColumns;
 	}
 	
-	public void selectSortColumnFromSidePanelDropDown( String columnName){
+	public void selectSortColumnFromSidePanelDropDown( String columnName){	
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(quickSortDropDown));
+		WebElement select = driver.findElement(quickSortDropDown);
 		
+		wait.until(ExpectedConditions.presenceOfElementLocated(optionsLocator));
+		options = select.findElements(optionsLocator);
+
+		selectOption(columnName);
+		if(verifyOptionIsSelected(columnName)) {
+		logTAFStep("Selected option was successfully verified");
+		}
+		else {
+		logTAFError("Selected option was unsuccessfully verified");
+		}
+	}
+	
+	public void quickSort(String sortDirection) {
+		sleepAndWait(2);
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(quickSortAscButtonLocator));
+		if (sortDirection.equalsIgnoreCase("asc")){
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driver.findElement(ascendingLinkLocator).click();
+		}
+		else if (sortDirection.equalsIgnoreCase("desc")) {
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driver.findElement(descendingLinkLocator).click();
+		}		
+		else {
+			logTAFError("Sort Order option is not valid");
+		}
+	}
+	
+	public boolean verifyOptionIsSelected(String name) {
+		for (WebElement option : options) {
+			  if(name.equals(option.getText()) && option.isSelected()) {
+				  return true;
+			  }	    
+			}
+		return false;
+	}
+	
+	public boolean selectOption(String name) {
+		for (WebElement option : options) {
+			  if(name.equals(option.getText())) {
+				  option.click();
+				  return true;
+			  }	    
+			}
+		logTAFError("Option doesn't exist");
+		return false;
 	}
 
 }
