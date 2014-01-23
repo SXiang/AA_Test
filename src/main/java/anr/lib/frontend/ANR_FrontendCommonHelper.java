@@ -81,6 +81,15 @@ public class ANR_FrontendCommonHelper extends KeywordSuperHelper{
 	    clipboard.setContents(selection, selection);
 	}
 	
+	public void takeScreenshotWithoutScroll(){
+		logTAFInfo("takeScreenshot() function disabled for now. need to be enabled again when localization tests have been added.");
+		/*
+		sleep(timerConf.waitToTakeScreenshot);
+		captureScreen(getScreenshotPathAndName());
+		logTAFInfo("Screenshot taken");
+		*/
+	}
+	
 	public int getNumbers(String strNum) {
 		String regEx="[^0-9]";   
 		

@@ -5,8 +5,6 @@ import java.awt.Toolkit;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
-
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +23,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.thoughtworks.selenium.Selenium;
 
 import anr.lib.frontend.ANR_FrontendCommonHelper;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.Proxy;
 
 public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 	/**
@@ -204,7 +205,7 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		if (dpWebDriver.equals("")) {
 			logTAFError("Not able to read from project.properties the correct value of variable 'webDriver'. Please check the file.");
 		} else {
-			setupNewDriver(dpWebDriver);
+			setupNewDriverCEF(dpWebDriver);
 		}
 	}
 	
@@ -230,8 +231,43 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		logTAFStep("Browser initiated successfully");
 	}
 
-
 	public void setupNewDriverCEF(String browserType) {
+
+		File chromium = new File("C:\\temp\\acl-service.exe");
+		//File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR-Shortcut.shortcut");
+ 		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
+ 		
+ 		//DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
+ 		//Proxy proxy = new Proxy();
+ 		//proxy.setProxyType(Proxy.ProxyType.SYSTEM);
+ 		//desiredCapabilities.setCapability("proxy", proxy);
+
+		ChromeOptions options = new ChromeOptions();
+		
+//		options.addArguments("--start-maximized");
+
+		//options.setBinary(chromium);
+		options.setBinary("c:\\acl\\anr\\anr-launcher.exe");
+		//options.addArguments("/staticport","C:\\ANR\\DATA\\Unicode\\AllTypesACLProjects\\Analytics.ACL");
+		driver = new ChromeDriver(options);
+
+		driver.manage().timeouts().implicitlyWait(1200, TimeUnit.SECONDS);
+		
+//		Toolkit toolkit = Toolkit.getDefaultToolkit();
+//	    Dimension screenResolution = new Dimension((int)
+//	    toolkit.getScreenSize().getWidth(), (int)
+//	    toolkit.getScreenSize().getHeight());
+//	    driver.manage().window().maximize();
+//	    driver.manage().window().setPosition(new Point(0, 0));
+		//driver.manage().window().setSize(screenResolution);
+		//((JavascriptExecutor) driver).executeScript("window.resizeTo(1024, 768);");
+		
+		setSharedObj();
+		logTAFStep("Browser initiated successfully");
+	}
+
+
+/*	public void setupNewDriverCEF(String browserType) {
 
 		File chromium = new File("C:\\ACL\\ANR\\ANR.exe");
 		//File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR-Shortcut.shortcut");
@@ -258,7 +294,7 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		setSharedObj();
 		logTAFStep("Browser initiated successfully");
 	}
-
+*/
 	public void setupNewDriverJohn(String browserType) {
 
 		File chromium = new File("C:\\ACL\\ANR\\ANR.exe");

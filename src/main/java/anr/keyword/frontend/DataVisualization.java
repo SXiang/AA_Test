@@ -8,7 +8,7 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 	/**
 	 * Script Name   : <b>DataVisualization</b>
 	 * Generated     : <b>Oct 14, 2013</b>
-	 * Description   : OpenProject
+	 * Description   : DataVisualization
 	 * @author Karen Zou
 	 */
 
@@ -45,13 +45,12 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 		super.testMain(onInitialize(args, getClass().getName()));
 		
 		if (!dpTableName.isEmpty()){
-			
-			verifyTableName();
-			//Ramneet updated -- Following function has been commented as with new display record numbers are not displayed in UI
-			//verifyTableRecords();  
-			verifyTableData();
+			//Verify table name and records number
+			verifyTableNameRecordsNum();
 		}
 
+		//Verify table data
+		verifyTableData();
 		cleanUp();
 	
 		// *** cleanup by framework ***
@@ -61,29 +60,15 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 	// *************** Part 3 *******************
 	// *** Implementation of test functions ******
 	// *******************************************
-	public void verifyTableName(){
-		String tablename = getTableName();
-		if(tablename.isEmpty()){
-			logTAFError("No Table name Found!!");
+	public void verifyTableNameRecordsNum(){
+		String dataVisualizationHeader = getTableNameRecordsNum();
+		if(dataVisualizationHeader.isEmpty()){
+			logTAFError("No Table name and records numer Found!!");
 		}else{
-			logTAFStep("Verify the Table Name");
-			if (tablename.equalsIgnoreCase(dpTableName))
-				logTAFInfo("Table name is displayed successfully. Expected TableName:"+dpTableName+" Actual TableName:"+tablename);
-			else
-				logTAFError("Table name is displayed incorrectly!! Expected TableName:"+dpTableName+" Actual TableName:"+tablename);
-		}
-	}
-	
-	public void verifyTableRecords(){
-		String tablerecords = getTableRecords();
-		
-		if(tablerecords.isEmpty()){
-			logTAFError("No Table Records Found!!");
-		}else{
-			logTAFStep("Verify the Table Records - " + dpMasterFiles[99]);
-			result[0] = tablerecords; // You need to get actual result for
-											// each comparison
-			compareTxtResult(result[0], dpMasterFiles[99]);
+			logTAFStep("Verify the Table Name and records number");
+			result[0] = dataVisualizationHeader;    // You need to get actual result for each comparison
+			
+			compareTxtResult(result[0], dpMasterFiles[0]);
 		}
 	}
 	
@@ -96,10 +81,22 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 			logTAFStep("Verify the Table Data - " + dpMasterFiles[0]);
 			result[0] = tabledata; // You need to get actual result for
 											// each comparison
-			compareTxtResult(result[0], dpMasterFiles[0]);
+			compareTxtResult(result[0], dpMasterFiles[1]);
 		}
 	}
 
+	public void verifyTableRecords(){
+		String tablerecords = getTableRecords();
+		
+		if(tablerecords.isEmpty()){
+			logTAFError("No Table Records Found!!");
+		}else{
+			logTAFStep("Verify the Table Records - " + dpMasterFiles[99]);
+			result[0] = tablerecords; // You need to get actual result for each comparison
+			compareTxtResult(result[0], dpMasterFiles[99]);
+		}
+	}
+	
 	public static void main(String args) {
 
 	}

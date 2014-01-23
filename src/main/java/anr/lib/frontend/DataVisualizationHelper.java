@@ -11,9 +11,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import ax.lib.frontend.FrontendCommonHelper;
+import anr.lib.frontend.ANR_FrontendCommonHelper;
 
-public class DataVisualizationHelper extends FrontendCommonHelper{
+public class DataVisualizationHelper extends ANR_FrontendCommonHelper{
 	/**
 	 * Script Name   : <b>DataVisualizationHelper</b>
 	 * Generated     : <b>Oct 4, 2013</b>
@@ -31,7 +31,16 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of DataVisualization page
-	By filterBtnLocator = By.cssSelector(".static-tabs.filers-tab");
+	By searchBtnLocator = By.cssSelector("i[class='icon-chevron-left icon-1x']");
+	By filtersBtnLocator = By.cssSelector("div.static-tabs-text");
+	By otherBtnLocator = By.cssSelector("ul[class^='dropdown-menu'] > li > a");
+
+	By tableNameLocator = By.cssSelector("div[class^='visualizer-page-header-title']");
+	By recordCountLabelLocator = By.cssSelector("div[class^='visualizer-page-header-title'] > span[key='_Record.Count.Label_']");
+	By tableHeaderLocator = By.cssSelector("div[id^='col']:nth-child(1)");
+	By tableDataLocator = By.cssSelector("div[class^='ngCellText ng-scope']");
+	By rowSelectedLocator = By.cssSelector("div[class*='selected'] > div[class*='col']");
+
 	By colHeaderLocator = By.cssSelector("div[id^='col']");
 	By quickFilterHeaderLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header']");
 	By closeQuickFilterMenuLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header'] > i.icon-remove");
@@ -43,11 +52,6 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	By quickFilterSearchUniqueItemsBoxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > input.search-filter-value");
 	By quickFilterApplyBtnLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.apply-quick-filter > span");
 	By quickFilterClearBtnLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.clear-quick-filter > span");
-	By tableNameLocator = By.className("visualizer-page-header-title");
-	By recordCountLocator = By.id("record-count");
-	By tableHeaderLocator = By.cssSelector("div[id^='col']:nth-child(1)");
-	By tableDataLocator = By.cssSelector("div[class^='ngCellText ng-scope']");
-	By rowSelectedLocator = By.cssSelector("div[class*='selected'] > div[class*='col']");
 	By tableViewTabLocator = By.cssSelector("tab-heading.chart-tabs > i.icon-table");
 	By addChartBtnLocator = By.className("addchart-tab-text");
 	By filterPanelHeaderLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div > div >div > div.filter-panel-header > span");
@@ -97,21 +101,32 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	public void testMain(Object[] args) {
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
+
 		isElementDisplayed(tableViewTabLocator, "Table View Tab");
 		isElementDisplayed(addChartBtnLocator, "Add Chart Button");
-		isElementDisplayed(filterBtnLocator, "Filter Button");
+		isElementDisplayed(filtersBtnLocator, "Filter Button");
+		isElementDisplayed(searchBtnLocator, "Search Button");
+		isElementDisplayed(otherBtnLocator, "... Button");
 	}
 
 	//***************  Part 3  *******************
 	// ******* Methods           ****************
 	// *******************************************
 	
-	public String getTableName() {
-		return driver.findElement(tableNameLocator).getText();
+	public String getTableNameRecordsNum() {
+		String tablenamerecordsnum = "";
+		
+		//Get table name
+		tablenamerecordsnum = driver.findElement(tableNameLocator).getText();
+		
+		//Get record count label
+		tablenamerecordsnum = tablenamerecordsnum+"@"+driver.findElement(recordCountLabelLocator).getText()+"@";
+		
+		return tablenamerecordsnum;
 	}	
 
 	public String getTableRecords() {
-		String recordCount = driver.findElement(recordCountLocator).getText();
+		String recordCount = driver.findElement(tableNameLocator).getText();
 
 		return recordCount;
 	}
@@ -129,7 +144,7 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
         	alltabledata +=" " + allTableColumns.get(i).getText();
        	}
 
-        //Get the initial displayed table data since all table data cannot be loaded at one time for performance limits
+        //Get the initial displayed table data since all table data cannot be loaded at one time due to performance limit
         allTableData = driver.findElements(tableDataLocator);
         for(int i = 0; i < allTableData.size(); i++) {
         	int mod = i % (allTableColumns.size());
@@ -139,11 +154,13 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
         		alltabledata += allTableData.get(i).getText() + " ";
        	}
 
-        //Continue to get the left table data by pressing ARROW_DOWN key one row by one row 
+        //Continue to get the remaining table data by pressing ARROW_DOWN key one row by one row 
         recordCount=getNumbers(getTableRecords());  
     	initialDisplayRowCount = allTableData.size()/allTableColumns.size();
  
+    	//Get the focus for the current displayed last record
     	allTableData.get(allTableData.size()-1).click();
+    	
     	Actions actions = new Actions(driver); 
     	actions.sendKeys(allTableData.get(allTableData.size()-1), Keys.ARROW_DOWN).perform();
 
@@ -215,7 +232,7 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	}
 	
 	public void clickFilterPanelBtn() {
-		driver.findElement(filterBtnLocator).click();
+		driver.findElement(filtersBtnLocator).click();
 		takeScreenshotWithoutScroll();
 	}
 	
