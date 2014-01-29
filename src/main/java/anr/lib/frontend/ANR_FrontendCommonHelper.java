@@ -16,8 +16,9 @@ import org.openqa.selenium.WebDriver;
 import ax.lib.restapi.TestSuiteExampleHelper;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
+import ax.lib.frontend.FrontendCommonHelper;
 
-public class OBSOLETE_FrontendCommonHelper extends KeywordSuperHelper{
+public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	
 	/**
 	 * Script Name   : <b>FrontendCommonHelper</b>
@@ -34,10 +35,10 @@ public class OBSOLETE_FrontendCommonHelper extends KeywordSuperHelper{
 
 	// BEGIN of datapool variables declaration
 	protected String dpExpectedErr; //@arg error message for negative test
-	protected String dpKnownBugs; //@arg infomation for known bugs (won't be
+	protected String dpKnownBugs;   //@arg infomation for known bugs (won't be
 									//fixed in this relase)
-	protected String dpEndWith; //@arg actions after test
-                                //@value = logout|quit|kill, or empty
+	protected String dpEndWith;     //@arg actions after test
+                                    //@value = logout|quit|kill, or empty
 
 	// END of datapool variables declaration
 	
@@ -63,24 +64,6 @@ public class OBSOLETE_FrontendCommonHelper extends KeywordSuperHelper{
 	//***************  Part 1  *******************
 	// ******* common functions      ***
 	// *******************************************
-	public String getClipboard() {
-		Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-	    try {
-	        if (t != null && t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-	            String text = (String)t.getTransferData(DataFlavor.stringFlavor);
-	            return text;
-	        }
-	    } catch (UnsupportedFlavorException e) {
-	    } catch (IOException e) {}
-	    return null;
-	}
-	
-	public void copyToClipboard(String copiedData) {
-		StringSelection selection = new StringSelection(copiedData);
-	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-	    clipboard.setContents(selection, selection);
-	}
-	
 	public int getNumbers(String strNum) {
 		String regEx="[^0-9]";   
 		
@@ -169,21 +152,5 @@ public class OBSOLETE_FrontendCommonHelper extends KeywordSuperHelper{
 	//**********************************************
 	// ******* Methods on Objects sharing ********
 	// *******************************************
-	
-	public void getSharedObj() {
-		if (suiteObj != null) {
-			driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
-		} else if (caseObj != null) {
-			driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
-		}
-	}
-
-	public void setSharedObj() {
-		if (suiteObj != null) {
-			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
-		} else if (caseObj != null) {
-			((FrontendTestDriverHelper) caseObj).currentDriver = driver;
-		}
-	}	
 
 }

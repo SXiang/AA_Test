@@ -55,7 +55,7 @@ public class SortOnFilterPanelHelper extends DataVisualizationHelper {
 		super.testMain(onInitialize(args, getClass().getName()));
 		isElementDisplayed(tableViewTabLocator, "Table View Tab");
 		isElementDisplayed(addChartBtnLocator, "Add Chart Button");
-		isElementDisplayed(filterBtnLocator, "Filter Button");
+		isElementDisplayed(filtersBtnLocator, "Filter Button");
 	}
 
 	//***************  Part 3  *******************
@@ -162,7 +162,7 @@ public class SortOnFilterPanelHelper extends DataVisualizationHelper {
 	}
 	
 	public String isFilterPanelClosed() {
-		List<WebElement> filterPanelHeader = driver.findElements(filterBtnLocator);
+		List<WebElement> filterPanelHeader = driver.findElements(filtersBtnLocator);
 		int i = filterPanelHeader.size();
 		if(i>0){
 			return "open";
@@ -183,14 +183,14 @@ public class SortOnFilterPanelHelper extends DataVisualizationHelper {
 		//driver.findElement(filterBtnLocator).click();
 		//takeScreenshotWithoutScroll();
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(filterBtnLocator));
-		driver.findElement(filterBtnLocator).click();
+		wait.until(ExpectedConditions.presenceOfElementLocated(filtersBtnLocator));
+		driver.findElement(filtersBtnLocator).click();
 		
 	}
 	
 	public void clickSortOnPlusSign() {
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(filterBtnLocator));
+		wait.until(ExpectedConditions.presenceOfElementLocated(filtersBtnLocator));
 		driver.findElement(quickSortPlusLocator).click();
 	}
 	

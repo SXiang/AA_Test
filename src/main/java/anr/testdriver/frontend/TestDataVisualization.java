@@ -17,8 +17,8 @@ public class TestDataVisualization extends FrontendTestDriverHelper implements T
 	public void testMain(Object[] args) 
 	{		
 
-		//startFromLine = 2; // 4-9
-		//endAtLine = 8;     //
+		startFromLine = 2; // 4-9
+		endAtLine = 4;     //
 			
 		String poolFile = "src/main/resources/testdata/anr/testdriver/frontend/DataVisualization.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));		

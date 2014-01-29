@@ -82,7 +82,7 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 		super.testMain(onInitialize(args, getClass().getName()));
 		isElementDisplayed(tableViewTabLocator, "Table View Tab");
 		isElementDisplayed(addChartBtnLocator, "Add Chart Button");
-		isElementDisplayed(filterBtnLocator, "Filter Button");	
+		isElementDisplayed(filtersBtnLocator, "Filter Button");	
 	}
 
 	//***************  Part 3  *******************
@@ -369,8 +369,8 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 	}
 	
 	public void removeAllFilters() {
-		isElementEnabled(filterBtnLocator, "Filter Button");
-		driver.findElement(filterBtnLocator).click();
+		isElementEnabled(filtersBtnLocator, "Filter Button");
+		driver.findElement(filtersBtnLocator).click();
 		areAllElementsEnabled(removeFiltersLocator, "Remove Filter Icon");
 		//removeFilterIcons = driver.findElements(removeFiltersLocator);
 		for (WebElement removeFilterIcon : elements) {
@@ -381,7 +381,7 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 	
 	public void clickFilterPanelBtn() {
 		if(isFilterPanelClosed().equals("close")) {
-		driver.findElement(filterBtnLocator).click();
+		driver.findElement(filtersBtnLocator).click();
 		}
 	}
 	
