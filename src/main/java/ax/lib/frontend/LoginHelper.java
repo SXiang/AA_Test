@@ -18,6 +18,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CommandExecutor;
@@ -69,6 +70,7 @@ public class LoginHelper extends FrontendCommonHelper{
     
     // BEGIN of other local variables declaration
 	private DesiredCapabilities capability;
+	private FirefoxProfile profile = new FirefoxProfile();
 	public String imageName;
 	//END
 	/*Commented code is for running using Selenium grid
@@ -179,29 +181,21 @@ public class LoginHelper extends FrontendCommonHelper{
 
 
 			//driver = new ChromeDriver();
-		}else{
+		}else if(browserType.equalsIgnoreCase("FireFox")) {
+			InitiateFirefoxBrowser();
+			driver = new FirefoxDriver(profile);
+			
+		}else {
 				//other browser's code  -- Steven debugging ...
 			if (browserType.equalsIgnoreCase("HtmlUnit")) {
 				driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
 				imageName = "";
-			} else if (browserType.equalsIgnoreCase("FireFox")) {
-				driver = new FirefoxDriver();
-				imageName = "firefox.exe";
-			} else if (browserType.equalsIgnoreCase("Chrome")) {
-				System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
-
-				    driver = new ChromeDriver(capability);
-	
-				imageName = "chrome.exe";
-			} else if (browserType.equalsIgnoreCase("InternetExplorer")) {
+			}else {
 				System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer32.exe");
 				DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
 				ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 				driver = new InternetExplorerDriver(ieCapabilities);
 				imageName = "iexploere.exe";
-			} else {
-				driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
-				imageName = "";
 			}
 			
 		}
@@ -226,6 +220,12 @@ public class LoginHelper extends FrontendCommonHelper{
 		capability.setBrowserName("internetExplorer");
 		capability.setPlatform(org.openqa.selenium.Platform.ANY);
 	}
+	
+	public void InitiateFirefoxBrowser(){
+		// Commented code is for running using Selenium grid		
+		profile.setPreference("intl.accept_languages", projectConf.appLocale.toLowerCase());
+
+	}
 	public void InitiateChromeBrowser(){
 		// Commented code is for running using Selenium grid
 		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
@@ -235,6 +235,7 @@ public class LoginHelper extends FrontendCommonHelper{
 		if(defaultExt.exists()){
 		  ChromeOptions options = new ChromeOptions();
 		  options.addExtensions(defaultExt);
+		  options.addArguments("--lang="+projectConf.appLocale.toLowerCase());
 		  capability.setCapability(ChromeOptions.CAPABILITY, options);
 		}
 		
@@ -243,6 +244,7 @@ public class LoginHelper extends FrontendCommonHelper{
 		capability.setPlatform(org.openqa.selenium.Platform.ANY);
 		capability.setCapability("chrome.switches", Arrays.asList("--start-maximized"));
 		capability.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
+		//capability.setCapability("chrome.switches", Arrays.asList("--lang"+projectConf.appLocale));
 		//capability.setCapability("chrome.switches", Arrays.asList("--no-sandbox"));
 	}
 

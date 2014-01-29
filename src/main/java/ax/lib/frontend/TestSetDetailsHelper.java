@@ -102,21 +102,21 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
         } else{
         	logTAFError("Info RelatedFiles missing");
         }
-        if(rightPanelData.get(2).isDisplayed()){
-        	logTAFInfo("Found Description Icon");
-        } else{
-        	logTAFError("Description Icon missing");
-        }
-        if(rightPanelData.get(3).isDisplayed()){
-        	logTAFInfo("Found Info Icon");
-        } else{
-        	logTAFError("Info Icon missing");
-        }
-        if(rightPanelData.get(4).isDisplayed()){
-        	logTAFInfo("Found Users Icon");
-        } else{
-        	logTAFError("Users Icon missing");
-        }
+//        if(rightPanelData.get(2).isDisplayed()){
+//        	logTAFInfo("Found Description Icon");
+//        } else{
+//        	logTAFError("Description Icon missing");
+//        }
+//        if(rightPanelData.get(3).isDisplayed()){
+//        	logTAFInfo("Found Info Icon");
+//        } else{
+//        	logTAFError("Info Icon missing");
+//        }
+//        if(rightPanelData.get(4).isDisplayed()){
+//        	logTAFInfo("Found Users Icon");
+//        } else{
+//        	logTAFError("Users Icon missing");
+//        }
 	}
 	
 	public void isTestsHeaderDisplayed(){
