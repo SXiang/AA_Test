@@ -202,12 +202,13 @@ public class LoginHelper extends FrontendCommonHelper{
 		
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get("https://"+dpAXServerName+":"+dpAXServerPort+"/aclax");
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-	    Dimension screenResolution = new Dimension((int)
-	    toolkit.getScreenSize().getWidth(), (int)
-	    toolkit.getScreenSize().getHeight());
-	    driver.manage().window().setPosition(new Point(0, 0));
-		driver.manage().window().setSize(screenResolution);
+//		Toolkit toolkit = Toolkit.getDefaultToolkit();
+//	    Dimension screenResolution = new Dimension((int)
+//	    toolkit.getScreenSize().getWidth(), (int)
+//	    toolkit.getScreenSize().getHeight());
+//	    driver.manage().window().setPosition(new Point(0, 0));
+//		driver.manage().window().setSize(screenResolution);
+		driver.manage().window().maximize();
 		setSharedObj();
 		logTAFStep("Browser initiated successfully");
 	}

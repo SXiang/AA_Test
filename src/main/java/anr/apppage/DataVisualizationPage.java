@@ -228,11 +228,14 @@ public class DataVisualizationPage extends WebPage{
 	  
 	  
 	  public void addNewChart(String type){
-		  //addNewChart.click();
-		  //sleep(chartLoadTime);
+
 		  By pieChartLocator = By.xpath("//div[@ng-click='pickChart(chartType)' and @tooltip='Pie Chart']");
-		  click(pageDriver,addNewChart,"Add a chart",pieChart);
-		  sleep(chartLoadTime);
+		      click(pageDriver,addNewChart,"Add a chart(+)",pieChart);
+
+          if(pageDriver.findElements(pieChartLocator).size()==0){
+		      click(pageDriver,addNewChart,"Add a chart(+)",pieChart);		     
+          }
+          sleep(chartLoadTime);
 		  if(type.equals("BarChart")){
 			 // barChart.click();
 			  click(barChart);
