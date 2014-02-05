@@ -25,13 +25,13 @@ public class TestSuiteExample extends TestSuiteExampleHelper implements TestSuit
 	{
 		//testCategory = "Daily";
 		// 2 : testDrivrExample
-		// 3 - 8: API Get and Post
-		// 9 -  : Chart
-		// 10 : Filter
-		// 11 : Run Analytics (New parameter set)
+		// 3 - 10: API Get and Post
+		// 11 - 20  : ANR
+		// 21 -  : AX
 		
-		startFromLine = 3; // 4-9
-		endAtLine =8;     //
+		startFromLine = 11; // 4-9
+		//endAtLine =8;     //
+		
 		//logTAFInfo(System.getProperty("user.dir"));
     	String poolFile = "testdata/ax/TestSuiteExample.xls";
 		exeBatchRun(onInitialize(poolFile, getClass().getName()));

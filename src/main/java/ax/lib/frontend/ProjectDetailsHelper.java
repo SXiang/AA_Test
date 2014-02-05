@@ -35,7 +35,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	By testSetsHeaderLocator = By.cssSelector("div.testset-subtitle > span");
 	By testSetsNameLocator = By.cssSelector("div.testset-row > div.row-fluid");
 	By rightPanelTitleLocator = By.className("right-panel-block-title");
-	By rightPanelIconLocator = By.className("right-panel-block-icon");
+	//By rightPanelIconLocator = By.className("right-panel-block-icon");
 	By descriptionLocator = By.className("right-panel-block-content");
 	By infoContentLabelLocator = By.cssSelector("div.right-panel-block-content > dl > dt > span");
 	By infoContentDataLocator = By.cssSelector("div.right-panel-block-content > dl > dd");
@@ -78,7 +78,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		isElementDisplayed(projectNameLocator, "Project name");
 		isElementDisplayed(projectDropDownLocator, "Project drop down button");
 		isElementDisplayed(testSetsHeaderLocator, "TestSets list header");
-		isRightPanelIconDisplayed();
+		//isRightPanelIconDisplayed();
 		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
 
@@ -86,24 +86,24 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	// ******* Methods           ****************
 	// *******************************************
 	
-	public void isRightPanelIconDisplayed(){
-		rightPanelData = driver.findElements(rightPanelIconLocator);
-        if(rightPanelData.get(0).isDisplayed()){
-        	logTAFInfo("Found Description Icon");
-        } else{
-        	logTAFError("Description Icon missing");
-        }
-        if(rightPanelData.get(1).isDisplayed()){
-        	logTAFInfo("Found Info Icon");
-        } else{
-        	logTAFError("Info Icon missing");
-        }
-        if(rightPanelData.get(2).isDisplayed()){
-        	logTAFInfo("Found Users Icon");
-        } else{
-        	logTAFError("Users Icon missing");
-        }
-	}
+//	public void isRightPanelIconDisplayed(){
+//		rightPanelData = driver.findElements(rightPanelIconLocator);
+//        if(rightPanelData.get(0).isDisplayed()){
+//        	logTAFInfo("Found Description Icon");
+//        } else{
+//        	logTAFError("Description Icon missing");
+//        }
+//        if(rightPanelData.get(1).isDisplayed()){
+//        	logTAFInfo("Found Info Icon");
+//        } else{
+//        	logTAFError("Info Icon missing");
+//        }
+//        if(rightPanelData.get(2).isDisplayed()){
+//        	logTAFInfo("Found Users Icon");
+//        } else{
+//        	logTAFError("Users Icon missing");
+//        }
+//	}
 
 	public String getDescription(){
 		return "@"+driver.findElements(rightPanelTitleLocator).get(0).getText()+"@"+":"+driver.findElement(descriptionLocator).getText();

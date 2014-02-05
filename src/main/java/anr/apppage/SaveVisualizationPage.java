@@ -155,6 +155,7 @@ public class SaveVisualizationPage extends WebPage {
 		return "";
 	}
 	
+	if(testsId==null||anName==null) return "";
 	String sql = SQLQuery.getVizID(testsId,anName, vTitle);
 	
 	ResultSet rs = queryDB(sql);
