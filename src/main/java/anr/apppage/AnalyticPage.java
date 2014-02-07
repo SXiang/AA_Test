@@ -315,11 +315,11 @@ public class AnalyticPage  extends WebPage{
 	   
 	   public void runAnalytic(){
 		   final int jobIndex = 0 ;
-		   final String started = "initializing";
-		   final String completed = "completed";
-		   final String error = "error";
-		   final String stoped = "stoped";
-		   final String skiped = "skiped";
+//		   final String started = "initializing";
+		   final String completed = "completed"; // need to change to Key once localized
+//		   final String error = "error";
+//		   final String stoped = "stoped";
+//		   final String skiped = "skiped";
 		   
 		   final int maxWait = 300;
 		   final int sleepPeriod = 5;
@@ -357,7 +357,7 @@ public class AnalyticPage  extends WebPage{
 		   //** end workaround **
 		   currentJob = getJobRecord(jobIndex);
 		   if(!currentJob.equals(lastJob)){
-			   String currentStatus = jobStatus.get(jobIndex).getText().trim();
+			   String currentStatus =getLocKey(jobStatus.get(jobIndex), jobStatus.get(jobIndex).getText().trim());
 			   if(!currentStatus.matches(completed)){
 					   logTAFWarning("Run Analytic not completed sucessfully - '"+currentStatus+"'");
 				   }else{
