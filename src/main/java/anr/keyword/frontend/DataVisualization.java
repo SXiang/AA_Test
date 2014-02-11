@@ -13,15 +13,7 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 	 */
 
 	//***************  Part 1  *******************
-	// ******* Declaration of shared variables ***
-	// *******************************************
-	
-	// BEGIN of datapool variables declaration
-	private String dpTableName;
-	// END of datapool variables declaration
-
-    // BEGIN of other local variables declaration
-	//END
+	// 
 	
 	//***************  Part 2  *******************
 	// ******* Methods on initialization *********

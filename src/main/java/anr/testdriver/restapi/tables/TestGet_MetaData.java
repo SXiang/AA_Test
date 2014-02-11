@@ -27,7 +27,7 @@ public class TestGet_MetaData extends TestDriverExampleHelper implements TestDri
 	{		
 
 		startFromLine = 2; // 4-9
-		endAtLine = 18;    
+		endAtLine = 17;    
 
 		String poolFile = "src/main/resources/testdata/anr/testdriver/restapi/tables/TestGet_metadata.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

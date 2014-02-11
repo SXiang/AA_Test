@@ -1,3 +1,0 @@
-@Projects@
-123456 - inherit,NotInherit Mixed User01Full,User02Read
-@Test Sets@

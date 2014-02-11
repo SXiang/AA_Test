@@ -1,4 +1,0 @@
-@CREATED BY:@:#g1_admin (ACLQA\g1_admin)#
-@CREATED:@:#Sep 23, 2013 9:51:28 AM#
-@LAST MODIFIED BY:@:#g1_admin (ACLQA\g1_admin)#
-@LAST MODIFIED:@:#Dec 3, 2013 2:52:31 PM#
