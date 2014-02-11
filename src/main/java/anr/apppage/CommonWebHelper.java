@@ -13,7 +13,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +25,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -31,6 +39,7 @@ import ax.lib.frontend.FrontendTestSuiteHelper;
 import ax.lib.restapi.TestSuiteExampleHelper;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 	public class CommonWebHelper  extends KeywordSuperHelper{
 		
@@ -75,10 +84,12 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		protected String allSearchItems;
 		//END
 		
+
 	    // BEGIN of other local variables declaration
 		public WebDriver driver;
 		public String driverName = "";
 		//END
+		
 		
 		public boolean dataInitialization() {
 			getSharedObj();
@@ -94,7 +105,55 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		public void testMain(Object[] args) {
 			dataInitialization();
 			super.testMain(args);
+			//activateBrowser();
 		}
+		
+
+//		public void activateBrowser() {
+//			if (dpWebDriver.equals("")) {
+//
+//			} else {
+//				setupNewDriver(dpWebDriver);
+//
+//			}
+//
+//		}
+		
+		public void setupNewDriver(String Browser) {
+			//Browser="Chrome";
+			//Browser="InternetExplorer";
+			//Browser="fireFox";
+	        String imageName = "";
+			logTAFStep("Start a new browser for testing - " + Browser);
+			if (Browser.equalsIgnoreCase("HtmlUnit")) {
+				driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+				imageName = "";
+			} else if (Browser.equalsIgnoreCase("FireFox")) {
+				driver = new FirefoxDriver();
+				imageName = "firefox.exe";
+			} else if (Browser.equalsIgnoreCase("Chrome")) {
+				System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
+				driver = new ChromeDriver();
+				imageName = "chrome.exe";
+			} else if (Browser.equalsIgnoreCase("InternetExplorer")) {
+				System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer32.exe");
+				DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
+				ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+				driver = new InternetExplorerDriver(ieCapabilities);
+				imageName = "iexploere.exe";
+			} else {
+				driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+				imageName = "";
+			}
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	        
+			//casAuthenticated = false;
+	        projectConf.imageName = imageName;
+			setSharedObj();
+
+		}
+
+
 		
 		//***************  Part 1  *******************
 		// ******* common functions      ***
@@ -363,7 +422,7 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 		
 		public void getSharedObj() {
 			if (suiteObj != null) {
-				driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
+				driver = ((FrontendTestSuiteHelper) suiteObj).currentDriver;
 				driverName = ((FrontendTestSuiteHelper) suiteObj).currentDriverName;
 			} else if (caseObj != null) {
 				driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
@@ -380,10 +439,12 @@ import com.acl.qa.taf.helper.KeywordSuperHelper;
 				((FrontendTestDriverHelper) caseObj).currentDriverName = projectConf.driverName;
 			}
 		}	
+		
 
 		public static org.testng.log4testng.Logger nglog;
 		public CommonWebHelper(){
 			nglog = org.testng.log4testng.Logger.getLogger(this.getClass());
+
 		}
 	}
 

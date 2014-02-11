@@ -27,6 +27,7 @@ import org.testng.annotations.Test;
 
 import anr.apppage.CommonWebHelper;
 import anr.apppage.DataVisualizationPage;
+import anr.apppage.SaveVisualizationPage;
 import anr.lib.frontend.*;
 import ax.lib.frontend.FrontendCommonHelper;
 
@@ -49,10 +50,14 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 	protected int dpChartIndex;    //@arg tab index
 	protected String dpChartType;     //@arg chart type to work on
 	                                  //value = PieChart|BarChart|AreaChart
+	protected String dpLoadFrom;  //@arg load saved visulization - title
+	protected String dpSaveTo;    //@arg save to title
+	                              //value = title|link<true,false>
+
 	// END of datapool variables declaration
 
 	protected DataVisualizationPage dvPage;
-	
+	protected SaveVisualizationPage svPage;
 	@Override
 	public boolean dataInitialization() {
 
@@ -67,6 +72,9 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 		dpChartAction = getDpString("ChartAction");
 		dpChartIndex = getDpInteger("ChartIndex");
         dpChartType = getDpString("ChartType");
+        dpLoadFrom = getDpString("LoadFrom");
+        dpSaveTo = getDpString("SaveTo");
+           
         delFile = true;
 		return true;
 	}
@@ -87,6 +95,7 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 		
 		//sleep(2);
 		dvPage = PageFactory.initElements(driver, DataVisualizationPage.class);
+		svPage = PageFactory.initElements(driver, SaveVisualizationPage.class);
 		if(dpChartAction.equalsIgnoreCase("Add")){
 			logTAFStep("Click adding new chart");
 			//dvpage.addNewChart.click();
@@ -104,6 +113,8 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 			    verifyChart();
 		    }
 		}
+		
+		svPage.saveVisualization(dpSaveTo);
 		
 		doVerification();
 	

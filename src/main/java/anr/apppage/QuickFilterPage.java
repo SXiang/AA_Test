@@ -3,21 +3,15 @@
  */
 package anr.apppage;
 
-import java.awt.AWTException;
-import java.awt.Rectangle;
-import java.awt.Robot;
 import java.util.List;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.WebDriver.Window;
+
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.CacheLookup;
+
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 /**
  * Script Name   : <b>DataVisualizationPage.java</b>
@@ -69,7 +63,9 @@ public class QuickFilterPage extends WebPage{
 		@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div.criteria-filter-section > "+
 	              "div.row-fluid > div > div > input.criteria-value")
         private WebElement quickFilterCriteriaValue;		
-		
+		@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div.criteria-filter-section > "+
+	              "div.row-fluid > div > span > input.criteria-value")
+        private List<WebElement> quickFilterCriteriaValues;		
 		//***** Submit ****
 		@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.apply-quick-filter > span")
 		private WebElement quickFilterApplyBtn;
@@ -99,7 +95,8 @@ public class QuickFilterPage extends WebPage{
 		// *******************************************
 
 		public void activateTable(){
-			click(tableViewTab,"Table View",tableData);
+			//click(tableViewTab,"Table View",tableData);
+			//click(tableViewTab,"Table View");
 		}
 		
 		public boolean clickColumnHeader(String columnName){
@@ -123,26 +120,35 @@ public class QuickFilterPage extends WebPage{
 	        return false;
 		}
 		
-		public void fillExpression(String option,String value){
+		public void setCriteria(String[] option,int start,String type){
 			// Should be from 
-			selectItem(new Select(quickFilterCriteriaSelctor),option,"Criteria");
-			inputChars(quickFilterCriteriaValue,value);
+			selectItem(new Select(quickFilterCriteriaSelctor),option[start],type);
+			if(option[start].equalsIgnoreCase("Between")){
+				inputChars(quickFilterCriteriaValues.get(0),option[start+1],type);
+				inputChars(quickFilterCriteriaValues.get(1),option[start+2],type);
+			}else{
+			      inputChars(quickFilterCriteriaValue,option[start+1],type);
+			}
 		}
 		public void searchValue(String value){
-			inputChars(quickFilterSearchUniqueItemsBox,value);
+			searchValue(value,"input");
+		}
+		public void searchValue(String value,String type){
+			inputChars(quickFilterSearchUniqueItemsBox,value,type);
 			sleep(pageLoadTime);
 		}
 		
         public void selectCheckBox(String[] item){
-			selectCheckBox(item,0,true);
+			selectCheckBox(item,0,"on");
 		}
         public void selectCheckBox(String[] item, int start){
-			selectCheckBox(item,start, true);
+			selectCheckBox(item,start, "on");
 		}
-		public void selectCheckBox(String[] item, int start, boolean on){
+		public void selectCheckBox(String[] item, int start, String type){
 			List<WebElement> labels,counts,boxs;
 			WebElement label,count,box;
-
+            boolean on = type.equalsIgnoreCase("off")?false:true;
+            
 				labels = quickFilterUniqueItems;
 				counts = quickFilterUniqueItemsCount;
 				boxs = quickFilterUniqueItemsCheckBox;
@@ -156,9 +162,12 @@ public class QuickFilterPage extends WebPage{
 				if(selectAll
 						||(label.getText()+count.getText()).equals(item[j])){
 					box = boxs.get(i);
-					toggleItem(box,on,item[j]);
-					if(!selectAll)
-					   break;
+					if(!selectAll){
+						toggleItem(box,on,item[j],type);
+						break;
+					}else{
+						toggleItem(box,on,"item "+(i+1),type);
+					}
 				}
 			  }
 			}
@@ -192,7 +201,7 @@ public class QuickFilterPage extends WebPage{
 		}
 
 		public String getTableData() {
-			return getTableData(200);
+			return getTableData(20);
 		}
 		
 		public String getTableData(int numRecords) {
@@ -251,113 +260,7 @@ public class QuickFilterPage extends WebPage{
 	        
 	        return table;
 		}
-//		
-//		public void pressKeyboard(int KeyCode) {
-//			  Robot rb = null;
-//			  try {
-//			   rb = new Robot();
-//			  } catch (AWTException e) {
-//			   e.printStackTrace();
-//			  }
-//			  rb.keyPress(KeyCode);   // Press the button
-//			  rb.delay(100);     // delay of 100 ms
-//
-//			  rb.keyRelease(KeyCode);  // Release the button
-//
-//			  logTAFStep("Robot Keystrokes " + KeyCode);
-//		}
-//		
-//
-//
-//		public void clickDescendingLink() {
-//			takeScreenshotWithoutScroll();
-//			click(descendingLink,"");
-//		}
-//		
-//		public void clickAscendingLink() {
-//			takeScreenshotWithoutScroll();
-//			click(ascendingLink,"");
-//		}
-//		
-//		public void clickSidePanelDescendingLink() {
-//			click(filterPanelDescSortBtn,"");
-//		}
-//		
-//		public void clickSidePanelAscendingLink() {
-//			click(filterPanelAscSortBtn,"");
-//		}
-//		
-//		public Boolean isFilterPanelClosed() {			
-//			 return filterPanelHeader.size()>0;
-//		}
-//		
-//		public void clickFilterPanelBtn() {
-//			click(filterBtn,"");
-//			takeScreenshotWithoutScroll();
-//		}
-//		
-//		public String getFilterPanelContents() {
-//			int itemSize;
-//			String allFilters;
-//			WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-//			wait.until(ExpectedConditions.presenceOfElementLocated(
-//					By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div.filter-column-name")));
-//			takeScreenshotWithoutScroll();
-//			allFilters = "@" + filterPanelHeader.get(1).getText() + "@";
-//			allFilters = allFilters + "\r\n@" + filterPanelSortSection.getText() + "@ ";
-//			/*need to fix
-//			if(driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText().equals("")){
-//				allFilters = allFilters + "\r\n" + "Sort not applied";
-//			}else{
-//				
-//				allFilters = allFilters + "'" + driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText();
-//				if(driver.findElements(filterPanelAscSortBtnActiveLocator).size()>0){
-//					allFilters = allFilters + "' : in Ascending order";
-//				}else if(driver.findElements(filterPanelDescSortBtnActiveLocator).size()>0){
-//					allFilters = allFilters + "' : in Descending order";
-//				}else{
-//					logTAFError("Sort order buttons not enabled");
-//				}
-//				
-//			}
-//		*/
-//			itemSize = filterPanelColNames.size();
-//			if(itemSize>0){
-//				for(int i = 0; i < itemSize/2;i++){
-//					allFilters = allFilters + "\r\n" + filterPanelColNames.get(i).getText();					
-//				}
-//			}
-//			return allFilters;
-//			
-//		}
-//		
-//		public String getUniqueValuesFromQuickFilter(){
-//			String allFilterValues="";
-//			
-//			WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-//			wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(
-//					"div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.apply-quick-filter > span")));
-//			takeScreenshotWithoutScroll();
-//
-//			for(int i =0;i < quickFilterUniqueItems.size();i++){
-//				if(i==0){
-//					allFilterValues = quickFilterUniqueItems.get(i).getText() + quickFilterUniqueItemsCount.get(i).getText();
-//				}
-//				allFilterValues = allFilterValues + "\r\n" + quickFilterUniqueItems.get(i).getText() + quickFilterUniqueItemsCount.get(i).getText();
-//			}
-//			return allFilterValues;
-//		}
-//		
-//		public String getAllColumnsFromDropDown(){
-//			//driver.findElements(filterPanelSortDropDownItemsLocator).
-//			return "";
-//		}
-//		
-//		public void selectSortColumnFromSidePanelDropDown( String columnName){
-//			
-//		}
-//
-//	  
+
 	  public QuickFilterPage(WebDriver driver){
 		  
 		    this.pageDriver = driver; 

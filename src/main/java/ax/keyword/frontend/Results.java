@@ -174,6 +174,7 @@ public class Results  extends ResultsHelper{
 	}
 	
 	public void openTableVisualizer(){
+		logTAFStep("Table Name - " + dpTableName);
 		clickTableDownloadIcon(dpTableName);
 	}
 	

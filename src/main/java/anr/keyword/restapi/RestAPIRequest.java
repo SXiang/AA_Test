@@ -13,8 +13,6 @@ import anr.lib.restapi.RestapiHelper;
 import anr.lib.restapi.TestDriverExampleHelper;
 import ax.lib.restapi.db.SQLConf;
 
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.Gson;;
 
 public class RestAPIRequest extends HttpRequestHelper implements KeywordInterface {
 	/**

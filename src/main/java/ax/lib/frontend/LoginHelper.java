@@ -6,6 +6,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 */
 
 import java.awt.Toolkit;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -13,8 +16,17 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 //import ax.lib.util.FileUtil;
 
@@ -58,6 +70,7 @@ public class LoginHelper extends FrontendCommonHelper{
     
     // BEGIN of other local variables declaration
 	private DesiredCapabilities capability;
+	private FirefoxProfile profile = new FirefoxProfile();
 	public String imageName;
 	//END
 	/*Commented code is for running using Selenium grid
@@ -148,6 +161,7 @@ public class LoginHelper extends FrontendCommonHelper{
 		}
 		*/
 		// Commented code is for running using Selenium standalone
+
 		
 		if((browserType.startsWith("IE")) || (browserType.startsWith("ie"))){
 			logTAFStep("Recognized IE browser, about to intiate...");
@@ -162,20 +176,39 @@ public class LoginHelper extends FrontendCommonHelper{
 		}else if((browserType.startsWith("Chrome"))||(browserType.startsWith("chrome"))){
 			logTAFStep("Recognized Chrome browser, about to intiate...");
 			InitiateChromeBrowser();
-			driver = new ChromeDriver(capability);
+
+			    driver = new ChromeDriver(capability);
+
+
 			//driver = new ChromeDriver();
-		}else{
-				//other browser's code
+		}else if(browserType.equalsIgnoreCase("FireFox")) {
+			InitiateFirefoxBrowser();
+			driver = new FirefoxDriver(profile);
+			
+		}else {
+				//other browser's code  -- Steven debugging ...
+			if (browserType.equalsIgnoreCase("HtmlUnit")) {
+				driver = new HtmlUnitDriver(BrowserVersion.INTERNET_EXPLORER_8);
+				imageName = "";
+			}else {
+				System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer32.exe");
+				DesiredCapabilities ieCapabilities = DesiredCapabilities.internetExplorer();
+				ieCapabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+				driver = new InternetExplorerDriver(ieCapabilities);
+				imageName = "iexploere.exe";
+			}
+			
 		}
 		
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.get("https://"+dpAXServerName+":"+dpAXServerPort+"/aclax");
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-	    Dimension screenResolution = new Dimension((int)
-	    toolkit.getScreenSize().getWidth(), (int)
-	    toolkit.getScreenSize().getHeight());
-	    driver.manage().window().setPosition(new Point(0, 0));
-		driver.manage().window().setSize(screenResolution);
+//		Toolkit toolkit = Toolkit.getDefaultToolkit();
+//	    Dimension screenResolution = new Dimension((int)
+//	    toolkit.getScreenSize().getWidth(), (int)
+//	    toolkit.getScreenSize().getHeight());
+//	    driver.manage().window().setPosition(new Point(0, 0));
+//		driver.manage().window().setSize(screenResolution);
+		driver.manage().window().maximize();
 		setSharedObj();
 		logTAFStep("Browser initiated successfully");
 	}
@@ -188,14 +221,32 @@ public class LoginHelper extends FrontendCommonHelper{
 		capability.setBrowserName("internetExplorer");
 		capability.setPlatform(org.openqa.selenium.Platform.ANY);
 	}
+	
+	public void InitiateFirefoxBrowser(){
+		// Commented code is for running using Selenium grid		
+		profile.setPreference("intl.accept_languages", projectConf.appLocale.toLowerCase());
+
+	}
 	public void InitiateChromeBrowser(){
 		// Commented code is for running using Selenium grid
 		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
 		capability = DesiredCapabilities.chrome();
+		
+		File defaultExt = new File(projectConf.toolDir+"0.7_0.crx");
+		if(defaultExt.exists()){
+		  ChromeOptions options = new ChromeOptions();
+		  options.addExtensions(defaultExt);
+		  options.addArguments("--lang="+projectConf.appLocale.toLowerCase());
+		  capability.setCapability(ChromeOptions.CAPABILITY, options);
+		}
+		
+		
 		capability.setBrowserName("chrome");
 		capability.setPlatform(org.openqa.selenium.Platform.ANY);
 		capability.setCapability("chrome.switches", Arrays.asList("--start-maximized"));
 		capability.setCapability("chrome.switches", Arrays.asList("--ignore-certificate-errors"));
+		//capability.setCapability("chrome.switches", Arrays.asList("--lang"+projectConf.appLocale));
+		//capability.setCapability("chrome.switches", Arrays.asList("--no-sandbox"));
 	}
 
 	
@@ -223,7 +274,8 @@ public class LoginHelper extends FrontendCommonHelper{
 			driver.findElement(usernameLocator).sendKeys(username);
 	        driver.findElement(passwordLocator).click();
 	        driver.findElement(passwordLocator).sendKeys(password);
-	        driver.findElement(loginButtonLocator).click();
+	        //driver.findElement(loginButtonLocator).click();
+	        driver.findElement(usernameLocator).submit();
 	        //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		}
 		
