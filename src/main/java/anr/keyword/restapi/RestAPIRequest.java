@@ -234,16 +234,6 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		return temp;
 	}
 	
-	public String fromJson(String jsonFile){
-		
-		String sortedText;
-		Gson gson = new Gson();
-		
-		sortedText=gson.toJson(jsonFile);
-		return sortedText;
-		
-		
-	}
 	
  }
 

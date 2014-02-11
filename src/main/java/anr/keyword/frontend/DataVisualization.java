@@ -14,7 +14,7 @@ public class DataVisualization extends DataVisualizationHelper implements Keywor
 
 	//***************  Part 1  *******************
 	// 
-	
+	private String dpTableName;
 	//***************  Part 2  *******************
 	// ******* Methods on initialization *********
 	// *******************************************
