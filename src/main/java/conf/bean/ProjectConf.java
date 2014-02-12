@@ -1,3 +1,5 @@
+
+
 package conf.bean;
 
 import java.io.FileInputStream;
@@ -18,7 +20,9 @@ public class ProjectConf {
 			serverPrefix = "C:/ACL/Automation/RFT_DATA/",
 			serverNetDir = ":/ACL/Automation/",
 			serverNetUser = "Administrator", serverNetPassword = "Password00",
-			localizationDir = "", l10nPropertiesPrefix = "",tempLocalDir = "", tempServerNetDir = "",
+			localizationDir = "", 
+			l10nPropertiesPrefix = "",
+			tempLocalDir = "", tempServerNetDir = "",
 			tempServerDir = "", serverInputDataDir = "",
 			localInputDataDir = "",
 			testDataDir = "",

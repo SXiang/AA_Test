@@ -3,7 +3,13 @@
  */
 package anr.apppage;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -12,6 +18,7 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.ui.*;
 
 import ax.lib.frontend.FrontendCommonHelper;
+import ax.lib.restapi.db.SQLQuery;
 
 /**
  * Script Name   : <b>WebPage.java</b>
@@ -23,7 +30,10 @@ import ax.lib.frontend.FrontendCommonHelper;
  * 
  */
 public class WebPage extends CommonWebHelper{
-
+	 protected  WebDriver pageDriver;
+	 protected WebDriverWait pageDriverWait;
+     static protected Map<String,String> axItems;
+	 
   //*** Click element and optionally wait until ***	
 	public void click(WebElement node){
 		click(node,"");
@@ -43,7 +53,7 @@ public class WebPage extends CommonWebHelper{
 		click(node,label,untilBy,true);
 	}
 	public void click(WebElement node, String label, Object untilBy, boolean displayed ){
-		click(driver,node,label,untilBy,displayed);
+		click(pageDriver,node,label,untilBy,displayed);
 	}	
 	public void click(WebDriver driver,WebElement node, String label, Object untilBy){
 		click(driver,node,label,untilBy,true);
@@ -68,9 +78,21 @@ public class WebPage extends CommonWebHelper{
 		
 		if(expectedStatus==currentStatus) return;
 		
-        click(driver,node,label,expectedElement,expectedStatus);
+        click(pageDriver,node,label,expectedElement,expectedStatus);
 	}
-	
+	public void toggleElementByClick(List<WebElement> expectedElements, WebElement node, String label,boolean expectedStatus){
+		
+		boolean currentStatus = false;	
+		if(expectedElements.size()>0){
+		    try{
+				currentStatus = expectedElements.get(0).isDisplayed();
+		    }catch(Exception e){			
+		  }
+		}
+		if(expectedStatus==currentStatus) return;
+		
+        click(driver,node,label,expectedElements,expectedStatus);
+	}	
   //*** Double click element and optionally wait until ***
 	public void doubleClick(WebElement node){
 		doubleClick(node,"");
@@ -88,7 +110,7 @@ public class WebPage extends CommonWebHelper{
 	}
 	
 	public void doubleClick(WebElement node, String label, Object untilBy, boolean displayed ){
-		doubleClick(driver,node,label,untilBy,displayed);
+		doubleClick(pageDriver,node,label,untilBy,displayed);
 	}
 	public void doubleClick(WebDriver driver,WebElement node, String label, Object untilBy,boolean displayed){
 		Actions actionDriver = new Actions(driver);
@@ -97,6 +119,7 @@ public class WebPage extends CommonWebHelper{
 		waitUntil(driver,untilBy,displayed);
 	}	
 	
+
 	//*** Select ***
 	
 	public void selectItem(Select selObj, String item){
@@ -158,7 +181,7 @@ public class WebPage extends CommonWebHelper{
 		waitUntil(untilBy,true);
 	}
 	public void waitUntil(Object untilBy,boolean displayed){
-		waitUntil(driver,untilBy,displayed);
+		waitUntil(pageDriver,untilBy,displayed);
 	}
 	public void waitUntil(WebDriver driver, Object untilBy){
 		waitUntil(driver,untilBy,true);
@@ -166,8 +189,12 @@ public class WebPage extends CommonWebHelper{
 	@SuppressWarnings("unchecked")
 	public void waitUntil(WebDriver driver,final Object untilBy,boolean displayed){
 		if (untilBy==null||driver==null) return;
-		WebDriverWait wait = new WebDriverWait(driver,30);
 		
+		WebDriverWait wait = new WebDriverWait(driver,30);
+		waitUntil(wait,untilBy,displayed);
+	}
+	
+	public void waitUntil(WebDriverWait wait,final Object untilBy,boolean displayed){
 		try{
 			if(untilBy instanceof WebElement){
 				if(displayed){
@@ -197,6 +224,7 @@ public class WebPage extends CommonWebHelper{
 				   wait.until(ExpectedConditions.invisibilityOfElementLocated((By)untilBy));
 				}
 		    }else if(untilBy instanceof List){
+
 		    	if(((List<?>)untilBy).get(0) instanceof WebElement){
 		    		if(displayed){
 		    		   wait.until(ExpectedConditions.visibilityOfAllElements((List<WebElement>)untilBy));
@@ -235,16 +263,31 @@ public class WebPage extends CommonWebHelper{
 			super.inputChars(driver,we,text);
 		}
 	// ******* Other methods ****************
-	
-    public Point scrollToElement(WebElement element){
+	public java.awt.Point scrollToElement(WebElement element){	
+		return scrollToElement(element,new java.awt.Point(0,50));
+	}
+    public java.awt.Point scrollToElement(WebElement element, java.awt.Point pt){
     	Point elementPoint = new Point(0,0);
+
     	try{
     	    Coordinates coor = ((Locatable)element).getCoordinates();
     	    elementPoint = coor.inViewPort();
+    	    
+    	    pt.x = elementPoint.x - pt.x;
+    	    pt.y = elementPoint.y - pt.y;
+    	    
+    	    ((JavascriptExecutor) pageDriver).executeScript(
+    	    		"scrollBy("+pt.x+","+pt.y+");");
+//    	    if(pt.y>0&&elementPoint.y>pt.y){
+    	    	
+//    	       ((JavascriptExecutor) pageDriver).executeScript("scrollBy("+pt.x+","+pt.y+");");
+    	       //((JavascriptExecutor) pageDriver).executeScript("scroll(0,250);");
+//    	    }
     	}catch(Exception e){
     		logTAFInfo("Warning: faile to scroll to element ?'"+element.getText()+"'");
     	}
-    	return elementPoint;
+    	
+    	return pt;
     }
     
     public int getElementIndex(List<WebElement> element,String columnName){
@@ -256,8 +299,106 @@ public class WebPage extends CommonWebHelper{
     	}
     	return 0;
     }
+    public static String getCurrentUUID(WebDriver driver){
+    	return getCurrentUUID(driver,"");
+    }
+    
+    public static String getCurrentUUID(WebDriver driver,String childItemName){
+    	//sleep(0);
+    	String[] ids = getCurrentUUIDs(driver,childItemName);
+//    	if(ids.length>1)
+//    	  return ids[ids.length-2];
+    	return ids[ids.length-1];
+    }
+
+    public static String[] getCurrentUUIDs(WebDriver driver,String childItemName){
+    	String pathSep = "/";
+    	String url = driver.getCurrentUrl();
+//    	String fileName = "";
+//		try {
+//			fileName = new URL(url).getPath();
+//		} catch (MalformedURLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+    	StringBuffer sb = new StringBuffer();
+    	String uuidPattern = "[a-z0-9]{8}\\-[a-z0-9]{4}\\-[a-z0-9]{4}\\-[a-z0-9]{4}\\-[a-z0-9]{12}";
+    	String[] names = url.split(pathSep);
+    	int currentItemIndex = 0;
+    	for(int i=0;i<names.length;i++){
+    		if(names[i].matches(uuidPattern)){
+    			sb.append(names[i]+pathSep);
+    			currentItemIndex = i;
+    		}
+    	}
+    	
+		if(axItems==null){
+			axItems = new HashMap<String,String>();
+		}
+		if(currentItemIndex>0){
+		    axItems.put(names[currentItemIndex-1], names[currentItemIndex]);
+			if(!childItemName.equals("")){
+				if(names[currentItemIndex-1].equalsIgnoreCase("tests")){
+                   axItems.put("analytic", childItemName);
+
+				}
+			}
+		}
+		
+
+    	return sb.toString().split(pathSep);
+    }
+    
+    //*** L10N related
+    
+    public String getLocKey(WebElement we, String value){
+    	String l10nKey = "key";
+    	String l10nDirective = "ng-bind-html-unsafe";
+    	String l10nDirectiveValue = l10nKey+"\\|localize";
+    	
+    	String l10nKeyValue = we.getAttribute(l10nKey);
+    	String l10nDirectiveInput = we.getAttribute(l10nDirective);
+    	
+    	if(l10nKeyValue==null){
+    		logTAFWarning("Text '"+value+"' has not been localized?");
+    		l10nKeyValue = value;
+    	}else if(l10nDirectiveInput==null||!l10nDirectiveInput.matches(l10nDirectiveValue)){
+    		logTAFWarning (l10nDirectiveInput+"is a valid value of "+l10nDirective);
+    		
+    	}else{
+    		logTAFDebug("The L10N key for '"+value+"' is '"+l10nKeyValue);
+    	}
+    	
+    	return l10nKeyValue;
+    }
+
+    //Static workaround - 
+	 public static String axNameHandle(String itemName){
+		 return axNameHandle(null,itemName);
+	 }
+	 
+    public static String axNameHandle(WebDriver driver,String itemName){
+    	String ori = "_";
+    	String rep = " ";
+    	
+    	retriveUUID(driver, itemName);
+	    		 
+    	String uiName = itemName.replaceAll("(?i)\\.aCL$", "");
+    	// AX issue, replaced all '_' with ' '
+    	// disable this line when fixed
+    	uiName= uiName.replaceAll(ori, rep);
+    	return uiName;
+    }
+    
+    public static void retriveUUID(WebDriver driver, String itemName){
+    	if(driver==null)
+    		return;
+    	 getCurrentUUID(driver,itemName);
+    }
+    
 	public WebPage() {
 		// TODO Auto-generated constructor stub
+
 	}
 
 }

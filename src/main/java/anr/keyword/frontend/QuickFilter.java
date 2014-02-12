@@ -1,39 +1,56 @@
+/**
+ * 
+ */
 package anr.keyword.frontend;
 
-import anr.lib.frontend.QuickFilterHelper;
+import org.bouncycastle.util.Arrays;
+import org.openqa.selenium.support.PageFactory;
 
+import anr.apppage.CommonWebHelper;
+import anr.apppage.FilterPanelPage;
+import anr.apppage.QuickFilterPage;
+import anr.apppage.DataVisualizationPage;
+import anr.apppage.SaveVisualizationPage;
 
-public class QuickFilter  extends QuickFilterHelper{
+import com.acl.qa.taf.helper.Interface.KeywordInterface;
 
-	/**
-	 * Script Name   : <b>QuickFilter</b>
-	 * Generated     : <b>Dec 11, 2013</b>
-	 * Description   : QuickFilter keyword
-	 * 
-	 * @author Ramneet Kaur
-	 */
+/**
+ * Script Name   : <b>QuickFilter_Steven.java</b>
+ * Generated     : <b>9:25:51 AM</b> 
+ * Description   : <b>ACL Test Automation</b>
+ * 
+ * @since  Dec 20, 2013
+ * @author steven_xiang
+ * 
+ */
+public class QuickFilter  extends CommonWebHelper implements KeywordInterface {
 
-	
 	// *************** Part 1 *******************
 	// ******* Declaration of variables **********
 	// *******************************************
 	// BEGIN of datapool variables declaration
 	protected String dpColumnName; //@arg Name of the column that should be clicked on to open Quick filter
 	protected String dpFilterValues; //@arg type of filter: whether typing in and then selecting values or selecting directly from checkbox
-	                                  // value = check|value1|value2|value3..
-	                                  // value = type|Text to type|value1|value2|value3...
-                                        // value = drop|option to select|value
-	protected String dpClearFilters; //If T, all filters will be removed
+	                                  // value = on(off)(verify)|check|All|value1|value2|value3..
+	                                  // value = on(off)(verify)|type|Text to type|All|value1|value2|value3...
+                                        // value = on(off)(verify)|drop|option to select|value
+	protected String dpLoadFrom;  //@arg load saved visulization - title
+	protected String dpSaveTo;    //@arg save to title
+	                              //value = title|link<true,false>
+
 	// END of datapool variables declaration
+
+	protected SaveVisualizationPage svPage;
 	
+	// private String endWith for this filter: Apply|Clear|Dismiss
+	// private String endWith for filter panel Apply|Clear|Dismiss|Delete
 	private String actionType;
-	private String checkItems;
-	
-	
-	private String criteriaFilterValue;
-	private String criteriaFilterOption;
-	private String criteriaFilterValueHalf1;
-	private String criteriaFilterValueHalf2;
+	private String action;
+	//private String checkItems;
+	private String[] filterValues;
+	private String[] endValues;
+
+	protected QuickFilterPage qfPage;
 	
 	@Override
 	public boolean dataInitialization() {
@@ -41,7 +58,9 @@ public class QuickFilter  extends QuickFilterHelper{
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
 		dpFilterValues = getDpString("FilterValues");
-		dpClearFilters = getDpString("ClearFilters");
+		filterValues = dpFilterValues.split("\\|");
+        dpLoadFrom = getDpString("LoadFrom");
+        dpSaveTo = getDpString("SaveTo");
 		//END
 		return true;
 	}	
@@ -54,44 +73,41 @@ public class QuickFilter  extends QuickFilterHelper{
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
 		
-		logTAFStep("Number of records - " + recordCount());
+		qfPage = PageFactory.initElements(driver, QuickFilterPage.class);
+		
+		qfPage.activateTable();
 		
 		if(!dpColumnName.isEmpty()){
 			openQuickFilterMenu();
 		}
-
+		
 		if(!dpFilterValues.isEmpty()){
 			
-			actionType = dpFilterValues.split("\\|")[0];
+			action = filterValues[0];
+			actionType = filterValues[1];
 			if(actionType.equalsIgnoreCase("check")){
-				checkItems = dpFilterValues.split("\\|")[1];
-				filterUsingCheckboxes(checkItems);
-			}
-			else if(actionType.equalsIgnoreCase("type")){
-				findFilteredValues(dpFilterValues.split("\\|")[1]);
-				checkItems = dpFilterValues.split("\\|")[2];
-				filterUsingCheckboxes(checkItems);
-			}
-			else {
-				criteriaFilterOption = dpFilterValues.split("\\|")[1];
-				criteriaFilterValue = dpFilterValues.split("\\|")[2];			
-				if(criteriaFilterOption.equals("Between")) {
-				criteriaFilterValueHalf1 = criteriaFilterValue;
-				criteriaFilterValueHalf2 = dpFilterValues.split("\\|")[3];
-				applyCriteriaFilter(criteriaFilterOption, criteriaFilterValueHalf1, criteriaFilterValueHalf2);	
+				qfPage.selectCheckBox(filterValues,2,action);
+			}else if(actionType.equalsIgnoreCase("type")){
+				qfPage.searchValue(filterValues[2],action);
+				qfPage.selectCheckBox(filterValues,3,action);
+			}else if(actionType.equalsIgnoreCase("drop")){
+				if(!action.equalsIgnoreCase("off")){
+				   qfPage.setCriteria(filterValues,2,action);
+				}else{
+					
 				}
-				else {
-				applyCriteriaFilter(criteriaFilterOption, criteriaFilterValue);
-				}
-				logTAFStep("Number of records - " + recordCount());
-				
-			}
-			if (dpClearFilters.equalsIgnoreCase("T")) {
-			removeAllFilters();
 			}
 		}
-		cleanUp();
-	
+		qfPage.endWith(dpEndWith);
+
+		svPage.saveVisualization(dpSaveTo);
+		if(!dpMasterFiles[0].isEmpty()){
+			verifyResultTable();
+		}	
+		
+		endValues = dpEndWith.split("\\|");
+		cleanUp(endValues[endValues.length-1]);
+		
 		// *** cleanup by framework ***
 		onTerminate();
 	}
@@ -100,39 +116,24 @@ public class QuickFilter  extends QuickFilterHelper{
 	// *** Implementation of test functions ******
 	// *******************************************
 	
+	
 	public void openQuickFilterMenu(){
-		clickColumnHeader(dpColumnName);
+		qfPage.clickColumnHeader(dpColumnName);
 	}
 	
-	public void verifyUniqueValuesList(){
-		String allUniqueValues = getUniqueValuesFromQuickFilter();  // to-do
-		if(allUniqueValues.isEmpty()){
-			logTAFError("Unable to read Unique Values from QuickFilter");
-		}else{
-			logTAFStep("Verify Unique Values from QuickFilter - " + dpMasterFiles[0]);
-			System.out.println("All Unique Values from QuickFilter: "+allUniqueValues);
-			result[0] = allUniqueValues; // You need to get actual result for
-											// each comparison
-			compareTxtResult(result[0], dpMasterFiles[0]);
-		}
-	}
-	
-	public void filterUsingCheckboxes(String checkItems){
-		
-	}
-	
-	public void findFilteredValues(String searchText){
-		
-	}
-		
 
-	
-	// *************** Optional ******************
-	// ******* main method for quick debugging ***
-	// *******************************************
-	
-	public static void main(String args) {
+
+		
+	public void verifyResultTable(){
+		int numRecords = 20;
+		String result = qfPage.getTableData(numRecords);  // to-do
+			logTAFStep("Verify resulted table from QuickFilter(first "+numRecords+" records - " + dpMasterFiles[0]+")");			
+			compareTxtResult(result, dpMasterFiles[0]);
 
 	}
 	
+	public QuickFilter() {
+		// TODO Auto-generated constructor stub
+	}
+
 }

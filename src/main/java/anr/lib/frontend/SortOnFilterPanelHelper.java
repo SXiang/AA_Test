@@ -17,7 +17,7 @@ import java.lang.String;
 
 import ax.lib.frontend.FrontendCommonHelper;
 
-public class SortOnFilterPanelHelper extends QuickFilterHelper {
+public class SortOnFilterPanelHelper extends DataVisualizationHelper {
 	/**
 	 * Script Name   : <b>DataVisualizationHelper</b>
 	 * Generated     : <b>Oct 4, 2013</b>
@@ -55,7 +55,7 @@ public class SortOnFilterPanelHelper extends QuickFilterHelper {
 		super.testMain(onInitialize(args, getClass().getName()));
 		isElementDisplayed(tableViewTabLocator, "Table View Tab");
 		isElementDisplayed(addChartBtnLocator, "Add Chart Button");
-		isElementDisplayed(filterBtnLocator, "Filter Button");
+		isElementDisplayed(filtersBtnLocator, "Filter Button");
 	}
 
 	//***************  Part 3  *******************
@@ -162,7 +162,7 @@ public class SortOnFilterPanelHelper extends QuickFilterHelper {
 	}
 	
 	public String isFilterPanelClosed() {
-		List<WebElement> filterPanelHeader = driver.findElements(filterBtnLocator);
+		List<WebElement> filterPanelHeader = driver.findElements(filtersBtnLocator);
 		int i = filterPanelHeader.size();
 		if(i>0){
 			return "open";
@@ -183,14 +183,14 @@ public class SortOnFilterPanelHelper extends QuickFilterHelper {
 		//driver.findElement(filterBtnLocator).click();
 		//takeScreenshotWithoutScroll();
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(filterBtnLocator));
-		driver.findElement(filterBtnLocator).click();
+		wait.until(ExpectedConditions.presenceOfElementLocated(filtersBtnLocator));
+		driver.findElement(filtersBtnLocator).click();
 		
 	}
 	
 	public void clickSortOnPlusSign() {
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(filterBtnLocator));
+		wait.until(ExpectedConditions.presenceOfElementLocated(filtersBtnLocator));
 		driver.findElement(quickSortPlusLocator).click();
 	}
 	
@@ -297,12 +297,12 @@ for (WebElement option : options) {
 		
 	public void quickSort(String sortDirection) {
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(ascendingLinkLocator));
+		wait.until(ExpectedConditions.presenceOfElementLocated(quickSortAscButtonLocator));
 		if (sortDirection.equalsIgnoreCase("asc")){
-			driver.findElement(ascendingLinkLocator).click();
+			driver.findElement(quickSortAscButtonLocator).click();
 		}
 		else if (sortDirection.equalsIgnoreCase("desc")) {
-			driver.findElement(descendingLinkLocator).click();
+			driver.findElement(quickSortDescButtonLocator).click();
 		}		
 		else {
 			logTAFError("Sort Order option is not valid");

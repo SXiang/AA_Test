@@ -58,6 +58,7 @@ public class SortOnFilterPanel  extends QuickFilterHelper {
 			}
 			    selectSortColumnFromSidePanelDropDown(dpColumnName);
 				quickSort(dpSortDirection);
+				//logTAFStep("Number of records - " + numberOfRecords());
 				logTAFStep("Number of records - " + numberOfRecords());
 		/*	}
 			else{

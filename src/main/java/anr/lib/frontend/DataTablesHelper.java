@@ -1,8 +1,6 @@
 package anr.lib.frontend;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.io.File;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -15,7 +13,7 @@ public class DataTablesHelper extends ANR_FrontendCommonHelper{
 	/**
 	 * Script Name   : <b>OpenProjectsHelper</b>
 	 * Generated     : <b>Oct 4, 2013</b>
-	 * Description   : OpenProjectsHelper
+	 * Description   : DataTablesHelper
 	 * 
 	 * @since  Oct 4, 2013
 	 * @author Karen Zou
@@ -52,7 +50,7 @@ public class DataTablesHelper extends ANR_FrontendCommonHelper{
 	public String imageName;
 
 	protected List<WebElement> allTables,allAnalytics,allTableNames, allTableRecords, allTableSizes, allTableSizeUnits,
-							   allTablesWithoutDataFile,allTableNamesforTablesWithoutDataFile,allNoDataFileforTablesWithoutDataFile;
+							   allTablesWithoutDataFile,allTableNamesforTablesWithoutDataFile,allNoDataFileforTablesWithoutDataFile,allDataVisualizeIcons;
 	protected WebElement noDataTable,noDataTableDesc;
 	//END
 	
@@ -121,22 +119,19 @@ public class DataTablesHelper extends ANR_FrontendCommonHelper{
         return tables;
 	}
 
-
 	public boolean clickTableName(String tablename) {
-		List<WebElement> allTables;
-		List<WebElement> allDataVisualizeIcons;
+	    logTAFStep("Click Data Visualization icon button for the table " + tablename);
 		
-	    logTAFStep("Find the table name");
-		
-	    //Find the table list
-	    allTables = driver.findElements(tableNameLocator);
+	    //Get the table list
+		allTableNames = driver.findElements(tableNameLocator);
 	    allDataVisualizeIcons = driver.findElements(dataVisualizeIconLocator);
 	    		
-		for(int i = 0; i < allTables.size(); i++) {
-		    String temp = allTables.get(i).getText();
+		for(int i = 0; i < allTableNames.size(); i++) {
+		    String temp = allTableNames.get(i).getText();
         	if (temp.equalsIgnoreCase(tablename)) {
         	    logTAFStep("Table name has been found successfully!");
         	    logTAFStep("Click the related data visualize icon");
+        	 
         	    allDataVisualizeIcons.get(i).click();
         		
         		sleep(1);
@@ -146,5 +141,4 @@ public class DataTablesHelper extends ANR_FrontendCommonHelper{
 
         return false;
 	}
-
 }
