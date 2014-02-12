@@ -18,8 +18,8 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 	 * Generated     : <b>Oct 4, 2013</b>
 	 * Description   : DataVisualizationHelper
 	 * 
-	 * @since  Oct 16, 2013
-	 * @author Karen Zou
+	 * @since  Jan 10, 2014
+	 * @author Yousef Aichour
 	 */
 
 	//***************  Part 1  *******************
@@ -46,6 +46,10 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 	By allCellsValuesLocator = By.cssSelector("span.ng-binding[ng-cell-text='']");
 	By visualizerPageHeaderTitleLocator = By.cssSelector("div.visualizer-page-header-title");
 	By visualizerPageHeaderTitleFilteredRecordsLocator = By.cssSelector("div.visualizer-page-header-title > span:nth-of-type(1)");
+	//By criteriaFilters = By.cssSelector("div.criteria-filters");
+	By criteriaFilters = By.xpath("//div[@class='criteria-filters']");
+	//By criteriaFilterChildrenLocator = By.cssSelector("*");
+	By criteriaFilterChildrenLocator = By.xpath(".//*//*//*//*//*");
 	
 	
 	protected List<WebElement> options;
@@ -113,19 +117,19 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 	public String getActionType(String columnName, String filterValues, String sortDirection) {
 		String actionType = "";		
 		if (sortDirection.equalsIgnoreCase("asc") || sortDirection.equalsIgnoreCase("desc")) {
-			actionType = "Action Type = Sort " + sortDirection + " on " + columnName + "\r";
+			actionType = "Action Type = Sort " + sortDirection + " on " + columnName;
 		}
 		else {
 			if(!filterValues.isEmpty()) {
 				if (filterValues.split("\\|")[1].equalsIgnoreCase("Between")) {
-					actionType = "Action Type = Filter --> " + columnName + " between " + filterValues.split("\\|")[2] + " and " + filterValues.split("\\|")[3] + "\r";
+					actionType = "Action Type = Filter --> " + columnName + " between " + filterValues.split("\\|")[2] + " and " + filterValues.split("\\|")[3];
 				}
 				else {
-					actionType = "Action Type = Filter --> " + columnName + " " + filterValues.split("\\|")[1] + " " + filterValues.split("\\|")[2] + "\r";
+					actionType = "Action Type = Filter --> " + columnName + " " + filterValues.split("\\|")[1] + " " + filterValues.split("\\|")[2];
 				}
 			}	
 		}
-		return actionType;
+		return actionType + "\r";
 	}
 	
 	public String getDisplayedDataToBeCompared(int columns, int rows, String columnName, String filterValues, String sortDirection) {
@@ -146,15 +150,16 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 		
 		waitUntilPresenceOfElementLocated(visualizerPageHeaderTitleFilteredRecordsLocator);
 		visualizerPageHeaderTitleFilteredRecordsElement = driver.findElement(visualizerPageHeaderTitleFilteredRecordsLocator);
-
-		
+	
 		String[] parts = visualizerPageHeaderTitleElement.getText().split("-");
-		
+			
 		listOfValues = "Table Name = " + parts[0] + "\r";
-		
+
 		listOfValues = listOfValues + getActionType(columnName, filterValues, sortDirection);
 		
-		listOfValues = listOfValues + "Number of Filtered records = " + Integer.valueOf(visualizerPageHeaderTitleFilteredRecordsElement.getText().replace("/", "").trim()) + "\r\r";
+		if (!visualizerPageHeaderTitleFilteredRecordsElement.getText().replace("/", "").trim().isEmpty()) {
+			listOfValues = listOfValues + "Number of Filtered records = " + Integer.valueOf(visualizerPageHeaderTitleFilteredRecordsElement.getText().replace("/", "").trim()) + "\r\r";
+		}
 		
 		listOfValues = listOfValues + getColumnTitles(columns) + "\r";
 		
@@ -222,6 +227,7 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 	} 
 	
 	public void editQuickFilter(String columnName, String criteriaFilterFromOption, String criteriaFilterFromValue, String criteriaFilterToOption, String criteriaFilterToValue) {
+		
 		selectElementsToBeEdited(columnName, criteriaFilterFromOption, criteriaFilterFromValue);		
 		selectOption(criteriaFilterToOption);
 		fromValueElement.clear();
@@ -389,12 +395,85 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 		clickFilterPanelBtn();
 		
 	}
-	/*public void sleepAndWait(int seconds) {
-		try {
-		TimeUnit.SECONDS.sleep(seconds);
-		} catch (InterruptedException ie) {
-		    //Handle exception
+
+	public void selectSortColumnFromSidePanelDropDown( String columnName){	
+		
+		waitUntilPresenceOfElementLocated(quickSortDropDown);	
+		WebElement select = driver.findElement(quickSortDropDown);
+
+		waitUntilPresenceOfElementLocated(optionsLocator);	
+		options = select.findElements(optionsLocator);
+		
+		selectOption(columnName);
+		if(verifyOptionIsSelected(columnName)) {
+		logTAFStep("Selected option was successfully verified");
 		}
-	} */
+		else {
+		logTAFError("Selected option was unsuccessfully verified");
+		}
+	}
+	
+	public void quickSort(String sortDirection) {
+		sleepAndWait(2);
+		if (sortDirection.equalsIgnoreCase("asc")){
+			waitUntilPresenceOfElementLocated(quickSortAscLinkLocator);
+			driver.findElement(quickSortAscLinkLocator).click();
+		}
+		else if (sortDirection.equalsIgnoreCase("desc")) {
+			waitUntilPresenceOfElementLocated(quickSortDescLinkLocator);
+			driver.findElement(quickSortDescLinkLocator).click();
+		}		
+		else {
+			logTAFError("Sort Order option is not valid");
+		}
+	}
+
+	
+	public String isSortPanelClosed() {
+		List<WebElement> sortPanelHeader = driver.findElements(quickSortPanelContent);
+		int i = sortPanelHeader.size();
+		if(i>0){
+			return "open";
+		}
+		return "close";
+	}
+	
+	public void clickSortOnPlusSign() {
+		waitUntilPresenceOfElementLocated(quickSortPlusLocator);
+		driver.findElement(quickSortPlusLocator).click();
+	}
+	
+	public int numberOfRecords() {
+		firstColumnCells = driver.findElements(firstColumnValues);
+		return firstColumnCells.size();
+	}
+	
+	
+	public void justTest() {
+		//*************		
+		waitUntilPresenceOfElementLocated(criteriaFilters);	
+		List<WebElement> values = driver.findElements(criteriaFilters);
+		List<WebElement> children = values.get(1).findElements(criteriaFilterChildrenLocator);
+		
+		int i=0;
+		//************
+		
+		//children.get(0).click();
+		
+		//selectOption("Not contains");
+		
+		//children.get(i).
+		
+		//children.get(58).sendKeys("Yousef");
+			
+		for(WebElement child : children) {
+			i++;
+			if(i == 1 || i == 12 || i == 23 || i == 34 || i == 8 || i == 19 || i == 30 || i == 41) {
+			logTAFStep("Element text : Index = " + i  + child.getText() + " " + child.getAttribute("value"));
+			}
+		}
+	}
+	
+//List<WebElement> allDescendantsChilds = rootWebElement.findElements(By.xpath("//tr[@class='parent']//*"));
 
 }

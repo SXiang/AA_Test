@@ -1,9 +1,9 @@
 package anr.keyword.frontend;
 
-import anr.lib.frontend.DataVisualizationHelper;
+import anr.lib.frontend.QuickFilterHelper;
 
 
-public class FilterPanel  extends DataVisualizationHelper{
+public class FilterPanel  extends QuickFilterHelper{
 
 	/**
 	 * Script Name   : <b>FilterPanel</b>

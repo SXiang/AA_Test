@@ -78,7 +78,7 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 		isElementDisplayed(projectNameLocator, "Project name");
 		isElementDisplayed(projectDropDownLocator, "Project drop down button");
 		isElementDisplayed(testSetsHeaderLocator, "TestSets list header");
-		isRightPanelIconDisplayed();
+		//isRightPanelIconDisplayed();
 		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
 

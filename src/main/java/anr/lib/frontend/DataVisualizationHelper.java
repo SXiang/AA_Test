@@ -38,8 +38,9 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	By quickSortPlusLocator = By.cssSelector("i.icon-plus");
 	By quickSortDropDown = By.cssSelector("select[ng-model='table.sort.field']");
 	By optionsLocator = By.cssSelector("select[ng-model='table.sort.field'] > option");
-	By quickSortAscButtonLocator = By.cssSelector("div#sort-ascending");
-	By quickSortDescButtonLocator = By.cssSelector("div#sort-descending");
+	By quickSortAscLinkLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-ascending']");
+	By quickSortDescLinkLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-descending']");
+	By sortElementsLocator = By.cssSelector("div#sort-section > div.row-fluid");
 	By quickSortPanelContent = By.cssSelector(".collapse.in");
 	By filterButtonlocator = By.cssSelector(".btn.btn-primary.static-tabs.filers-tab.pull-left.ng-scope.active");
 	By firstColumnValues = By.cssSelector(".ngCell.col0.colt0");	
@@ -49,13 +50,12 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	
 		
 	By filterBtnLocator = By.cssSelector(".static-tabs.filers-tab");
-	//By colHeaderLocator = By.cssSelector("div[id^='col']");
 	By colHeaderLocator = By.cssSelector(".ngHeaderText");
 	By quickFilterHeaderLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header']");
 	By closeQuickFilterMenuLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header'] > i.icon-remove");
 	By sortSectionLabelLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div.sort-header");
-	By ascendingLinkLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-ascending']");
-	By descendingLinkLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div > div[id='sort-descending']");
+	By ascendingLinkLocator = By.cssSelector("button[btn-radio*='asc']");
+	By descendingLinkLocator = By.cssSelector("button[btn-radio*='desc']");
 	By quickFilterUniqueItemsLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span[ng-show^='item.value']");
 	By quickFilterUniqueItemsCountLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span.value-count");
 	By quickFilterSearchUniqueItemsBoxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > input.search-filter-value");
@@ -76,8 +76,6 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	By filterPanelDescSortBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn[btn-radio*='desc']");
 	By filterPanelAscSortBtnActiveLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn.active[btn-radio*='asc']");
 	By filterPanelDescSortBtnActiveLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn.active[btn-radio*='desc']");
-	//By filterPanelMinimizeIconLocator = By.cssSelector(".icon-minus:not([style='display: none;'])");
-	//By filterPanelMaximizeIconLocator = By.cssSelector(".icon-plus:not([style='display: none;'])");
 	By filterPanelFilterToggledOffLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div > div.filter-toggle.toggle-off");
 	By filterPanelFilterToggledOnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div > div.filter-toggle:not([class$='toggle-off'])");
 	By filterPanelSearchFilterLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.search-filter:not([style='display: none;']) > input.search-filter-value");
@@ -130,11 +128,6 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	//***************  Part 3  *******************
 	// ******* Methods           ****************
 	// *******************************************
-	
-	public int numberOfRecords() {
-		firstColumnCells = driver.findElements(firstColumnValues);
-		return firstColumnCells.size();
-	}
 	
 	public String getTableName() {
 		return driver.findElement(tableNameLocator).getText();
@@ -235,36 +228,6 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 		driver.findElement(filterPanelAscSortBtnLocator).click();
 	}
 	
-	public String isFilterPanelClosed() {
-		List<WebElement> filterPanelHeader = driver.findElements(filterButtonlocator);
-		int i = filterPanelHeader.size();
-		if(i>0){
-			return "open";
-		}
-		return "close";
-	}
-	
-	public String isSortPanelClosed() {
-		List<WebElement> sortPanelHeader = driver.findElements(quickSortPanelContent);
-		int i = sortPanelHeader.size();
-		if(i>0){
-			return "open";
-		}
-		return "close";
-	}
-	
-	public void clickFilterPanelBtn() {
-		if(isFilterPanelClosed().equals("close")) {
-		driver.findElement(filterBtnLocator).click();
-		}
-	}
-	
-	public void clickSortOnPlusSign() {
-		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(filterBtnLocator));
-		driver.findElement(quickSortPlusLocator).click();
-	}
-	
 	public String getFilterPanelContents() {
 		int itemSize;
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
@@ -316,60 +279,6 @@ public class DataVisualizationHelper extends FrontendCommonHelper{
 	public String getAllColumnsFromDropDown(){
 		//driver.findElements(filterPanelSortDropDownItemsLocator).
 		return allColumns;
-	}
-	
-	public void selectSortColumnFromSidePanelDropDown( String columnName){	
-		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(quickSortDropDown));
-		WebElement select = driver.findElement(quickSortDropDown);
-		
-		wait.until(ExpectedConditions.presenceOfElementLocated(optionsLocator));
-		options = select.findElements(optionsLocator);
-
-		selectOption(columnName);
-		if(verifyOptionIsSelected(columnName)) {
-		logTAFStep("Selected option was successfully verified");
-		}
-		else {
-		logTAFError("Selected option was unsuccessfully verified");
-		}
-	}
-	
-	public void quickSort(String sortDirection) {
-		sleepAndWait(2);
-		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(quickSortAscButtonLocator));
-		if (sortDirection.equalsIgnoreCase("asc")){
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			driver.findElement(ascendingLinkLocator).click();
-		}
-		else if (sortDirection.equalsIgnoreCase("desc")) {
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			driver.findElement(descendingLinkLocator).click();
-		}		
-		else {
-			logTAFError("Sort Order option is not valid");
-		}
-	}
-	
-	public boolean verifyOptionIsSelected(String name) {
-		for (WebElement option : options) {
-			  if(name.equals(option.getText()) && option.isSelected()) {
-				  return true;
-			  }	    
-			}
-		return false;
-	}
-	
-	public boolean selectOption(String name) {
-		for (WebElement option : options) {
-			  if(name.equals(option.getText())) {
-				  option.click();
-				  return true;
-			  }	    
-			}
-		logTAFError("Option doesn't exist");
-		return false;
 	}
 
 }

@@ -17,7 +17,7 @@ import java.lang.String;
 
 import ax.lib.frontend.FrontendCommonHelper;
 
-public class SortOnFilterPanelHelper extends DataVisualizationHelper {
+public class SortOnFilterPanelHelper extends QuickFilterHelper {
 	/**
 	 * Script Name   : <b>DataVisualizationHelper</b>
 	 * Generated     : <b>Oct 4, 2013</b>
@@ -297,12 +297,12 @@ for (WebElement option : options) {
 		
 	public void quickSort(String sortDirection) {
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(quickSortAscButtonLocator));
+		wait.until(ExpectedConditions.presenceOfElementLocated(ascendingLinkLocator));
 		if (sortDirection.equalsIgnoreCase("asc")){
-			driver.findElement(quickSortAscButtonLocator).click();
+			driver.findElement(ascendingLinkLocator).click();
 		}
 		else if (sortDirection.equalsIgnoreCase("desc")) {
-			driver.findElement(quickSortDescButtonLocator).click();
+			driver.findElement(descendingLinkLocator).click();
 		}		
 		else {
 			logTAFError("Sort Order option is not valid");
