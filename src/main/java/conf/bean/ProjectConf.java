@@ -36,7 +36,7 @@ public class ProjectConf {
 	public String executionType = "local";
 	public String casType = "nonSSO";
 	public String axServerName = "AUTOQAWIN2012.ACLQA.local";
-	public String axServerPort = "8443";
+	public String axServerPort = "443";
     public String apiPrefix = "/aclax/api/";
     public String anrPrefix = "localhost:10002/ui";
     public String anrBatch = "C:\\ACL\\ANR\\AclRevolution.bat";
