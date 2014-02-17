@@ -42,7 +42,7 @@ public class ProjectConf {
     public String hubHost="192.168.10.129";
     public String hubPort="4444";
     public String hubPath="/wd/hub";
-    
+    public String testSubset = "";
     //** Tend to add testNg report ... Steven
     public String TestNg=LoggerHelper.getSystemProperty(
     		InitializeTerminateHelper.sysPropPrefix+"TestNG","No");
@@ -56,6 +56,10 @@ public class ProjectConf {
 	
 	public void setTempTestSummary(boolean tempTestSummary) {
 		this.tempTestSummary = tempTestSummary;
+	}
+
+	public void setTestSubset(String testSubset) {
+		this.testSubset = testSubset;
 	}
 
 	public void setL10nPropertiesPrefix(String l10nPropertiesPrefix) {

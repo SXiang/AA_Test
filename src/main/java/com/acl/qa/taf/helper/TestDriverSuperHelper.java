@@ -38,7 +38,7 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 	public String subpathToKeyword="",
 	              temp[];
 	private Object ksh;
-
+    private String testSubset = "";
 	
 	public TestDriverSuperHelper(){
 		//batchRun = false;
@@ -97,6 +97,7 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
 			
 			skipTest = false;			
 			runTest = getDpString("Run_Test");
+
 			logItem = "";
 			// To select form 'Defect Daily, Smoke, or Regression
 			
@@ -120,8 +121,14 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
             knownBugs = getDpString("KnownBug");
             expectedErr = getDpString("ExpectedErr");
               String ut = getDpString("UnicodeTest");
+  			testSubset = getDpString("Test_Subset");
             if(!isValidBuild(buildName)){
             	skipTest = true;
+            }
+            
+            if(!projectConf.testSubset.equals("")){
+            	if(!projectConf.testSubset.equals(testSubset))
+            		skipTest = true;
             }
             if(ut.equalsIgnoreCase("True")){
             	unicodeOnly = true;
