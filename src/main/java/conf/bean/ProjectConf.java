@@ -367,6 +367,7 @@ public class ProjectConf {
 	public boolean jenkinsReport = true;
 	public boolean unicodeTest = false;
 	public boolean dailyTest = true;
+	public String testSubset = "";
 
 	public int timeIntervalForMemusage = 1;
 	public int maxMemUsage = Integer.MAX_VALUE;
@@ -407,6 +408,10 @@ public class ProjectConf {
 	}
     
 	
+
+	public void setTestSubSet(String testSubset) {
+		this.testSubset = testSubset;
+	}
 
 	public void setStopIfNumConsecutiveFailures(int stopIfNumConsecutiveFailures) {
 		if (stopIfNumConsecutiveFailures <= 0)
