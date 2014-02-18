@@ -1,22 +1,8 @@
 package anr.lib.frontend;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-
-import ax.lib.restapi.TestSuiteExampleHelper;
-
-import com.acl.qa.taf.helper.KeywordSuperHelper;
 import ax.lib.frontend.FrontendCommonHelper;
+import ax.lib.frontend.FrontendTestDriverHelper;
+import ax.lib.restapi.TestSuiteExampleHelper;
 
 public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	
@@ -43,7 +29,7 @@ public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	// END of datapool variables declaration
 	
     // BEGIN of other local variables declaration
-	protected WebDriver driver;
+	//Karen public WebDriver driver;
 	//END
 	
 	public boolean dataInitialization() {
@@ -64,14 +50,7 @@ public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	//***************  Part 1  *******************
 	// ******* common functions      ***
 	// *******************************************
-	public int getNumbers(String strNum) {
-		String regEx="[^0-9]";   
-		
-		Pattern p = Pattern.compile(regEx);   
-		Matcher m = p.matcher(strNum);   
-		
-		return Integer.parseInt(m.replaceAll("").trim());
-	}
+
 	
 	//*******************************************
 	// ******* Methods on compare results **************
@@ -94,43 +73,25 @@ public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	// ******* Methods on verification ***********
 	// *******************************************
 	
-	public boolean isElementEnabled(By locator, String elementName) {
-		boolean done = false;
-		try{
-			done = driver.findElement(locator).isEnabled();
-			logTAFStep("Successfully found '"+elementName+"'");
-		}catch(Exception e){
-			logTAFError("Failed to find '"+elementName+"' !!!");
-		}
-        return done;
-    }
-	
-	public boolean isElementDisplayed(By locator, String elementName) {
-		boolean done = false;
-		try{
-			done = driver.findElement(locator).isDisplayed();
-			logTAFStep("Successfully found '"+elementName+"'");
-		}catch(Exception e){
-			logTAFError("Failed to find '"+elementName+"' !!!");
-		}
-        return done;
-    }
-	
+
 	//*******************************************
 	// ******* Methods on terminate **************
 	// *******************************************
-	
 	public void cleanUp() {
+		cleanUp(dpEndWith);
+	}
 
-		if (dpEndWith.equals("close")) {
+	public void cleanUp(String comm){
+		if (comm.equalsIgnoreCase("close")) {
            closeBrowser();
-		}else if (dpEndWith.equals("kill")) { // if image name is available
+		}else if (comm.equalsIgnoreCase("kill")) { // if image name is available
           killBrowser();
-		} else if (dpEndWith.equals("logout")) {	
-			//casLogout(url);						
-		} else {
+		} else if (comm.equalsIgnoreCase("quit")) {	
+			closeBrowser()	;			
+		}else {
 			return;
 		}		
+		
 	}
 
 	public void closeBrowser(){
@@ -149,8 +110,24 @@ public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 		setSharedObj();
 	}
 	
+	public void getSharedObj() {
+		if (suiteObj != null) {
+			driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
+		} else if (caseObj != null) {
+			driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
+		}
+	}
+
+	public void setSharedObj() {
+		if (suiteObj != null) {
+			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
+		} else if (caseObj != null) {
+			((FrontendTestDriverHelper) caseObj).currentDriver = driver;
+		}
+	}	
+
 	//**********************************************
 	// ******* Methods on Objects sharing ********
 	// *******************************************
-
+	
 }

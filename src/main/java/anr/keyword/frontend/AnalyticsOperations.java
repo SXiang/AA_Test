@@ -7,13 +7,12 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 
-import anr.apppage.AnalyticPage;
-import anr.apppage.CommonWebHelper;
+import anr.apppage.ANR_AnalyticPage;
+import anr.lib.frontend.ANR_FrontendCommonHelper;
 import anr.apppage.QuickFilterPage;
-import anr.apppage.WebPage;
 //Copy End
 
-public class AnalyticsOperations extends CommonWebHelper implements KeywordInterface{
+public class AnalyticsOperations extends ANR_FrontendCommonHelper implements KeywordInterface{
 	
 	/**
 	 * Script Name   : <b>OpenProject</b>
@@ -33,18 +32,15 @@ public class AnalyticsOperations extends CommonWebHelper implements KeywordInter
 	// END of datapool variables declaration
 
     // BEGIN of other local variables declaration
-	private String[] allParameters;
-	
-	//Copy from Steven
-	// private String endWith for filter panel Run|Cancel|Verify;
+
+	// private String endWith for Run|Cancel|Verify;
 	private String[] setValues;
 	private String[] endValues;
 
-	protected AnalyticPage anPage,an;
+	protected ANR_AnalyticPage anPage,an;
 	protected SearchContext sc;
 	String action = "";
 	int startIndex = -1;
-	//Copy End
 	
 	//END of other local variables declaration
 	
@@ -72,47 +68,27 @@ public class AnalyticsOperations extends CommonWebHelper implements KeywordInter
 	@Override
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
-		anPage = PageFactory.initElements(driver, AnalyticPage.class);
-		an = PageFactory.initElements(driver, AnalyticPage.class);
-		sc = anPage.locateAnalytic(dpAnalyticName);
-		
-		PageFactory.initElements(new DefaultElementLocatorFactory(sc), an);			
-       
-	/*Karen03/02/2014	if(!dpAnalyticName.isEmpty()){
-			//verifyElementsEnabledOrDisplayed();  for RunIcon button and Result button status verification will be put to OpenProject keyword
-			
-			if(dpAnalyticName.contains("|")){
-				analyticOperation = dpAnalyticName.split("\\|")[1];
-				if("run".equalsIgnoreCase(analyticOperation)){
-					runAnalytic(analyticName);
-				}else if("viewResults".equalsIgnoreCase(analyticOperation)){
-					viewResults(analyticName);
-				}else{
-					verifyAnalyticDescription(analyticName);
-				}
-			}else{
-					verifyAnalyticDescription(analyticName);
-			}
-		}else{
-			logTAFInfo("Analytic Name datatpool entry is empty");
-		}
-		cleanUp();
-	
-		// *** cleanup by framework ***
-		onTerminate();
-      */
-		
-		// To do: Adding a pSet verification here if needed -- Steven
-        // verififyParameterSet();
-        if(setParameterSet()){
-		   an.endWith(dpEndWith);
-        }else{
-           an.cancelAnalytic();
-        }
 
-		if(!dpMasterFiles[0].isEmpty()){
-			verifyResultView();
-		}	
+		//Set the current analytics WebElement as the search context root for the page
+		anPage = PageFactory.initElements(driver, ANR_AnalyticPage.class);
+		an = PageFactory.initElements(driver, ANR_AnalyticPage.class);
+		sc = anPage.locateAnalytic(dpAnalyticName);
+
+		if (sc!=null) {
+			PageFactory.initElements(new DefaultElementLocatorFactory(sc), an);			
+       
+			//Verify analytic description
+			verifyAnalyticDescription(dpAnalyticName);
+			
+			//Start analytic operations
+			if(setParameterSet()){
+				an.endWith(dpEndWith);
+	        }else{
+	        	an.cancelAnalytic();
+	        }
+		} else {
+			   logTAFError("Analytic '" + dpAnalyticName + "' cannot be found!");
+		}
 		
 		endValues = dpEndWith.split("\\|");
 		cleanUp(endValues[endValues.length-1]);
@@ -127,63 +103,36 @@ public class AnalyticsOperations extends CommonWebHelper implements KeywordInter
 	// *******************************************
 	
 	
-/*Karen 02/04	public void verifyAnalyticDescription(String analyticName){
-		clickRunIcon(analyticName);
-		String desc = getAnalyticDescription();
+	public void verifyAnalyticDescription(String analyticName){
+		//Expand analytic by clicking analytic Run Icon
+		an.openAnalytic(dpAnalyticName);
+
+		String desc = an.getAnalyticDescription();
 		logTAFStep("Verify Description of Analytic '" +analyticName+"' - "+ dpMasterFiles[0]);
-		result[0] = desc; // You need to get actual result for each comparison
+		result[0] = desc;       // You need to get actual result for each comparison
 		compareTxtResult(result[0], dpMasterFiles[0]);
-		clickRunIcon(analyticName);
 	}
-	
-	public void runAnalytic(String analyticName){
-		clickRunIcon(analyticName);
-		if(dpParameterSet.equalsIgnoreCase("")){
-			clickRunBtn();
-		}else{
-			allParameters = dpParameterSet.split("\\|");
-			if(allParameters.length > 1){
-				runWithNewParameterSet(allParameters);
-			}else if(allParameters.length == 1){
-				runWithExistingParameterSet(allParameters);
-			}
-		}
-		sleep(timerConf.waitToTakeScreenshot);
-		takeScreenshotWithoutScroll();
-	}
-	
-	public void viewResults(String analyticName){
-		clickJobsIcon(analyticName);
-		viewLatestJobResults();
-	}
-*/
 	
 	// *************** Optional ******************
 	// ******* main method for quick debugging ***
 	// *******************************************
 	
 	public static void main(String args) {
-		//TestSetDetails debug = new TestSetDetails();
-		//debug.verifyTestsList();
-		//debug.verifyProjectsDropDownList();
-		//debug.verifyDescriptionPanelContents();.
-		//debug.verifyInfoPanelContents();
-		//debug.verifyHeaderFooter();
-		//debug.openTestSetDetails();
-		//debug.verifyUsersList();
+
 	}
-	
 	
 	// *************** Part 3 *******************
 	// *** Implementation of test functions ******
 	// *******************************************
 	
-	
 	public boolean setParameterSet(){
 		boolean done = true;
-		an.openAnalytic(dpAnalyticName);
-		if(startIndex<0)
+
+		//analytic without Parameters
+		if(startIndex<0)     
 			return done;
+		
+		//analytic with Parameters
 		if(action.equalsIgnoreCase("New")){
 		   if(dpExpectedErr.equals("")){
 		      an.deleteParameterSet(dpAnalyticName,setValues[startIndex]);
@@ -200,12 +149,4 @@ public class AnalyticsOperations extends CommonWebHelper implements KeywordInter
 	public void verifyParameterSet(){		
       // To do...
 	}			
-	public void verifyResultView(){
-//		int numRecords = 20;
-//		String result = qfPage.getTableData(numRecords);  // to-do
-//			logTAFStep("Verify resulted table from QuickFilter(first "+numRecords+" records - " + dpMasterFiles[0]+")");			
-//			compareTxtResult(result, dpMasterFiles[0]);
-
-	}
-	//Copy End
 }

@@ -349,6 +349,28 @@ public class WebPage extends CommonWebHelper{
     	return sb.toString().split(pathSep);
     }
     
+    //*** L10N related
+    
+    public String getLocKey(WebElement we, String value){
+    	String l10nKey = "key";
+    	String l10nDirective = "ng-bind-html-unsafe";
+    	String l10nDirectiveValue = l10nKey+"\\|localize";
+    	
+    	String l10nKeyValue = we.getAttribute(l10nKey);
+    	String l10nDirectiveInput = we.getAttribute(l10nDirective);
+    	
+    	if(l10nKeyValue==null){
+    		logTAFWarning("Text '"+value+"' has not been localized?");
+    		l10nKeyValue = value;
+    	}else if(l10nDirectiveInput==null||!l10nDirectiveInput.matches(l10nDirectiveValue)){
+    		logTAFWarning (l10nDirectiveInput+"is a valid value of "+l10nDirective);
+    		
+    	}else{
+    		logTAFDebug("The L10N key for '"+value+"' is '"+l10nKeyValue);
+    	}
+    	
+    	return l10nKeyValue;
+    }
 
     //Static workaround - 
 	 public static String axNameHandle(String itemName){

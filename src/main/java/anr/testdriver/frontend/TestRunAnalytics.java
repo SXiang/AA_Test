@@ -1,6 +1,6 @@
 package anr.testdriver.frontend;
 
-import anr.lib.frontend.FrontendTestDriverHelper;
+import ax.lib.frontend.FrontendTestDriverHelper;
 
 import com.acl.qa.taf.helper.Interface.TestDriverInterface;
 /**
@@ -26,9 +26,9 @@ public class TestRunAnalytics extends FrontendTestDriverHelper implements TestDr
 	{		
 
 		startFromLine = 2; // 4-9
-		endAtLine = 7;     //
+		endAtLine = 4;     //
 			
-		String poolFile = "src/main/resources/testdata/anr/testdriver/frontend/RunAnalytics.xls";
+		String poolFile = "src/main/resources/testdata/anr/testdriver/frontend/RunAnalytics-new.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));		
 	}
 
