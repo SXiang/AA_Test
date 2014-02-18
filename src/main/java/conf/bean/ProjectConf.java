@@ -20,7 +20,9 @@ public class ProjectConf {
 			serverPrefix = "C:/ACL/Automation/RFT_DATA/",
 			serverNetDir = ":/ACL/Automation/",
 			serverNetUser = "Administrator", serverNetPassword = "Password00",
-			localizationDir = "", l10nPropertiesPrefix = "",tempLocalDir = "", tempServerNetDir = "",
+			localizationDir = "", 
+			l10nPropertiesPrefix = "",
+			tempLocalDir = "", tempServerNetDir = "",
 			tempServerDir = "", serverInputDataDir = "",
 			localInputDataDir = "",
 			testDataDir = "",
@@ -34,7 +36,7 @@ public class ProjectConf {
 	public String executionType = "local";
 	public String casType = "nonSSO";
 	public String axServerName = "AUTOQAWIN2012.ACLQA.local";
-	public String axServerPort = "8443";
+	public String axServerPort = "443";
     public String apiPrefix = "/aclax/api/";
     public String anrPrefix = "localhost:10002/ui";
     public String anrBatch = "C:\\ACL\\ANR\\AclRevolution.bat";
@@ -365,6 +367,7 @@ public class ProjectConf {
 	public boolean jenkinsReport = true;
 	public boolean unicodeTest = false;
 	public boolean dailyTest = true;
+	public String testSubset = "";
 
 	public int timeIntervalForMemusage = 1;
 	public int maxMemUsage = Integer.MAX_VALUE;
@@ -405,6 +408,10 @@ public class ProjectConf {
 	}
     
 	
+
+	public void setTestSubSet(String testSubset) {
+		this.testSubset = testSubset;
+	}
 
 	public void setStopIfNumConsecutiveFailures(int stopIfNumConsecutiveFailures) {
 		if (stopIfNumConsecutiveFailures <= 0)

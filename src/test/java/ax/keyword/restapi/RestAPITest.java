@@ -33,7 +33,7 @@ public class RestAPITest  {
 
 
    private void testAXRestAPI(WebDriver driver){
-	   //Curl command:   curl -k -o c:\curl\getProjectsList.xml --user ACLQA\g1_admin:Password00 https://WIN2012-3.ACLQA.local:8443/aclax/api/projects?scope=working
+	   //Curl command:   curl -k -o c:\curl\getProjectsList.xml --user ACLQA\g1_admin:Password00 https://WIN2012-3.ACLQA.local:443/aclax/api/projects?scope=working
 	   String response = "No response?";
 	   String domain = "win2012-3.aclqa.local";
 	          //domain = "192.168.10.68";
@@ -44,11 +44,11 @@ public class RestAPITest  {
 			   "working",
 			   "library",
 	   };
-	   String[] url={"https://"+domain+":8443/aclax/api/projects",
-			         "https://"+domain+":8443/aclax/api/projects",
-			         "https://"+domain+":8443/aclax/api/projects",
-					 "https://"+domain+":8443/aclax/api/projects",
-					 "https://"+domain+":8443/aclax/api/projects"};
+	   String[] url={"https://"+domain+":443/aclax/api/projects",
+			         "https://"+domain+":443/aclax/api/projects",
+			         "https://"+domain+":443/aclax/api/projects",
+					 "https://"+domain+":443/aclax/api/projects",
+					 "https://"+domain+":443/aclax/api/projects"};
 
 
 	   int numTest=0;

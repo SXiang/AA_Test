@@ -36,17 +36,20 @@ public class DataVisualizationPage extends WebPage{
     //*** Common elements
 	  @FindBy(xpath = "//div[@class='tabbable']/ul[@class='nav nav-tabs']/li[@active='t.active']")
 	  private List<WebElement> navTabs;
-	 @FindBy(xpath = "//div[@ng-click='openChartSelectorModal()' and @tooltip='Add a new chart']/i[@type='button']")
+	 @FindBy(xpath = "//div[@ng-click='openChartSelectorModal()' and contains(@class,'addchart-tab-text')]/i[@type='button']")
 	  //@FindBy(xpath = "//div[@tooltip='Add a new chart']/i[@type='button']")
 	  private WebElement addNewChart;  
 	  
     //*** Add chart
-	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and @tooltip='Pie Chart']")
+	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and contains(@class,'piechart')]")
 	  public WebElement pieChart;
-	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and @tooltip='Stacked Area Chart']")
+	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and contains(@class,'areachart')]")
 	  public WebElement areaChart;
-	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and @tooltip='Bar Chart']")
+	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and contains(@class,'barchart')]")
 	  public WebElement barChart;
+	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and contains(@class,'linechart')]")
+	  public WebElement lineChart;
+	  
 	  
 	//*** Chart configuration
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//i[@ng-click='toggleChartConfigPanel()']") 
@@ -54,11 +57,11 @@ public class DataVisualizationPage extends WebPage{
 	  public WebElement configurePanel;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//i[@ng-click='toggleChartConfigPanel()']/div[@class='chartconfig-btn ng-binding' and text()='Configure']") 
 	  public List<WebElement> configureButtons;
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[@tooltip='Category']") 
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartCategory')]") 
 	  public WebElement categorySelect;
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[@tooltip='Sub-Category']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartSub-Category')]")
 	  public WebElement subCategorySelect;
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[@tooltip='Value']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartValue')]")
 	  public WebElement valueSelect;
 	  
 	  
@@ -82,13 +85,13 @@ public class DataVisualizationPage extends WebPage{
               "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start']")
       public List<WebElement> nvSeries;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//*[local-name()='g' and @class]"+
-                         "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start' and text()='Stacked']")
+                         "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start' and position()=1]")//text()='Stacked']")
 	  public WebElement stacked;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//*[local-name()='g' and @class]"+
-              "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start' and text()='Stream']")
+              "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start' and position()=2]")// text()='Stream']")
       public WebElement stream;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//*[local-name()='g' and @class]"+
-              "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start' and text()='Expanded']")
+              "/*[local-name()='text' and @class='nv-legend-text' and @text-anchor='start' and position()=3]")// text()='Expanded']")
       public WebElement expanded;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//*[local-name()='svg']")
 		 
@@ -229,7 +232,7 @@ public class DataVisualizationPage extends WebPage{
 	  
 	  public void addNewChart(String type){
 
-		  By pieChartLocator = By.xpath("//div[@ng-click='pickChart(chartType)' and @tooltip='Pie Chart']");
+		  By pieChartLocator = By.xpath("//div[@ng-click='pickChart(chartType)' and contains(@class,'piechart')]");
 		      click(pageDriver,addNewChart,"Add a chart(+)",pieChart);
 
           if(pageDriver.findElements(pieChartLocator).size()==0){

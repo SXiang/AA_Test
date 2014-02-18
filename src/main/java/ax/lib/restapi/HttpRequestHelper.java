@@ -280,7 +280,7 @@ public class HttpRequestHelper extends RestapiHelper{
 		public static void main(String[] args) {
 
 			HttpRequestHelper http = new HttpRequestHelper();
-			String url = "https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/ba96cf2b-3c23-4280-b23a-a8f0f3dc6082";
+			String url = "https://win2012-64-ramn.aclqa.local:443/aclax/api/tables/ba96cf2b-3c23-4280-b23a-a8f0f3dc6082";
 			String query ="";	
 			String result;
 			query="";
@@ -293,7 +293,7 @@ public class HttpRequestHelper extends RestapiHelper{
 				e.printStackTrace();
 			}
 	 
-			url = "https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/ba96cf2b-3c23-4280-b23a-a8f0f3dc6082/data";
+			url = "https://win2012-64-ramn.aclqa.local:443/aclax/api/tables/ba96cf2b-3c23-4280-b23a-a8f0f3dc6082/data";
 			query = "{}";
 			System.out.println("\nTesting 2 - Send Http POST request");
 			try {

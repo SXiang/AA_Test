@@ -49,7 +49,7 @@ public class Results  extends ResultsHelper{
 			verifyProjectsDropDownList();
 			verifyTestSetsDropDownList();
 			verifyTestsDropDownList();
-			verifyHeaderFooter();
+			//verifyHeaderFooter();
 		}
 		if(!dpProjectName.isEmpty()){
 			openProjectFromDropDown();

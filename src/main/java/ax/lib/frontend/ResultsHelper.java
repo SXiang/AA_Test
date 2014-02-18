@@ -86,19 +86,19 @@ public class ResultsHelper extends FrontendCommonHelper{
 	public void testMain(Object[] args) {
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
-		isElementDisplayed(projectHeaderLocator, "Project header");
-		isElementEnabled(searchBoxLocator, "Search box");
-		isElementDisplayed(searchBoxIconLocator, "Search box lens icon");
-		isElementDisplayed(copyrightFooter, "Copyright footer");
-		isElementDisplayed(projectNameLocator, "Project name");
-		isElementDisplayed(projectDropDownLocator, "Project drop down button");
-		isElementDisplayed(testSetNameLocator, "TestSet name");
-		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
-		isElementDisplayed(testNameLocator, "Test name");
-		isElementDisplayed(testDropDownLocator, "Test Drop down button");
-		isElementDisplayed(listHeaderLocator, "List header");
-		isRightPanelIconDisplayed();
-		isElementDisplayed(closeIconLocator, "Close layer icon");
+//		isElementDisplayed(projectHeaderLocator, "Project header");
+//		isElementEnabled(searchBoxLocator, "Search box");
+//		isElementDisplayed(searchBoxIconLocator, "Search box lens icon");
+//		isElementDisplayed(copyrightFooter, "Copyright footer");
+//		isElementDisplayed(projectNameLocator, "Project name");
+//		isElementDisplayed(projectDropDownLocator, "Project drop down button");
+//		isElementDisplayed(testSetNameLocator, "TestSet name");
+//		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
+//		isElementDisplayed(testNameLocator, "Test name");
+//		isElementDisplayed(testDropDownLocator, "Test Drop down button");
+//		isElementDisplayed(listHeaderLocator, "List header");
+//		isRightPanelIconDisplayed();
+//		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
 	
 	public void isRightPanelIconDisplayed(){
