@@ -40,13 +40,13 @@ public class GetTableList extends RestapiHelper implements KeywordInterface {
 		dpTestSetName = getDpString("TestSetName");
 		dpTestSetUuid = getDpString("TestSetUuid");
 
-		//Rest API - Table List in a TestSet: /api/testsets/{uuid}/tables
+		//Rest API - Table List in a folder: /api/folders/{uuid}/tables
 		if (!dpTestSetUuid.isEmpty())
 			uuid = dpTestSetUuid;
 		else uuid = queryTestSetID(dpScope,dpProjectName,dpTestSetName);
 
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"testsets/"+uuid+"/tables";
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"folders/"+uuid+"/tables";
 		else System.out.println("Error:" + "Can not find the uuid for the specific test set");
 
 		return true;

@@ -37,13 +37,13 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 		dpProjectName = getDpString("ProjectName");
 		dpProjectUuid = getDpString("ProjectUuid");
 		
-		//Rest API - Projects List in a Test: /api/projects/{uuid}/testsets
+		//Rest API - retrieve folders List in a Collection: /api/collections/{uuid}/folders
 		if (!dpProjectUuid.isEmpty())
 			uuid = dpProjectUuid;
 		else uuid = queryProjectID(dpScope,dpProjectName);
 
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"projects/"+uuid+"/testsets";
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"collections/"+uuid+"/folders";
 		else System.out.println("Error:" + "Can not find the uuid for the specific project");
 
 		System.out.println(url);

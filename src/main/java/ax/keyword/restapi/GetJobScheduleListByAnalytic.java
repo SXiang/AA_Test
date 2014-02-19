@@ -45,7 +45,7 @@ public class GetJobScheduleListByAnalytic extends RestapiHelper implements Keywo
 		dpAnalyticUuid = getDpString("AnalyticUuid");
 		dpCount = getDpString("Count");
 		
-		//Rest API - Analytics List in a Test: /api/analytics/<analytic_uuid>/schedules?Count=
+		//Rest API - retrieve job schedule list in an analytic: /api/analytics/<analytic_uuid>/schedules?Count=
 		if (!dpAnalyticUuid.isEmpty())
 			uuid = dpAnalyticUuid;
 		else uuid = queryAnalyticID(dpScope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
