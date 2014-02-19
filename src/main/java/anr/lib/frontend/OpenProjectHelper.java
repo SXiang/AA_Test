@@ -205,7 +205,7 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		if (dpWebDriver.equals("")) {
 			logTAFError("Not able to read from project.properties the correct value of variable 'webDriver'. Please check the file.");
 		} else {
-			setupNewDriver(dpWebDriver);
+			setupNewDriverJohn(dpWebDriver);
 		}
 	}
 	
@@ -233,8 +233,8 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 
 	public void setupNewDriverCEF(String browserType) {
 
-		File chromium = new File("C:\\temp\\acl-service.exe");
-		//File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR-Shortcut.shortcut");
+		//File chromium = new File("C:\\temp\\acl-service.exe");
+		File chromium = new File("C:\\ACL\\ANR\\FrontEnd\\Client\\ANR-Shortcut.shortcut");
  		System.setProperty("webdriver.chrome.driver", projectConf.toolDir+"chromedriver.exe");
  		
  		//DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
@@ -295,6 +295,28 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		logTAFStep("Browser initiated successfully");
 	}
 */
+	
+	public void CallJs(){
+		String filePath = "C:\\\\ANR\\\\DATA\\\\Non-Unicode\\\\AllTypesACLProjects\\\\Analytics.ACL";
+		try{
+			String temp = "try {"
+					+ "angular.element(document.getElementById('projectCtrlBase')).scope().$apply(function(scope) {"
+					+ "scope.openProject('"+filePath+"');"
+					+ "})"
+					+ "} catch (e) { alert('Error: ' + e); }";
+			
+			System.out.println("temp:"+temp);
+			((JavascriptExecutor) driver).executeScript(temp);
+		}catch(Exception e){
+			  sleep(0);
+			
+		}
+		
+		
+		sleep(0);
+
+	}
+	
 	public void setupNewDriverJohn(String browserType) {
 
 		File chromium = new File("C:\\ACL\\ANR\\ANR.exe");
@@ -304,8 +326,8 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 		
 //		options.addArguments("--start-maximized");
 		options.setBinary(chromium);
-		options.addArguments("--start-maximized");
-		options.addArguments("/staticport","C:\\ANR\\DATA\\NonUnicode\\AllTypesACLProjects\\Analytics.ACL");
+	//	options.addArguments("--start-maximized");
+		options.addArguments("C:\\ANR\\DATA\\NonUnicode\\AllTypesACLProjects\\Analytics.ACL");
 		driver = new ChromeDriver(options);
 
 		driver.manage().timeouts().implicitlyWait(130, TimeUnit.SECONDS);

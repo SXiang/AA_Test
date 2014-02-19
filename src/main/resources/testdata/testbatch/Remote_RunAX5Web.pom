@@ -113,6 +113,7 @@
 					   <systemProperty><key>${sysPropPrefix}buildInfo</key><value>${buildInfo}</value></systemProperty>
 					   <systemProperty><key>${sysPropPrefix}testProject</key><value>${testProject}</value></systemProperty>
 					   <systemProperty><key>${sysPropPrefix}unicodeTest</key><value>${unicodeTest}</value></systemProperty>
+					   <systemProperty><key>${sysPropPrefix}testSubset</key><value>${testSubset}</value></systemProperty>
 
 					   <systemProperty><key>${sysPropPrefix}webDriver</key><value>${webDriver}</value></systemProperty>
 					   <systemProperty><key>${sysPropPrefix}imageName</key><value>${imageName}</value></systemProperty>
