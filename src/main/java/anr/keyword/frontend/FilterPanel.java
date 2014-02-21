@@ -90,7 +90,10 @@ public class FilterPanel extends CommonWebHelper implements KeywordInterface{
 	@Override
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
+		if(driver==null)
+			sleep(0);
 		fpPage = PageFactory.initElements(driver, FilterPanelPage.class);
+		svPage = PageFactory.initElements(driver, SaveVisualizationPage.class);
 		fp = PageFactory.initElements(driver, FilterPanelPage.class);
 		sc = fpPage.openFilterPanel(dpColumnName);
 		PageFactory.initElements(new DefaultElementLocatorFactory(sc), fp);
@@ -109,7 +112,7 @@ public class FilterPanel extends CommonWebHelper implements KeywordInterface{
 				
 			}
 		}
-		
+		sleep(0);
 		if(!dpFilterValues.isEmpty()){		
 			action = filterValues[0];
 			actionType = filterValues[1];

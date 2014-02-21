@@ -50,7 +50,7 @@ public class TestSetDetails  extends TestSetDetailsHelper{
 			verifyTestSetsDropDownList();
 			verifyDescriptionPanelContents();
 			verifyInfoPanelContents();
-			verifyHeaderFooter();
+			//verifyHeaderFooter();
 			verifyDataTablesLink();
 			verifyRelatedFilesLink();
 			verifyUsersList();

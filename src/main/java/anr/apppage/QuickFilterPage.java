@@ -25,9 +25,7 @@ import org.openqa.selenium.support.ui.Select;
 public class QuickFilterPage extends WebPage{
 
 	//*** Final varialbes ***	
-	 private  final WebDriver pageDriver;
 	 private final int pageLoadTime = 3;
-	 
     //*** Common elements ***
 //	    @FindBy(css = ".static-tabs.filers-tab")
 //		private WebElement filterBtn;
@@ -51,7 +49,9 @@ public class QuickFilterPage extends WebPage{
 		//***** Quick Filter *****
 		@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > i.icon-check-empty")
 		private List<WebElement> quickFilterUniqueItemsCheckBox;
-		@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span[ng-show^='item.value']")
+		@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > i.icon-check")
+		private List<WebElement> quickFilterUniqueItemsCheckedBox;
+		@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span > span[ng-show^='item.value']")
 		private List<WebElement> quickFilterUniqueItems;
 		@FindBy(css = "div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span.value-count")
 		private List<WebElement> quickFilterUniqueItemsCount;
@@ -151,9 +151,14 @@ public class QuickFilterPage extends WebPage{
             
 				labels = quickFilterUniqueItems;
 				counts = quickFilterUniqueItemsCount;
-				boxs = quickFilterUniqueItemsCheckBox;
+				if(on) {
+					boxs = quickFilterUniqueItemsCheckBox;
+				}else{
+					boxs = quickFilterUniqueItemsCheckedBox;
+				}
 			
 			boolean selectAll = false;
+
 			for(int j=start;j<item.length&&!selectAll;j++){
 			   selectAll = item[j].equalsIgnoreCase("All")?true:false;
 			   for(int i=0;i<boxs.size();i++){
@@ -162,6 +167,8 @@ public class QuickFilterPage extends WebPage{
 				if(selectAll
 						||(label.getText()+count.getText()).equals(item[j])){
 					box = boxs.get(i);
+					if(!on)
+						sleep(0);
 					if(!selectAll){
 						toggleItem(box,on,item[j],type);
 						break;
@@ -177,11 +184,11 @@ public class QuickFilterPage extends WebPage{
 		   String[] comms = command.split("\\|");
 		   for(String comm:comms){
 			   if(comm.equalsIgnoreCase("Apply")){
-				   click(quickFilterApplyBtn,"Apply",quickFilterApplyBtn,false);
+				   click(quickFilterApplyBtn,"Apply");
 			   }else if(comm.equalsIgnoreCase("Clear")){
 				   click(quickFilterClearBtn,"clear");
 			   }else if(comm.equalsIgnoreCase("Dismiss")){
-				   click(closeQuickFilterMenu,"Dismiss(X)",quickFilterApplyBtn,false);
+				   click(closeQuickFilterMenu,"Dismiss(X)");
 			   }
 		   }
 	   }
@@ -263,7 +270,7 @@ public class QuickFilterPage extends WebPage{
 
 	  public QuickFilterPage(WebDriver driver){
 		  
-		    this.pageDriver = driver; 
+		   super.pageDriver = driver; 
 		    
 	  }
 }

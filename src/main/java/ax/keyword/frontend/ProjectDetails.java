@@ -42,7 +42,7 @@ public class ProjectDetails  extends ProjectDetailsHelper{
 			verifyProjectsDropDownList();
 			verifyDescriptionPanelContents();
 			verifyInfoPanelContents();
-			verifyHeaderFooter();
+			//verifyHeaderFooter();
 			verifyUsersList();
 		}
 		if(!dpProjectName.isEmpty()){
@@ -86,20 +86,20 @@ public class ProjectDetails  extends ProjectDetailsHelper{
 		}
 	}
 	
-	public void verifyHeaderFooter(){
-		String header = getProjectHeader()+"\r\n"+getProjectName()+"\r\n"+getTestSetHeader();
-		String footer = getFooter();
-		//System.out.println("header: "+header);
-		//System.out.println("footer: "+footer);
-		logTAFStep("Verify Project Header - " + dpMasterFiles[1]);
-		result[0] = header; // You need to get actual result for
-											// each comparison
-		compareTxtResult(result[0], dpMasterFiles[1]);
-		logTAFStep("Verify Page Footer - " + dpMasterFiles[2]);
-		result[1] = footer; // You need to get actual result for
-											// each comparison
-		compareTxtResult(result[1], dpMasterFiles[2]);
-	}
+//	public void verifyHeaderFooter(){
+//		String header = getProjectHeader()+"\r\n"+getProjectName()+"\r\n"+getTestSetHeader();
+//		String footer = getFooter();
+//		//System.out.println("header: "+header);
+//		//System.out.println("footer: "+footer);
+//		logTAFStep("Verify Project Header - " + dpMasterFiles[1]);
+//		result[0] = header; // You need to get actual result for
+//											// each comparison
+//		compareTxtResult(result[0], dpMasterFiles[1]);
+//		logTAFStep("Verify Page Footer - " + dpMasterFiles[2]);
+//		result[1] = footer; // You need to get actual result for
+//											// each comparison
+//		compareTxtResult(result[1], dpMasterFiles[2]);
+//	}
 	
 	public void verifyUsersList(){
 		String usersList = getUsersPanelTitle();

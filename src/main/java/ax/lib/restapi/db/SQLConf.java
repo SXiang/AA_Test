@@ -109,7 +109,24 @@ public class SQLConf {
 		return sql;
 	}
 
-	public static String getFileID(String type, String bc, String lc, String fileName){
+	public static String getRelatedFileID(String type, String bc, String lc, String fileName){
+		
+		String sql="";
+
+		sql = "SELECT a.programtype, a.name, b.name, c.name,d.name, d.id "+
+				  "FROM audititems a, audititems b, audititems c, audititems d "+
+				  "WHERE a.programtype = '"+type.toUpperCase()+"' "+
+				     "AND a.name = '"+bc+"' AND a.itemtype = 'BC' AND a.id = b.parentid "+
+				     "AND b.name = '"+lc+"' AND b.itemtype = 'LC' AND b.id = c.parentid "+
+				     "AND c.itemtype = 'RFC' AND c.id = d.parentid "+
+				     "AND d.name = '"+ fileName +"' AND d.itemtype = 'RF'";
+				     		
+		return sql;
+	}
+	
+	
+	//Need to figure out SQL statement
+	public static String getResultFileID(String type, String bc, String lc, String fileName){
 		
 		String sql="";
 

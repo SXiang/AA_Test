@@ -30,11 +30,9 @@ public class TestFilter extends FrontendTestDriverHelper implements TestDriverIn
 	{		
 
 		startFromLine = 12; // 4-9,12(1000 records
-		//endAtLine = 23;     //
+		//endAtLine = 11;     //
 			
 		String poolFile = "testdata/anr/testdriver/frontend/TestFilter.xls";
-		exeTestCase(onInitialize(poolFile,getClass().getName()));
-
-		
+		exeTestCase(onInitialize(poolFile,getClass().getName()));		
 	}
 }

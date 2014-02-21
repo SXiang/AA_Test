@@ -12,13 +12,15 @@ SET testerName=QA-Automation
 SET buildInfo=5.0.***
 SET testProject=AX5
 SET unicodeTest=false
+SET testSubset= 
 
 SET webDriver=chrome
 SET imageName=chrome.exe
 SET driverName=chromedriver.exe
 SET casType=nonSSO
-SET axServerName=AUTOQAWIN2012.ACLQA.local
-SET axServerPort=8443
+REM SET axServerName=AUTOQAWIN2012.ACLQA.local
+SET axServerName=ATVM-2008-AXPSG.ACLQA.local
+SET axServerPort=443
 SET apiPrefix=/aclax/api/
 
 SET appLocale=En
@@ -47,7 +49,7 @@ SET localInputDataDir=%user.dir%/../SharedAutomationTestData/ACLProject/DataSour
 
 Rem 2. Set default values for dbConf properties   DONE
 SET dbtype=PostgreSQL
-SET serverip=192.168.10.83
+SET serverip=192.168.10.133
 SET port=5432
 SET dbname=AclAuditExchangeDB
 SET userid=AclAuditExchangeRole
@@ -110,10 +112,11 @@ CALL mvn -U ^
       -DtestCategory=%_testCategory% ^
       -DbuildNumber=%_buildNumber% ^
       -DbuildName=%_buildName% ^
-	  -DtesterName=%testerName% ^
+      -DtesterName=%testerName% ^
       -DbuildInfo=%buildInfo% ^
       -DtestProject=%testProject% ^
       -DunicodeTest=%unicodeTest% ^
+      -DtestSubset=%testSubset% ^
       -DwebDriver=%webDriver% ^
       -DimageName=%imageName% ^
       -DdriverName=%driverName% ^

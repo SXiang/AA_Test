@@ -187,7 +187,7 @@ public class SQLQuery {
 				  sql = "SELECT b.id "+
 					  "FROM audititems a, audititems b, audititems c "+
 					  "WHERE a.itemtype = 'AN' AND a.name = '"+an+"' "+
-					     "AND b.name = '"+vTitle+"' AND b.itemtype = 'VR' " +
+					     "AND b.name = '"+vTitle+"' AND b.itemtype = 'VI' " +
 					     "AND b.parentid = a.id "+
 					     "AND a.parentid = '"+id+"' ";
 					     		

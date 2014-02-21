@@ -40,7 +40,7 @@ public class ProjectsList extends ProjectsListHelper{
 		super.testMain(onInitialize(args, getClass().getName()));
 		if(!dpMasterFiles[0].isEmpty()){
 			verifyAllProjectsList();
-			verifyHeaderFooter();
+			//verifyHeaderFooter();
 		}
 		if(!dpViewType.isEmpty()){
 			openView();
@@ -90,18 +90,18 @@ public class ProjectsList extends ProjectsListHelper{
 		}
 	}
 	
-	public void verifyHeaderFooter(){
-		String header = getProjectHeader();
-		String footer = getFooter();
-		logTAFStep("Verify Project Header - " + dpMasterFiles[1]);
-		result[0] = header; // You need to get actual result for
-											// each comparison
-		compareTxtResult(result[0], dpMasterFiles[1]);
-		logTAFStep("Verify Page Footer - " + dpMasterFiles[2]);
-		result[1] = footer; // You need to get actual result for
-											// each comparison
-		compareTxtResult(result[1], dpMasterFiles[2]);
-	}
+//	public void verifyHeaderFooter(){
+//		String header = getProjectHeader();
+//		String footer = getFooter();
+//		logTAFStep("Verify Project Header - " + dpMasterFiles[1]);
+//		result[0] = header; // You need to get actual result for
+//											// each comparison
+//		compareTxtResult(result[0], dpMasterFiles[1]);
+//		logTAFStep("Verify Page Footer - " + dpMasterFiles[2]);
+//		result[1] = footer; // You need to get actual result for
+//											// each comparison
+//		compareTxtResult(result[1], dpMasterFiles[2]);
+//	}
 	
 	public void openProjectDetails(String viewType){
 		clickProjectName(viewType, dpProjectName);
