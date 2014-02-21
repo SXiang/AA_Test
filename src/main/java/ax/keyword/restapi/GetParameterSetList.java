@@ -43,7 +43,7 @@ public class GetParameterSetList extends RestapiHelper implements KeywordInterfa
 		dpAnalyticName = getDpString("AnalyticName");
 		dpAnalyticUuid = getDpString("AnalyticUuid");
 		
-		//Rest API - Analytics List in a Test: /api/analytics/<analytic_uuid>/parametersets
+		//Rest API - retrieve parameter set list in an Analytic: /api/analytics/<analytic_uuid>/parametersets
 		if (!dpAnalyticUuid.isEmpty())
 			uuid = dpAnalyticUuid;
 		else uuid = queryAnalyticID(dpScope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);

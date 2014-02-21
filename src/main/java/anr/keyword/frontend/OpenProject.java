@@ -56,6 +56,9 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 		
 		//Launch browser
 		launchBrowser();
+		sleep(0);
+		
+		CallJs();
 		
 		//Enter Project File with the full path
 		if(!(dpProjectFolder.isEmpty()) && !(dpProjectFile.isEmpty())) {
@@ -145,6 +148,7 @@ public class OpenProject extends OpenProjectHelper implements KeywordInterface{
 	public void openRelatedFiles(){
 		clickRelatedFilesButton();
 	}
+
 
 	public static void main(String args) {
 

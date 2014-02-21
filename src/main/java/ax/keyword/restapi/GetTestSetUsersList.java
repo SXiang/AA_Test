@@ -40,13 +40,13 @@ public class GetTestSetUsersList extends RestapiHelper implements KeywordInterfa
 		dpTestSetName = getDpString("TestSetName");
 		dpTestSetUuid = getDpString("TestSetUuid");
 		
-		//Rest API - Projects List in a Test: /api/testsets/{uuid}
+		//Rest API - Users List in a folder: /api/folders/{uuid}/users
 		if (!dpTestSetUuid.isEmpty())
 			uuid = dpTestSetUuid;
 		else uuid = queryTestSetID(dpScope,dpProjectName,dpTestSetName);
 
 		if ((uuid != null) && (uuid != ""))                                                                      
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "/testsets/"+uuid+"/users";
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "/folders/"+uuid+"/users";
 		else System.out.println("Error:" + "Can not find the uuid for the specific test set");
 
 		return true;

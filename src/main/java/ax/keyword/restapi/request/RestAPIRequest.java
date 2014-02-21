@@ -244,11 +244,10 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		}
 		
 		if(path.contains("{analysisAppId}")){		
-			//getTestID(String type, String bc, String lc, String gap)
-				sqlstmt = SQLConf.getTestID(scope, dpProjectName, dpTestSetName, dpTestName);
-				uuid = getAuditItemUUID(sqlstmt,"Test",dpTestName);	
-			   path = path.replaceAll("\\{analysisAppId\\}", uuid);
-			}	
+			sqlstmt = SQLConf.getTestID(scope, dpProjectName, dpTestSetName, dpTestName);
+			uuid = getAuditItemUUID(sqlstmt,"Analysisapp",dpTestName);	
+		   path = path.replaceAll("\\{analysisAppId\\}", uuid);
+		}	
 		
 		if(path.contains("{jobId}")){
 			if (dpAnalyticName.isEmpty()){

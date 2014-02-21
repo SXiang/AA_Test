@@ -44,8 +44,9 @@ public class GetTestList extends RestapiHelper implements KeywordInterface {
 			uuid = dpTestSetUuid;
 		else uuid = queryTestSetID(dpScope,dpProjectName,dpTestSetName);
 
+		//Rest API - Analysisapps List in a folder: /api/folders/{uuid}/analysisapps
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"testsets/"+uuid+"/tests";
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"folders/"+uuid+"/analysisapps";
 		else System.out.println("Error:" + "Can not find the uuid for the specific test set");
 
 		return true;

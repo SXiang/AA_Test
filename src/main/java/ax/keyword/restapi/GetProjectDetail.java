@@ -40,13 +40,13 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 		dpProjectName = getDpString("ProjectName");
 		dpProjectUuid = getDpString("ProjectUuid");
 		
-		//Rest API - Projects List in a Test: /api/projects/{uuid}
+		//Rest API - retrieve a Collection detail: /api/collections/{uuid}
 		if (!dpProjectUuid.isEmpty())
 			uuid = dpProjectUuid;
 		else uuid = queryProjectID(dpScope,dpProjectName);
 
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "projects/"+uuid;
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "collections/"+uuid;
 		else System.out.println("Error:" + "Can not find the uuid for the specific project");
 
 		return true;

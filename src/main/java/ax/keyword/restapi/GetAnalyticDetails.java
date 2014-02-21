@@ -43,17 +43,15 @@ public class GetAnalyticDetails extends RestapiHelper implements KeywordInterfac
 		dpAnalyticName = getDpString("AnalyticName");
 		dpAnalyticUuid = getDpString("AnalyticUuid");
 		
-		//Rest API - Analytics List in a Test: /api/analytics/<analytic_uuid>
+		//Rest API - retrieve Analytics details in a analytic: /api/analytics/<analytic_uuid>
 		if (!dpAnalyticUuid.isEmpty())
 			uuid = dpAnalyticUuid;
 		else uuid = queryAnalyticID(dpScope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
 
 		if ((uuid != null) && (uuid != ""))
 			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"analytics/"+uuid;
-		else System.out.println("Error:" + "Can not find the uuid for the specific analytic");
+		else logTAFError("Error:" + "Can not find the uuid for the specific analytic");
 		
-		System.out.println("url:"+url);
-
 		return true;
 	}
 	

@@ -44,8 +44,9 @@ public class GetTestSetDetail extends RestapiHelper implements KeywordInterface 
 			uuid = dpTestSetUuid;
 		else uuid = queryTestSetID(dpScope,dpProjectName,dpTestSetName);
 
+		//Rest API - retrieve Folders detail: /api/folders
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"testsets/"+uuid;
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"folders/"+uuid;
 		else System.out.println("Error:" + "Can not find the uuid for the specific test set");
 
 		return true;
