@@ -149,7 +149,7 @@ public class SaveVisualizationPage extends WebPage {
 	String testsId, anName;
 	
 	try{
-	  testsId = axItems.get("tests");
+	  testsId = axItems.get("analysisApps"); //tests -> analyticsApps
 	  anName = axItems.get("analytic");
 	}catch(Exception e){
 		return "";

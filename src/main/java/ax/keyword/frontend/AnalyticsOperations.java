@@ -47,6 +47,8 @@ public class AnalyticsOperations  extends TestDetailsHelper{
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
 		if(!dpAnalyticName.isEmpty()){
+			sleep(0);
+			
 			analyticName = axNameHandle(dpAnalyticName.split("\\|")[0]);
 			if(dpAnalyticName.contains("|")){
 				analyticOperation = dpAnalyticName.split("\\|")[1];

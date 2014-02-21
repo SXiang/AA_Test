@@ -59,8 +59,7 @@ public class WebPage extends CommonWebHelper{
 		click(driver,node,label,untilBy,true);
 	}
 	public void click(WebDriver driver,WebElement node, String label, Object untilBy,boolean displayed){
-		
-		node.click();
+		node.click();		
 		if(!label.equals(""))
 		   logTAFStep("Click element "+label+"");
 		waitUntil(driver,untilBy,displayed);
@@ -158,6 +157,7 @@ public class WebPage extends CommonWebHelper{
 	
 	public void toggleItem(WebDriver driver,WebElement box,boolean on, String label, String type, Object untilBy){
 		if(!type.equalsIgnoreCase("Verify")){
+			logTAFStep("Toggle item '"+label+"' to be '"+(on?"Checked":"Unchecked")+"'");
 		     box.click();
 		     waitUntil(driver,untilBy);
 		}
@@ -236,7 +236,7 @@ public class WebPage extends CommonWebHelper{
 		    	logTAFInfo("Warning: invalid object type as expected condition - '"+untilBy+"'");
 		    }
 		}catch(Exception e){
-			logTAFInfo("Warning: "+e.toString());
+			//logTAFInfo("Warning: "+e.toString());
 		}
 	}
 
@@ -338,7 +338,8 @@ public class WebPage extends CommonWebHelper{
 		if(currentItemIndex>0){
 		    axItems.put(names[currentItemIndex-1], names[currentItemIndex]);
 			if(!childItemName.equals("")){
-				if(names[currentItemIndex-1].equalsIgnoreCase("tests")){
+				if(names[currentItemIndex-1].equalsIgnoreCase("analysisApps")){//tests->analysisApps
+				//if(names[names.length-1].equalsIgnoreCase("results")){//tests->results
                    axItems.put("analytic", childItemName);
 
 				}
@@ -386,7 +387,7 @@ public class WebPage extends CommonWebHelper{
     	String uiName = itemName.replaceAll("(?i)\\.aCL$", "");
     	// AX issue, replaced all '_' with ' '
     	// disable this line when fixed
-    	uiName= uiName.replaceAll(ori, rep);
+    	//uiName= uiName.replaceAll(ori, rep);
     	return uiName;
     }
     
