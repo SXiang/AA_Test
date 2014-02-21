@@ -12,10 +12,13 @@ import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ax.lib.restapi.TestSuiteExampleHelper;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
+
 import ax.lib.frontend.FrontendCommonHelper;
 
 public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
@@ -107,7 +110,9 @@ public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	
 	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		try{
+			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			done = driver.findElement(locator).isDisplayed();
 			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
