@@ -28,8 +28,8 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of ProjectsList page
-	By projectHeaderLocator = By.cssSelector("div.project-header > a > span");
-	By projectNameLocator = By.cssSelector("div.title > span");
+	By projectHeaderLocator = By.cssSelector("div.collection-header > span");
+	By projectNameLocator = By.cssSelector("span[ng-bind-html-unsafe='collectionDetails.name']");
 	By projectDropDownLocator = By.cssSelector("div.dropdown > a.dropdown-toggle > i");
 	By projectDropDownMenuItemsLocator = By.cssSelector("div.dropdown > ul.dropdown-menu > li.ng-scope > a");
 	By testSetsHeaderLocator = By.cssSelector("div.folder-subtitle > span");
@@ -71,15 +71,15 @@ public class ProjectDetailsHelper extends FrontendCommonHelper{
 	public void testMain(Object[] args) {
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
-//		isElementDisplayed(projectHeaderLocator, "Project header");
-//		isElementEnabled(searchBoxLocator, "Search box");
-//		isElementDisplayed(searchBoxIconLocator, "Search box lens icon");
-//		isElementDisplayed(copyrightFooter, "Copyright footer");
-//		isElementDisplayed(projectNameLocator, "Project name");
-//		isElementDisplayed(projectDropDownLocator, "Project drop down button");
-//		isElementDisplayed(testSetsHeaderLocator, "TestSets list header");
-//		//isRightPanelIconDisplayed();
-//		isElementDisplayed(closeIconLocator, "Close layer icon");
+		//isElementDisplayed(projectHeaderLocator, "Project header");
+		//isElementEnabled(searchBoxLocator, "Search box");
+		//isElementDisplayed(searchBoxIconLocator, "Search box lens icon");
+		isElementDisplayed(copyrightFooter, "Copyright footer");
+		isElementDisplayed(projectNameLocator, "Project name");
+		isElementDisplayed(projectDropDownLocator, "Project drop down button");
+		isElementDisplayed(testSetsHeaderLocator, "TestSets list header");
+		//isRightPanelIconDisplayed();
+		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
 
 	//***************  Part 3  *******************

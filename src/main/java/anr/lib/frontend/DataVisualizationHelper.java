@@ -118,7 +118,6 @@ public class DataVisualizationHelper extends ANR_FrontendCommonHelper{
 	public void testMain(Object[] args) {
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
-
 		isElementDisplayed(tableViewTabLocator, "Table View Tab");
 		isElementDisplayed(addChartBtnLocator, "Add Chart Button");
 		isElementDisplayed(filtersBtnLocator, "Filter Button");

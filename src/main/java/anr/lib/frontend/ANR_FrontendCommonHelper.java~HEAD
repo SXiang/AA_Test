@@ -12,16 +12,12 @@ import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ax.lib.restapi.TestSuiteExampleHelper;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
 
-import ax.lib.frontend.FrontendCommonHelper;
-
-public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
+public class ANR_FrontendCommonHelper extends KeywordSuperHelper{
 	
 	/**
 	 * Script Name   : <b>FrontendCommonHelper</b>
@@ -67,6 +63,24 @@ public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	//***************  Part 1  *******************
 	// ******* common functions      ***
 	// *******************************************
+	public String getClipboard() {
+		Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+	    try {
+	        if (t != null && t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+	            String text = (String)t.getTransferData(DataFlavor.stringFlavor);
+	            return text;
+	        }
+	    } catch (UnsupportedFlavorException e) {
+	    } catch (IOException e) {}
+	    return null;
+	}
+	
+	public void copyToClipboard(String copiedData) {
+		StringSelection selection = new StringSelection(copiedData);
+	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	    clipboard.setContents(selection, selection);
+	}
+	
 	public int getNumbers(String strNum) {
 		String regEx="[^0-9]";   
 		
@@ -110,9 +124,7 @@ public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	
 	public boolean isElementDisplayed(By locator, String elementName) {
 		boolean done = false;
-		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		try{
-			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			done = driver.findElement(locator).isDisplayed();
 			logTAFStep("Successfully found '"+elementName+"'");
 		}catch(Exception e){
@@ -157,5 +169,21 @@ public class ANR_FrontendCommonHelper extends FrontendCommonHelper{
 	//**********************************************
 	// ******* Methods on Objects sharing ********
 	// *******************************************
+	
+	public void getSharedObj() {
+		if (suiteObj != null) {
+			driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
+		} else if (caseObj != null) {
+			driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
+		}
+	}
+
+	public void setSharedObj() {
+		if (suiteObj != null) {
+			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
+		} else if (caseObj != null) {
+			((FrontendTestDriverHelper) caseObj).currentDriver = driver;
+		}
+	}	
 
 }

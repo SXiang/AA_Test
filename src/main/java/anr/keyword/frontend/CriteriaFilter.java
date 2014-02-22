@@ -2,7 +2,6 @@ package anr.keyword.frontend;
 
 import anr.lib.frontend.QuickFilterHelper;
 
-
 public class CriteriaFilter  extends QuickFilterHelper{
 
 	/**
@@ -34,7 +33,7 @@ public class CriteriaFilter  extends QuickFilterHelper{
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
-		dpFilterValues = getDpString("FilterValues");
+		dpFilterValues = getDpString("CriteriaFilterValues");
 		dpClearFilters = getDpString("ClearFilters");
 		//END
 		return true;
