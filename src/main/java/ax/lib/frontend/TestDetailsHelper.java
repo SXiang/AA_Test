@@ -71,7 +71,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	//By analyticScheduleDrawerTableDTValuesLocator = By.cssSelector("div[style*='height: auto'] > div > div[ng-repeat*='schedule'] > div > div > span");
 	//By analyticDrawerViewResultsLinkLocator = By.cssSelector("div.margin_top > div > div > a > span");
 	By rightPanelTitleLocator = By.className("right-panel-block-title");
-	By rightPanelIconLocator = By.className("right-panel-block-icon");
+	By rightPanelIconLocator = By.className("right-panel-block");
 	By descriptionLocator = By.className("right-panel-block-content");
 	By infoContentLabelLocator = By.cssSelector("div.right-panel-block-content > dl > dt > span");
 	By infoContentDataLocator = By.cssSelector("div.right-panel-block-content > dl > dd");
@@ -151,12 +151,12 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	
 	public void isRightPanelIconDisplayed(){
 		rightPanelData = driver.findElements(rightPanelIconLocator);
-        if(rightPanelData.get(0).isDisplayed()){
+        if(rightPanelData.get(1).isDisplayed()){
         	logTAFInfo("Found Description Icon");
         } else{
         	logTAFError("Description Icon missing");
         }
-        if(rightPanelData.get(1).isDisplayed()){
+        if(rightPanelData.get(0).isDisplayed()){
         	logTAFInfo("Found Info Icon");
         } else{
         	logTAFError("Info Icon missing");

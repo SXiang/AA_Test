@@ -58,8 +58,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	// BEGIN locators of the web elements of ProjectsList page
 	By searchBoxLocator = By.cssSelector("div.multi-name-search > input.search-query.search-input");
-	//By searchBoxIconLocator = By.cssSelector("div.multi-name-search > div.icon-filter");  
-	By searchBoxIconLocator = By.cssSelector("div.multi-name-search > div.icon-search");
+	By searchBoxIconLocator = By.cssSelector("div.multi-name-search > div.icon-filter");  
 	By searchItemLocator = By.cssSelector("li.search-item-row > button.search-item");
 	By searchCancelFilterIconLocator = By.cssSelector("li.search-item-row > i.icon-remove");
 	By copyrightFooter = By.className("footer");

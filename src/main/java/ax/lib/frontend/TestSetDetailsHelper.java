@@ -27,7 +27,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of ProjectsList page
-	By projectHeaderLocator = By.cssSelector("div.project-header > a > span");
+	By projectHeaderLocator = By.cssSelector("div.collection-header > a > span");
 	By projectNameLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-title > span");
 	By testSetNameLocator = By.cssSelector("div.title > span");
 	By projectDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a");
@@ -73,15 +73,15 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	public void testMain(Object[] args) {
 		dataInitialization();
 		super.testMain(onInitialize(args, getClass().getName()));
-//		isElementDisplayed(projectHeaderLocator, "Project header");
-//		isElementEnabled(searchBoxLocator, "Search box");
-//		isElementDisplayed(searchBoxIconLocator, "Search box lens icon");
-//		isElementDisplayed(copyrightFooter, "Copyright footer");
-//		isElementDisplayed(projectNameLocator, "Project name");
-//		isElementDisplayed(projectDropDownLocator, "Project drop down button");
-//		isElementDisplayed(testSetNameLocator, "TestSet name");
-//		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
-//		isElementDisplayed(closeIconLocator, "Close layer icon");
+		isElementDisplayed(projectHeaderLocator, "Project header");
+		isElementEnabled(searchBoxLocator, "Search box");
+		isElementDisplayed(searchBoxIconLocator, "Search box lens icon");
+		isElementDisplayed(copyrightFooter, "Copyright footer");
+		isElementDisplayed(projectNameLocator, "Project name");
+		isElementDisplayed(projectDropDownLocator, "Project drop down button");
+		isElementDisplayed(testSetNameLocator, "TestSet name");
+		isElementDisplayed(testSetDropDownLocator, "TestSet Drop down button");
+		isElementDisplayed(closeIconLocator, "Close layer icon");
 	}
 
 	//***************  Part 3  *******************

@@ -68,8 +68,9 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 	By quickFilterHeaderLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header']");
 	By closeQuickFilterMenuLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header'] > i.icon-remove");
 	By sortSectionLabelLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div.sort-header");
+	//By sortHeaderLocator = By.cssSelector("div[id*='quick-filter-panel']:not([style='display: none;']) > div.sort-section > div.sort-header");
 	By ascendingLinkLocator = By.cssSelector("div[id*='quick-filter-panel']:not([style='display: none;']) > div.sort-section > div > div.ascending");
-	By descendingLinkLocator = By.cssSelector("div[id*='quick-filter-panel']:not([style='display: none;']) > div.sort-section > div > div.ascending");
+	By descendingLinkLocator = By.cssSelector("div[id*='quick-filter-panel']:not([style='display: none;']) > div.sort-section > div > div.descending");
 	By quickFilterUniqueItemsLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span[ng-show^='item.value']");
 	By quickFilterUniqueItemsCountLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span.value-count");
 	By quickFilterSearchUniqueItemsBoxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > input.search-filter-value");
@@ -224,7 +225,7 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 
 		listOfValues = listOfValues + getActionType(columnName, filterValues, sortDirection);
 		
-		if (!parts2[0].isEmpty()) {
+		if (!parts2[0].isEmpty() && parts2.length == 2) {
 			//logTAFStep("Condition = " + visualizerPageHeaderTitleFilteredRecordsElement.getText().replace("/", "").trim());
 			listOfValues = listOfValues + "Number of Filtered records = " + Integer.valueOf(parts2[0].trim()) + "\r\r";
 		}
@@ -691,23 +692,29 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 	}
 	
 
-	public void quickSort(String sortDirection) {
-		sleepAndWait(2);
+	public void quickSort(String sortDirection, String sortType) {
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
-		wait.until(ExpectedConditions.presenceOfElementLocated(ascendingLinkLocator));
-		if (sortDirection.equalsIgnoreCase("asc")){
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			driver.findElement(ascendingLinkLocator).click();
-		}
-		else if (sortDirection.equalsIgnoreCase("desc")) {
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			driver.findElement(descendingLinkLocator).click();
+		
+		if (sortType.equalsIgnoreCase("FilterPanel")) {
+			ascendingLinkLocator = filterPanelAscSortBtnLocator;
+			descendingLinkLocator = filterPanelDescSortBtnLocator;
 		}		
-		else {
-			logTAFError("Sort Order option is not valid");
+		wait.until(ExpectedConditions.presenceOfElementLocated(ascendingLinkLocator));
+		
+		while (driver.findElements(ascendingLinkLocator).size() > 0 && !sortType.equalsIgnoreCase("FilterPanel") ) {
+			if (sortDirection.equalsIgnoreCase("asc")){
+				driver.findElement(ascendingLinkLocator).click();
+			}
+			else if (sortDirection.equalsIgnoreCase("desc")) {
+				driver.findElement(descendingLinkLocator).click();
+
+			}		
+				else {
+				logTAFError("Sort Order option is not valid");
+				break;
+				}	
 		}
+		
 	}
-	
-	
 	
 }
