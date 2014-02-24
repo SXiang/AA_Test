@@ -59,10 +59,14 @@ public class WebPage extends CommonWebHelper{
 		click(driver,node,label,untilBy,true);
 	}
 	public void click(WebDriver driver,WebElement node, String label, Object untilBy,boolean displayed){
-		node.click();		
-		if(!label.equals(""))
-		   logTAFStep("Click element "+label+"");
-		waitUntil(driver,untilBy,displayed);
+		try{
+		  node.click();		
+		   if(!label.equals(""))
+		      logTAFStep("Click element "+label+"");
+		   waitUntil(driver,untilBy,displayed);
+		}catch(Exception e){
+			logTAFInfo("Warning: "+e.toString());
+		}
 	}
 	
 	public void toggleElementByClick(WebElement expectedElement, WebElement node, String label,boolean expectedStatus){
@@ -361,7 +365,7 @@ public class WebPage extends CommonWebHelper{
     	String l10nDirectiveInput = we.getAttribute(l10nDirective);
     	
     	if(l10nKeyValue==null){
-    		logTAFWarning("Text '"+value+"' has not been localized?");
+    		//logTAFWarning("Text '"+value+"' has not been localized?");
     		l10nKeyValue = value;
     	}else if(l10nDirectiveInput==null||!l10nDirectiveInput.matches(l10nDirectiveValue)){
     		logTAFWarning (l10nDirectiveInput+"is a valid value of "+l10nDirective);
