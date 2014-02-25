@@ -696,24 +696,29 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
 		
 		if (sortType.equalsIgnoreCase("FilterPanel")) {
-			ascendingLinkLocator = filterPanelAscSortBtnLocator;
-			descendingLinkLocator = filterPanelDescSortBtnLocator;
-		}		
-		wait.until(ExpectedConditions.presenceOfElementLocated(ascendingLinkLocator));
-		
-		while (driver.findElements(ascendingLinkLocator).size() > 0 && !sortType.equalsIgnoreCase("FilterPanel") ) {
+			wait.until(ExpectedConditions.presenceOfElementLocated(filterPanelAscSortBtnLocator));
 			if (sortDirection.equalsIgnoreCase("asc")){
-				driver.findElement(ascendingLinkLocator).click();
+				driver.findElement(filterPanelAscSortBtnLocator).click();
 			}
 			else if (sortDirection.equalsIgnoreCase("desc")) {
-				driver.findElement(descendingLinkLocator).click();
-
-			}		
-				else {
-				logTAFError("Sort Order option is not valid");
-				break;
-				}	
+				driver.findElement(filterPanelDescSortBtnLocator).click();
+			}	
 		}
+		else {
+			wait.until(ExpectedConditions.presenceOfElementLocated(ascendingLinkLocator));
+			while (driver.findElements(ascendingLinkLocator).size() > 0) {
+				if (sortDirection.equalsIgnoreCase("asc")){
+					driver.findElement(ascendingLinkLocator).click();
+				}
+				else if (sortDirection.equalsIgnoreCase("desc")) {
+					driver.findElement(descendingLinkLocator).click();
+				}		
+			}
+		}
+		if (!sortDirection.equalsIgnoreCase("asc") && !sortDirection.equalsIgnoreCase("desc")) {
+			logTAFError("Sort Order option is not valid");
+		}
+		
 		
 	}
 	
