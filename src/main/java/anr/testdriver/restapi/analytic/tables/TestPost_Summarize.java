@@ -27,7 +27,7 @@ public class TestPost_Summarize extends TestDriverExampleHelper implements TestD
 	{		
 
 		startFromLine = 2; // 4-9
-		endAtLine = 19;    
+		endAtLine = 29;    
 
 		String poolFile = "src/main/resources/testdata/anr/testdriver/restapi/analytics/tables/TestPost_summarize.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
