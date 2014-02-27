@@ -45,7 +45,8 @@ public class ResultsHelper extends FrontendCommonHelper{
 	By resultSizeLocator = By.cssSelector("div.result-row > div > div > span:nth-child(1)");
 	By resultTypeLocator = By.cssSelector("div.result-row > div > div:nth-child(2)");
 	By resultRecordsLocator = By.cssSelector("div.result-row > div > div:nth-child(3)");
-	By tableDownloadIconLocator = By.cssSelector("div.result-row > div a > i.icon_download");
+	//By tableDownloadIconLocator = By.cssSelector("div.result-row > div a > i.icon_download");
+	By tableDownloadIconLocator = By.cssSelector("span > a > i");
 	By rightPanelTitleLocator = By.className("right-panel-block-title");
 	By rightPanelIconLocator = By.className("right-panel-block-icon");
 	By infoContentLabelLocator = By.cssSelector("div.right-panel-block-content > dl > dt > span");
