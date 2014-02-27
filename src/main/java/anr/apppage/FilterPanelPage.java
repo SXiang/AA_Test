@@ -29,7 +29,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 	public class FilterPanelPage extends WebPage{
 
 		//*** Final varialbes ***	
-		 private  final WebDriver pageDriver;
 		 private final int pageLoadTime = 3;
 		 private final QuickFilterPage qfPage;
 		 
@@ -207,7 +206,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 			public void setCriteria(String[] option,int start,String connector){
 				
 				if(connector.equalsIgnoreCase("off")){
-					  click(criteriaRemoveBtn.get(criteriaIndex),"RemoveCriteal(x)");
+                      int numCriteriaRemoveBtn = criteriaRemoveBtn.size();
+                      try{ // Single click won't work - Steven
+                         while(criteriaRemoveBtn.size()!=numCriteriaRemoveBtn-1){
+					        click(criteriaRemoveBtn.get(criteriaIndex),"RemoveCriteal(x)");
+					        sleep(3);
+                         }
+                      }catch(Exception e){
+                    	  //logTAFWarning(e.toString());
+                      }
 					  return;
 				}
 				
@@ -220,6 +227,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 				}else if(connector.equalsIgnoreCase("and")){
 					workingConnector = criterias.get(criteriaIndex).findElement(By.cssSelector(andBtn));
 				}
+
 				boolean activeConnector = true;
 				if(workingConnector!=null){
 				 activeConnector = workingConnector.getAttribute("class").endsWith("active");

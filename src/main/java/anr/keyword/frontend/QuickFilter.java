@@ -74,7 +74,7 @@ public class QuickFilter  extends CommonWebHelper implements KeywordInterface {
 		super.testMain(onInitialize(args, getClass().getName()));
 		
 		qfPage = PageFactory.initElements(driver, QuickFilterPage.class);
-		
+		svPage = PageFactory.initElements(driver, SaveVisualizationPage.class);
 		qfPage.activateTable();
 		
 		if(!dpColumnName.isEmpty()){

@@ -43,14 +43,14 @@ public class TestSetDetails  extends TestSetDetailsHelper{
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
 		isTestsHeaderDisplayed();
-		isRightPanelIconDisplayed();
+		//isRightPanelIconDisplayed();
 		if(!dpMasterFiles[0].isEmpty()){
 			verifyTestsList();
 			verifyProjectsDropDownList();
 			verifyTestSetsDropDownList();
 			verifyDescriptionPanelContents();
 			verifyInfoPanelContents();
-			verifyHeaderFooter();
+			//verifyHeaderFooter();
 			verifyDataTablesLink();
 			verifyRelatedFilesLink();
 			verifyUsersList();

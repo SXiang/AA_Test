@@ -41,13 +41,13 @@ public class GetAnalyticsList extends RestapiHelper implements KeywordInterface 
 		dpTestName = getDpString("TestName");
 		dpTestUuid = getDpString("TestUuid");
 		
-		//Rest API - Analytics List in a Test: /api/tests/<test_uuid>/analytics
+		//Rest API - Analytic list in a analysisapps: /api/analysisapps/<analysisapps_uuid>/analytics
 		if (!dpTestUuid.isEmpty())
 			uuid = dpTestUuid;
 		else uuid = queryTestID(dpScope,dpProjectName,dpTestSetName,dpTestName);
 
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"tests/"+uuid+"/analytics";
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"analysisapps/"+uuid+"/analytics";
 		else System.out.println("Error:" + "Can not find the uuid for the specific test");
 
 		System.out.println(url);

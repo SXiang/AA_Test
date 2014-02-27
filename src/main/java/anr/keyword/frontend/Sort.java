@@ -52,7 +52,7 @@ public class Sort  extends QuickFilterHelper {
 				sortAscending();
 			}*/
 			
-			quickSort(dpSortDirection);
+			quickSort(dpSortDirection, "other");
 			
 		}
 		cleanUp();

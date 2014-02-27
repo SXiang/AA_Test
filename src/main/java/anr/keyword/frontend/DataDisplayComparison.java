@@ -45,7 +45,7 @@ public class DataDisplayComparison  extends QuickFilterHelper{
 		super.testMain(onInitialize(args, getClass().getName()));
 			logTAFStep("Master File = " + dpMasterFile);	
 			if(!dpMasterFile.isEmpty()) {
-				result[0] = getDisplayedDataToBeCompared(9, 20, dpColumnName, dpFilterValues, dpSortDirection);					
+				result[0] = getDisplayedDataToBeCompared(8, 20, dpColumnName, dpFilterValues, dpSortDirection);					
 				compareTxtResult(result[0], dpMasterFile);
 			}
 	

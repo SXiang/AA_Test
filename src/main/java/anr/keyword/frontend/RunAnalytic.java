@@ -51,7 +51,7 @@ public class RunAnalytic extends CommonWebHelper implements KeywordInterface {
 		dpAnalyticName = getDpString("AnalyticName");
 		   analyticName_space = WebPage.axNameHandle(dpAnalyticName);
 		dpParameterSet = getDpString("ParameterSet");
-		  setValues = dpParameterSet.split("\\|");
+		   setValues = dpParameterSet.split("\\|");
 
 		  if(setValues.length>1){
 			  action = setValues[0];

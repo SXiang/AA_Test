@@ -29,14 +29,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class DataVisualizationPage extends WebPage{
 
 	//*** Final varialbes	
-	 private  final WebDriver pageDriver;
 	 private final int chartLoadTime = 3;
 	 private final int windowWidth = 1000;
 	 private final int windowHeight = 700;
     //*** Common elements
 	  @FindBy(xpath = "//div[@class='tabbable']/ul[@class='nav nav-tabs']/li[@active='t.active']")
 	  private List<WebElement> navTabs;
-	 @FindBy(xpath = "//div[@ng-click='openChartSelectorModal()' and contains(@class,'addchart-tab-text')]/i[@type='button']")
+	 @FindBy(xpath = "//div[@ng-click='openChartSelectorModal()']/i[@type='button' and contains(@class,'addchart-tab-text')]")
 	  //@FindBy(xpath = "//div[@tooltip='Add a new chart']/i[@type='button']")
 	  private WebElement addNewChart;  
 	  

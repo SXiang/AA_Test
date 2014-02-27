@@ -41,8 +41,9 @@ public class GetProjectUsersList extends RestapiHelper implements KeywordInterfa
 			uuid = dpProjectUuid;
 		else uuid = queryProjectID(dpScope,dpProjectName);
 		
+		//Rest API - retrieve User List in a Collection: /api/collections?scope=
 		if ((uuid != null) && (uuid != ""))
-			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "projects/"+uuid+"/users";
+			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "collections/"+uuid+"/users";
 		else System.out.println("Error:" + "Can not find the uuid for the specific project");
 
 		return true;

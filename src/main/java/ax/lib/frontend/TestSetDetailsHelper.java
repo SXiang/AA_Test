@@ -27,15 +27,15 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of ProjectsList page
-	By projectHeaderLocator = By.cssSelector("div.project-header > a > span");
+	By projectHeaderLocator = By.cssSelector("div.collection-header > a > span");
 	By projectNameLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-title > span");
 	By testSetNameLocator = By.cssSelector("div.title > span");
 	By projectDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a");
 	By projectDropDownMenuItemsLocator = By.cssSelector("div.sub-layer1 > div.dropdown > div > ul.dropdown-menu > li > a");
 	By testSetDropDownLocator = By.cssSelector("div.title-row > div.dropdown > a");
 	By testSetDropDownMenuItemsLocator = By.cssSelector("div.title-row > div.dropdown > div > ul.dropdown-menu > li > a");
-	By testsHeaderLocator = By.cssSelector("div.test-subtitle > span");
-	By testsNameLocator = By.cssSelector("div.test-row > div.row-fluid > a");
+	By testsHeaderLocator = By.cssSelector("div.analysisapp-subtitle > span");
+	By testsNameLocator = By.cssSelector("div.analysisapp-row > div.row-fluid > a");
 	By rightPanelTitleLocator = By.className("right-panel-block-title");
 	By rightPanelIconLocator = By.className("right-panel-block-icon");
 	By descriptionLocator = By.className("right-panel-block-content");

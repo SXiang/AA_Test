@@ -343,7 +343,7 @@ public class RestapiHelper extends KeywordSuperHelper {
 			((TestDriverExampleHelper) caseObj).currentDriver = driver;
 			((TestDriverExampleHelper) caseObj).casAuthenticated = casAuthenticated;
 
-			((TestDriverExampleHelper) caseObj).scheduleid = scheduleid;
+			//((TestDriverExampleHelper) caseObj).scheduleid = scheduleid;
 		}
 
 	}
@@ -368,7 +368,7 @@ public class RestapiHelper extends KeywordSuperHelper {
     		field = rs.getString(fieldName);
 			logTAFInfo(itemType+" '"+itemName+"' - '"+ fieldName+"' is retrieved successfully '"+field+"'");
     	} catch (SQLException e) {
-			logTAFInfo("Warning - Cannot find the "+itemType+" '"+itemName+"' - '"+ fieldName+"' by '"+sql+"', using '"+field+"' in query then");
+			logTAFInfo("Warning - Cannot find the "+itemType+" '"+itemName+"' - '"+ fieldName+"' by '"+sql+"', using '"+field+"' in query by '"+sql+"'");
     	}
     	 
 	    return field;

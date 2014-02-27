@@ -45,7 +45,7 @@ public class GetJobListByAnalytic extends RestapiHelper implements KeywordInterf
 		dpAnalyticUuid = getDpString("AnalyticUuid");
 		dpCount = getDpString("Count");
 		
-		//Rest API - Analytics List in a Test: /api/analytics/<analytic_uuid>/jobs?Count=
+		//Rest API - retrieve jobs list of the analytic: /api/analytics/<analytic_uuid>/jobs?Count=
 		if (!dpAnalyticUuid.isEmpty())
 			uuid = dpAnalyticUuid;
 		else uuid = queryAnalyticID(dpScope,dpProjectName,dpTestSetName,dpTestName,dpAnalyticName);
@@ -55,10 +55,8 @@ public class GetJobListByAnalytic extends RestapiHelper implements KeywordInterf
 				url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"analytics/"+uuid+"/jobs?Count="+dpCount;
 			else
 				url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix+"analytics/"+uuid+"/jobs";
-		else System.out.println("Error:" + "Can not find the uuid for the specific analytic");
+		else logTAFError("Error:" + "Can not find the uuid for the specific analytic");
 		
-		System.out.println("url:"+url);
-
 		return true;
 	}
 	

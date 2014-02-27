@@ -9,6 +9,7 @@ import ax.lib.restapi.HttpRequestHelper;
 import ax.lib.restapi.RestapiHelper;
 import ax.lib.restapi.TestDriverExampleHelper;
 import ax.lib.restapi.db.SQLConf;
+import ax.lib.restapi.db.SQLQuery;
 
 public class RestAPIRequest extends HttpRequestHelper implements KeywordInterface {
 	/**
@@ -19,6 +20,9 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	 * @since  2013/10/29
 	 * @author Steven_Xiang
 	 */
+	// *** path: /aclax/apidoc
+	// *** version: /auditexchange/version
+	
 	// AX Server: autoqawin2012.aclqa.local - 10.83
 	// BEGIN of datapool variables declaration
 	protected String dpScope;          //@arg value for Scope
@@ -42,7 +46,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	public boolean dataInitialization() {
 		super.dataInitialization();
 		
-		System.out.println("scheduledID:"+((TestDriverExampleHelper) caseObj).scheduleid);
+		//System.out.println("scheduledID:"+((TestDriverExampleHelper) caseObj).scheduleid);
      	
 		//*** read in data from datapool     
 		dpScope = getDpString("Scope");
@@ -64,6 +68,15 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		return true;
 	}
 	
+	//********* Analytic for debugging:
+	// ANALYTIC TestParamsPARAM_N
+	// UUID: 1a1fa309-81dc-417e-893e-ea460740743d
+	// This analytics tests various types of parameters 
+	//PARAM v_num_s N Single Numeric Parameter
+	//result file AllUserInputs*
+	//RESULT LOG
+	//********* END
+
 	//***************  Part 2  *******************
 	// *********** Test logic ********************
 	// *******************************************
@@ -113,6 +126,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 				
 				if (dpApi_Path.contains("analytics/{uuid}/run")){
 					scheduleid = getJsonValue(actualResult,"scheduleId");
+					
 					((TestDriverExampleHelper) caseObj).scheduleid = scheduleid;
 				}
 				
@@ -133,7 +147,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
         String[] textMaster = result.split(delimiterPattern);
         for (int i=0; i <textMaster.length; i++) {
         	textMaster[i] = stringReplaceAll(textMaster[i],ignorePattern,ignoreName);
-        	System.out.println("rg:"+textMaster[i]+":end");
+        	//System.out.println("rg:"+textMaster[i]+":end");
         }
         //Test End
         
@@ -205,18 +219,37 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 			//Analytic with specified ParameterSet name in ParameterSet variable 
 			if (!dpParameterSetName.isEmpty()){
 				sqlstmt = SQLConf.getParameterSetID(scope, dpProjectName, dpTestSetName, dpTestName,dpAnalyticName,dpParameterSetName);
-				uuid = getField(sqlstmt,"parametersetid","Parameter Set",dpParameterSetName);
+				uuid = getField(sqlstmt,"parametersetid","Parameter Set",dpParameterSetName);	
 				
-				dpJsonBody = createParameterSetJsonBody(dpParameterSetName,uuid);
+				if(dpJsonBody.equals("")){
+				   dpJsonBody = createParameterSetJsonBody(dpParameterSetName,uuid);
+				}
+				
+				if(!uuid.equals("") && path.endsWith("/parameters") && dpExpectedErr.equals("")){
+					int numUpdated = updateDB(SQLQuery.deleteParameterSet(uuid));
+					if(numUpdated<=0){
+				    	 //logTAFInfo(" Can't find pSet '"+dpParameterSetName+": "+uuid+"'");
+				     }else{
+				    	 logTAFInfo("Delete '"+dpParameterSetName+": "+uuid+"' from database successfully");
+				     }
+					//delete possible existing set
+				}
+				
 			}
-					
+
 			//Clean the shared variable 'scheduleid' from last time run
 			if (path.contains("analytics/{uuid}/run")){
 				((TestDriverExampleHelper) caseObj).scheduleid = "";
 			}
 		}
-
-		if(path.contains("jobs/{id}")){
+		
+		if(path.contains("{analysisAppId}")){		
+			sqlstmt = SQLConf.getTestID(scope, dpProjectName, dpTestSetName, dpTestName);
+			uuid = getAuditItemUUID(sqlstmt,"Analysisapp",dpTestName);	
+		   path = path.replaceAll("\\{analysisAppId\\}", uuid);
+		}	
+		
+		if(path.contains("{jobId}")){
 			if (dpAnalyticName.isEmpty()){
 				sqlstmt = SQLConf.getProjectID(scope, dpProjectName);
 			}else{
@@ -224,7 +257,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 			}
 			uuid = getField(sqlstmt,"jobnumber","Jobs",dpAnalyticName);
 			
-			path = path.replaceAll("jobs/\\{id\\}", "jobs/"+uuid);
+			path = path.replaceAll("\\{jobId\\}", uuid);
 		}
 
 		// Adding more replacement based on url ...

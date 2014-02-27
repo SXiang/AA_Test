@@ -28,12 +28,12 @@ import ax.lib.restapi.db.SQLQuery;
  * @author steven_xiang
  * 
  */
-public class AnalyticPage  extends WebPage{
+public class ANR_AnalyticPage  extends WebPage{
 
 	//*** Final varialbes ***	
 	 private final int pageLoadTime = 3;
 	 private String anName = "";
-	 private String lastJob = "";
+//Karen0208	 private String lastJob = "";
 	 private final QuickFilterPage qfPage;
 
 	 
@@ -41,22 +41,25 @@ public class AnalyticPage  extends WebPage{
 	 //private int analyticIndex = 0;
 
 	    //*** Common elements ***
-	    @FindBy(css = "div.script-row > div.row-fluid > div.ng-binding")
+	    @FindBy(css = "div.analytic-row > div.row-fluid > div.ng-binding")
 		private List<WebElement> analytics;
 		
 		//*** Analytic ***
 		@FindBy(css = "div.row-fluid > a.icon_play")
 		private WebElement runIconBtn;
-		@FindBy(css = "div.row-fluid > div.promptBesideInput[ng-show*='$error.pattern']")
+		@FindBy(css = "div.row-fluid >  div.top-description")
+		private WebElement description;
+		
+		@FindBy(css = "div.row-fluid > div.promptBesideInput.errorTextColor")
 		private List<WebElement> inputValueError;		
 		
-		@FindBy(css = "div > span.keyboardPrompt[ng-show*='$error.pattern'] > em > span")
+		@FindBy(css = "div > span.keyboardPrompt.errorTextColor > em > span")
 		private List<WebElement> inputNameError;
 		
 		@FindBy(css = "a.action-btn > span[key='_Button.Run.Label_']")
 		private WebElement runBtn;
 		
-		@FindBy(css = "div[style*='height: auto'] > div > div[ng-show*='analytic.analyticDetails'] > span > a.action-btn.button_c > span")
+		@FindBy(css = "div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > a.action-btn.button_c")
 		private WebElement continueBtn;
 		
 		@FindBy(css = "div.analyticParamInputView form[name$='InputForm'] input")
@@ -71,8 +74,9 @@ public class AnalyticPage  extends WebPage{
 		private WebElement formInputContinueBtn;	
 		@FindBy(css = "a.action-btn > span[key='_Button.Run.Label_']")
 		private WebElement formRunBtn;
-		
-		@FindBy(css = "div[style*='height: auto'] > div > div[ng-show*='analytic.analyticDetails'] > span > div span[key='_AX_RunJob.NewParameterSet.Label_']")
+
+		//Karen may remove for ANR
+		@FindBy(css = "div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div span[key='_AX_RunJob.NewParameterSet.Label_']")
 		private WebElement newPSetBtn;
 		
 		@FindBy(css = "div.select2-container.parameter-select > a.select2-choice > span.select2-chosen")
@@ -87,18 +91,9 @@ public class AnalyticPage  extends WebPage{
 		@FindBy(css = "div.sub-layer1 > div.dropdown > ul.dropdown-menu > li > a")
 		private List<WebElement> pSetItems;
 		
-		@FindBy(css = "div[style*='height: auto'] > div > div[ng-show*='analytic.analyticDetails'] > span > span[id=description]")
-		private List<WebElement> description;
-//		
-		@FindBy(css = "div.action-buttons > div > a > i.icon-list")
-		private WebElement jobListBtn;
-
-		@FindBy(css = "div.action-buttons > div > a > i.icon-calendar")
-		private WebElement jobCalendarBtn;
-		
-		@FindBy(css = "div.action-buttons > div > a > i.icon-bar-chart")
-		private WebElement jobChartBtn;
-		
+		@FindBy(css = "div.action-buttons > a.icon_list")
+		private WebElement jobIconBtn;
+		//Karen
 		
 		@FindBy(css = "div.action-buttons > a.icon_list_loading")
 		private WebElement loadingIconBtn;
@@ -106,6 +101,10 @@ public class AnalyticPage  extends WebPage{
 		@FindBy(css = "div.action-buttons > a.icon_cancel_analytic")
 		private WebElement cancelIconBtn;
 		
+		@FindBy(css = "div.row-fluid >  div.results > h3 > span[key='_Anr.Results.Title_'")
+		private WebElement resultsLable;
+
+		//Karen may remove for ANR
 		@FindBy(css = "div.action-buttons > a.icon_comment")
 		private WebElement scheduleIconBtn;
 		
@@ -115,37 +114,37 @@ public class AnalyticPage  extends WebPage{
 //		@FindBy(css = "div[style*='height: auto'] > div.drawer[ng-show*='results'] span[key*='results']")
 //		private List<WebElement> currentJobs;
 		
-		        @FindBy(css = "div[style*='height: auto'] > div.drawer[ng-show*='results'] > div > div > h3 > span")
+		        @FindBy(css = "div[style*='height: auto'] > div.drawer[ng-show*='results'] > div > h3 > span")
 		        private WebElement jobDrawerHeader;
 		        @FindBy(css = "div[style*='height: auto'] > div.drawer[ng-show*='results'] > div.headlines > div > span")
 		        private WebElement jobsTableColHeader;
-				@FindBy(css = "div[style*='height: auto'] > div > div > div[ng-repeat*='job in jobs'] > div > div:nth-child(1) > span")
+				@FindBy(css = "div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(1)")
 				private List<WebElement> jobRunBy;
-				@FindBy(css = "div[style*='height: auto'] > div > div > div[ng-repeat*='job in jobs'] > div > div:nth-child(2)")
+				@FindBy(css = "div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(2)")
 				private List<WebElement> jobParameterSet;
-				@FindBy(css = "div[style*='height: auto'] > div > div > div[ng-repeat*='job in jobs'] > div > div:nth-child(3) > span")
+				@FindBy(css = "div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(3) > span")
 				private List<WebElement> jobStartTime;
-				@FindBy(css = "div[style*='height: auto'] > div > div > div[ng-repeat*='job in jobs'] > div > div:nth-child(4) > span")
+				@FindBy(css = "div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(4) > span")
 				private List<WebElement> jobEndTime;
-				@FindBy(css = "div[style*='height: auto'] > div > div > div[ng-repeat*='job in jobs'] > div > div:nth-child(5) > span")
+				@FindBy(css = "div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(5)")
 				private List<WebElement> jobStatus;
-				@FindBy(css = "div[style*='height: auto'] > div > div > div[ng-repeat*='job in jobs'] > div > div:nth-child(6) > a > span")
+				@FindBy(css = "div[style*='height: auto'] > div > div[ng-repeat*='job'] > div > div:nth-child(6) > a > span")
 				private List<WebElement> jobResultLink;
-		
+		//Karen
+				
 	public WebElement locateAnalytic(String analyticName){
-		String analyticXpath = "//div[@class='ng-scope']"
-				+ "/div[@ng-include and div[contains(@class,'analytic-row')]"
-				+ "/div[@class='row-fluid']"
-				+ "/div[contains(@class,'ng-binding') and contains(text(),'"
-	            +analyticName+"')]]";
-		//div[@class='ng-scope']/div[@ng-include and div[contains(@class,'script-row')]/div[@class='row-fluid']/div[contains(@class,'ng-binding') and contains(text(),'TestParamsPARAM_L')]]
-		WebElement analytic = pageDriver.findElement(By.xpath(analyticXpath));
-		//anName = analyticName;
-		scrollToElement(analytic,(new Point(0,300)));
-		logTAFInfo("Working analytic: '"+analyticName+"'");
+		WebElement analytic = null;
+		for(int i = 0; i < analytics.size(); i++) {
+			if (analytics.get(i).getText().equalsIgnoreCase(analyticName)) {
+				logTAFInfo("Working analytic: '"+analyticName+"'");
+				analytic = analytics.get(i);
+				return analytic;
+			}
+		}
+		
 		return analytic;
 	}
-	
+		
 	public void openAnalytic(){
 		openAnalytic(anName,true);
 	}
@@ -166,79 +165,22 @@ public class AnalyticPage  extends WebPage{
 			return;
 		}
 		
-		if(expand){
-			toggleElementByClick(resultsHistory,jobListBtn,"Jobs",expand);
-			lastJob = getJobRecord(0);
-			if(lastJob.equals("")){
-				logTAFInfo("No results in history ");
-			}else{
-				logTAFInfo("The laste result in history: '"+lastJob+"'");
-			}
-			//toggleElementByClick(resultsHistory,jobListBtn,"Jobs",!expand);
-		}
 		toggleElementByClick(description,runIconBtn,"Analytic",expand);
 	}
+	
+	public String getAnalyticDescription(){
+		return description.getText();
+	}
+	
 	public void cancelAnalytic(){
 		waitUntil(cancelIconBtn);
 		click(cancelIconBtn,"Cancel(X)");
 	}	
-	public String getJobRecord(int jobIndex){
-		String sep = " | ";
-		String record = sep;
-		if(jobRunBy.size()<1) return "";
-		if(jobRunBy.get(jobIndex).getText().trim().equals("")){
-			sleep(3);
-		}
-		record += jobRunBy.get(jobIndex).getText()+sep;
-		record += jobParameterSet.get(jobIndex).getText()+sep;
-		record += jobStartTime.get(jobIndex).getText()+sep;
-		record += jobEndTime.get(jobIndex).getText()+sep;
-		record += jobStatus.get(jobIndex).getText()+sep;
-		record += jobResultLink.get(jobIndex).getText()+sep;
-		
-		return record;
-	}
 	
    public boolean deleteParameterSet(String analyticName, String pSetName){
-	     String testUUID = getCurrentUUID(pageDriver);
-	 
-	     if (testUUID.equals(""))
-	    	 return false;
-	     
-	     String id = getParameterSetID(testUUID,analyticName,pSetName);
-	     
-	     if(id.equals("")){
-	    	 return false;
-	     }
-	     int numUpdated = updateDB(SQLQuery.deleteParameterSet(id));
-	     
-	     if(numUpdated<=0){
-	    	 logTAFInfo(" Can't find pSet '"+pSetName+": "+id+"'");
-	    	 return false;
-	     }else{
-	    	 logTAFInfo("Delete '"+pSetName+": "+testUUID+"' from database successfully");
-	     }
-	     
 	     return true;
    }
 
-
-   public String getParameterSetID(String testUUID, String analyticName, String pSetName){
-	String id = "";
-	String sql = SQLQuery.getParameterSetID(testUUID, analyticName, pSetName);
-	
-	ResultSet rs = queryDB(sql);
-	try {
-		rs.next();
-		id = rs.getString("parametersetid");
-		logTAFInfo("Parameter set uuid is retrieved successfully '"+id+"'");
-	} catch (SQLException e) {
-		logTAFInfo("Warning Cannot find the analytic uuid for specified analytic - Please check your data. '"+sql+"'");
-		
-	}
-	 
-   return id;
-   }
 	public boolean setParameterSet(String[] setValues,int startIndex){
 		click(continueBtn,"Continue",newPSetBtn);
 		sleep(2);
@@ -263,8 +205,6 @@ public class AnalyticPage  extends WebPage{
 			}
 		}
 		
-		
-
 		String name = setValues[startIndex];
 		if(!name.trim().equals("")){
 		  waitUntil(pSetNameBox);		
@@ -289,6 +229,7 @@ public class AnalyticPage  extends WebPage{
 	
 	public boolean selectParameterSet(String[] setValues,int startIndex){
 		boolean done = true;
+
 		click(continueBtn,"Continue");
 		click(pSetDropdown,"Pick A Parameter Set", pSetInputBox);
 		inputChars(pSetInputBox,setValues[startIndex]);
@@ -320,64 +261,21 @@ public class AnalyticPage  extends WebPage{
 		   }
 	   }
 	   
-	   public void runAnalytic(){
-		   final int jobIndex = 0 ;
-//		   final String started = "initializing";
-		   final String completed = "completed"; // need to change to Key once localized
-//		   final String error = "error";
-//		   final String stoped = "stoped";
-//		   final String skiped = "skiped";
-		   
+	public void runAnalytic(){
+
 		   final int maxWait = 300;
 		   final int sleepPeriod = 5;
 		   
-		   String currentJob;
-		  // click(formRunBtn,"Run");
+		   // click(formRunBtn,"Run");
 		   waitUntil(runBtn);
 		   click(runBtn,"Run");
 		   
 		   WebDriverWait runWait = new WebDriverWait(pageDriver, maxWait,  sleepPeriod*1000);
-		   //waitUntil(runWait,jobListBtn,true);
+		   waitUntil(runWait,resultsLable,true);
 		   
-		   //** wrokaround **
-
-		   try{
-			   runWait.until( new ExpectedCondition<Boolean>(){
-				   public Boolean apply(WebDriver driver){
-					   // refresh to solve the problem
-					   sleep(2);
-					   click(runIconBtn,"WORKAROUND - REFRESH status");
-					   sleep(2);
-					   // remove this workaroun after problem solved.
-					   return (jobListBtn).isDisplayed();
-				   }
-			   }
-			   );
-			   
-		       waitUntil(runWait,jobListBtn,true);
-		       toggleElementByClick(resultsHistory,jobListBtn,"Open results - automation workaround",true);
-		   }catch(Exception e){
-			   click(loadingIconBtn);
-			   sleep(2);
-		   }
-		   waitUntil(runWait,jobListBtn,true);
-		   //** end workaround **
-		   currentJob = getJobRecord(jobIndex);
-		   if(!currentJob.equals(lastJob)){
-			   String currentStatus =getLocKey(jobStatus.get(jobIndex), jobStatus.get(jobIndex).getText().trim());
-			   if(!currentStatus.matches("(?i)"+completed)){
-					   logTAFWarning("Run Analytic not completed sucessfully - '"+currentStatus+"'");
-				   }else{
-					   logTAFInfo("Job status: '"+currentJob+"'");
-				   }
-			
-		   }else{
-			   logTAFError("Analytic is not running?");
-		   }
-		   
-	   }
+   }
   
-	public AnalyticPage(WebDriver driver) {
+	public ANR_AnalyticPage(WebDriver driver) {
 	    pageDriver = driver; 
 	    pageDriverWait = new WebDriverWait(driver,30);
 	    
