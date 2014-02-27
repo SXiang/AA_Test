@@ -34,6 +34,7 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 	protected String dpCategory;   	//@arg value of Category
 	protected String dpSubCategory;   	//@arg value of Sub-Category, for certain charts
 	protected String dpValue;   	    //@arg value of chart
+	protected String dpSize;   	    //@arg value of chart
 	protected String dpSummarizedType; //@arg summarized type 
 	                                   //@value = Sum|Average|Min|Max
 	protected String dpChartAction;   //@arg action for chart configuration
@@ -119,9 +120,17 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 	// *******************************************
 	
 	private void configChart(){
-		dvPage.selectChartValue("Category",dpCategory);
-		dvPage.selectChartValue("Sub-Category",dpSubCategory);
-		dvPage.selectChartValue("Value",dpValue);
+		if(!dpChartType.matches("lineChart|bubbleChart")){
+		   dvPage.selectChartValue("Category",dpCategory);
+		   dvPage.selectChartValue("Sub-Category",dpSubCategory);
+		   dvPage.selectChartValue("Value",dpValue);
+		}else{
+			dvPage.selectChartValue("ColorBy",dpCategory);
+			dvPage.selectChartValue("X-Axis",dpSubCategory);
+			dvPage.selectChartValue("Y-Axis",dpValue);
+			dvPage.selectChartValue("Size",dpSize);
+		}
+		
 		dvPage.click(dvPage.applyChartConf,"Apply");
 		//dvpage.applyChartConf.click();
 		//dvpage.expandConfPanel(false);

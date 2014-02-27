@@ -3,6 +3,8 @@
  */
 package anr.apppage;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -266,6 +268,16 @@ public class WebPage extends CommonWebHelper{
 			logTAFStep("Input value '"+text+"'");
 			super.inputChars(driver,we,text);
 		}
+	
+	public void  mouseMove(int x, int y){
+		try {
+		   new Robot().mouseMove(x, y);
+		   logTAFInfo("Move mouse to point("+x+","+y+")");
+      	} catch (AWTException e) {
+		// TODO Auto-generated catch block
+		//e.printStackTrace();
+	   }
+	}
 	// ******* Other methods ****************
 	public java.awt.Point scrollToElement(WebElement element){	
 		return scrollToElement(element,new java.awt.Point(0,50));
