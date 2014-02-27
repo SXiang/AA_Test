@@ -3,7 +3,9 @@
  */
 package anr.apppage;
 
+import java.awt.AWTException;
 import java.awt.Rectangle;
+import java.awt.Robot;
 import java.util.List;
 
 import org.openqa.selenium.*;
@@ -48,6 +50,8 @@ public class DataVisualizationPage extends WebPage{
 	  public WebElement barChart;
 	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and contains(@class,'linechart')]")
 	  public WebElement lineChart;
+	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and contains(@class,'bubblechart')]")
+	  public WebElement bubbleChart;
 	  
 	  
 	//*** Chart configuration
@@ -57,11 +61,19 @@ public class DataVisualizationPage extends WebPage{
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//i[@ng-click='toggleChartConfigPanel()']/div[@class='chartconfig-btn ng-binding' and text()='Configure']") 
 	  public List<WebElement> configureButtons;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartCategory')]") 
-	  public WebElement categorySelect;
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartSub-Category')]")
-	  public WebElement subCategorySelect;
+	  public WebElement categorySelect;  //colorBy
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@id,'colorDropdown')]")
+	  public WebElement colorBySelect;  //colorBy
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartSubcategory')]")
+	  public WebElement subCategorySelect; //xAxis
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@id,'xAxisDropdown')]")
+	  public WebElement xAxisSelect; //xAxis
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartValue')]")
-	  public WebElement valueSelect;
+	  public WebElement valueSelect; //yAxis
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@id,'yAxisDropdown')]")
+	  public WebElement yAxisSelect; //yAxis
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@id,'sizeDropdown')]")
+	  public WebElement sizeSelect; //size
 	  
 	  
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/div/button[@btn-radio='average']")
@@ -73,7 +85,7 @@ public class DataVisualizationPage extends WebPage{
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/div/button[@btn-radio='max']")
 	  public WebElement maxChart;
 	  
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@id='submit' and @value='Apply']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@value='Apply']")
 	  public WebElement applyChartConf;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@value='Delete chart']")
 	  public WebElement deleteChartConf;
@@ -177,6 +189,8 @@ public class DataVisualizationPage extends WebPage{
 		  int height = di.height+pt.y > windi.height + winpt.y ? (windi.height - pt.y -removeEdge):(di.height-removeEdge);
 		  
 		  Rectangle rec = new Rectangle(pt.x, pt.y, width, height);
+		  //hover to chart - required for line chart
+		  mouseMove(pt.x+width/2, pt.y+height/2);		 
 		  logTAFStep("Take screenshot on current chart rectangle '"+rec+"'");
 		  captureScreen(fileName, rec);
 		  logTAFInfo("Chart image is saved to  '"+fileName+"'");
@@ -220,6 +234,18 @@ public class DataVisualizationPage extends WebPage{
 			  select = new Select(subCategorySelect);
 		  }else if(type.equalsIgnoreCase("Value")){
 			  select = new Select(valueSelect);
+		  }
+		  
+		  // These four are for line chart and bubble chart, they have diff element confs now - Steven
+		  
+		  else if(type.equalsIgnoreCase("ColorBy")){
+			  select = new Select(colorBySelect);
+		  }else if(type.equalsIgnoreCase("X-Axis")){
+			  select = new Select(xAxisSelect);
+		  }else if(type.equalsIgnoreCase("Y-Axis")){
+			  select = new Select(yAxisSelect);
+		  }else if(type.equalsIgnoreCase("Size")){
+			  select = new Select(sizeSelect);
 		  }else{
 			  logTAFWarning("Select type '"+type+"' is not valid? ");
 			  select = new Select(categorySelect);

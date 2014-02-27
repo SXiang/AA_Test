@@ -1,7 +1,6 @@
 package anr.keyword.restapi;
 
 import java.net.URLEncoder;
-import java.util.List;
 
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
 import com.acl.qa.taf.util.FileUtil;
@@ -10,7 +9,6 @@ import com.acl.qa.taf.util.UTF8Control;
 
 import anr.lib.restapi.HttpRequestHelper;
 import anr.lib.restapi.TestDriverExampleHelper;
-
 
 public class RestAPIRequest extends HttpRequestHelper implements KeywordInterface {
 	/**
@@ -37,25 +35,6 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 
     private String url = "";
 	private String id="";
-	
-	
-	//own json ojb
-	public class jsonObj{
-		//String name;
-		//String[] tables;
-		//public analyticObj[] analytics;
-		
-	}
-	
-	/*
-	public class analyticObj{
-		public String aname;
-		public String adescription;
-		public String aparameters;
-		public String atables;
-		
-	}
-	*/
 	
 	@Override
 	public boolean dataInitialization() {
@@ -120,7 +99,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 			String actualResult;// = UTF8Control.utf8decode(driver[i].getPageSource());
 //			actualResult = UTF8Control.utf8decode(driver.getPageSource());
 			actualResult = UTF8Control.utf8decode(sendApiRequest(driver,url,dpRequestBody,dpApi_Path));
-			
+
 //1204			if(isJsonText(actualResult)){
 				logTAFInfo("JSON data: '\n\t\t"+FormatHtmlReport.getHtmlPrintable(actualResult,Math.min(100,actualResult.length()+1))+"...");
 				// compare Json Result - exact master and actual files are handled by framework.
@@ -140,10 +119,10 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 
 	public boolean compareJsonResult(String result,String master)	{
 		
-        String[] ignorePattern ={"(\"jobId\":\")[0-9]{1,15}(\")","\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\+0000\"","\\{","\\}"};
-        String[] ignoreName = {"$1u-u-i-d$2","\"DateTimeFormat\"","",""};
+        String[] ignorePattern ={"(\"jobId\":\")[0-9]{1,15}(\")","\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\+0000\""};
+        String[] ignoreName = {"$1u-u-i-d$2","\"DateTimeFormat\""};
         String delimiterPattern = "\\}[\\s]*,[\\s]*\\{|[\\[\\]]";
-        
+
         //Testing regular expression
         String[] textMaster = result.split(delimiterPattern);
         for (int i=0; i <textMaster.length; i++) {
@@ -179,7 +158,6 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		
 		if (path.contains("{columnName}")) {
 			path = path.replaceAll("\\{columnName\\}",UrlEncode(dpColumnName));
-			
 		}
 		
 		if (path.contains("{fieldType}")) {
@@ -217,17 +195,12 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 	public String loadJsonText(String oriText){
 		String jsonPattern = "^[\\s]*[\\[\\{].*";
 		String text = oriText.replaceAll("[\\r\\n]", "");
-		
-		
 		if(text.matches(jsonPattern)){
 			return text;
-	
 		}
 		String file = FileUtil.getAbsDir(text.replaceFirst("^[\\/]", ""),currentTestCaseDir);
 		text = FileUtil.getFileContents(file).replaceAll("[\\r\\n]", "");
-		
 		return text;
-	
 	}
 	
 	private String createParameterSetJsonBody(String parametersetname, String uuid){
@@ -236,7 +209,5 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		
 		return temp;
 	}
-	
-	
- }
 
+ }

@@ -33,8 +33,6 @@ public class TestRunAnalyticsWithNewPSet  extends FrontendTestDriverHelper imple
 		//endAtLine = 6;     //
 			
 		String poolFile = "testdata/ax/testdriver/frontend/TestRunAnalyticWithNewPSet.xls";
-		exeTestCase(onInitialize(poolFile,getClass().getName()));
-
-		
+		exeTestCase(onInitialize(poolFile,getClass().getName()));		
 	}
 }
