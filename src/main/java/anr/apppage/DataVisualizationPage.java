@@ -85,7 +85,7 @@ public class DataVisualizationPage extends WebPage{
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/div/button[@btn-radio='max']")
 	  public WebElement maxChart;
 	  
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@id='submit' and @value='Apply']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@value='Apply']")
 	  public WebElement applyChartConf;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@value='Delete chart']")
 	  public WebElement deleteChartConf;
