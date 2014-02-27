@@ -1,5 +1,0 @@
-567890
-Activity-with-dashesÇüéâäàåçêëèïîìÄÅÉæÆô
-Long Name Activity with spaces To Test WidthHandling having 70 Chars
-VeryLongNamedActivityToTestWidthHandlingOfNewWebAppHavngInTotal70Chars
-æÆôöòûùÿÖÜáíóúñÑº¿°ÇüéâäàåçêëèïîìÄÅÉæÆô

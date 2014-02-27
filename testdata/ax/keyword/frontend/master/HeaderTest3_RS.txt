@@ -1,5 +1,0 @@
-Projects
-123456 - NOT inherit User01,02Read
-Long Name Activity with spaces To Test WidthHandling having 70 Chars NotInherit User02Read
-VariousTypeParams.acl
-Import Data|Prepare|Analyze
