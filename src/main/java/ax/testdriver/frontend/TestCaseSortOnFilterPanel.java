@@ -17,7 +17,7 @@ public class TestCaseSortOnFilterPanel extends FrontendTestDriverHelper implemen
 	{		
 
 		startFromLine = 2; // 4-9
-		endAtLine =20;     //
+		endAtLine =57;     //
 			
 		String poolFile = "testdata/ax/testdriver/frontend/SortOnFilterPanel.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
