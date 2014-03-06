@@ -372,6 +372,7 @@ public class ProjectConf {
 	public int timeIntervalForMemusage = 1;
 	public int maxMemUsage = Integer.MAX_VALUE;
 	public int stopIfNumConsecutiveFailures = Integer.MAX_VALUE;
+	public boolean captureURLSnapshot = false;
 
 	public String wikiLink = "";
 	public String testDescApp = "\n\tDescription of the tested area goes here....";
@@ -393,12 +394,20 @@ public class ProjectConf {
 
 	// Getter & Setter
 
+	
+	/**
+	 * 
+	 */
 	public String osname = System.getProperty("os.name").replaceAll(
 			"[/\\\\:*?,|\\-\\s]", "_"), winUser = System.getProperty(
 			"user.name").replaceAll("[/\\\\:*?,|\\-\\s]", "_"), winName = "",
 			hostIP = "";
 
 	
+	public void setCaptureURLSnapshot(boolean captureURLSnapshot) {
+		this.captureURLSnapshot = captureURLSnapshot;
+	}
+
 	public void setTraceImageName(String traceImageName) {
 		this.traceImageName = traceImageName;
 	}
