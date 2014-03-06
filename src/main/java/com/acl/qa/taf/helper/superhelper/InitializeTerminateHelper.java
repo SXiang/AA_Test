@@ -13,6 +13,7 @@ import com.acl.qa.taf.util.FileUtil;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.MemusageTracer;
 import com.acl.qa.taf.util.PropertyUtil;
+import com.acl.qa.taf.util.URLSnapshot;
 import com.acl.qa.taf.util.UnicodeUtil;
 
 public class InitializeTerminateHelper extends ObjectHelper {
@@ -78,6 +79,7 @@ public class InitializeTerminateHelper extends ObjectHelper {
 		menuItem = command;
 		return onInitialize(poolFileOri,testName);
 	}
+	
 	public Object[] onInitialize(String poolFileOri, String testName) {	
 		
 		
@@ -176,6 +178,13 @@ public class InitializeTerminateHelper extends ObjectHelper {
      				mt.start();
      			}
 
+     			if(projectConf.captureURLSnapshot){
+     				logTAFInfo("- Take snapshots based on URL change - enabled");
+     				if(timerConf.waitBetweenKeywords==0)
+     				      timerConf.waitBetweenKeywords = 3;
+     				snap = new URLSnapshot();
+     				snap.start();
+     			}
      			workingDir_Server = processLink(TAFLogger.file+"\\ProjectArchive");
      			try{
      				String user="ACL\\qamail",pass="Password00";
@@ -208,7 +217,9 @@ public class InitializeTerminateHelper extends ObjectHelper {
 		boolean appClosed = true;
         // if single test, don't logout, you can verify the contents then
 		// if batch run, logout and kill the app as next run needs a fresh running app
-		
+//		while(appClosed){
+//			sleep(100000);
+//		}
 	    
 		//if(isMainScript){
 		if (isMainScript()){
@@ -220,6 +231,8 @@ public class InitializeTerminateHelper extends ObjectHelper {
 //				DatapoolUtil.defaultLogProcess(this);
 			if(mt!=null)
 			   mt.stopTracing();
+			if(snap!=null)
+				   snap.stopTracing();
 			logInfo(FormatHtmlReport.addReportFooter("Test Log"));
 			
 			 killProcess(projectConf.driverName);

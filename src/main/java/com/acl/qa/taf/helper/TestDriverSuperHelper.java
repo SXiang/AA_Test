@@ -126,8 +126,13 @@ public class TestDriverSuperHelper   extends InitializeTerminateHelper {
             	skipTest = true;
             }
             
-            if(!projectConf.testSubset.equals("")){
-            	if(!projectConf.testSubset.equals(testSubset))
+            if(!projectConf.testSubset.equals("")&&
+            	//	!projectConf.testSubset.equals(testSubset)){
+            		// simplify this  if you want - steven
+            	!testSubset.matches(projectConf.testSubset+
+            			"|.*,"+projectConf.testSubset+
+            			"|"+projectConf.testSubset+",.*"+
+            			"|.*,"+projectConf.testSubset+",.*")){
             		skipTest = true;
             }
             if(ut.equalsIgnoreCase("True")){

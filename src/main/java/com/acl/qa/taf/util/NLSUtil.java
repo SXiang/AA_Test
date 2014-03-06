@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 
 
+
 import com.acl.qa.taf.helper.superhelper.LoggerHelper;
 import com.acl.qa.taf.helper.superhelper.ObjectHelper;
 import com.acl.qa.taf.helper.superhelper.GuiFinderHelper;
@@ -960,6 +961,51 @@ public class NLSUtil {
 		} 
 		LoggerHelper.logTAFDebug("Loaded properties '"+file+"'");
 		return curProps;
+		
+	}
+	public static String getAXL10NDate(String enDate){
+		return getAXL10NDate(enDate, com.acl.qa.taf.helper.superhelper.ACLQATestScript.projectConf.locale);
+	}
+	
+	public static String getAXL10NDate(String oriDate, String locale){
+		String enDateFormat = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+		String l10nDate = oriDate;
+		// En,De,Es,Pt,Fr;Zh,Pl,Ko,Ja
+		
+		String enDate = oriDate.replaceAll(".*("+enDateFormat+").*", "$1");
+		if(!enDate.matches(enDateFormat)){
+			//logTARWarning("The input date '"+enDate+"' is not a valid English Date format specified");			
+			return enDate;
+		}
+		String year = enDate.substring(0,4);
+		String month =  enDate.substring(5,7);
+		String day = enDate.substring(8,10);
+		if(locale.equalsIgnoreCase("En")
+				||locale.equalsIgnoreCase("Ko")
+						||locale.equalsIgnoreCase("Pl")
+						){
+			l10nDate = year + "-"+month+"-"+day;
+		}else if(locale.equalsIgnoreCase("De")
+				){
+	        l10nDate = day+"."+month+"."+year;
+       }else if(locale.equalsIgnoreCase("Es")
+		||locale.equalsIgnoreCase("Fr")
+		||locale.equalsIgnoreCase("Pt")
+		        ){
+            l10nDate = day+"/"+month+"/"+year;
+       }else if(locale.equalsIgnoreCase("Zh")
+    		   ||locale.equalsIgnoreCase("Ja")
+    		   ){
+    	    l10nDate = year+"/"+month+"/"+day;
+       }
+		
+		return oriDate.replaceAll("(.*)"+enDateFormat+"(.*)", "$1"+l10nDate+"$2");
+	}	
+	/**
+	 * @param string
+	 */
+	private static void logTARWarning(String string) {
+		// TODO Auto-generated method stub
 		
 	}
 

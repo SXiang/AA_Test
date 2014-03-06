@@ -21,6 +21,7 @@ import org.apache.poi.ss.usermodel.Cell;
 
 import com.acl.qa.taf.helper.TestDriverSuperHelper;
 import com.acl.qa.taf.helper.TestSuiteSuperHelper;
+import com.acl.qa.taf.helper.Interface.TestSuiteInterface;
 import com.acl.qa.taf.util.FileUtil;
 
 import conf.bean.*;
@@ -49,7 +50,7 @@ public class ACLQATestScript {
 		return currentLogFilter;
 	}
 
-	protected Object getTestApp() {
+	protected static Object getTestApp() {
 
 		if (suiteObj != null) {
 			app = suiteObj;
@@ -75,7 +76,8 @@ public class ACLQATestScript {
 		this.scriptName = scriptName;
 	}
 
-	
+
+
 	public static void captureScreen(String fileName){
 		try {
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -256,7 +258,7 @@ public class ACLQATestScript {
 
 	}
 
-	protected static void sleep(double seconds) {
+	public static void sleep(double seconds) {
 		long sleepTime = (long) (seconds * 1000);
 		try {
 			Thread.sleep(sleepTime);

@@ -13,6 +13,7 @@ import com.acl.qa.taf.util.FileUtil;
 import com.acl.qa.taf.util.FormatHtmlReport;
 import com.acl.qa.taf.util.MemusageTracer;
 import com.acl.qa.taf.util.NLSUtil;
+import com.acl.qa.taf.util.URLSnapshot;
 import com.acl.qa.taf.util.UTF8Control;
 
 
@@ -107,6 +108,7 @@ public class LoggerHelper extends ACLQATestScript {
 	public static String projName = "";
 
 	public static MemusageTracer mt;
+	public static URLSnapshot snap;
 	public static String imageName;
 
 	public static boolean errorHandledInLine = false;
@@ -453,21 +455,21 @@ public class LoggerHelper extends ACLQATestScript {
 		value = value.replaceAll("\\u0000", "").trim();
 
 		// if work on ACL domain...
-		if (var.equals("Username") && value.contains("\\")
-				&& !value.toUpperCase().startsWith("ACLQA\\")
-				&& !value.toUpperCase().startsWith("ACL\\")
-				&& !projectConf.serverName.trim().equals("")) {
-			domain = value.split("\\\\")[0];
-			if (!projectConf.serverName.trim().equals(domain)) {
-				localValue = value.replaceFirst(domain,
-						projectConf.serverName.trim());
-				logTAFDebug("User '"
-						+ value
-						+ "' has been converted to user with this server domain : "
-						+ localValue);
-				value = localValue;
-			}
-		}
+//		if (var.equals("Username") && value.contains("\\")
+//				&& !value.toUpperCase().startsWith("ACLQA\\")
+//				&& !value.toUpperCase().startsWith("ACL\\")
+//				&& !projectConf.serverName.trim().equals("")) {
+//			domain = value.split("\\\\")[0];
+//			if (!projectConf.serverName.trim().equals(domain)) {
+//				localValue = value.replaceFirst(domain,
+//						projectConf.serverName.trim());
+//				logTAFDebug("User '"
+//						+ value
+//						+ "' has been converted to user with this server domain : "
+//						+ localValue);
+//				value = localValue;
+//			}
+//		}
 
 		// UnicodeUtil.printHexString(value);
 		logTAFDebug(var + "='" + value + "'");
@@ -647,19 +649,19 @@ public class LoggerHelper extends ACLQATestScript {
 		String userCol = "Username", passCol = "Password";
 		String qaUser = "Manager";
 		String localPass = "Password00";
-		if (devUser.equals(""))
-			devUser = projectConf.serverName + "\\" + qaUser;
+//		if (devUser.equals(""))
+//			devUser = projectConf.serverName + "\\" + qaUser;
 		if (devPass.equals(""))
 			devPass = "Password00";
 
-		if (var.equalsIgnoreCase(userCol)) {
-			if (value.contains(qaUser)) {
-				value = devUser; // for setup users
-			} else if (!value.toUpperCase().matches("ACL\\.*")) {
-				value = value.replaceAll("^.*\\?", "");
-				value = projectConf.serverName + "\\" + value;
-			}
-		}
+//		if (var.equalsIgnoreCase(userCol)) {
+//			if (value.contains(qaUser)) {
+//				value = devUser; // for setup users
+//			} else if (!value.toUpperCase().matches("ACL\\.*")) {
+//				value = value.replaceAll("^.*\\?", "");
+//				value = projectConf.serverName + "\\" + value;
+//			}
+//		}
 
 		if (var.equalsIgnoreCase(passCol)) {
 			if (dpString(userCol).contains(qaUser)) {

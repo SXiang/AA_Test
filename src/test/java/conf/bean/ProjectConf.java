@@ -1,3 +1,5 @@
+
+
 package conf.bean;
 
 import java.io.FileInputStream;
@@ -18,21 +20,23 @@ public class ProjectConf {
 			serverPrefix = "C:/ACL/Automation/RFT_DATA/",
 			serverNetDir = ":/ACL/Automation/",
 			serverNetUser = "Administrator", serverNetPassword = "Password00",
-			localizationDir = "", l10nPropertiesPrefix = "",tempLocalDir = "", tempServerNetDir = "",
+			localizationDir = "", 
+			l10nPropertiesPrefix = "",
+			tempLocalDir = "", tempServerNetDir = "",
 			tempServerDir = "", serverInputDataDir = "",
 			localInputDataDir = "",
 			testDataDir = "",
 			toolDir = "";
 	public String webDriver = "chrome";
 	public String imageName = "chrome.exe";
-	public String driverName = "";
+	public String driverName = "chromedriver.exe";
 	public String driverPath = "C:\\Selenium";
 	public String nodeName = "localhost";
 	public String nodePort = "4444";
 	public String executionType = "local";
 	public String casType = "nonSSO";
 	public String axServerName = "AUTOQAWIN2012.ACLQA.local";
-	public String axServerPort = "8443";
+	public String axServerPort = "443";
     public String apiPrefix = "/aclax/api/";
     public String anrPrefix = "localhost:10002/ui";
     public String anrBatch = "C:\\ACL\\ANR\\AclRevolution.bat";
@@ -42,11 +46,6 @@ public class ProjectConf {
     public String hubHost="192.168.10.129";
     public String hubPort="4444";
     public String hubPath="/wd/hub";
-    public String testSubset = "";
-    //** Tend to add testNg report ... Steven
-    public String TestNg=LoggerHelper.getSystemProperty(
-    		InitializeTerminateHelper.sysPropPrefix+"TestNG","No");
-    
 	// ********************************************************
 	public String superMDir = "/master/",expectedDir = "/expecteddata/",actualDir="/actualdata/";
 	// ********** Setters - Auto generated and dir addressed *****************
@@ -54,12 +53,24 @@ public class ProjectConf {
 
 
 	
-	public void setTempTestSummary(boolean tempTestSummary) {
-		this.tempTestSummary = tempTestSummary;
+	public String getLocalizationSnapshots() {
+		return localizationSnapshots;
 	}
 
-	public void setTestSubset(String testSubset) {
-		this.testSubset = testSubset;
+	public void setHubHost(String hubHost) {
+		this.hubHost = hubHost;
+	}
+
+	public void setHubPort(String hubPort) {
+		this.hubPort = hubPort;
+	}
+
+	public void setLocalizationSnapshots(String localizationSnapshots) {
+		this.localizationSnapshots = localizationSnapshots;
+	}
+
+	public void setTempTestSummary(boolean tempTestSummary) {
+		this.tempTestSummary = tempTestSummary;
 	}
 
 	public void setL10nPropertiesPrefix(String l10nPropertiesPrefix) {
@@ -185,14 +196,14 @@ public class ProjectConf {
 		this.hostIP = hostIP;
 	}
 
-//	public void setUnicodeServerIP(String unicodeServerIP) {
-//		this.unicodeServerIP = unicodeServerIP;
-//	}
-//
-//	public void setNonUnicodeServerIP(String nonUnicodeServerIP) {
-//		this.nonUnicodeServerIP = nonUnicodeServerIP;
-//	}
+/*20130923 clean parameters public void setUnicodeServerIP(String unicodeServerIP) {
+		this.unicodeServerIP = unicodeServerIP;
+	}
 
+	public void setNonUnicodeServerIP(String nonUnicodeServerIP) {
+		this.nonUnicodeServerIP = nonUnicodeServerIP;
+	}
+20130923 clean parameters */
 	public void setServerPrefix(String serverPrefix) {
 		this.serverPrefix = serverPrefix;
 	}
@@ -210,7 +221,8 @@ public class ProjectConf {
 	}
 
 	public void setLocalizationDir(String localizationDir) {
-		this.localizationDir = FileUtil.getAbsDir(localizationDir);
+		//this.localizationDir = FileUtil.getAbsDir(localizationDir);
+		this.localizationDir = localizationDir;
 	}
 
 	public void setTempLocalDir(String tempLocalDir) {
@@ -237,10 +249,113 @@ public class ProjectConf {
 	public void setLocalInputDataDir(String localInputDataDir) {
 		this.localInputDataDir = FileUtil.getAbsDir(localInputDataDir);
 	}
+	
+	public String getWebDriver() {
+		return webDriver;
+	}
+
+	public void setWebDriver(String webDriver) {
+		this.webDriver = webDriver;
+	}
+
+	public String getDriverPath() {
+		return driverPath;
+	}
+
+	public void setDriverPath(String driverPath) {
+		this.driverPath = driverPath;
+	}
+
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
+	}
+
+	public String getNodePort() {
+		return nodePort;
+	}
+
+	public void setNodePort(String nodePort) {
+		this.nodePort = nodePort;
+	}
+
+	public String getExecutionType() {
+		return executionType;
+	}
+
+	public void setExecutionType(String executionType) {
+		this.executionType = executionType;
+	}
+
+	public String getCasType() {
+		return casType;
+	}
+
+	public void setCasType(String casType) {
+		this.casType = casType;
+	}
+
+	public String getAxServerName() {
+		return axServerName;
+	}
+
+	public void setAxServerName(String axServerName) {
+		this.axServerName = axServerName;
+	}
+
+	public String getAxServerPort() {
+		return axServerPort;
+	}
+
+	public void setAxServerPort(String axServerPort) {
+		this.axServerPort = axServerPort;
+	}
+	
+	public String getImageName() {
+		return imageName;
+	}
+
+	public String getDriverName() {
+		return driverName;
+	}
+
+	public void setDriverName(String driverName) {
+		this.driverName = driverName;
+	}
+	
+	public String getapiPrefix() {
+		return apiPrefix;
+	}
+
+	public void setapiPrefix(String apiPrefix) {
+		this.apiPrefix = apiPrefix;
+	}
+
+	public String getanrPrefix() {
+		return anrPrefix;
+	}
+
+	public void setanrPrefix(String anrPrefix) {
+		this.anrPrefix = anrPrefix;
+	}
+
+	public String getanrBatch() {
+		return anrBatch;
+	}
+
+	public void setanrBatch(String anrBatch) {
+		this.anrBatch = anrBatch;
+	}
 
 	// **********************************************************************
 	// ********** Default configurations - modify with caution *************
 	// **********************************************************************
+
+
+
 
 	public boolean tempTestSummary = true;
 	public boolean traceMemusage = true;
@@ -251,11 +366,13 @@ public class ProjectConf {
 	public boolean updateProjects = false;
 	public boolean jenkinsReport = true;
 	public boolean unicodeTest = false;
-	public boolean dailyTest = false;
+	public boolean dailyTest = true;
+	public String testSubset = "";
 
 	public int timeIntervalForMemusage = 1;
 	public int maxMemUsage = Integer.MAX_VALUE;
 	public int stopIfNumConsecutiveFailures = Integer.MAX_VALUE;
+	public boolean captureURLSnapshot = false;
 
 	public String wikiLink = "";
 	public String testDescApp = "\n\tDescription of the tested area goes here....";
@@ -271,18 +388,26 @@ public class ProjectConf {
 			buildInfo = "",
 			testProject = "",
 			testerName = "Automation Demo Tester",
-			inputDataDir = "", jenkinsReportDir = "", appName = "ACLWin";
+			inputDataDir = "", jenkinsReportDir = "", appName = "ax";
 
 	public String AUT="", appLocale = "", startComm;
 
 	// Getter & Setter
 
+	
+	/**
+	 * 
+	 */
 	public String osname = System.getProperty("os.name").replaceAll(
 			"[/\\\\:*?,|\\-\\s]", "_"), winUser = System.getProperty(
 			"user.name").replaceAll("[/\\\\:*?,|\\-\\s]", "_"), winName = "",
 			hostIP = "";
 
 	
+	public void setCaptureURLSnapshot(boolean captureURLSnapshot) {
+		this.captureURLSnapshot = captureURLSnapshot;
+	}
+
 	public void setTraceImageName(String traceImageName) {
 		this.traceImageName = traceImageName;
 	}
@@ -292,6 +417,10 @@ public class ProjectConf {
 	}
     
 	
+
+	public void setTestSubSet(String testSubset) {
+		this.testSubset = testSubset;
+	}
 
 	public void setStopIfNumConsecutiveFailures(int stopIfNumConsecutiveFailures) {
 		if (stopIfNumConsecutiveFailures <= 0)
@@ -376,7 +505,7 @@ public class ProjectConf {
 			actualDir += uniFolder;
 		}
 		
-		if(!(appLocale.equalsIgnoreCase("")&&appLocale.equalsIgnoreCase("En"))){
+		if(!(appLocale.equalsIgnoreCase("")||appLocale.equalsIgnoreCase("En"))){
 			superMDir += appLocale.toLowerCase()+"/";
 			expectedDir += appLocale.toLowerCase()+"/";
 			actualDir += appLocale.toLowerCase()+"/";
@@ -411,15 +540,15 @@ public class ProjectConf {
 		return;
 	}
 	public void initCache() {
-		String cacheConfig = localizationDir + "cache4j_config.xml";
+		String cacheConfig = FileUtil.getAbsDir(localizationDir) + "cache4j_config.xml";
 
 		try {
-			CacheFactory сacheFactory = CacheFactory.getInstance();
+			CacheFactory cacheFactory = CacheFactory.getInstance();
 			InputStream in = new FileInputStream(cacheConfig);
-			сacheFactory.loadConfig(in);
-			LoggerHelper.cache_l10n = сacheFactory.getCache("cache_l10n");
+			cacheFactory.loadConfig(in);
+			LoggerHelper.cache_l10n = cacheFactory.getCache("cache_l10n");
 			LoggerHelper.cache_l10n.clear();
-			LoggerHelper.cache_en = сacheFactory.getCache("cache_en");
+			LoggerHelper.cache_en = cacheFactory.getCache("cache_en");
 			LoggerHelper.cache_en.clear();
 			// LoggerHelper.logTAFWarning(LoggerHelper.cache_l10n.getCacheInfo().toString());
 			// LoggerHelper.logTAFWarning(LoggerHelper.cache_en.getCacheInfo().toString());
@@ -466,7 +595,5 @@ public class ProjectConf {
 			this.testType = "LOCAL";
 		}
 	}
-	
-	// ************ Not used, will be moved later - steven
-	public String serverName = "";
+
 }
