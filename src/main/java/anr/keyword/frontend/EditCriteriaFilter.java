@@ -19,8 +19,9 @@ public class EditCriteriaFilter  extends QuickFilterHelper{
 	// *******************************************
 	// BEGIN of datapool variables declaration
 	protected String dpColumnName; //@arg Name of the column that should be edited from filter configuration panel
-	protected String dpFilterValues; //@arg type of filter: Select option from dropdown list and type the value to filter on
+	protected String dpCriteriaFilterValues; //@arg type of filter: Select option from dropdown list and type the value to filter on
     									// value = drop|already selected|value|option to be selected|value
+	protected String dpNewCriteriaFilterValues;
 	protected String dpClearFilters; //If T, all filters will be removed
 	// END of datapool variables declaration
 	
@@ -41,7 +42,8 @@ public class EditCriteriaFilter  extends QuickFilterHelper{
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
-		dpFilterValues = getDpString("FilterValues");
+		dpCriteriaFilterValues = getDpString("CriteriaFilterValues");
+		dpNewCriteriaFilterValues = getDpString("NewCriteriaFilterValues");
 		dpClearFilters = getDpString("ClearFilters");
 		//END
 		return true;
@@ -54,24 +56,29 @@ public class EditCriteriaFilter  extends QuickFilterHelper{
 	@Override
 	public void testMain(Object[] args) {
 		super.testMain(onInitialize(args, getClass().getName()));
-
+		
+		if (1 == 1) {
+			clickFilterPanelBtn();
+			justTest();
+		}
+		else {
 		if(!dpColumnName.isEmpty()){
 			//openQuickFilterMenu();
 			clickFilterPanelBtn();
 		}
 
-		if(!dpFilterValues.isEmpty()){	
-				criteriaFilterFromOption = dpFilterValues.split("\\|")[1];
-				criteriaFilterFromValue = dpFilterValues.split("\\|")[2];
+		if(!dpCriteriaFilterValues.isEmpty()){	
+				criteriaFilterFromOption = dpCriteriaFilterValues.split("\\|")[0];
+				criteriaFilterFromValue = dpCriteriaFilterValues.split("\\|")[1];
 				
 				if(criteriaFilterFromOption.equals("Between")) {
 					criteriaFilterFromValueHalf1 = criteriaFilterFromValue;
-					criteriaFilterFromValueHalf2 = dpFilterValues.split("\\|")[3];
-					criteriaFilterToOption = dpFilterValues.split("\\|")[4];
-					criteriaFilterToValue = dpFilterValues.split("\\|")[5];
+					criteriaFilterFromValueHalf2 = dpCriteriaFilterValues.split("\\|")[3];
+					criteriaFilterToOption = dpCriteriaFilterValues.split("\\|")[4];
+					criteriaFilterToValue = dpCriteriaFilterValues.split("\\|")[5];
 					if(criteriaFilterToOption.equals("Between")) {
 						criteriaFilterToValueHalf1 = criteriaFilterToValue;
-						criteriaFilterToValueHalf2 = dpFilterValues.split("\\|")[6];
+						criteriaFilterToValueHalf2 = dpCriteriaFilterValues.split("\\|")[6];
 						//editQuickFilter(criteriaFilterFromOption, criteriaFilterFromValueHalf1, criteriaFilterFromValueHalf2, criteriaFilterToOption, criteriaFilterToValueHalf1, criteriaFilterToValueHalf2);	
 					}
 					else {				
@@ -79,12 +86,12 @@ public class EditCriteriaFilter  extends QuickFilterHelper{
 					}
 				}
 				else {
-					criteriaFilterToOption = dpFilterValues.split("\\|")[3];
-					criteriaFilterToValue = dpFilterValues.split("\\|")[4];
+					criteriaFilterToOption = dpCriteriaFilterValues.split("\\|")[3];
+					criteriaFilterToValue = dpCriteriaFilterValues.split("\\|")[4];
 					
 					if(criteriaFilterToOption.equals("Between")) {
 						criteriaFilterToValueHalf1 = criteriaFilterToValue;
-						criteriaFilterToValueHalf2 = dpFilterValues.split("\\|")[5];
+						criteriaFilterToValueHalf2 = dpCriteriaFilterValues.split("\\|")[5];
 						editQuickFilter(dpColumnName, criteriaFilterFromOption, criteriaFilterFromValue, criteriaFilterToOption, criteriaFilterToValueHalf1, criteriaFilterToValueHalf2);	
 					}
 					else {				
@@ -101,6 +108,7 @@ public class EditCriteriaFilter  extends QuickFilterHelper{
 	
 		// *** cleanup by framework ***
 		onTerminate();
+		}
 	}
 	
 	

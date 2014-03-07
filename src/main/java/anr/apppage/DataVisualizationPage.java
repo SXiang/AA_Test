@@ -3,7 +3,9 @@
  */
 package anr.apppage;
 
+import java.awt.AWTException;
 import java.awt.Rectangle;
+import java.awt.Robot;
 import java.util.List;
 
 import org.openqa.selenium.*;
@@ -29,14 +31,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class DataVisualizationPage extends WebPage{
 
 	//*** Final varialbes	
-	 private  final WebDriver pageDriver;
 	 private final int chartLoadTime = 3;
 	 private final int windowWidth = 1000;
 	 private final int windowHeight = 700;
     //*** Common elements
-	  @FindBy(xpath = "//div[@class='tabbable']/ul[@class='nav nav-tabs']/li[@active='t.active']")
+	  @FindBy(xpath = "//div[@class='tabbable']/ul[@class='nav nav-tabs']/li[@active='t.data.active']")
 	  private List<WebElement> navTabs;
-	 @FindBy(xpath = "//div[@ng-click='openChartSelectorModal()' and contains(@class,'addchart-tab-text')]/i[@type='button']")
+	 @FindBy(xpath = "//div[@ng-click='openChartSelectorModal()']/i[@type='button' and contains(@class,'addchart-tab-text')]")
 	  //@FindBy(xpath = "//div[@tooltip='Add a new chart']/i[@type='button']")
 	  private WebElement addNewChart;  
 	  
@@ -49,6 +50,8 @@ public class DataVisualizationPage extends WebPage{
 	  public WebElement barChart;
 	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and contains(@class,'linechart')]")
 	  public WebElement lineChart;
+	  @FindBy(xpath = "//div[@ng-click='pickChart(chartType)' and contains(@class,'bubblechart')]")
+	  public WebElement bubbleChart;
 	  
 	  
 	//*** Chart configuration
@@ -58,11 +61,19 @@ public class DataVisualizationPage extends WebPage{
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//i[@ng-click='toggleChartConfigPanel()']/div[@class='chartconfig-btn ng-binding' and text()='Configure']") 
 	  public List<WebElement> configureButtons;
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartCategory')]") 
-	  public WebElement categorySelect;
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartSub-Category')]")
-	  public WebElement subCategorySelect;
+	  public WebElement categorySelect;  //colorBy
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@id,'colorDropdown')]")
+	  public WebElement colorBySelect;  //colorBy
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartSubcategory')]")
+	  public WebElement subCategorySelect; //xAxis
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@id,'xAxisDropdown')]")
+	  public WebElement xAxisSelect; //xAxis
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@ng-model,'chartValue')]")
-	  public WebElement valueSelect;
+	  public WebElement valueSelect; //yAxis
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@id,'yAxisDropdown')]")
+	  public WebElement yAxisSelect; //yAxis
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/select[contains(@id,'sizeDropdown')]")
+	  public WebElement sizeSelect; //size
 	  
 	  
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/div/button[@btn-radio='average']")
@@ -74,9 +85,9 @@ public class DataVisualizationPage extends WebPage{
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/div/button[@btn-radio='max']")
 	  public WebElement maxChart;
 	  
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@id='submit' and @value='Apply']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[contains(@id,'applyChartConfigBtn')]")
 	  public WebElement applyChartConf;
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@value='Delete chart']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[contains(@id,'deleteChartBtn')]")
 	  public WebElement deleteChartConf;
 	  
 	  
@@ -98,6 +109,10 @@ public class DataVisualizationPage extends WebPage{
 	  public WebElement chartWarp;
 	  
 	  public WebElement activateChart(int tabIndex){
+		  if(tabIndex>navTabs.size()){
+			  logTAFInfo("There is no tab["+tabIndex+"] to be activated, using current one instead");
+		  }
+			  
 		  WebElement currentTab = navTabs.get(tabIndex);
 		  logTAFStep("Activate chart - tab "+tabIndex);
 		  //currentTab.click();
@@ -159,7 +174,9 @@ public class DataVisualizationPage extends WebPage{
 	  }
 	  
 	  public void saveChartImage(WebDriver pageDriver, String fileName){
-		  sleep(chartLoadTime);
+		  
+		  pageDriver.manage().window().setSize(new Dimension(windowWidth,windowHeight));
+		  sleep(2*chartLoadTime);
 		  expandConfPanel(false);
 		  Window win = pageDriver.manage().window();
 		  int removeEdge = 0;
@@ -178,9 +195,13 @@ public class DataVisualizationPage extends WebPage{
 		  int height = di.height+pt.y > windi.height + winpt.y ? (windi.height - pt.y -removeEdge):(di.height-removeEdge);
 		  
 		  Rectangle rec = new Rectangle(pt.x, pt.y, width, height);
+		  //hover to chart - required for line chart
+		  mouseMove(pt.x+width/2, pt.y+height/2);		 
 		  logTAFStep("Take screenshot on current chart rectangle '"+rec+"'");
 		  captureScreen(fileName, rec);
 		  logTAFInfo("Chart image is saved to  '"+fileName+"'");
+		  mouseMove(0, 0);	
+		  pageDriver.manage().window().maximize();
 		  
 	  }
 	  public void selectArea(WebDriver driver,String select){
@@ -221,6 +242,18 @@ public class DataVisualizationPage extends WebPage{
 			  select = new Select(subCategorySelect);
 		  }else if(type.equalsIgnoreCase("Value")){
 			  select = new Select(valueSelect);
+		  }
+		  
+		  // These four are for line chart and bubble chart, they have diff element confs now - Steven
+		  
+		  else if(type.equalsIgnoreCase("ColorBy")){
+			  select = new Select(colorBySelect);
+		  }else if(type.equalsIgnoreCase("X-Axis")){
+			  select = new Select(xAxisSelect);
+		  }else if(type.equalsIgnoreCase("Y-Axis")){
+			  select = new Select(yAxisSelect);
+		  }else if(type.equalsIgnoreCase("Size")){
+			  select = new Select(sizeSelect);
 		  }else{
 			  logTAFWarning("Select type '"+type+"' is not valid? ");
 			  select = new Select(categorySelect);
@@ -248,6 +281,12 @@ public class DataVisualizationPage extends WebPage{
 		  }else if(type.equals("AreaChart")){
 			  //areaChart.click();
 			  click(areaChart);
+		  }else if(type.equals("LineChart")){
+			  //areaChart.click();
+			  click(lineChart);
+		  }else if(type.equals("BubbleChart")){
+			  //areaChart.click();
+			  click(bubbleChart);
 		  }else{
 			  //pieChart.click();
 			  click(pieChart);
@@ -259,6 +298,6 @@ public class DataVisualizationPage extends WebPage{
 		  
 		    this.pageDriver = driver; 
 		    		    
-		    driver.manage().window().setSize(new Dimension(windowWidth,windowHeight));
+		    //driver.manage().window().setSize(new Dimension(windowWidth,windowHeight));
 	  }
 }

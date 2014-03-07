@@ -1,0 +1,103 @@
+
+rem @ECHO OFF
+COLOR 1F
+MODE CON: COLS=75 LINES=40
+SETLOCAL enabledelayedexpansion
+:: Set our SRC and DES root folder
+:INPUT
+SET SRCROOT="\\Nas-build\qa_b\AX\AX5_Installers"
+SET TOOLROOT=\\192.168.10.129\Automation\MavenTest\AX_TestAutomation\userContent\CI_Content\AutoBats
+SET SERVER=devvm-2k8-axpsg.aclqa.local
+for /f "tokens=2 delims=[]" %%f in ('ping -4 -n 1 %COMPUTERNAME% ^|find /i "pinging"') do SET SERVERIP=%%f
+SET BUILD_DIR=C:\SchedulerScript
+SET BUILD_CHECKER=%BUILD_DIR%\buildChecker.exe
+SET BUILD_VERSION=%BUILD_DIR%\axLatestBuild.txt
+SET INSTALL_MSG=%BUILD_DIR%\axLatestInstallBuild.msg
+SET DOMAIN_NAME=ACLQA
+SET USER_NAME=Administrator
+SET PASSWORD=Password99
+SET UserFullName=%DOMAIN_NAME%\USER_NAME%
+
+IF NOT EXIST %SRCROOT% NET USE %SRCROOT% "%PASSWORD%" /USER:"%UserFullName%" /P:Yes
+IF NOT EXIST %TOOLROOT% NET USE %TOOLROOT% "%PASSWORD%" /USER:"%UserFullName%" /P:Yes
+
+:Install
+set /p Pre_version=<"%BUILD_VERSION%" 2>NUL
+
+
+Start "BuildChecker - %BUILD_CHECKER%" /D"%BUILD_DIR%"\ /MAX /SEPARATE /B /W "%BUILD_CHECKER%"
+
+
+
+"%TOOLROOT%\sleep" 60 /quiet
+set /p Cur_version=<"%BUILD_VERSION%" 2>NUL
+
+IF Not '%Cur_version%' == '%Pre_version%' Goto Email
+echo '%Cur_version%' == '%Pre_version%
+Goto End
+
+:Email
+SET htmlHeader=^<html^>^
+                 ^<head^>^
+                    ^<meta name="Steven X" content="text/html;charset=UTF-8"^>^
+                    ^<title^>[Automation] AX/ANR Deployment^</title^>^
+                 ^</head^>^
+                 ^<body style="font-family:sans-serif"^>^
+                   ^<h3^>^
+	                   ^<a href="https://%SERVER%/auditexchange/version"^>^
+                       [%SERVER%] upgraded to %Cur_version% [Pre version is %Pre_version%]:^
+	                   ^</a^>^
+                   ^</h3^>^
+                   ^<hr /^>^
+                   ^<table class="bottomBorder"^>^
+	                   ^<tbody^>
+SET htmlFooter=^</tbody^>^</table^>^<hr /^>^</body^>^</html^>
+SET emailText=[%SERVER%] upgraded to %Cur_version% [Pre version is %Pre_version%]
+rem				AuditExchange: https://%SERVER%/auditexchange/version
+echo '%Cur_version%' == '%Pre_version%
+SET adminEmail=Steven_Xiang@ACL.com
+SET toAddress=Steven_Xiang@ACL.com;Gilbert_Miao@ACL.com;Yousef_Aichour@ACL.com;Barry_Chiang@ACL.com;Karen_Zou@ACL.com;Sophia_Peng@ACL.com
+rem ;Barry_Chiang@ACL.com
+SET bccAddress=Steven_Xiang@ACL.com
+
+SET subject=AX Server upgraded to #%Cur_version% - %SERVER%
+        SET smtpServer=xchg-cas-array.acl.com
+		SET fromAddress=QAMail@ACL.COM
+		SET fromName=QA
+		SET userName=ACL\QAMail
+		SET password=Password00
+		SET body=%emailText% [IP:%SERVERIP%]
+rem			Username: g1_admin
+rem			Password: Password00
+rem			APIDocLink: https://%SERVER%/aclax/apidoc
+rem			AX5Link: https://%SERVER%/aclax
+rem			Admin: %adminEmail%
+rem			*** Don't delete/modify existing AnalysisApps and Analitics as they are mainly used by automation dev and test
+rem 				 %htmlFooter%
+		SET importance=Normal
+		SET ipPort=25
+		SET ssl=1
+		SET d=,
+		set s= 
+IF Not "%bccAddress%" == "" SET bccAddress=%adminEmail%;%bccAddress%
+IF "%bccAddress%" == "" SET bccAddress=%adminEmail%
+
+set /p installMsg=<%INSTALL_MSG% 2>NUL
+If Not "%installMsg%" == "Succeed!" (
+   SET toAddress=%adminEmail%
+   SET bccAddress=
+)
+
+IF "%toAddress%" == "" (
+  SET toAddress=%adminEmail%
+  Echo.Caution! have you set the email to address correctly?, this report is going to be sent to Admin only as no other address found.
+  )
+echo. "%TOOLROOT%"\CDOMessage.exe %subject%%d%%smtpServer%%d%%fromName%%d%%fromAddress%%d%%toAddress%%d%%body%%d%%attachFiles%%d%%ccAddress%%d%%bccAddress%%d%%importance%%d%%userName%%d%%password%%d%%ipPort%%d%%ssl%
+SET emailCmd=%subject%%d%%smtpServer%%d%%fromName%%d%%fromAddress%%d%%toAddress%%d%%body%%d%%attachFiles%%d%%ccAddress%%d%%bccAddress%%d%%importance%%d%%userName%%d%%password%%d%%ipPort%%d%%ssl%
+Call "%TOOLROOT%"\CDOMessage.exe %emailCmd%
+GOTO END
+
+:END
+"%TOOLROOT%\sleep" 60 /quiet
+SHUTDOWN -l
+EXIT 0

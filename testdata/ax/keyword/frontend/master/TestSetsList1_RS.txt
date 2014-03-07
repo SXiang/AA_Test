@@ -1,9 +1,0 @@
-456Activity123Engagement
-567890
-_Activity_with_Underscores123Engagement
-Activity With Space123Engagement
-Activity-with-dashes123Engagement
-ActivityWithoutSpace123Engagement
-Long Name Activity with spaces To Test WidthHandling having 70 Chars
-VeryLongNamedActivityToTestWidthHandlingOfNewWebAppHavngInTotal70Chars
-æÆôöòûùÿÖÜáíóúñÑº¿°

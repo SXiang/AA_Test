@@ -13,6 +13,7 @@ import anr.apppage.DataVisualizationPage;
 import anr.apppage.SaveVisualizationPage;
 
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
+import com.acl.qa.taf.util.NLSUtil;
 
 /**
  * Script Name   : <b>QuickFilter_Steven.java</b>
@@ -57,7 +58,7 @@ public class QuickFilter  extends CommonWebHelper implements KeywordInterface {
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
-		dpFilterValues = getDpString("FilterValues");
+		dpFilterValues = NLSUtil.getAXL10NDate(getDpString("FilterValues"));
 		filterValues = dpFilterValues.split("\\|");
         dpLoadFrom = getDpString("LoadFrom");
         dpSaveTo = getDpString("SaveTo");
@@ -74,7 +75,7 @@ public class QuickFilter  extends CommonWebHelper implements KeywordInterface {
 		super.testMain(onInitialize(args, getClass().getName()));
 		
 		qfPage = PageFactory.initElements(driver, QuickFilterPage.class);
-		
+		svPage = PageFactory.initElements(driver, SaveVisualizationPage.class);
 		qfPage.activateTable();
 		
 		if(!dpColumnName.isEmpty()){

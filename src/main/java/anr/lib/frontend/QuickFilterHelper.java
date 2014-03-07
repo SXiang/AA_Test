@@ -4,22 +4,26 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.lang.String;
 
-import anr.lib.frontend.DataVisualizationHelper;
+import ax.lib.frontend.FrontendCommonHelper;
 
-public class QuickFilterHelper extends DataVisualizationHelper{
+public class QuickFilterHelper extends FrontendCommonHelper{
 	/**
 	 * Script Name   : <b>DataVisualizationHelper</b>
 	 * Generated     : <b>Oct 4, 2013</b>
 	 * Description   : DataVisualizationHelper
 	 * 
-	 * @since  Oct 16, 2013
-	 * @author Karen Zou
+	 * @since  Jan 10, 2014
+	 * @author Yousef Aichour
 	 */
 
 	//***************  Part 1  *******************
@@ -46,8 +50,76 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 	By allCellsValuesLocator = By.cssSelector("span.ng-binding[ng-cell-text='']");
 	By visualizerPageHeaderTitleLocator = By.cssSelector("div.visualizer-page-header-title");
 	By visualizerPageHeaderTitleFilteredRecordsLocator = By.cssSelector("div.visualizer-page-header-title > span:nth-of-type(1)");
+	//By criteriaFilters = By.cssSelector("div.criteria-filters");
+	By criteriaFilters = By.xpath("//div[@class='criteria-filters']");
+	//By criteriaFilterChildrenLocator = By.cssSelector("*");
+	By criteriaFilterChildrenLocator = By.xpath(".//*//*//*//*//*");
+	By searchBtnLocator = By.cssSelector("i[class='icon-chevron-left icon-1x']");
+	By filtersBtnLocator = By.cssSelector("div.static-tabs-text");
+	By otherBtnLocator = By.cssSelector("ul[class^='dropdown-menu'] > li > a");
+
+	By tableNameLocator = By.cssSelector("div[class^='visualizer-page-header-title']");
+	By recordCountLabelLocator = By.cssSelector("div[class^='visualizer-page-header-title'] > span[key='_Record.Count.Label_']");
+	By tableHeaderLocator = By.cssSelector("div[id^='col']:nth-child(1)");
+	By tableDataLocator = By.cssSelector("div[class^='ngCellText ng-scope']");
+	By rowSelectedLocator = By.cssSelector("div[class*='selected'] > div[class*='col']");
+
+	//By colHeaderLocator = By.cssSelector("div[id^='col']");
+	By colHeaderLocator = By.xpath("//div[contains(@class, 'ngHeaderText')]");
+	By quickFilterHeaderLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header']");
+	By closeQuickFilterMenuLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header'] > i.icon-remove");
+	By sortSectionLabelLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div.sort-header");
+	//By sortHeaderLocator = By.cssSelector("div[id*='quick-filter-panel']:not([style='display: none;']) > div.sort-section > div.sort-header");
+	By ascendingLinkLocator = By.cssSelector("div[id*='quick-filter-panel']:not([style='display: none;']) > div.sort-section > div > div.ascending");
+	By descendingLinkLocator = By.cssSelector("div[id*='quick-filter-panel']:not([style='display: none;']) > div.sort-section > div > div.descending");
+	By quickFilterUniqueItemsLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span[ng-show^='item.value']");
+	By quickFilterUniqueItemsCountLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > div.filter-value > span.value-count");
+	By quickFilterSearchUniqueItemsBoxLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > input.search-filter-value");
+	By quickFilterApplyBtnLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.apply-quick-filter > span");
+	By quickFilterClearBtnLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-section'] > div > a.clear-quick-filter > span");
+	By tableViewTabLocator = By.cssSelector("tab-heading.chart-tabs > i.icon-table");
+	By addChartBtnLocator = By.className("addchart-tab-text");
+	By filterPanelHeaderLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div > div >div > div.filter-panel-header > span");
+	By filterPanelColNamesLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div.filter-column-name");
+	By filterPanelSortSectionLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div >  div > span");
+	By filterPanelSortDropDownItemsLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div >  div > div > select.select-block > option");
+	By filterPanelAscSortBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn[btn-radio*='asc']");
+	By filterPanelDescSortBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn[btn-radio*='desc']");
+	By filterPanelAscSortBtnActiveLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn.active[btn-radio*='asc']");
+	By filterPanelDescSortBtnActiveLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel >div > div.filter-panel.sort-section > div > div > div > div > div > button.sort-order-btn.active[btn-radio*='desc']");
+	//By filterPanelMinimizeIconLocator = By.cssSelector(".icon-minus:not([style='display: none;'])");
+	//By filterPanelMaximizeIconLocator = By.cssSelector(".icon-plus:not([style='display: none;'])");
+	By filterPanelFilterToggledOffLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div > div.filter-toggle.toggle-off");
+	By filterPanelFilterToggledOnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-header > div > div > div.filter-toggle:not([class$='toggle-off'])");
+	By filterPanelSearchFilterLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.search-filter:not([style='display: none;']) > input.search-filter-value");
+	By filterPanelCheckboxCountLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value > span.value-count");
+	By filterPanelCheckboxTextLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div.filter-panel-value");
+	By filterPanelCheckedLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check:not([style='display: none;'])");
+	By filterPanelUncheckedLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-values > div > i.icon-check-empty:not([style='display: none;'])");
+	By filterPanelApplyFilterBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.action-btn-filter");
+	By filterPanelClearFilterBtnLocator = By.cssSelector("div.tab-pane.active > div > div > div.filter-panel > div> div.filter-panel-row > div > div > div.filter-panel-row-body > div.filter-panel-button > a.clear-quick-filter");
+	
+	//0123 Solve merge problem
+	//0123 By filterBtnLocator = By.cssSelector(".static-tabs.filers-tab");
+	By quickSortPlusLocator = By.cssSelector("i.icon-plus");
+	By quickSortDropDown = By.cssSelector("select[ng-model='table.sort.field']");
+	By quickSortAscButtonLocator = By.cssSelector("div#sort-ascending");
+	By quickSortDescButtonLocator = By.cssSelector("div#sort-descending");
+	By quickSortPanelContent = By.cssSelector(".collapse.in");
+	By recordCountLocator = By.id("record-count");	
 	
 	
+	
+    // BEGIN of other local variables declaration
+	protected List<WebElement> allTableColumns,allTableData;
+	protected int recordCount;
+	protected List<WebElement> allColumnHeaders;
+	protected String allFilters;
+	protected List<WebElement> allUniqueItemsCount;
+	protected List<WebElement> allUniqueItems;
+	protected String allFilterValues;
+	protected String allColumns;
+		
 	protected List<WebElement> options;
 	protected List<WebElement> values;
 	protected List<WebElement> columnNames;
@@ -113,19 +185,19 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 	public String getActionType(String columnName, String filterValues, String sortDirection) {
 		String actionType = "";		
 		if (sortDirection.equalsIgnoreCase("asc") || sortDirection.equalsIgnoreCase("desc")) {
-			actionType = "Action Type = Sort " + sortDirection + " on " + columnName + "\r";
+			actionType = "Action Type = Sort " + sortDirection + " on " + columnName;
 		}
 		else {
 			if(!filterValues.isEmpty()) {
 				if (filterValues.split("\\|")[1].equalsIgnoreCase("Between")) {
-					actionType = "Action Type = Filter --> " + columnName + " between " + filterValues.split("\\|")[2] + " and " + filterValues.split("\\|")[3] + "\r";
+					actionType = "Action Type = Filter --> " + columnName + " between " + filterValues.split("\\|")[2] + " and " + filterValues.split("\\|")[3];
 				}
 				else {
-					actionType = "Action Type = Filter --> " + columnName + " " + filterValues.split("\\|")[1] + " " + filterValues.split("\\|")[2] + "\r";
+					actionType = "Action Type = Filter --> " + columnName + " " + filterValues.split("\\|")[1] + " " + filterValues.split("\\|")[2];
 				}
 			}	
 		}
-		return actionType;
+		return actionType + "\r";
 	}
 	
 	public String getDisplayedDataToBeCompared(int columns, int rows, String columnName, String filterValues, String sortDirection) {
@@ -146,15 +218,18 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 		
 		waitUntilPresenceOfElementLocated(visualizerPageHeaderTitleFilteredRecordsLocator);
 		visualizerPageHeaderTitleFilteredRecordsElement = driver.findElement(visualizerPageHeaderTitleFilteredRecordsLocator);
-
-		
+	
 		String[] parts = visualizerPageHeaderTitleElement.getText().split("-");
-		
+		String[] parts2 = parts[1].split("/");
+			
 		listOfValues = "Table Name = " + parts[0] + "\r";
-		
+
 		listOfValues = listOfValues + getActionType(columnName, filterValues, sortDirection);
 		
-		listOfValues = listOfValues + "Number of Filtered records = " + Integer.valueOf(visualizerPageHeaderTitleFilteredRecordsElement.getText().replace("/", "").trim()) + "\r\r";
+		if (!parts2[0].isEmpty() && parts2.length == 2) {
+			//logTAFStep("Condition = " + visualizerPageHeaderTitleFilteredRecordsElement.getText().replace("/", "").trim());
+			listOfValues = listOfValues + "Number of Filtered records = " + Integer.valueOf(parts2[0].trim()) + "\r\r";
+		}
 		
 		listOfValues = listOfValues + getColumnTitles(columns) + "\r";
 		
@@ -222,6 +297,7 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 	} 
 	
 	public void editQuickFilter(String columnName, String criteriaFilterFromOption, String criteriaFilterFromValue, String criteriaFilterToOption, String criteriaFilterToValue) {
+		
 		selectElementsToBeEdited(columnName, criteriaFilterFromOption, criteriaFilterFromValue);		
 		selectOption(criteriaFilterToOption);
 		fromValueElement.clear();
@@ -389,12 +465,261 @@ public class QuickFilterHelper extends DataVisualizationHelper{
 		clickFilterPanelBtn();
 		
 	}
-	/*public void sleepAndWait(int seconds) {
-		try {
-		TimeUnit.SECONDS.sleep(seconds);
-		} catch (InterruptedException ie) {
-		    //Handle exception
-		}
-	} */
 
+	public void selectSortColumnFromSidePanelDropDown( String columnName){	
+		
+		waitUntilPresenceOfElementLocated(quickSortDropDown);	
+		WebElement select = driver.findElement(quickSortDropDown);
+
+		waitUntilPresenceOfElementLocated(optionsLocator);	
+		options = select.findElements(optionsLocator);
+		selectOption(columnName);
+		if(verifyOptionIsSelected(columnName)) {
+		logTAFStep("Selected option was successfully verified");
+		}
+		else {
+		logTAFError("Selected option was unsuccessfully verified");
+		}
+	}
+	
+	public String isSortPanelClosed() {
+		List<WebElement> sortPanelHeader = driver.findElements(quickSortPanelContent);
+		int i = sortPanelHeader.size();
+		if(i>0){
+			return "open";
+		}
+		return "close";
+	}
+	
+	public void clickSortOnPlusSign() {
+		waitUntilPresenceOfElementLocated(quickSortPlusLocator);
+		driver.findElement(quickSortPlusLocator).click();
+	}
+	
+	public int numberOfRecords() {
+		firstColumnCells = driver.findElements(firstColumnValues);
+		return firstColumnCells.size();
+	}
+	
+	
+	public void justTest() {
+		//*************		
+		waitUntilPresenceOfElementLocated(criteriaFilters);	
+		List<WebElement> values = driver.findElements(criteriaFilters);
+		List<WebElement> children = values.get(1).findElements(criteriaFilterChildrenLocator);
+		
+		int i=0;
+		//************
+		
+		//children.get(0).click();
+		
+		//selectOption("Not contains");
+		
+		//children.get(i).
+		
+		//children.get(58).sendKeys("Yousef");
+			
+		for(WebElement child : children) {
+			i++;
+			if(i == 1 || i == 12 || i == 23 || i == 34 || i == 8 || i == 19 || i == 30 || i == 41) {
+			logTAFStep("Element text : Index = " + i  + child.getText() + " " + child.getAttribute("value"));
+			}
+		}
+	}
+	
+	public boolean clickColumnHeader(String columnName) {
+		allColumnHeaders = driver.findElements(colHeaderLocator);
+        for(int i = 0; i < allColumnHeaders.size(); i++) {
+        	if(allColumnHeaders.get(i).getText().equalsIgnoreCase(columnName)){
+        		allColumnHeaders.get(i).click();
+        		return true;
+        	}
+        }
+        return false;
+	}
+	
+//List<WebElement> allDescendantsChilds = rootWebElement.findElements(By.xpath("//tr[@class='parent']//*"));
+	
+	public String getTableNameRecordsNum() {
+		String tablenamerecordsnum = "";
+		
+		//Get table name
+		tablenamerecordsnum = driver.findElement(tableNameLocator).getText();
+		
+		//Get record count label
+		tablenamerecordsnum = tablenamerecordsnum+"@"+driver.findElement(recordCountLabelLocator).getText()+"@";
+		
+		return tablenamerecordsnum;
+	}	
+
+	public String getTableRecords() {
+		String recordCount = driver.findElement(tableNameLocator).getText();
+
+		return recordCount;
+	}
+
+	public String getTableData() {
+		String alltabledata="";
+		int initialDisplayRowCount = 0;
+		List <WebElement> nextRow;
+
+	    logTAFStep("Get the Table Data");
+	    
+ 		//First get all table columns
+ 		allTableColumns = driver.findElements(tableHeaderLocator);
+        for(int i = 0; i < allTableColumns.size(); i++) {
+        	alltabledata +=" " + allTableColumns.get(i).getText();
+       	}
+
+        //Get the initial displayed table data since all table data cannot be loaded at one time due to performance limit
+        allTableData = driver.findElements(tableDataLocator);
+        for(int i = 0; i < allTableData.size(); i++) {
+        	int mod = i % (allTableColumns.size());
+        	if (mod == 0) 
+        		alltabledata += "\r\n" + allTableData.get(i).getText();
+        	else
+        		alltabledata += allTableData.get(i).getText() + " ";
+       	}
+
+        //Continue to get the remaining table data by pressing ARROW_DOWN key one row by one row 
+        recordCount=getNumbers(getTableRecords());  
+    	initialDisplayRowCount = allTableData.size()/allTableColumns.size();
+ 
+    	//Get the focus for the current displayed last record
+    	allTableData.get(allTableData.size()-1).click();
+    	
+    	Actions actions = new Actions(driver); 
+    	actions.sendKeys(allTableData.get(allTableData.size()-1), Keys.ARROW_DOWN).perform();
+
+        logTAFStep("Press ARROW_DOWN key to get the left table data");
+        for (int j = initialDisplayRowCount; j < recordCount; j++) {
+        	nextRow = driver.findElements(rowSelectedLocator);
+        	
+        	alltabledata +="\r\n";
+        	for (int k =0; k < nextRow.size(); k++ ) {
+        		alltabledata += nextRow.get(k).getText() + " " ;
+    	    }
+        	actions.sendKeys(nextRow.get(0), Keys.ARROW_DOWN).perform();
+        }
+        
+        return alltabledata;
+	}
+	
+	public void pressKeyboard(int KeyCode) {
+		  Robot rb = null;
+		  try {
+		   rb = new Robot();
+		  } catch (AWTException e) {
+		   e.printStackTrace();
+		  }
+		  rb.keyPress(KeyCode);   // Press the button
+		  rb.delay(100);     // delay of 100 ms
+
+		  rb.keyRelease(KeyCode);  // Release the button
+
+		  logTAFStep("Robot Keystrokes " + KeyCode);
+	}
+
+	public void clickDescendingLink() {
+		takeScreenshotWithoutScroll();
+		driver.findElement(descendingLinkLocator).click();
+	}
+	
+	public void clickAscendingLink() {
+		takeScreenshotWithoutScroll();
+		driver.findElement(ascendingLinkLocator).click();
+	}
+	
+	public void clickSidePanelDescendingLink() {
+		driver.findElement(filterPanelDescSortBtnLocator).click();
+	}
+	
+	public void clickSidePanelAscendingLink() {
+		driver.findElement(filterPanelAscSortBtnLocator).click();
+	}
+		
+	public String getFilterPanelContents() {
+		int itemSize;
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(filterPanelHeaderLocator));
+		takeScreenshotWithoutScroll();
+		allFilters = "@" + driver.findElement(filterPanelHeaderLocator).getText() + "@";
+		allFilters = allFilters + "\r\n@" + driver.findElement(filterPanelSortSectionLocator).getText() + "@ ";
+		/*need to fix
+		if(driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText().equals("")){
+			allFilters = allFilters + "\r\n" + "Sort not applied";
+		}else{
+			
+			allFilters = allFilters + "'" + driver.findElement(filterPanelSortDropDownSelectedItemLocator).getText();
+			if(driver.findElements(filterPanelAscSortBtnActiveLocator).size()>0){
+				allFilters = allFilters + "' : in Ascending order";
+			}else if(driver.findElements(filterPanelDescSortBtnActiveLocator).size()>0){
+				allFilters = allFilters + "' : in Descending order";
+			}else{
+				logTAFError("Sort order buttons not enabled");
+			}
+			
+		}
+	*/
+		itemSize = driver.findElements(filterPanelColNamesLocator).size();
+		if(itemSize>0){
+			for(int i = 0; i < itemSize/2;i++){
+				allFilters = allFilters + "\r\n" + driver.findElements(filterPanelColNamesLocator).get(i).getText();					
+			}
+		}
+		return allFilters;
+		
+	}
+	
+	public String getUniqueValuesFromQuickFilter(){
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		wait.until(ExpectedConditions.presenceOfElementLocated(quickFilterSearchUniqueItemsBoxLocator));
+		takeScreenshotWithoutScroll();
+		allUniqueItems = driver.findElements(quickFilterUniqueItemsLocator);
+		allUniqueItemsCount = driver.findElements(quickFilterUniqueItemsCountLocator);
+		for(int i =0;i < allUniqueItems.size();i++){
+			if(i==0){
+				allFilterValues = allUniqueItems.get(i).getText() + allUniqueItemsCount.get(i).getText();
+			}
+			allFilterValues = allFilterValues + "\r\n" + allUniqueItems.get(i).getText() + allUniqueItemsCount.get(i).getText();
+		}
+		return allFilterValues;
+	}
+	
+	public String getAllColumnsFromDropDown(){
+		//driver.findElements(filterPanelSortDropDownItemsLocator).
+		return allColumns;
+	}
+	
+
+	public void quickSort(String sortDirection, String sortType) {
+		WebDriverWait wait = new WebDriverWait(driver, timerConf.waitToFindElement);
+		
+		if (sortType.equalsIgnoreCase("FilterPanel")) {
+			wait.until(ExpectedConditions.presenceOfElementLocated(filterPanelAscSortBtnLocator));
+			if (sortDirection.equalsIgnoreCase("asc")){
+				driver.findElement(filterPanelAscSortBtnLocator).click();
+			}
+			else if (sortDirection.equalsIgnoreCase("desc")) {
+				driver.findElement(filterPanelDescSortBtnLocator).click();
+			}	
+		}
+		else {
+			wait.until(ExpectedConditions.presenceOfElementLocated(ascendingLinkLocator));
+			while (driver.findElements(ascendingLinkLocator).size() > 0) {
+				if (sortDirection.equalsIgnoreCase("asc")){
+					driver.findElement(ascendingLinkLocator).click();
+				}
+				else if (sortDirection.equalsIgnoreCase("desc")) {
+					driver.findElement(descendingLinkLocator).click();
+				}		
+			}
+		}
+		if (!sortDirection.equalsIgnoreCase("asc") && !sortDirection.equalsIgnoreCase("desc")) {
+			logTAFError("Sort Order option is not valid");
+		}
+		
+		
+	}
+	
 }

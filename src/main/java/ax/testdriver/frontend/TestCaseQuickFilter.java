@@ -16,7 +16,8 @@ public class TestCaseQuickFilter extends FrontendTestDriverHelper implements Tes
 	{		
 		startFromLine = 2; // 4-9
 		endAtLine =60;     //			
-		String poolFile = "testdata/ax/testdriver/frontend/QuickFilter.xls";
+		//String poolFile = "testdata/ax/testdriver/frontend/QuickFilter.xls";
+		String poolFile = "testdata/ax/testdriver/frontend/EditCriteriaFilter.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
 	}
 
