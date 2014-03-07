@@ -125,19 +125,24 @@ public class SQLConf {
 	}
 	
 	
-	//Need to figure out SQL statement
-	public static String getResultFileID(String type, String bc, String lc, String fileName){
+	public static String getResultFileID(String type, String bc, String lc, String an, String filename){
+		String sql = "";
 		
-		String sql="";
-
-		sql = "SELECT a.programtype, a.name, b.name, c.name,d.name, d.id "+
-				  "FROM audititems a, audititems b, audititems c, audititems d "+
-				  "WHERE a.programtype = '"+type.toUpperCase()+"' "+
-				     "AND a.name = '"+bc+"' AND a.itemtype = 'BC' AND a.id = b.parentid "+
-				     "AND b.name = '"+lc+"' AND b.itemtype = 'LC' AND b.id = c.parentid "+
-				     "AND c.itemtype = 'RFC' AND c.id = d.parentid "+
-				     "AND d.name = '"+ fileName +"' AND d.itemtype = 'RF'";
-				     		
+		sql ="select * from (SELECT a.programtype, a.name, b.name, c.name,d.name m, d.id, e.name, e.id n " +
+			 "FROM audititems a, audititems b, audititems c, audititems d,audititems e " +
+			 "WHERE a.programtype = 'WORKING' AND a.name = '" + bc + "' AND a.itemtype = 'BC' AND a.id = b.parentid " + 
+			 "AND b.name = '" + lc +  "' AND b.itemtype = 'LC' AND b.id = c.parentid " + 
+			 "AND c.name = 'Results Container' AND c.itemtype = 'RC' AND c.id = d.parentid " + 
+			 "AND d.name like '" + an + "1%' AND d.itemtype = 'RS' AND d.id = e.parentid " + 
+			 "AND e.name = '" + filename + "' AND e.itemtype = 'RF') f " +
+			 "where f.m =(select max(m) from (SELECT a.programtype, a.name, b.name, c.name,d.name m, d.id, e.name, e.id n " +
+			 "FROM audititems a, audititems b, audititems c, audititems d,audititems e " +
+			 "WHERE a.programtype = 'WORKING' AND a.name = '" + bc + "' AND a.itemtype = 'BC' AND a.id = b.parentid " + 
+			 "AND b.name = '" + lc + "' AND b.itemtype = 'LC' AND b.id = c.parentid " + 
+			 "AND c.name = 'Results Container' AND c.itemtype = 'RC' AND c.id = d.parentid " + 
+			 "AND d.name like '" + an + "%' AND d.itemtype = 'RS' AND d.id = e.parentid " + 
+			 "AND e.name = '" + filename + "' AND e.itemtype = 'RF') g)";
+     		
 		return sql;
 	}
 
