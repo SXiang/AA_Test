@@ -30,7 +30,7 @@ public class TestTableChartView extends FrontendTestDriverHelper implements Test
 	{		
 
 		startFromLine = 2; // 4-9
-		//endAtLine = 9;
+		//endAtLine = 2;
 			
 		String poolFile = "testdata/ax/testdriver/frontend/TestTableChartView.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));		

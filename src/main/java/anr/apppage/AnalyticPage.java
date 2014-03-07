@@ -45,7 +45,7 @@ public class AnalyticPage  extends WebPage{
 		private List<WebElement> analytics;
 		
 		//*** Analytic ***
-		@FindBy(css = "div.row-fluid > a.icon_play")
+		@FindBy(css = "div.row-fluid > i.play-icon")
 		private WebElement runIconBtn;
 		@FindBy(css = "div.row-fluid > div.promptBesideInput[ng-show*='$error.pattern']")
 		private List<WebElement> inputValueError;		

@@ -85,9 +85,9 @@ public class DataVisualizationPage extends WebPage{
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/div/button[@btn-radio='max']")
 	  public WebElement maxChart;
 	  
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@value='Apply']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[contains(@id,'applyChartConfigBtn')]")
 	  public WebElement applyChartConf;
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@value='Delete chart']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[contains(@id,'deleteChartBtn')]")
 	  public WebElement deleteChartConf;
 	  
 	  
@@ -200,6 +200,7 @@ public class DataVisualizationPage extends WebPage{
 		  logTAFStep("Take screenshot on current chart rectangle '"+rec+"'");
 		  captureScreen(fileName, rec);
 		  logTAFInfo("Chart image is saved to  '"+fileName+"'");
+		  mouseMove(0, 0);	
 		  pageDriver.manage().window().maximize();
 		  
 	  }
