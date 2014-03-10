@@ -384,7 +384,7 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 		
 		isElementEnabled(criteriaFilterSelectOptions, "Criteria Filter Select Options");
 		
-		options = select.findElements(criteriaFilterSelectOptions);
+		driver.findElement(ascendingLinkLocator).click();
 		
 		selectOption(criteriaFilterOption);
 		
@@ -395,6 +395,7 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 		values.get(0).sendKeys(criteriaFilterValueHalf1);
 		
 		values.get(1).sendKeys(criteriaFilterValueHalf2);
+		
 		
 		isElementEnabled(quickFilterApplyBtnLocator, "Quick filter apply button");
 		

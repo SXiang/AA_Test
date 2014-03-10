@@ -297,7 +297,8 @@ public class OpenProjectHelper extends ANR_FrontendCommonHelper{
 */
 	
 	public void CallJs(){
-		String filePath = "C:\\\\ANR\\\\DATA\\\\Non-Unicode\\\\AllTypesACLProjects\\\\Analytics.ACL";
+		String filePath = "C:\\\\ANR\\\\DATA\\\\Unicode\\\\AllTypesACLProjects\\\\AnalyticsAndScripts.aclx";
+		
 		try{
 			String temp = "try {"
 					+ "angular.element(document.getElementById('projectCtrlBase')).scope().$apply(function(scope) {"
