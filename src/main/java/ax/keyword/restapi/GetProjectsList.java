@@ -33,7 +33,7 @@ public class GetProjectsList extends RestapiHelper implements KeywordInterface {
 		//*** read in data from datapool
 		dpScope = getDpString("Scope");
 
-		//Rest API - retrieve Collections List in a Test: /api/collections?scope=
+		//Rest API - retrieve Collection List in a Test: /api/collections?scope=
 		if ((dpScope != null) && (dpScope != ""))
 			url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "collections?scope="+dpScope;
 		else url = "https://"+projectConf.axServerName+":" + projectConf.axServerPort + projectConf.apiPrefix + "collections";
