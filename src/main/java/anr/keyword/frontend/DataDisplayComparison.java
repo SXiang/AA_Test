@@ -29,7 +29,7 @@ public class DataDisplayComparison  extends QuickFilterHelper{
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
-		dpFilterValues = getDpString("FilterValues");
+		dpFilterValues = getDpString("CriteriaFilterValues");
 		dpMasterFile = getDpString("MasterFiles");
 		dpSortDirection = getDpString("SortDirection");
 		//END

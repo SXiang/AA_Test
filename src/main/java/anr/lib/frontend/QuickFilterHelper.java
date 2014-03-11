@@ -64,7 +64,8 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 	By tableDataLocator = By.cssSelector("div[class^='ngCellText ng-scope']");
 	By rowSelectedLocator = By.cssSelector("div[class*='selected'] > div[class*='col']");
 
-	By colHeaderLocator = By.cssSelector("div[id^='col']");
+	//By colHeaderLocator = By.cssSelector("div[id^='col']");
+	By colHeaderLocator = By.xpath("//div[contains(@class, 'ngHeaderText')]");
 	By quickFilterHeaderLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header']");
 	By closeQuickFilterMenuLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='filter-header'] > i.icon-remove");
 	By sortSectionLabelLocator = By.cssSelector("div[id$='quick-filter-panel']:not([style='display: none;']) > div[id='sort-section'] > div.sort-header");
@@ -383,7 +384,7 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 		
 		isElementEnabled(criteriaFilterSelectOptions, "Criteria Filter Select Options");
 		
-		options = select.findElements(criteriaFilterSelectOptions);
+		driver.findElement(ascendingLinkLocator).click();
 		
 		selectOption(criteriaFilterOption);
 		
@@ -394,6 +395,7 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 		values.get(0).sendKeys(criteriaFilterValueHalf1);
 		
 		values.get(1).sendKeys(criteriaFilterValueHalf2);
+		
 		
 		isElementEnabled(quickFilterApplyBtnLocator, "Quick filter apply button");
 		
@@ -472,7 +474,6 @@ public class QuickFilterHelper extends FrontendCommonHelper{
 
 		waitUntilPresenceOfElementLocated(optionsLocator);	
 		options = select.findElements(optionsLocator);
-		
 		selectOption(columnName);
 		if(verifyOptionIsSelected(columnName)) {
 		logTAFStep("Selected option was successfully verified");

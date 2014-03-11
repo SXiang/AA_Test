@@ -27,7 +27,7 @@ public class TestSetDetailsHelper extends FrontendCommonHelper{
 	// END of datapool variables declaration
 
 	// BEGIN locators of the web elements of ProjectsList page
-	By projectHeaderLocator = By.cssSelector("div.project-header > a > span");
+	By projectHeaderLocator = By.cssSelector("div.collection-header > a > span");
 	By projectNameLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-title > span");
 	By testSetNameLocator = By.cssSelector("div.title > span");
 	By projectDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a");

@@ -27,7 +27,7 @@ public class TestPost_FilterAndSorting extends TestDriverExampleHelper implement
 	{		
 
 		startFromLine = 2; // 4-9
-		endAtLine = 100;    
+		endAtLine = 118;    
 
 		String poolFile = "src/main/resources/testdata/anr/testdriver/restapi/tables/TestPost_filterandsorting.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

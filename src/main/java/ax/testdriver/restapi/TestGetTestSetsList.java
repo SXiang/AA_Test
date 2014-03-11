@@ -15,8 +15,8 @@ public class TestGetTestSetsList extends TestDriverExampleHelper implements Test
 	@Override
 	public void testMain(Object[] args) 
 	{		
-		//startFromLine = 14; // 4-9
-		//endAtLine = 15;     //
+//		startFromLine = 2; // 4-9
+//		endAtLine = 16;     //
 			
 		String poolFile = "testdata/ax/testdriver/restapi/GetTestSetsList.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

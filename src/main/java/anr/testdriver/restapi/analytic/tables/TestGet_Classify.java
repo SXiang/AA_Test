@@ -27,7 +27,7 @@ public class TestGet_Classify extends TestDriverExampleHelper implements TestDri
 	{		
 
 		startFromLine = 2; // 4-9
-		endAtLine = 18;    
+		endAtLine = 34;    
 
 		String poolFile = "src/main/resources/testdata/anr/testdriver/restapi/analytics/tables/TestGet_Classify.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));

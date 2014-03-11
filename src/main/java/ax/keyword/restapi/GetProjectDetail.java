@@ -100,19 +100,4 @@ public class GetProjectDetail extends RestapiHelper implements KeywordInterface 
 		}
 	
 	}
-	
-/*	public boolean compareJsonResult(String result,String master)	{
-			
-		String[] ignorePattern ={"(\"id\":\")[0-9\\-a-z]+(\")","\"createdAt\":\"\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.\\d{3}\"","\"modifiedAt\":\"\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.\\d{3}\""};
-        String[] ignoreName = {"$1u-u-i-d$2","createdAt","modifiedAt"};
-        String delimiterPattern = ",";
-        
-        return compareResult(
-        	master,result,
-   			true,          //Exact Match
-   			ignorePattern,ignoreName,  //Replacement
-   			delimiterPattern);  // used to split
-		
-	}
-*/    
 }
