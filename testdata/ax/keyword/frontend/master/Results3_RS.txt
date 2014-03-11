@@ -1,2 +1,0 @@
-NAME:Employee_List_EXTR|TYPE:TABLE|RECORDS:10|SIZE:830 B
-NAME:tests various types of parameters.log|TYPE:LOG|RECORDS:|SIZE:5.58 KB

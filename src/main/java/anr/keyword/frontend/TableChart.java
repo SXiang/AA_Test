@@ -75,7 +75,7 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
         dpChartType = getDpString("ChartType");
         dpLoadFrom = getDpString("LoadFrom");
         dpSaveTo = getDpString("SaveTo");
-           
+        dpSize = getDpString("Size");   
         delFile = true;
 		return true;
 	}
@@ -129,7 +129,7 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 	// *******************************************
 	
 	private void configChart(){
-		if(!dpChartType.matches("lineChart|bubbleChart")){
+		if(!dpChartType.matches("LineChart|BubbleChart")){
 		   dvPage.selectChartValue("Category",dpCategory);
 		   dvPage.selectChartValue("Sub-Category",dpSubCategory);
 		   dvPage.selectChartValue("Value",dpValue);

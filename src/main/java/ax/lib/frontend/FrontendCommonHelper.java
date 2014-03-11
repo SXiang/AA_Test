@@ -28,6 +28,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import ax.lib.restapi.TestSuiteExampleHelper;
 
 import com.acl.qa.taf.helper.KeywordSuperHelper;
+import com.acl.qa.taf.util.URLSnapshot;
 
 public class FrontendCommonHelper extends KeywordSuperHelper{
 	
@@ -355,7 +356,7 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 	
 	public void getSharedObj() {
 		if (suiteObj != null) {
-			driver = ((TestSuiteExampleHelper) suiteObj).currentDriver;
+			driver = ((FrontendTestSuiteHelper) suiteObj).currentDriver;			
 		} else if (caseObj != null) {
 			driver = ((FrontendTestDriverHelper) caseObj).currentDriver;
 		}
@@ -363,10 +364,11 @@ public class FrontendCommonHelper extends KeywordSuperHelper{
 
 	public void setSharedObj() {
 		if (suiteObj != null) {
-			((TestSuiteExampleHelper) suiteObj).currentDriver = driver;
+			((FrontendTestSuiteHelper) suiteObj).currentDriver = driver;
 		} else if (caseObj != null) {
 			((FrontendTestDriverHelper) caseObj).currentDriver = driver;
 		}
+		URLSnapshot.snapDriver = driver;
 	}	
 
 	public static org.testng.log4testng.Logger nglog;

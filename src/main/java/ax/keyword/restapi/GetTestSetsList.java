@@ -37,7 +37,7 @@ public class GetTestSetsList extends RestapiHelper implements KeywordInterface {
 		dpProjectName = getDpString("ProjectName");
 		dpProjectUuid = getDpString("ProjectUuid");
 		
-		//Rest API - retrieve folders List in a Collection: /api/collections/{uuid}/folders
+		//Rest API - retrieve folder List in a Collection: /api/collections/{uuid}/folders
 		if (!dpProjectUuid.isEmpty())
 			uuid = dpProjectUuid;
 		else uuid = queryProjectID(dpScope,dpProjectName);

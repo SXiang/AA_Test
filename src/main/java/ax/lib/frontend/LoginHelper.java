@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -26,6 +27,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import com.acl.qa.taf.util.URLSnapshot;
+import com.acl.qa.taf.util.UTF8Control;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 //import ax.lib.util.FileUtil;
@@ -202,6 +205,9 @@ public class LoginHelper extends FrontendCommonHelper{
 		}
 		
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		//projectConf.buildInfo = getAXBuildNumber(driver);
+		URLSnapshot.snapDriver = driver;
+		
 		driver.get("https://"+dpAXServerName+":"+dpAXServerPort+"/aclax");
 //		Toolkit toolkit = Toolkit.getDefaultToolkit();
 //	    Dimension screenResolution = new Dimension((int)
@@ -214,6 +220,24 @@ public class LoginHelper extends FrontendCommonHelper{
 		logTAFStep("Browser initiated successfully");
 	}
 	
+	public String getAXBuildNumber(WebDriver axDriver){
+		String buildName = projectConf.buildInfo;
+		String numFormat = ".*build\\.number=([0-9])+.*";
+		if(numFormat.contains("<"))
+			return buildName;
+		try{
+		    axDriver.get("https://"+dpAXServerName+":"+dpAXServerPort+"/auditexchange/version");
+		    String text = UTF8Control.utf8decode(driver.getPageSource());
+		    buildName = text.replaceFirst(numFormat, "$1");
+		}catch(Exception e){
+			
+		}
+		if(buildName.equals("")){
+			buildName = projectConf.buildInfo;
+		}
+		return buildName;
+		
+	}
 	public void InitiateIEBrowser(){
 		// Commented code is for running using Selenium grid
 		System.setProperty("webdriver.ie.driver", projectConf.toolDir+"IEDriverServer.exe");

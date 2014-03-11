@@ -40,7 +40,7 @@ public class GetTestSetUsersList extends RestapiHelper implements KeywordInterfa
 		dpTestSetName = getDpString("TestSetName");
 		dpTestSetUuid = getDpString("TestSetUuid");
 		
-		//Rest API - Users List in a folder: /api/folders/{uuid}/users
+		//Rest API - User List in a folder: /api/folders/{uuid}/users
 		if (!dpTestSetUuid.isEmpty())
 			uuid = dpTestSetUuid;
 		else uuid = queryTestSetID(dpScope,dpProjectName,dpTestSetName);

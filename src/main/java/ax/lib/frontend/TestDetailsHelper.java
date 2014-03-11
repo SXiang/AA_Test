@@ -36,11 +36,11 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	By testSetDropDownLocator = By.cssSelector("div.sub-layer1 > div.sub-layer-dropdown > a");
 	By testSetDropDownMenuItemsLocator = By.cssSelector("div.sub-layer1 > div.dropdown > ul.dropdown-menu > li > a");
 	By testDropDownLocator = By.cssSelector("div.title-row > div.dropdown > a");
-	By testDropDownMenuItemsLocator = By.cssSelector("div.title-row > div.dropdown > ul.dropdown-menu > li > a");
+	By testDropDownMenuItemsLocator = By.cssSelector("div.title-row > div.dropdown > div.dropdown_wrapper > ul.dropdown-menu > li > a");
 	By analyticsHeaderLocator = By.cssSelector("div.analytic-script-subtitle > span");
 	By analyticNameLocator = By.cssSelector("div.analytic-row > div.row-fluid > div.ng-binding");
 	//By analyticNameOfOpenDrawerLocator = By.cssSelector("div.drawer-opened > div > div.ng-binding");
-	By analyticRunIconLocator = By.cssSelector("div.analytic-row > div > a");
+	By analyticRunIconLocator = By.cssSelector("div.analytic-row > div > i");
 	By analyticDescriptionLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > span[id=description]");
 	By analyticRunBtnLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > a.action-btn.button_r");
 	By analyticContinueBtnLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > a.action-btn.button_c");
@@ -48,7 +48,7 @@ public class TestDetailsHelper extends FrontendCommonHelper{
 	By analyticParamSetDropDownItemsLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div > select.parameter-select > option[ng-repeat*='parameterSetList']");
 	By analyticNewParamSetBtnLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='runInfo'] > span > div > a.action-btn");
 	By analyticJobsIconLocator = By.cssSelector("div.action-buttons > div.action-button-block > a > i.icon-list");
-	By analyticScheduleIconLocator = By.cssSelector("div.action-buttons > div.action-button-block > a > i.icon_comment");
+	By analyticScheduleIconLocator = By.cssSelector("div.action-buttons > div.action-button-block > a > i.icon-calendar");
 	By analyticJobDrawerHeaderLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='results'] > div > h3 > span");
 	By analyticScheduleDrawerHeaderLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='schedule'] > div > h3 > span");
 	By analyticJobsTableColHeaderLocator = By.cssSelector("div[style*='height: auto'] > div.drawer[ng-show*='results'] > div.headlines > div > span");

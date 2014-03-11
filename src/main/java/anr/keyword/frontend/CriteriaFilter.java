@@ -18,7 +18,7 @@ public class CriteriaFilter  extends QuickFilterHelper{
 	// *******************************************
 	// BEGIN of datapool variables declaration
 	protected String dpColumnName; //@arg Name of the column that should be clicked on to open Quick filter
-	protected String dpFilterValues; //@arg type of filter: Select option from dropdown list and type the value to filter on
+	protected String dpCriteriaFilterValues; //@arg type of filter: Select option from dropdown list and type the value to filter on
                                         // value = drop|option to select|value
 	protected String dpClearFilters; //If T, all filters will be removed
 	// END of datapool variables declaration
@@ -33,7 +33,7 @@ public class CriteriaFilter  extends QuickFilterHelper{
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
-		dpFilterValues = getDpString("CriteriaFilterValues");
+		dpCriteriaFilterValues = getDpString("CriteriaFilterValues");
 		dpClearFilters = getDpString("ClearFilters");
 		//END
 		return true;
@@ -51,14 +51,14 @@ public class CriteriaFilter  extends QuickFilterHelper{
 			clickColumnHeader(dpColumnName);
 		}
 
-		if(!dpFilterValues.isEmpty()){		
-			criteriaFilterOption = dpFilterValues.split("\\|")[1];
-			criteriaFilterValue = dpFilterValues.split("\\|")[2];	
+		if(!dpCriteriaFilterValues.isEmpty()){		
+			criteriaFilterOption = dpCriteriaFilterValues.split("\\|")[1];
+			criteriaFilterValue = dpCriteriaFilterValues.split("\\|")[2];	
 			
 				//If criteria filter option is Between
 				if(criteriaFilterOption.equals("Between")) {
 					criteriaFilterValueHalf1 = criteriaFilterValue;
-					criteriaFilterValueHalf2 = dpFilterValues.split("\\|")[3];
+					criteriaFilterValueHalf2 = dpCriteriaFilterValues.split("\\|")[3];
 					applyCriteriaFilter(criteriaFilterOption, criteriaFilterValueHalf1, criteriaFilterValueHalf2);	
 				}
 				else {

@@ -35,7 +35,7 @@ public class DataVisualizationPage extends WebPage{
 	 private final int windowWidth = 1000;
 	 private final int windowHeight = 700;
     //*** Common elements
-	  @FindBy(xpath = "//div[@class='tabbable']/ul[@class='nav nav-tabs']/li[@active='t.active']")
+	  @FindBy(xpath = "//div[@class='tabbable']/ul[@class='nav nav-tabs']/li[@active='t.data.active']")
 	  private List<WebElement> navTabs;
 	 @FindBy(xpath = "//div[@ng-click='openChartSelectorModal()']/i[@type='button' and contains(@class,'addchart-tab-text')]")
 	  //@FindBy(xpath = "//div[@tooltip='Add a new chart']/i[@type='button']")
@@ -85,9 +85,9 @@ public class DataVisualizationPage extends WebPage{
 	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider']/div/button[@btn-radio='max']")
 	  public WebElement maxChart;
 	  
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@value='Apply']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[contains(@id,'applyChartConfigBtn')]")
 	  public WebElement applyChartConf;
-	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[@value='Delete chart']")
+	  @FindBy(xpath = "//div[@class='tab-pane ng-scope active']//div[@class='chart-panels-divider-last']/input[contains(@id,'deleteChartBtn')]")
 	  public WebElement deleteChartConf;
 	  
 	  
@@ -109,6 +109,10 @@ public class DataVisualizationPage extends WebPage{
 	  public WebElement chartWarp;
 	  
 	  public WebElement activateChart(int tabIndex){
+		  if(tabIndex>navTabs.size()){
+			  logTAFInfo("There is no tab["+tabIndex+"] to be activated, using current one instead");
+		  }
+			  
 		  WebElement currentTab = navTabs.get(tabIndex);
 		  logTAFStep("Activate chart - tab "+tabIndex);
 		  //currentTab.click();
@@ -170,7 +174,9 @@ public class DataVisualizationPage extends WebPage{
 	  }
 	  
 	  public void saveChartImage(WebDriver pageDriver, String fileName){
-		  sleep(chartLoadTime);
+		  
+		  pageDriver.manage().window().setSize(new Dimension(windowWidth,windowHeight));
+		  sleep(2*chartLoadTime);
 		  expandConfPanel(false);
 		  Window win = pageDriver.manage().window();
 		  int removeEdge = 0;
@@ -194,6 +200,8 @@ public class DataVisualizationPage extends WebPage{
 		  logTAFStep("Take screenshot on current chart rectangle '"+rec+"'");
 		  captureScreen(fileName, rec);
 		  logTAFInfo("Chart image is saved to  '"+fileName+"'");
+		  mouseMove(0, 0);	
+		  pageDriver.manage().window().maximize();
 		  
 	  }
 	  public void selectArea(WebDriver driver,String select){
@@ -273,6 +281,12 @@ public class DataVisualizationPage extends WebPage{
 		  }else if(type.equals("AreaChart")){
 			  //areaChart.click();
 			  click(areaChart);
+		  }else if(type.equals("LineChart")){
+			  //areaChart.click();
+			  click(lineChart);
+		  }else if(type.equals("BubbleChart")){
+			  //areaChart.click();
+			  click(bubbleChart);
 		  }else{
 			  //pieChart.click();
 			  click(pieChart);
@@ -284,6 +298,6 @@ public class DataVisualizationPage extends WebPage{
 		  
 		    this.pageDriver = driver; 
 		    		    
-		    driver.manage().window().setSize(new Dimension(windowWidth,windowHeight));
+		    //driver.manage().window().setSize(new Dimension(windowWidth,windowHeight));
 	  }
 }

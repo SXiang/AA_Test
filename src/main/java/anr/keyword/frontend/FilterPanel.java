@@ -14,6 +14,7 @@ import anr.apppage.QuickFilterPage;
 import anr.apppage.SaveVisualizationPage;
 
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
+import com.acl.qa.taf.util.NLSUtil;
 
 /**
  * Script Name   : <b>FilterPanel_Steven.java</b>
@@ -72,8 +73,8 @@ public class FilterPanel extends CommonWebHelper implements KeywordInterface{
 		super.dataInitialization();
 		// BEGIN read datapool
 		dpColumnName = getDpString("ColumnName");
-		dpFilterValues = getDpString("FilterValues");
-		dpCurrentFilterValues = getDpString("CurrentFilterValues");
+		dpFilterValues = NLSUtil.getAXL10NDate(getDpString("FilterValues"));
+		dpCurrentFilterValues = NLSUtil.getAXL10NDate(getDpString("CurrentFilterValues"));
 		filterValues = dpFilterValues.split("\\|");
 		_filterValues = dpCurrentFilterValues.split("\\|");
         dpLoadFrom = getDpString("LoadFrom");

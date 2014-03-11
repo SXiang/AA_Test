@@ -51,7 +51,7 @@ public class Sort  extends QuickFilterHelper {
 			else if(dpSortDirection.equalsIgnoreCase("asc")){
 				sortAscending();
 			}*/
-			
+			logTAFStep("Column Name = " + dpColumnName);
 			quickSort(dpSortDirection, "other");
 			
 		}
