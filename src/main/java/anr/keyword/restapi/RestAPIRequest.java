@@ -121,7 +121,7 @@ public class RestAPIRequest extends HttpRequestHelper implements KeywordInterfac
 		
         String[] ignorePattern ={"(\"jobId\":\")[0-9]{1,15}(\")","\\d{4}-\\d{1,2}-\\d{1,2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\+0000\""};
         String[] ignoreName = {"$1u-u-i-d$2","\"DateTimeFormat\""};
-        String delimiterPattern = "\\}[\\s]*,[\\s]*\\{|[\\[\\]]";
+        String delimiterPattern = "\\}[\\s]*,[\\s]*\\{|[\\[\\]]\\{|}";
 
         //Testing regular expression
         String[] textMaster = result.split(delimiterPattern);
