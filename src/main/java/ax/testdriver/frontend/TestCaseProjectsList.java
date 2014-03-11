@@ -18,7 +18,7 @@ public class TestCaseProjectsList extends FrontendTestDriverHelper implements Te
 	{		
 
 		startFromLine = 2; // 4-9
-		//endAtLine = 16;     //
+		//endAtLine = 6;     //
 			
 		String poolFile = "testdata/ax/testdriver/frontend/ProjectsList.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
