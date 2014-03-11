@@ -188,6 +188,7 @@ public class AnalyticPage  extends WebPage{
 		}
 		
 		if(expand){
+			waitUntil(jobListBtn);
 			toggleElementByClick(resultsHistory,jobListBtn,"Jobs",expand);
 			lastJob = getJobRecord(0);
 			if(lastJob.equals("")){
@@ -251,9 +252,11 @@ public class AnalyticPage  extends WebPage{
 	
 	ResultSet rs = queryDB(sql);
 	try {
-		rs.next();
-		id = rs.getString("parametersetid");
-		logTAFInfo("Parameter set uuid is retrieved successfully '"+id+"'");
+		if(rs!=null){
+		   rs.next();
+		   id = rs.getString("parametersetid");
+		   logTAFInfo("Parameter set uuid is retrieved successfully '"+id+"'");
+		}
 	} catch (SQLException e) {
 		logTAFInfo("Warning Cannot find the analytic uuid for specified analytic - Please check your data. '"+sql+"'");
 		
@@ -339,10 +342,12 @@ public class AnalyticPage  extends WebPage{
 		}
 		
 		if(formName.matches(logicValue)){
-			waitUntil(pSetValueYes);
+			
 			if(value.equalsIgnoreCase("Yes")){
+				waitUntil(pSetValueYes);
 				click(pSetValueYes,"Yes");
 			}else if(value.equalsIgnoreCase("No")){
+				waitUntil(pSetValueNo);
 				click(pSetValueNo,"No");
 			}else{
 				logTAFWarning(value + " is not a valid logic input value");
