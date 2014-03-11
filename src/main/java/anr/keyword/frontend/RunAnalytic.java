@@ -13,6 +13,7 @@ import anr.apppage.QuickFilterPage;
 import anr.apppage.WebPage;
 
 import com.acl.qa.taf.helper.Interface.KeywordInterface;
+import com.acl.qa.taf.util.NLSUtil;
 
 /**
  * Script Name   : <b>RunAnalytic.java</b>
@@ -31,7 +32,7 @@ public class RunAnalytic extends CommonWebHelper implements KeywordInterface {
 		// BEGIN of datapool variables declaration
 	protected String dpAnalyticName; //@arg Analytic Name whose link to be clicked for details
 	protected String dpParameterSet; //@arg Analytic Name whose link to be clicked for details
-	                                 // value = New(Exist)|SetName[|value1|value2|value3..]                              
+	                                 // value = New(Exist)|SetName[|value1|value2|value3..] // use ';' for multiple values                             
 	// END of datapool variables declaration
 	
 	private String analyticName_space;
@@ -43,6 +44,7 @@ public class RunAnalytic extends CommonWebHelper implements KeywordInterface {
 	protected SearchContext sc;
 	String action = "";
 	int startIndex = -1;
+
 	
 	@Override
 	public boolean dataInitialization() {
@@ -50,7 +52,7 @@ public class RunAnalytic extends CommonWebHelper implements KeywordInterface {
 		// BEGIN read datapool
 		dpAnalyticName = getDpString("AnalyticName");
 		   analyticName_space = WebPage.axNameHandle(dpAnalyticName);
-		dpParameterSet = getDpString("ParameterSet");
+		dpParameterSet =  NLSUtil.getAXL10NDate(getDpString("ParameterSet"));
 		   setValues = dpParameterSet.split("\\|");
 
 		  if(setValues.length>1){

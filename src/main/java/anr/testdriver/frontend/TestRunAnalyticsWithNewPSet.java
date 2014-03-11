@@ -30,7 +30,7 @@ public class TestRunAnalyticsWithNewPSet  extends FrontendTestDriverHelper imple
 	{		
 
 		//startFromLine = 12; // 4-9,12(1000 records
-		//endAtLine = 6;     //
+		//endAtLine = 37;     //
 			
 		String poolFile = "testdata/ax/testdriver/frontend/TestRunAnalyticWithNewPSet.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));		
