@@ -70,7 +70,8 @@ public class LoginHelper extends FrontendCommonHelper{
     
     // BEGIN of other local variables declaration
 	private DesiredCapabilities capability;
-	private FirefoxProfile profile = new FirefoxProfile();
+	private FirefoxProfile profile;	
+	 
 	public String imageName;
 	//END
 	/*Commented code is for running using Selenium grid
@@ -161,7 +162,7 @@ public class LoginHelper extends FrontendCommonHelper{
 		}
 		*/
 		// Commented code is for running using Selenium standalone
-
+		
 		
 		if((browserType.startsWith("IE")) || (browserType.startsWith("ie"))){
 			logTAFStep("Recognized IE browser, about to intiate...");
@@ -223,7 +224,8 @@ public class LoginHelper extends FrontendCommonHelper{
 	}
 	
 	public void InitiateFirefoxBrowser(){
-		// Commented code is for running using Selenium grid		
+		// Commented code is for running using Selenium grid	
+		profile = new FirefoxProfile();
 		profile.setPreference("intl.accept_languages", projectConf.appLocale.toLowerCase());
 
 	}
