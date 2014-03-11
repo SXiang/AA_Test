@@ -1,9 +1,11 @@
 package ax;
 
 import com.acl.qa.taf.helper.Interface.TestSuiteInterface;
-import ax.lib.restapi.TestSuiteExampleHelper;
 
-public class TestSuiteFrontEnd extends TestSuiteExampleHelper implements TestSuiteInterface {
+import ax.lib.frontend.FrontendTestSuiteHelper;
+
+//Karen public class TestSuiteFrontEnd extends TestSuiteExampleHelper implements TestSuiteInterface {
+public class TestSuiteFrontEnd extends FrontendTestSuiteHelper implements TestSuiteInterface {
 
 	/**
 	 * Script Name   : <b>TestSuiteFrontEnd</b>
