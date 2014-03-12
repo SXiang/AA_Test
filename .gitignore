@@ -1,25 +1,12 @@
 # Lines that begin with #, like this one, are ignored.
-/*.*
-*.xls
-!/*.bat
-.*
-!.gitignore
-!pom.xml
-!testdata/.gitignore
-#!.project
-#!.classpath
-!pom.xml
 *.[oa]
 *~
-#*.class
+*.class
 *.html
 *.htm
-*.jar
-*.zip
 *.dmp
 # Floder and Files
 null/
-src/test/
 test-output/
 screenShots/
 target/
@@ -28,9 +15,5 @@ submodule_taf
 /output/
 /bin/
 /garbage
-*.xls
-!*Example.xls
-*.xlsx
-!*Example.xlsx
-/2013/
+/2014/
 *.bak[0-9]*

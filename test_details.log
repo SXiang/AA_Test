@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd><html xmlns="http‎://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><style>table{max-width:800px;}</style><meta http-equiv="Content-type" content="text/html;charset=UTF-8" /><body bgcolor="#FAFAFB"><table id="toc" class="toc" summary="AutoRunReport"><tr style = "color:#0B0B61"><td><div id="toctitle"><h2>ACLQA Automation Test Log</h2></div></td></tr><tr><td><pre>
+	
+*****	Test Script : ax.TestSuiteExample started 	*****
+
+	   * - AUT: ax - Build***(Latest AX5)
+	   * - AUT Locale: En
+	   * - Tester: Ramneet Kaur
+	   * - Log Filter Level: 5
+	   * - Batch Run Log Filter Level: 5
+	   * - Track the Memusage over time - enabled
+	
+======	 1. Test Suite: ax.testdriver.restapi.tables.TestGet_Meta(line 3 in batch run data pool)	======
+	   *  Test Suite start time: Fri Nov 01 11:48:58 PDT 2013
+	   * 
++++++ Test View  Table in working scope As admin
+
+		
+------      1).Keyword: RestAPIRequest(line 2 in data pool) started - Fri Nov 01 11:49:00 PDT 2013     ------
+
+	   * 
+	Connected to .. jdbc:postgresql://192.168.10.75:5432/AclAuditExchangeDB
+	   * Driver ........ PostgreSQL Native Driver
+	   * Version ....... PostgreSQL 9.1 JDBC4 (build 901)
+	   * Table - Inventory 'id' is retrieved successfully 'ba96cf2b-3c23-4280-b23a-a8f0f3dc6082'
+	Step: Start a new browser for testing - HtmlUnit
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS Login required as expected
+	Step: Input username 'aclqa\g1_admin'
+	Step: Input password 'Password00'
+	Step: Submit user credential
+	   * User CAS logon successed!
+	   * Current SID in use 'JSESSIONID=8F6CCCEF9CAB1BF7BE2241CE8B00CB36'
+	   * Current Cas in use 'CASTGC=TGT-29-CyGrnp1t7McJ9PFuhIDnhCtYkb9Zu9bncKlBGLwjKbZbv2WNkX-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/ba96cf2b-3c23-4280-b23a-a8f0f3dc6082
+	   * JSON data: '
+		{"name":"Inventory","recordCount":152,"fields":[{"name":"ProdNo","columnTitle":"Product Number"},{"name":"ProdCls","columnTitle":"Product Class"},{"n...
+	Step: File verification - /tables/get_meta_1.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_meta_1.vp' 
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test {"error":"uuid.invalid"} - Response Code:400
+
+		
+------      2).Keyword: RestAPIRequest(line 3 in data pool) started - Fri Nov 01 11:49:22 PDT 2013     ------
+
+	   * Warning - Cannot find the Table - Inventory 'id' by 'SELECT a.programtype, a.name, b.name, c.name,d.name, d.id FROM audititems a, audititems b, audititems c, audititems d WHERE a.programtype = 'LIBRARY' AND a.name = '123456' AND a.itemtype = 'BC' AND a.id = b.parentid AND b.name = '456Activity123456' AND b.itemtype = 'LC' AND b.id = c.parentid AND c.itemtype = 'DMC' AND c.id = d.parentid AND d.name = 'Inventory' AND d.itemtype = 'TB''- Please check your data. 
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS authenticated session is still alive as expected
+	   * Current SID in use 'JSESSIONID=8F6CCCEF9CAB1BF7BE2241CE8B00CB36'
+	   * Current Cas in use 'CASTGC=TGT-29-CyGrnp1t7McJ9PFuhIDnhCtYkb9Zu9bncKlBGLwjKbZbv2WNkX-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/InvalidUUID
+	   * JSON data: '
+		{"error":"uuid.invalid"} - Response Code:40...
+	Step: File verification - /tables/get_meta_2.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_meta_2.vp' 
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test View  Table in both working and library scopes without setting scope parameter As admin
+
+		
+------      3).Keyword: RestAPIRequest(line 4 in data pool) started - Fri Nov 01 11:49:31 PDT 2013     ------
+
+	   * Warning - Cannot find the Table - Trans 'id' by 'SELECT a.programtype, a.name, b.name, c.name,d.name, d.id FROM audititems a, audititems b, audititems c, audititems d WHERE a.programtype = '' AND a.name = '123456' AND a.itemtype = 'BC' AND a.id = b.parentid AND b.name = '456Activity123456' AND b.itemtype = 'LC' AND b.id = c.parentid AND c.itemtype = 'DMC' AND c.id = d.parentid AND d.name = 'Trans' AND d.itemtype = 'TB''- Please check your data. 
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS authenticated session is still alive as expected
+	   * Current SID in use 'JSESSIONID=8F6CCCEF9CAB1BF7BE2241CE8B00CB36'
+	   * Current Cas in use 'CASTGC=TGT-29-CyGrnp1t7McJ9PFuhIDnhCtYkb9Zu9bncKlBGLwjKbZbv2WNkX-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/InvalidUUID
+	   * JSON data: '
+		{"error":"uuid.invalid"} - Response Code:40...
+	Step: File verification - /tables/get_meta_3.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_meta_3.vp' 
+	Step: Logout user - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	Step: Logout user sucessfully - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test View  Table in working scope As AX user with full permissions on all Table
+
+		
+------      4).Keyword: RestAPIRequest(line 5 in data pool) started - Fri Nov 01 11:49:39 PDT 2013     ------
+
+	   * Table - Trans 'id' is retrieved successfully 'd17a78a7-9f69-4502-915f-9537fbc2b5fb'
+	Step: Start a new browser for testing - HtmlUnit
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS Login required as expected
+	Step: Input username 'aclqa\g1_qauser01'
+	Step: Input password 'Password00'
+	Step: Submit user credential
+	   * User CAS logon successed!
+	   * Current SID in use 'JSESSIONID=E6A51FEFA375FEA9661320FE55CDF9C2'
+	   * Current Cas in use 'CASTGC=TGT-30-DDIMohcA7QhskyqrqRf1IvJWeBjvyh67TNzAleQGk721KyzHrc-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/d17a78a7-9f69-4502-915f-9537fbc2b5fb
+	   * JSON data: '
+		{"name":"Trans","recordCount":339,"fields":[{"name":"Invoice","columnTitle":"Invoice Number"},{"name":"Date","columnTitle":"Invoice Date"},{"name":"P...
+	Step: File verification - /tables/get_meta_4.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_meta_4.vp' 
+	Step: Logout user - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	Step: Logout user sucessfully - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test View  Table in working scope As AX user with a mix of full/read permissions on Table
+
+		
+------      5).Keyword: RestAPIRequest(line 6 in data pool) started - Fri Nov 01 11:50:00 PDT 2013     ------
+
+	   * Table - Trans 'id' is retrieved successfully 'd17a78a7-9f69-4502-915f-9537fbc2b5fb'
+	Step: Start a new browser for testing - HtmlUnit
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS Login required as expected
+	Step: Input username 'aclqa\g1_qauser02'
+	Step: Input password 'Password00'
+	Step: Submit user credential
+	   * User CAS logon successed!
+	   * Current SID in use 'JSESSIONID=0A6B5CD1899E3D1596D2094CBA57624F'
+	   * Current Cas in use 'CASTGC=TGT-31-Of9ggfeUmSkn4rpLF4thVhKA0eosNhmquz2ciINTruyfBjPWdV-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/d17a78a7-9f69-4502-915f-9537fbc2b5fb
+	   * JSON data: '
+		{"name":"Trans","recordCount":339,"fields":[{"name":"Invoice","columnTitle":"Invoice Number"},{"name":"Date","columnTitle":"Invoice Date"},{"name":"P...
+	Step: File verification - /tables/get_meta_5.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_meta_5.vp' 
+	Step: Logout user - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	Step: Logout user sucessfully - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test View  Table in working scope As user without permissions on any project [Negative:401 permission.invalid]
+
+		
+------      6).Keyword: RestAPIRequest(line 8 in data pool) started - Fri Nov 01 11:50:20 PDT 2013     ------
+
+	   * Table - Badfile 'id' is retrieved successfully 'e3f05ca3-08aa-4534-a40d-4a12fbda3bdf'
+	Step: Start a new browser for testing - HtmlUnit
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS Login required as expected
+	Step: Input username 'aclqa\g4_qauser01'
+	Step: Input password 'Password00'
+	Step: Submit user credential
+	   * User CAS logon successed!
+	   * Current SID in use 'JSESSIONID=076844F3E5A10D48B8DD88DEB00EE0BE'
+	   * Current Cas in use 'CASTGC=TGT-32-zE14v6DEzaPySqGyTxJdY6YO9tSRP1gwDIJiMfFAHyQiyreyFa-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/e3f05ca3-08aa-4534-a40d-4a12fbda3bdf
+	   * JSON data: '
+		{"error":"permission.invalid"} - Response Code:40...
+	Step: File verification - /tables/get_meta_6.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_meta_6.vp' 
+	Step: Close test browser
+	>>> Keyword: RestAPIRequest Passed
+	
+
+	**************   <font color="#0B0B61" face="verdana">Test Summary</font>    **************
+
+
+	***********************************************
+
+	   * 
+	Automation: 5 seconds break please ...
+
+	   *  Test Suite end time: Fri Nov 01 11:50:41 PDT 2013
+	===> Test Suite: ax.testdriver.restapi.tables.TestGet_Meta Passed 
+	
+======	 2. Test Suite: ax.testdriver.restapi.tables.TestGet_Classify(line 4 in batch run data pool)	======
+	   *  Test Suite start time: Fri Nov 01 11:50:46 PDT 2013
+	   * 
++++++ Test View  Table column in working scope As admin
+
+		
+------      1).Keyword: RestAPIRequest(line 2 in data pool) started - Fri Nov 01 11:50:46 PDT 2013     ------
+
+	   * Table - Inventory 'id' is retrieved successfully 'ba96cf2b-3c23-4280-b23a-a8f0f3dc6082'
+	Step: Start a new browser for testing - HtmlUnit
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS Login required as expected
+	Step: Input username 'aclqa\g1_admin'
+	Step: Input password 'Password00'
+	Step: Submit user credential
+	   * User CAS logon successed!
+	   * Current SID in use 'JSESSIONID=7742D9EE1DEFF3F0072463E40A4A7202'
+	   * Current Cas in use 'CASTGC=TGT-33-AmTIeQzuLSLhpfu1NLFDkoyhlwToDyzSql6NeAwcmhlbcTAP1R-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/ba96cf2b-3c23-4280-b23a-a8f0f3dc6082/columns/CstDte/classify
+	   * JSON data: '
+		&lthtml&gt&lthead&gt&lttitle&gtApache Geronimo(Embedded Tomcat/6.0.29) - Error report&lt/title&gt&ltstyle&gt&lt!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;backg...
+	Step: File verification - /tables/get_classify_1.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_classify_1.vp' 
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test View  Table column in library scope As admin
+
+		
+------      2).Keyword: RestAPIRequest(line 3 in data pool) started - Fri Nov 01 11:51:07 PDT 2013     ------
+
+	   * Warning - Cannot find the Table - Inventory 'id' by 'SELECT a.programtype, a.name, b.name, c.name,d.name, d.id FROM audititems a, audititems b, audititems c, audititems d WHERE a.programtype = 'LIBRARY' AND a.name = '123456' AND a.itemtype = 'BC' AND a.id = b.parentid AND b.name = '456Activity123456' AND b.itemtype = 'LC' AND b.id = c.parentid AND c.itemtype = 'DMC' AND c.id = d.parentid AND d.name = 'Inventory' AND d.itemtype = 'TB''- Please check your data. 
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS authenticated session is still alive as expected
+	   * Current SID in use 'JSESSIONID=7742D9EE1DEFF3F0072463E40A4A7202'
+	   * Current Cas in use 'CASTGC=TGT-33-AmTIeQzuLSLhpfu1NLFDkoyhlwToDyzSql6NeAwcmhlbcTAP1R-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/InvalidUUID/columns/SalePr/classify
+	   * JSON data: '
+		{"error":"uuid.invalid"} - Response Code:40...
+	Step: File verification - /tables/get_classify_2.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_classify_2.vp' 
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test View  Table column in both working and library scopes without setting scope parameter As admin
+
+		
+------      3).Keyword: RestAPIRequest(line 4 in data pool) started - Fri Nov 01 11:51:15 PDT 2013     ------
+
+	   * Warning - Cannot find the Table - Trans 'id' by 'SELECT a.programtype, a.name, b.name, c.name,d.name, d.id FROM audititems a, audititems b, audititems c, audititems d WHERE a.programtype = '' AND a.name = '123456' AND a.itemtype = 'BC' AND a.id = b.parentid AND b.name = '456Activity123456' AND b.itemtype = 'LC' AND b.id = c.parentid AND c.itemtype = 'DMC' AND c.id = d.parentid AND d.name = 'Trans' AND d.itemtype = 'TB''- Please check your data. 
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS authenticated session is still alive as expected
+	   * Current SID in use 'JSESSIONID=7742D9EE1DEFF3F0072463E40A4A7202'
+	   * Current Cas in use 'CASTGC=TGT-33-AmTIeQzuLSLhpfu1NLFDkoyhlwToDyzSql6NeAwcmhlbcTAP1R-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/InvalidUUID/columns/Invoice/classify
+	   * JSON data: '
+		{"error":"uuid.invalid"} - Response Code:40...
+	Step: File verification - /tables/get_classify_3.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_classify_3.vp' 
+	Step: Logout user - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	Step: Logout user sucessfully - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test View  Table column in working scope As AX user with full permissions on all Table
+
+		
+------      4).Keyword: RestAPIRequest(line 5 in data pool) started - Fri Nov 01 11:51:24 PDT 2013     ------
+
+	   * Table - Trans 'id' is retrieved successfully 'd17a78a7-9f69-4502-915f-9537fbc2b5fb'
+	Step: Start a new browser for testing - HtmlUnit
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS Login required as expected
+	Step: Input username 'aclqa\g1_qauser01'
+	Step: Input password 'Password00'
+	Step: Submit user credential
+	   * User CAS logon successed!
+	   * Current SID in use 'JSESSIONID=73372DE394D5AEA6215F7E0CCB10AC85'
+	   * Current Cas in use 'CASTGC=TGT-34-CocUwUrB6Ds0tCpoVvGgT4DoNbXEeNHNtC5tm4R6dnqjb7ifsE-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/d17a78a7-9f69-4502-915f-9537fbc2b5fb/columns/Product/classify
+	   * JSON data: '
+		&lthtml&gt&lthead&gt&lttitle&gtApache Geronimo(Embedded Tomcat/6.0.29) - Error report&lt/title&gt&ltstyle&gt&lt!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;backg...
+	Step: File verification - /tables/get_classify_4.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_classify_4.vp' 
+	Step: Logout user - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	Step: Logout user sucessfully - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test View  Table coulumn in working scope As AX user with a mix of full/read permissions on Table
+
+		
+------      5).Keyword: RestAPIRequest(line 6 in data pool) started - Fri Nov 01 11:51:45 PDT 2013     ------
+
+	   * Table - Trans 'id' is retrieved successfully 'd17a78a7-9f69-4502-915f-9537fbc2b5fb'
+	Step: Start a new browser for testing - HtmlUnit
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS Login required as expected
+	Step: Input username 'aclqa\g1_qauser02'
+	Step: Input password 'Password00'
+	Step: Submit user credential
+	   * User CAS logon successed!
+	   * Current SID in use 'JSESSIONID=364417C5EEF229A36853CCD05DFEF924'
+	   * Current Cas in use 'CASTGC=TGT-35-MjI7DOUhhGPQUuNb39S59esxaX6OyybBygDimcWXhVTzDCdNhM-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/d17a78a7-9f69-4502-915f-9537fbc2b5fb/columns/Qty/classify
+	   * JSON data: '
+		&lthtml&gt&lthead&gt&lttitle&gtApache Geronimo(Embedded Tomcat/6.0.29) - Error report&lt/title&gt&ltstyle&gt&lt!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;backg...
+	Step: File verification - /tables/get_classify_5.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_classify_5.vp' 
+	Step: Logout user - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	Step: Logout user sucessfully - 'https://win2012-64-ramn.aclqa.local:8443/cas/logout'
+	>>> Keyword: RestAPIRequest Passed
+	   * 
++++++ Test View  Table column in working scope As user without permissions on any project [Negative:401 permission.invalid]
+
+		
+------      6).Keyword: RestAPIRequest(line 8 in data pool) started - Fri Nov 01 11:52:06 PDT 2013     ------
+
+	   * Table - Badfile 'id' is retrieved successfully 'e3f05ca3-08aa-4534-a40d-4a12fbda3bdf'
+	Step: Start a new browser for testing - HtmlUnit
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS Login required as expected
+	Step: Input username 'aclqa\g4_qauser01'
+	Step: Input password 'Password00'
+	Step: Submit user credential
+	   * User CAS logon successed!
+	   * Current SID in use 'JSESSIONID=1EB71DA088140D20A1F4D2DA3B777BF2'
+	   * Current Cas in use 'CASTGC=TGT-36-fWvQ5aMq25tylFWb4vcA9p3xKRbqHMVIMSEDwpofplClYJ0EaB-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/e3f05ca3-08aa-4534-a40d-4a12fbda3bdf/columns/name/classify
+	   * JSON data: '
+		{"error":"permission.invalid"} - Response Code:40...
+	Step: File verification - /tables/get_classify_6.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/get_classify_6.vp' 
+	Step: Close test browser
+	>>> Keyword: RestAPIRequest Passed
+	
+
+	**************   <font color="#0B0B61" face="verdana">Test Summary</font>    **************
+
+
+	***********************************************
+
+	   * 
+	Automation: 5 seconds break please ...
+
+	   *  Test Suite end time: Fri Nov 01 11:52:26 PDT 2013
+	===> Test Suite: ax.testdriver.restapi.tables.TestGet_Classify Passed 
+	
+======	 3. Test Suite: ax.testdriver.restapi.tables.TestPost_Data(line 5 in batch run data pool)	======
+	   *  Test Suite start time: Fri Nov 01 11:52:31 PDT 2013
+	   * 
++++++ Test Post with empty JSON
+
+		
+------      1).Keyword: RestAPIRequest(line 2 in data pool) started - Fri Nov 01 11:52:31 PDT 2013     ------
+
+	   * Table - Inventory 'id' is retrieved successfully 'ba96cf2b-3c23-4280-b23a-a8f0f3dc6082'
+	Step: Start a new browser for testing - HtmlUnit
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS Login required as expected
+	Step: Input username 'aclqa\g1_admin'
+	Step: Input password 'Password00'
+	Step: Submit user credential
+	   * User CAS logon successed!
+	   * Current SID in use 'JSESSIONID=DAA32ADCE9F54DB1209864E03FC407EE'
+	   * Current Cas in use 'CASTGC=TGT-37-gqlBBuey4LRHswxcyJbYoArMF5bPPQcweng7Wa0jWtQbjwp7k1-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/ba96cf2b-3c23-4280-b23a-a8f0f3dc6082/data
+	Error: <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_1.jpeg">[Snapshot]</a>Response Code:405
+	   * JSON data: '
+		&lthtml&gt&lthead&gt&lttitle&gtApache Geronimo(Embedded Tomcat/6.0.29) - Error report&lt/title&gt&ltstyle&gt&lt!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;backg...
+	Step: File verification - /tables/post_data_1.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/post_data_1.vp' 
+	!!! Keyword: RestAPIRequest Failed: <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_1.jpeg">[Snapshot]</a>Response Code:405
+	   * 
++++++ Test Post with a JSON String
+
+		
+------      2).Keyword: RestAPIRequest(line 3 in data pool) started - Fri Nov 01 11:52:52 PDT 2013     ------
+
+	   * Table - Inventory 'id' is retrieved successfully 'ba96cf2b-3c23-4280-b23a-a8f0f3dc6082'
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS authenticated session is still alive as expected
+	   * Current SID in use 'JSESSIONID=DAA32ADCE9F54DB1209864E03FC407EE'
+	   * Current Cas in use 'CASTGC=TGT-37-gqlBBuey4LRHswxcyJbYoArMF5bPPQcweng7Wa0jWtQbjwp7k1-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/ba96cf2b-3c23-4280-b23a-a8f0f3dc6082/data
+	Error: <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_3.jpeg">[Snapshot]</a>Response Code:405
+	   * JSON data: '
+		&lthtml&gt&lthead&gt&lttitle&gtApache Geronimo(Embedded Tomcat/6.0.29) - Error report&lt/title&gt&ltstyle&gt&lt!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;backg...
+	Step: File verification - /tables/post_data_2.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/post_data_2.vp' 
+	!!! Keyword: RestAPIRequest Failed: <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_3.jpeg">[Snapshot]</a>Response Code:405
+	   * 
++++++ Test Post with a JSON text file
+
+		
+------      3).Keyword: RestAPIRequest(line 4 in data pool) started - Fri Nov 01 11:53:01 PDT 2013     ------
+
+	   * Table - Inventory 'id' is retrieved successfully 'ba96cf2b-3c23-4280-b23a-a8f0f3dc6082'
+	Step: User login - 'https://win2012-64-ramn.aclqa.local:8443/cas/login'
+	   * CAS authenticated session is still alive as expected
+	   * Current SID in use 'JSESSIONID=DAA32ADCE9F54DB1209864E03FC407EE'
+	   * Current Cas in use 'CASTGC=TGT-37-gqlBBuey4LRHswxcyJbYoArMF5bPPQcweng7Wa0jWtQbjwp7k1-cas'
+	Step: Sending 'Get' request to URL : https://win2012-64-ramn.aclqa.local:8443/aclax/api/tables/ba96cf2b-3c23-4280-b23a-a8f0f3dc6082/data
+	Error: <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_5.jpeg">[Snapshot]</a>Response Code:405
+	   * JSON data: '
+		&lthtml&gt&lthead&gt&lttitle&gtApache Geronimo(Embedded Tomcat/6.0.29) - Error report&lt/title&gt&ltstyle&gt&lt!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;backg...
+	Step: File verification - /tables/post_data_3.vp
+	   * Save/Update master file with current contents 'D:/ACL/Automation/AX_TestAutomation/Output/Result/ax/keyword/restapi/request/expecteddata/tables/post_data_3.vp' 
+	!!! Keyword: RestAPIRequest Failed: <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_5.jpeg">[Snapshot]</a>Response Code:405
+	
+
+	**************   <font color="#0B0B61" face="verdana">Test Summary</font>    **************
+
+
+	***********************************************
+
+	   * 
+	Automation: 5 seconds break please ...
+
+	   *  Test Suite end time: Fri Nov 01 11:53:09 PDT 2013
+	==!> Test Suite: ax.testdriver.restapi.tables.TestPost_Data Failed: Response Code:405
+	
+
+
+ ***********Begin of Wiki Report***********
+
+[[Analytics+Continuous+Delivery|Analytics+Continuous+Delivery]]<font color="#0B0B61" face="verdana">
+===   Test Summary    ===
+----
+
+*	 <b>TEST ENVIRONMENT:</b>
+**	 AUT: [en_CA] - AX5[Build***(Latest AX5)]-
+**	- Tester: Ramneet Kaur
+**	- Name of Test Machine: SXIANG-PC IP Address: 192.168.4.133
+**	- Operating System (Client): Windows 7, 6.1
+**	- Java Version: 1.7.0_25
+
+*	 <b>RESULTS:</b>
+**	 Test Script start time: Fri Nov 01 11:48:58 PDT 2013
+***		 Total tested Test Suite(s): 3[15TestCases]
+***		 Passed TestCase(s): 12
+***		 Failed TestCase(s): 3
+****		 Possible new issue(s) - 3
+**	 Test Script end time: Fri Nov 01 11:53:09 PDT 2013
+
+*	 <b>LINKS:</b>
+**	Test Log: <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\TAF_Logs\ax.TestSuiteExample_11_48_58[Log].html">ax.TestSuiteExample_11_48_58[Log].html</a>
+**	Memory Trace: <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\TAF_Logs\ax.TestSuiteExample_11_48_58_memusage.csv">ax.TestSuiteExample_11_48_58_memusage.csv</a>
+**	Test Report: <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\TAF_Logs\ax.TestSuiteExample_11_48_58[Report].html">ax.TestSuiteExample_11_48_58[Report].html</a>
+</font>
+====   <font color="#0B0B61" face="verdana">Test Result Analysis</font>    ====
+----
+
+
+*<b><font color="#886A08">   New Issues?:   3 
+**   [[TestPost_Data]] 
+***	RestAPIRequest <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_1.jpeg">[Snapshot]</a>Response Code:405
+***	RestAPIRequest <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_3.jpeg">[Snapshot]</a>Response Code:405
+***	RestAPIRequest <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_5.jpeg">[Snapshot]</a>Response Code:405</font></b>
+*<b><font color="#8904B1">   Known Issues:  None</font></b>
+*<b><font color="#585858">   Automation Issues?:  None</font></b>
+
+====   <font color="#0B0B61" face="verdana">Recent Bugs</font>    ====
+----
+
+<ol>  <!-- <li><a href="https://www.pivotaltracker.com/story/show/45878477">PT-45878477(Accepted): Open a table from command line  right after relating the table will discard the relation created.</a></li> -->  <!-- <li><a href="https://www.pivotaltracker.com/story/show/46134939">PT-46134939(ByDesign): Options set from command line are not saved.</a></li> -->  <!-- <li><a href="https://www.pivotaltracker.com/story/show/46402115">PT-46402115(Open): DDW  'Skip Field Identification'  results an unexpected 'Add Columns' dialog.</a></li> -->  <!--<li><a href="https://www.pivotaltracker.com/story/show/47229043">PT-4722904(Rejected): 'Save As' to another table leads to ACL Crash.</a></li> -->  <!-- <li>PT-FailedTest: Relate table failed, on ACLSE server table</li> -->  <!-- <li>PT-47156239#3: DDW failed to define a field with the same name that used in previous table definition</li> -->  <!-- <li><a href="https://www.pivotaltracker.com/story/show/46484713">PT-46484713(Open): Table index can not be modified / deleted  from command line.</a></li> -->  <!-- <li><a href="https://www.pivotaltracker.com/story/show/46484713">PT-46484713(Future): DB Server table (SQLServer and Oracle) defined in ACL 9.3 is not showing/handled correctly in ACL10.</a></li> -->  <li><a href="https://aclgrc.atlassian.net/browse/AN-168">AN-168(Open): Import data sheets of XLSX file failed due to the case-sensitive of the 'TABLE' name from command line.</a></li>  <!-- <li>No open bugs covered by this test currently</li> -->  <!-- <li>Note: Occasionally, network connection problem or server response time may be a reason of failures in case of ACLSE testing</li> --></ol>
+
+====   <font color="#0B0B61" face="verdana">Test Details</font>    ====
+----
+
+
+*	[[TestGet_Meta|Test Suite 1. ax.testdriver.restapi.tables.TestGet_Meta]]<b><font color="#21610B"> PASS </font></b>
+
+*	[[TestGet_Classify|Test Suite 2. ax.testdriver.restapi.tables.TestGet_Classify]]<b><font color="#21610B"> PASS </font></b>
+
+*	[[TestPost_Data|Test Suite 3. ax.testdriver.restapi.tables.TestPost_Data]]
+**		RestAPIRequest - line 2) <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_1.jpeg">[Snapshot]</a>Response Code:405
+***	  <b><font color="#886A08">[NEW ISSUE?]</font></b>
+**		RestAPIRequest - line 3) <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_3.jpeg">[Snapshot]</a>Response Code:405
+***	  <b><font color="#886A08">[NEW ISSUE?]</font></b>
+**		RestAPIRequest - line 4) <a target="_blank" href="file:///\\192.168.10.129\Automation\AX_Automation\AX5\steven_xiang\Windows_7_IP4_133\Output\Result\ax\2013\en_CA\NOV\1\ax.TestSuiteExample_11_48_58\ScreenShots\errorSnapshot_5.jpeg">[Snapshot]</a>Response Code:405
+***	  <b><font color="#886A08">[NEW ISSUE?]</font></b>
+----
+[[Analytics+Continuous+Delivery|Analytics+Continuous+Delivery]]
+
+ ***********End of Wiki Report***********
+
+	
+*****	Test Script : ax.TestSuiteExample Failed	*****
+
+</pre></td></tr><tr bgcolor="#CCCCFF"><td align="left"><b><font color="#0000A0">ACLQA Automation Test Log - 2013.11.01_11.53</font></b></td></tr></hr></table></body></html>
+	   * Get test report for Jenkins
+  
