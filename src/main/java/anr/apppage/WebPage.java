@@ -96,7 +96,7 @@ public class WebPage extends CommonWebHelper{
 		}
 		if(expectedStatus==currentStatus) return;
 		
-        click(driver,node,label,expectedElements,expectedStatus);
+        click(pageDriver,node,label,expectedElements,expectedStatus);
 	}	
   //*** Double click element and optionally wait until ***
 	public void doubleClick(WebElement node){
@@ -155,7 +155,7 @@ public class WebPage extends CommonWebHelper{
 		toggleItem(box,on,label,"Select");
 	}
 	public void toggleItem(WebElement box,boolean on, String label,String type){
-		toggleItem(driver,box,on,label,type);
+		toggleItem(pageDriver,box,on,label,type);
 	}	
 	public void toggleItem(WebDriver driver,WebElement box,boolean on, String label,String type){
 		toggleItem(driver,box,on,label,type,null);

@@ -3,6 +3,9 @@
  */
 package anr.testdriver.frontend;
 
+
+
+
 import ax.lib.frontend.FrontendTestDriverHelper;
 
 import com.acl.qa.taf.helper.Interface.TestDriverInterface;
@@ -30,7 +33,7 @@ public class TestRunAnalyticsWithNewPSet  extends FrontendTestDriverHelper imple
 	{		
 
 		//startFromLine = 12; // 4-9,12(1000 records
-		endAtLine = 25;     //
+		//endAtLine = 6;     //
 			
 		String poolFile = "testdata/ax/testdriver/frontend/TestRunAnalyticWithNewPSet.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));		
