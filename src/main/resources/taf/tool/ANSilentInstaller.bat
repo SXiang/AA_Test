@@ -28,7 +28,7 @@ SETLOCAL enabledelayedexpansion
 SET TEAM_NAME=AN_TestAutomation
 IF '%Project%'=='' SET Project=Frogger
 ::SET Project=Zaxxon
-SET SILENT_INSTALL=FALSE
+SET SILENT_INSTALL=False
 SET STANDALONG=TRUE
 IF "%SILENT_INSTALL%"=="" SET SILENT_INSTALL=TRUE
 if NOT '%5'=='' SET STANDALONG=FALSE
@@ -150,8 +150,10 @@ SET VerPrefix=Build_
 SET VerPattern=%VerPrefix%*
 SET VerPrefixOld=9.3.0.
 REM ************ SHOULD BE UPDATED ACCORDINGLLY ***********
-SET Nameprefix=ACLv10
-SET Nameprefix_New=ACLAnalytics105
+::SET Nameprefix=ACLv10
+::SET Nameprefix_New=ACLAnalytics105
+SET Nameprefix=ACLv11
+SET Nameprefix_New=ACLAnalytics11
 REM ********************************************************
 SET Executable=ACLWin.exe
 
@@ -179,7 +181,7 @@ IF EXIST %DESROOT%\Acl.ini (
   )
 
 IF NOT EXIST %DESROOT% (
-  IF NOT '%SILENT_INSTALL%'=='TRUE' GOTO CONTINUE
+  IF /I NOT '%SILENT_INSTALL%'=='TRUE' GOTO CONTINUE
   IF EXIST "%INSTALL_DIR1%\Windows NT" SET DESROOT="%INSTALL_DIR1%"
   IF EXIST "%INSTALL_DIR2%\Windows NT" SET DESROOT="%INSTALL_DIR2%"
   IF EXIST "%INSTALL_DIR1%\Windows NT" SET INSTALL_DIR=%INSTALL_DIR1%
@@ -190,12 +192,14 @@ IF NOT EXIST %DESROOT% (
 	) ELSE (
 	  SET startDir=%DESROOT%
 	)
+
 IF /I '%DESROOT%'=='"%INSTALL_DIR1%"' GOTO INSTALLER
 IF /I '%DESROOT%'=='"%INSTALL_DIR2%"' GOTO INSTALLER
 IF /I '%SILENT_INSTALL%'=='TRUE' GOTO INSTALLER
 
 GOTO CONTINUE
 :INSTALLER
+
 SET IHUni=Ironhide%ACLUni_Old%
 SET IHNonUni=Ironhide%ACLNonUni_Old%
 SET _IHUni=%IHUni%
@@ -219,9 +223,16 @@ IF /I '%LOCALE%'=='En' (
   SET ACLNonUni=%NamePrefix_New%_%ACLNonUni_New%
   SET ACLUni=%NamePrefix_New%_%ACLUni_New%
   )
-
+  
   SET IHNonUni=%NamePrefix%%LOCALE%_%IHNonUni%
   SET IHUni=%NamePrefix%%LOCALE%_%IHUni%
+
+IF /I '%NamePrefix%'=='ACLv11' (
+   Set ACLNonUni=%NamePrefix%_Desktop
+   Set ACLUni=!ACLNonUni!
+   Set IHNonUni=%NamePrefix%_Ironhide
+   Set IHUni=!IHNonUni!
+)
 
 Rem En,De,Es,Pt,Fr,Ch,Ko,Jp,Pl
 IF /I '%LOCALE%'=='ZH' SET LOCALE=Ch
@@ -640,9 +651,11 @@ REM   )
    IF /I '%TEST_UNICODE%'=='Yes' (      
       IF NOT EXIST %DESROOT%.\%Version%.\%ACLUni%.\%ACLExecutable% (
 	     XCOPY %MISSINGDLLSSRC%  %DESROOT%.\%Version%.\%ACLUni%.\ %XCSWITCH%
+		 
          XCOPY %SRCROOT%.\%Version%.\%ACLUni% %DESROOT%.\%Version%.\%ACLUni%\ %XCSWITCH%
 		 Call Cscript %ihscriptdir%\createShortcut.vbs %ACLshortcutName%-Unicode %DESROOT%.\%Version%.\%ACLUni%.\%ACLExecutable% "" "%ACLhotKey%" %DESROOT%.\%Version%.\%ACLUni%.\%ACLExecutable% %DESROOT%.\%Version%.\%ACLUni% %ACLdescription%-Unicode
 	     )
+		
       IF /I '%InstallIH%'=='No' GOTO GETBUILDDONE
 	  IF NOT EXIST %DESROOT%.\%Version%.\%IHUni%.\%IHExecutable% (
 	     XCOPY %MISSINGDLLSSRCIH%  %DESROOT%.\%Version%.\%IHUni%.\ %XCSWITCH%
@@ -657,6 +670,7 @@ REM   )
           XCOPY %SRCROOT%.\%Version%.\%ACLNonUni% %DESROOT%.\%Version%.\%ACLNonUni%\ %XCSWITCH%
 		  Call Cscript %ihscriptdir%\createShortcut.vbs %ACLshortcutName%-Release %DESROOT%.\%Version%.\%ACLNonUni%.\%ACLExecutable% "" "%ACLhotKey%" %DESROOT%.\%Version%.\%ACLNonUni%.\%ACLExecutable% %DESROOT%.\%Version%.\%ACLNonUni% %ACLdescription%-Release
 	      )
+		  pause
       IF /I '%InstallIH%'=='No' GOTO GETBUILDCONTINUE
 	  IF NOT EXIST %DESROOT%.\%Version%.\%IHNonUni%.\%IHExecutable% (
 	      XCOPY %MISSINGDLLSSRCIH%  %DESROOT%.\%Version%.\%IHNonUni%.\ %XCSWITCH%
