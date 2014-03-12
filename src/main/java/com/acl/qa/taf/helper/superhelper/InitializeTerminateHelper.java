@@ -625,7 +625,12 @@ public class InitializeTerminateHelper extends ObjectHelper {
 	}
 	public static String processLink(String oriLink){
 		String outPutLink;		
+		logTAFInfo(loggerConf.logDirForPublic);
+		if(loggerConf.logDirForPublic.startsWith("/")){ // temp workaround -- 
+			loggerConf.logDirForPublic= "/"+loggerConf.logDirForPublic;
+		}
 		outPutLink = oriLink.replaceFirst(FileUtil.userWorkingDir+"/",loggerConf.logDirForPublic);
+		
 	    outPutLink = outPutLink.replace('/', '\\');
 	  
 	    return outPutLink;

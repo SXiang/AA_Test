@@ -25,6 +25,7 @@ public class LoggerConf {
 	}
 	public void setRecentBugList(String recentBugList) {
 		this.recentBugList = recentBugList;
+
 	}
 
 	public boolean isOpenHtmlReport() {
