@@ -1,27 +1,19 @@
 # Lines that begin with #, like this one, are ignored.
-/*.*
-!/*.bat
-.*
-!.gitignore
-!pom.xml
 *.[oa]
 *~
 *.class
 *.html
 *.htm
-*.jar
-*.zip
 *.dmp
 # Floder and Files
 null/
+test-output/
+screenShots/
 target/
-djnativeswing/
-deployment/
 .gitmodules
+submodule_taf
 /output/
 /bin/
-/garbage/
-*.xls
-!*Example.xls
-*.xlsx
-!*Example.xlsx
+/garbage
+/2014/
+*.bak[0-9]*
