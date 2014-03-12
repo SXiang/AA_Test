@@ -233,10 +233,12 @@ public class FileUtil extends ibm.util.FileOps {
     public static String getAbsDir(String inputDir,String root){
     	String absDir = inputDir;
     	String userDir = "%user.dir%";
+    	String uncPath ="[\\\\]{4}[^\\\\].+|[/]{2}[^/].+";
     	URL absURL;
     	boolean isDir = false;
     	
-    	
+    	if(absDir.matches(uncPath))
+    		return absDir;
     	absDir = absDir.replaceAll(userDir, userWorkingDir);
     	File dirFile = new File(absDir);
     	
