@@ -289,11 +289,13 @@ public class WebPage extends CommonWebHelper{
     	    Coordinates coor = ((Locatable)element).getCoordinates();
     	    elementPoint = coor.inViewPort();
     	    
+    	    
     	    pt.x = elementPoint.x - pt.x;
     	    pt.y = elementPoint.y - pt.y;
     	    
     	    ((JavascriptExecutor) pageDriver).executeScript(
     	    		"scrollBy("+pt.x+","+pt.y+");");
+    	    logTAFInfo("ScrollBy("+pt.x+","+pt.y+");");
 //    	    if(pt.y>0&&elementPoint.y>pt.y){
     	    	
 //    	       ((JavascriptExecutor) pageDriver).executeScript("scrollBy("+pt.x+","+pt.y+");");

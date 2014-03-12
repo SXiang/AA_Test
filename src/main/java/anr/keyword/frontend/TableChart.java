@@ -16,6 +16,15 @@ package anr.keyword.frontend;
 
 import org.openqa.selenium.support.PageFactory;
 
+
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+
+
+
+
 import anr.apppage.CommonWebHelper;
 import anr.apppage.DataVisualizationPage;
 import anr.apppage.SaveVisualizationPage;
@@ -137,9 +146,16 @@ public class TableChart  extends CommonWebHelper implements KeywordInterface {
 	}
 	
 	private void verifyChart(){
-		dvPage.verifyChartConf("Category",dpCategory);
-		dvPage.verifyChartConf("Sub-Category",dpSubCategory);
-		dvPage.verifyChartConf("Value",dpValue);
+		if(!dpChartType.matches("LineChart|BubbleChart")){
+			   dvPage.verifyChartConf("Category",dpCategory);
+			   dvPage.verifyChartConf("Sub-Category",dpSubCategory);
+			   dvPage.verifyChartConf("Value",dpValue);
+			}else{
+				dvPage.verifyChartConf("ColorBy",dpCategory);
+				dvPage.verifyChartConf("X-Axis",dpSubCategory);
+				dvPage.verifyChartConf("Y-Axis",dpValue);
+				dvPage.verifyChartConf("Size",dpSize);
+			}
 	}
 	
 

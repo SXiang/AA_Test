@@ -15,6 +15,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ax.lib.restapi.db.SQLQuery;
@@ -47,32 +48,51 @@ public class AnalyticPage  extends WebPage{
 		//*** Analytic ***
 		@FindBy(css = "div.row-fluid > i.play-icon")
 		private WebElement runIconBtn;
-		@FindBy(css = "div.row-fluid > div.promptBesideInput[ng-show*='$error.pattern']")
+		@FindBy(css = "div.row-fluid > div.promptBesideInput[ng-show*='$error.']")
 		private List<WebElement> inputValueError;		
 		
-		@FindBy(css = "div > span.keyboardPrompt[ng-show*='$error.pattern'] > em > span")
+		@FindBy(css = "div > span.keyboardPrompt[ng-show*='$error.'] > em > span")
 		private List<WebElement> inputNameError;
 		
 		@FindBy(css = "a.action-btn > span[key='_Button.Run.Label_']")
 		private WebElement runBtn;
 		
-		@FindBy(css = "div[style*='height: auto'] > div > div[ng-show*='analytic.analyticDetails'] > span > a.action-btn.button_c > span")
+		@FindBy(css = "div[style*='height: auto'] > div > div[ng-show*='analytic.analyticDetails'] a.action-btn.button_c > span")
 		private WebElement continueBtn;
 		
-		@FindBy(css = "div.analyticParamInputView form[name$='InputForm'] input")
+		@FindBy(css = "form[name$='InputForm']")
+		private WebElement pSetInputForm;
+		
+		@FindBy(css = "form[name$='InputForm'] input")
 		private WebElement pSetValueBox;
+		
+		@FindBy(css = "form[name$='InputForm'] select")
+		private WebElement pSetValueSelect;
+		
+		@FindBy(css = "form[name$='InputForm'] button.acl-checkbox > i")
+		private List<WebElement> pSetValueCheckbox;
+		@FindBy(css = "form[name$='InputForm'] button.acl-checkbox > span.acl-checkbox-label > span")
+		private List<WebElement> pSetValueCheckboxLabel;
+		
+		@FindBy(css = "form[name$='InputForm'] button > span[key='_Button.Yes.Label_']")
+		private WebElement pSetValueYes;
+		@FindBy(css = "form[name$='InputForm'] button > span[key='_Button.No.Label_']")
+		private WebElement pSetValueNo;
+		
 		@FindBy(css = "form[name$='ParamSetNameForm'] > div > input[name*='paramSetNameInput']")
 		private WebElement pSetNameBox;
 		
 		@FindBy(css = "form[name$='ParamSetNameForm'] a.action-btn > span[key='_Button.Continue.Label_']")
 		private WebElement formNameContinueBtn;	
 			
-		@FindBy(css = "div.analyticParamInputView form[name$='InputForm'] a.action-btn > span[key='_Button.Continue.Label_']")
+		@FindBy(css = "div.analyticParamInputView form[name$='InputForm'] button.action-btn > span[key='_Button.Continue.Label_']")
 		private WebElement formInputContinueBtn;	
+		@FindBy(css = "div.analyticParamInputView form[name$='InputForm'] button.action-btn > span[key='_Button.Skip.Label_']")
+		private WebElement formInputSkipBtn;
 		@FindBy(css = "a.action-btn > span[key='_Button.Run.Label_']")
 		private WebElement formRunBtn;
 		
-		@FindBy(css = "div[style*='height: auto'] > div > div[ng-show*='analytic.analyticDetails'] > span > div span[key='_AX_RunJob.NewParameterSet.Label_']")
+		@FindBy(css = "div[style*='height: auto'] > div > div[ng-show*='analytic.analyticDetails'] div span[key='_AX_RunJob.NewParameterSet.Label_']")
 		private WebElement newPSetBtn;
 		
 		@FindBy(css = "div.select2-container.parameter-select > a.select2-choice > span.select2-chosen")
@@ -87,27 +107,27 @@ public class AnalyticPage  extends WebPage{
 		@FindBy(css = "div.sub-layer1 > div.dropdown > ul.dropdown-menu > li > a")
 		private List<WebElement> pSetItems;
 		
-		@FindBy(css = "div[style*='height: auto'] > div > div[ng-show*='analytic.analyticDetails'] > span > span[id=description]")
+		@FindBy(css = "div[style*='height: auto'] > div > div[ng-show*='analytic.analyticDetails'] span[id=description]")
 		private List<WebElement> description;
 //		
-		@FindBy(css = "div.action-buttons > div > a > i.icon-list")
+		@FindBy(css = "div.action-button-block > a[id^='analyticResultsDrawerToggler'] > i")
 		private WebElement jobListBtn;
 
-		@FindBy(css = "div.action-buttons > div > a > i.icon-calendar")
+		@FindBy(css = "div.action-button-block > a[id^='analyticScheduleDrawerToggler'] > i")
 		private WebElement jobCalendarBtn;
 		
-		@FindBy(css = "div.action-buttons > div > a > i.icon-bar-chart")
+		@FindBy(css = "div.action-button-block > a[id^='analyticSavedVizDrawerToggler'] > i")
 		private WebElement jobChartBtn;
 		
 		
-		@FindBy(css = "div.action-buttons > a.icon_list_loading")
+		@FindBy(css = "div.action-button-block > a[id^='analyticLoadingDrawerToggler'] > i")
 		private WebElement loadingIconBtn;
 		
-		@FindBy(css = "div.action-buttons > a.icon_cancel_analytic")
+		@FindBy(css = "div.action-button-block > a[id^='analyticCancelParamInputBtn'] > i")
 		private WebElement cancelIconBtn;
 		
-		@FindBy(css = "div.action-buttons > a.icon_comment")
-		private WebElement scheduleIconBtn;
+//		@FindBy(css = "div.action-buttons > a.icon_comment")
+//		private WebElement scheduleIconBtn;
 		
 		@FindBy(css = "div[style*='height: auto'] > div.drawer[ng-show*='results'] span[key*='_AX_ResultHistoryList.Title_']")
 		private List<WebElement> resultsHistory;
@@ -143,6 +163,7 @@ public class AnalyticPage  extends WebPage{
 		//anName = analyticName;
 		scrollToElement(analytic,(new Point(0,300)));
 		logTAFInfo("Working analytic: '"+analyticName+"'");
+		anName = analyticName;
 		return analytic;
 	}
 	
@@ -167,6 +188,7 @@ public class AnalyticPage  extends WebPage{
 		}
 		
 		if(expand){
+			waitUntil(jobListBtn);
 			toggleElementByClick(resultsHistory,jobListBtn,"Jobs",expand);
 			lastJob = getJobRecord(0);
 			if(lastJob.equals("")){
@@ -176,6 +198,7 @@ public class AnalyticPage  extends WebPage{
 			}
 			//toggleElementByClick(resultsHistory,jobListBtn,"Jobs",!expand);
 		}
+		scrollToElement(runIconBtn,(new Point(0,300)));
 		toggleElementByClick(description,runIconBtn,"Analytic",expand);
 	}
 	public void cancelAnalytic(){
@@ -229,9 +252,11 @@ public class AnalyticPage  extends WebPage{
 	
 	ResultSet rs = queryDB(sql);
 	try {
-		rs.next();
-		id = rs.getString("parametersetid");
-		logTAFInfo("Parameter set uuid is retrieved successfully '"+id+"'");
+		if(rs!=null){
+		   rs.next();
+		   id = rs.getString("parametersetid");
+		   logTAFInfo("Parameter set uuid is retrieved successfully '"+id+"'");
+		}
 	} catch (SQLException e) {
 		logTAFInfo("Warning Cannot find the analytic uuid for specified analytic - Please check your data. '"+sql+"'");
 		
@@ -245,10 +270,21 @@ public class AnalyticPage  extends WebPage{
 		click(newPSetBtn,"New");
 		
 		for(int i=startIndex+1;i<setValues.length&&!setValues.equals("");i++){
-			waitUntil(formInputContinueBtn);
+			
 			String value = setValues[i];
-			if(!value.trim().equals(""))
-			    inputChars(pSetValueBox, value);
+			if(value.trim().equalsIgnoreCase("Skip")){
+				try{
+					if(formInputSkipBtn.isDisplayed()){
+					   click(formInputSkipBtn,"Skip");
+					}
+					}catch(Exception e){
+						
+					}
+				continue;
+			}else if(!value.equals("")){
+				inputParameterValue(value);
+			    //inputChars(pSetValueBox, value);
+			}
 			if(inputValueError.size()>0){
 			  if(inputValueError.get(0).isDisplayed()){
 				String error = inputValueError.get(0).getText()	;
@@ -258,8 +294,12 @@ public class AnalyticPage  extends WebPage{
 				}
 			  }
 			}
+			try{
 			if(formInputContinueBtn.isDisplayed()){
 			   click(formInputContinueBtn,"Continue");
+			}
+			}catch(Exception e){
+				
 			}
 		}
 		
@@ -287,6 +327,65 @@ public class AnalyticPage  extends WebPage{
 		return true;
 	}
 	
+	public boolean inputParameterValue(String value){
+		boolean done = true;
+		String formName = "";
+		String logicValue = "logic.*";
+		String checkboxValue = "checkbox.*";
+		String dropdownValue = "dropdown.*";
+		
+		
+		try{
+				formName = pSetInputForm.getAttribute("name");
+		}catch(Exception e){
+			
+		}
+		
+		if(formName.matches(logicValue)){
+			
+			if(value.equalsIgnoreCase("Yes")){
+				waitUntil(pSetValueYes);
+				click(pSetValueYes,"Yes");
+			}else if(value.equalsIgnoreCase("No")){
+				waitUntil(pSetValueNo);
+				click(pSetValueNo,"No");
+			}else{
+				logTAFWarning(value + " is not a valid logic input value");
+			}
+		}else if(formName.matches(checkboxValue)){
+			String[] item = value.split(";");
+			boolean selectAll = false;
+			waitUntil(pSetValueCheckbox);
+			List<WebElement> boxes = pSetValueCheckbox;
+			List<WebElement> labels = pSetValueCheckboxLabel;
+
+			for(int j=0;j<item.length&&!selectAll;j++){
+				   selectAll = item[j].equalsIgnoreCase("All")?true:false;
+				   for(int i=0;i<boxes.size();i++){
+					formName = labels.get(i).getText().trim();
+
+					if(selectAll
+							||(formName.equalsIgnoreCase(item[j]))){
+						WebElement box = boxes.get(i);
+						if(!selectAll){
+							toggleItem(box,true,item[j]);
+							break;
+						}else{
+							toggleItem(box,true,"item "+(i+1));
+						}
+					}
+				  }
+				}
+			
+		}else if(formName.matches(dropdownValue)){
+			waitUntil(pSetValueSelect);
+			selectItem(new Select(pSetValueSelect),value);			
+		}else {
+			waitUntil(pSetValueBox);
+		    inputChars(pSetValueBox, value);
+		}
+		return done;
+	}
 	public boolean selectParameterSet(String[] setValues,int startIndex){
 		boolean done = true;
 		click(continueBtn,"Continue");

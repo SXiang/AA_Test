@@ -27,7 +27,7 @@ public class TestPost_RecordCount extends TestDriverExampleHelper implements Tes
 	{		
 
 		startFromLine = 2; // 4-9
-		endAtLine = 18;    
+		endAtLine = 14;    
 
 		String poolFile = "src/main/resources/testdata/anr/testdriver/restapi/tables/TestPost_recordcount.xls";
 		exeTestCase(onInitialize(poolFile,getClass().getName()));
