@@ -53,7 +53,7 @@ public class LoginHelper extends FrontendCommonHelper{
 	                              //@value = HtmlUnit|Firefox|IE|Chrome
 	protected String dpAXServerName; //@arg AX Server name or IP address
 	protected String dpAXServerPort; //@arg AX Server port
-	
+		
 	/*Commented code is for running using Selenium grid
 	protected String dpDriverPath; //@arg Absolute path to Selenium IE/Chrome driver executable
                                    //@value = C:\Selenium\
@@ -279,18 +279,20 @@ public class LoginHelper extends FrontendCommonHelper{
 	//***************  Part 3  *******************
 	// ******* Methods on login   ****************
 	// *******************************************
-	
 	public void passCertWarning() {
 		driver.get("javascript:document.getElementById('overridelink').click();");
-		if(driver.getTitle().startsWith("Certificate Error")){
+		//if(driver.getTitle().startsWith("Certificate Error")){
+	    if(driver.getTitle().startsWith(getIELocalizedCertificateTitle(projectConf.locale))) {
 			passCertWarning();
 		}
 	}
 	public void login(String username, String password, String casType) {
-		if(driver.getTitle().startsWith("Certificate Error")){
-			passCertWarning();
-		}
-		isElementEnabled(usernameLocator,"Username field");
+		//if(driver.getTitle().startsWith("Certificate Error")){
+	    if(driver.getTitle().startsWith(getIELocalizedCertificateTitle(projectConf.locale))) {
+	    	passCertWarning();
+	    }
+
+	    isElementEnabled(usernameLocator,"Username field");
 		isElementEnabled(passwordLocator,"Password field");
 		isElementEnabled(loginButtonLocator,"Login Button");
 		takeScreenshotWithoutScroll();
@@ -323,5 +325,19 @@ public class LoginHelper extends FrontendCommonHelper{
 		}
         return done;   
     }
+	
+	private String getIELocalizedCertificateTitle(String lang) {
+		String[] Lang={"EN","FR","ZH","DE","ES","PT"};
+		String[] IELocalizedCertificateTitle={"Certificate Error","Erreur de certificat","证书错误","","",""};
+		String certificateTitle="";
+
+		for (int i=0; i<Lang.length; i++) { 
+			if (projectConf.locale.equalsIgnoreCase(Lang[i]))
+				certificateTitle = IELocalizedCertificateTitle[i];
+				return certificateTitle;
+	    }
+		
+		return certificateTitle;
+	}
 
 }
